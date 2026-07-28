@@ -1,0 +1,16 @@
+{
+  "name": "Aurora Dental",
+  "short_name": "Aurora",
+  "description": "Premium dental care powered by cutting-edge technology.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07070a",
+  "theme_color": "#8a2eff",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
