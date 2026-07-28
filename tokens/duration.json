@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "name": "LUMORA Duration",
+    "version": "1.0.0",
+    "description": "Animation duration tokens for LUMORA design system"
+  },
+  "scale": {
+    "instant": "0ms",
+    "fastest": "50ms",
+    "fast": "100ms",
+    "normal": "200ms",
+    "moderate": "400ms",
+    "slow": "600ms",
+    "slower": "800ms",
+    "slowest": "1200ms"
+  },
+  "semantic": {
+    "hover": "100ms",
+    "focus": "100ms",
+    "press": "50ms",
+    "enter": "200ms",
+    "exit": "150ms",
+    "reveal": "600ms",
+    "timeline": "1200ms"
+  },
+  "component": {
+    "button-hover": "100ms",
+    "button-tap": "50ms",
+    "card-hover": "400ms",
+    "modal-enter": "200ms",
+    "modal-exit": "150ms",
+    "toast-enter": "200ms",
+    "toast-exit": "150ms",
+    "tooltip-enter": "100ms",
+    "tooltip-exit": "50ms"
+  },
+  "usage": {
+    "micro-interaction": "100ms",
+    "state-change": "200ms",
+    "layout-shift": "400ms",
+    "page-transition": "600ms",
+    "hero-sequence": "1200ms"
+  },
+  "css": {
+    "--duration-instant": "0ms",
+    "--duration-fastest": "50ms",
+    "--duration-fast": "100ms",
+    "--duration-normal": "200ms",
+    "--duration-moderate": "400ms",
+    "--duration-slow": "600ms",
+    "--duration-slower": "800ms",
+    "--duration-slowest": "1200ms"
+  }
+}

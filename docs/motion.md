@@ -1,6 +1,19 @@
 # Motion
 
-LUMORA uses motion purposefully to guide attention, communicate state, and create a premium feel.
+> The animation system: durations, easings, keyframes, and usage patterns.
+
+---
+
+## Purpose
+
+This document defines how motion works in LUMORA. Every animation serves a purpose: guiding attention, communicating state, or creating a premium feel.
+
+## Principles
+
+- **Purposeful** — Every animation communicates something
+- **Subtle** — Never distracting or overwhelming
+- **Consistent** — Similar actions produce similar animations
+- **Respectful** — Always respect `prefers-reduced-motion`
 
 ## Animation Stack
 
@@ -10,14 +23,25 @@ LUMORA uses motion purposefully to guide attention, communicate state, and creat
 | Timeline | GSAP | Scroll sequences, hero animation |
 | Scroll | Lenis | Smooth scrolling |
 
-## Animation Principles
+## Duration Scale
 
-1. **Purposeful** — Every animation communicates something
-2. **Subtle** — Never distracting or overwhelming
-3. **Consistent** — Similar actions produce similar animations
-4. **Respectful** — Always respect `prefers-reduced-motion`
+| Token | Duration | Usage |
+|-------|----------|-------|
+| instant | 100ms | Hover states |
+| fast | 200ms | Button interactions |
+| normal | 400ms | Card transitions |
+| slow | 600ms | Page reveals |
+| glacial | 1200ms | Hero animations |
 
-## Component Animations (Framer Motion)
+## Easing Curves
+
+| Name | Value | Usage |
+|------|-------|-------|
+| ease-out | `cubic-bezier(0.16, 1, 0.3, 1)` | All reveal animations |
+| power3.out | GSAP default | Timeline animations |
+| linear | `linear` | Loading indicators |
+
+## Component Animations
 
 ### Hover Scale
 
@@ -31,8 +55,7 @@ LUMORA uses motion purposefully to guide attention, communicate state, and creat
 </motion.button>
 ```
 
-**Duration**: 200ms
-**Easing**: Default Framer Motion
+**Duration**: 200ms | **Easing**: Default
 
 ### Card Lift
 
@@ -45,8 +68,7 @@ LUMORA uses motion purposefully to guide attention, communicate state, and creat
 </motion.div>
 ```
 
-**Duration**: 400ms
-**Easing**: `cubic-bezier(0.16, 1, 0.3, 1)`
+**Duration**: 400ms | **Easing**: `cubic-bezier(0.16, 1, 0.3, 1)`
 
 ### Scroll Reveal
 
@@ -61,9 +83,7 @@ LUMORA uses motion purposefully to guide attention, communicate state, and creat
 </motion.div>
 ```
 
-**Duration**: 600ms
-**Easing**: `cubic-bezier(0.16, 1, 0.3, 1)`
-**Viewport**: Once, -80px margin
+**Duration**: 600ms | **Viewport**: Once, -80px margin
 
 ### Staggered Children
 
@@ -104,10 +124,7 @@ useEffect(() => {
 }, []);
 ```
 
-**Timeline**: Sequential with overlap
-**Easing**: `power3.out`
-
-## Custom Animations
+## Custom Keyframes
 
 ### Pulse Soft
 
@@ -116,7 +133,6 @@ useEffect(() => {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 0.8; }
 }
-
 --animate-pulse: pulse-soft 3s ease-in-out infinite;
 ```
 
@@ -127,28 +143,8 @@ useEffect(() => {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
-
 --animate-float: float 6s ease-in-out infinite;
 ```
-
-### Ring Pulse
-
-```css
-@keyframes ring-pulse {
-  0% { transform: scale(0.8); opacity: 0.6; }
-  100% { transform: scale(2.2); opacity: 0; }
-}
-
---animate-ring: ring-pulse 3s ease-out infinite;
-```
-
-## Easing Curves
-
-| Name | Value | Usage |
-|------|-------|-------|
-| ease-out | `cubic-bezier(0.16, 1, 0.3, 1)` | All reveal animations |
-| power3.out | GSAP default | Timeline animations |
-| linear | `linear` | Loading indicators |
 
 ## Reduced Motion
 
@@ -170,29 +166,29 @@ When reduced motion is preferred:
 - Scroll behavior is instant
 - No infinite animations
 
-## Duration Scale
+## Performance Rules
 
-| Token | Duration | Usage |
-|-------|----------|-------|
-| Instant | 100ms | Hover states |
-| Fast | 200ms | Button interactions |
-| Normal | 400ms | Card transitions |
-| Slow | 600ms | Page reveals |
-| Glacial | 1200ms | Hero animations |
-
-## Performance
-
-### Rules
-
-1. **Transform only** — Prefer `transform` and `opacity` over layout properties
+1. **Transform only** — Prefer `transform` and `opacity`
 2. **GPU accelerated** — Use `will-change` sparingly
 3. **Batch reads** — Never read layout in animation loops
 4. **Offload** — Use `requestAnimationFrame` for JS animations
 
-### Monitoring
+---
 
-Use Chrome DevTools Performance panel to identify:
-- Long tasks (>50ms)
-- Layout thrashing
-- Paint storms
-- JavaScript execution time
+## Do
+
+- Use the duration scale for all animations
+- Test with reduced motion enabled
+- Keep animations under 600ms for most interactions
+
+## Don't
+
+- Do not animate layout properties (width, height, padding)
+- Do not create infinite animations without purpose
+- Do not ignore `prefers-reduced-motion`
+
+## Related
+
+- [Motion Token](../tokens/motion.json) — Animation tokens
+- [Duration Token](../tokens/duration.json) — Duration scale
+- [Philosophy](./philosophy.md) — Why motion matters

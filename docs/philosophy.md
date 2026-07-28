@@ -1,10 +1,24 @@
 # Philosophy
 
-LUMORA exists because production applications deserve production-quality design systems.
+> Why LUMORA exists and what it believes about interface design.
+
+---
+
+## Purpose
+
+This document explains the core beliefs and motivations behind LUMORA OS. Every design decision, token value, and component pattern traces back to these principles.
+
+## Principles
+
+- **Design is not decoration** — It is how something works
+- **Dark mode is not a theme** — It is the default experience
+- **Motion communicates state** — It is never arbitrary
+- **Typography is the interface** — It carries the most weight
+- **Space is not empty** — It is breathing room for content
 
 ## Why LUMORA
 
-Most design systems are built for dashboards and SaaS products. They optimize for information density and data display. But not every application is a dashboard.
+Most design systems optimize for dashboards and SaaS products. They prioritize information density and data display. But not every application is a dashboard.
 
 LUMORA is built for applications that need to feel different:
 
@@ -43,7 +57,7 @@ Purple sits between the warmth of red and the coolness of blue. It communicates 
 
 ### Why Inter
 
-Inter is designed for screens. It has excellent legibility at all sizes, comprehensive language support, and a clean aesthetic that doesn't compete with content.
+Inter is designed for screens. It has excellent legibility at all sizes, comprehensive language support, and a clean aesthetic that does not compete with content.
 
 ### Why GSAP + Framer Motion
 
@@ -70,3 +84,23 @@ A successful LUMORA implementation:
 4. Follows server-component-first architecture
 5. Respects `prefers-reduced-motion`
 6. Maintains consistent spacing and typography
+
+---
+
+## Do
+
+- Reference these principles when making design decisions
+- Question every element: does it earn its presence?
+- Test with reduced motion enabled
+
+## Don't
+
+- Do not add animation for decoration
+- Do not sacrifice readability for aesthetics
+- Do not ignore accessibility in favor of visual design
+
+## Related
+
+- [Visual Language](./visual-language.md) — Design patterns and rules
+- [Motion](./motion.md) — Animation system
+- [Architecture](../ARCHITECTURE.md) — Technical decisions

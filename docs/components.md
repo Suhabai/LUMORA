@@ -1,6 +1,19 @@
 # Components
 
-LUMORA components are built with React, TypeScript, and Framer Motion.
+> The reusable primitives that form LUMORA's component library.
+
+---
+
+## Purpose
+
+This document provides the API reference for every component in the system. Components are the building blocks of LUMORA interfaces.
+
+## Principles
+
+- **Server first** — Use server components unless client interactivity is required
+- **Single responsibility** — Each component does one thing well
+- **Composable** — Components combine to create complex interfaces
+- **Accessible** — Every component follows WCAG guidelines
 
 ## Component Architecture
 
@@ -15,27 +28,27 @@ LUMORA components are built with React, TypeScript, and Framer Motion.
 
 ```
 components/
-├── ui/
-│   ├── button.tsx        # Client
-│   ├── card.tsx          # Client
-│   ├── badge.tsx         # Server
-│   ├── section-header.tsx # Server
-│   ├── reveal.tsx        # Client
-│   └── counter.tsx       # Client
-├── layout/
-│   ├── navigation.tsx    # Client
-│   ├── footer.tsx        # Server
-│   ├── scan-line.tsx     # Client
-│   ├── custom-cursor.tsx # Client
-│   └── smooth-scroll.tsx # Client
-└── sections/
-    ├── hero.tsx          # Client
-    ├── about.tsx         # Server
-    ├── services.tsx      # Server
-    ├── technology.tsx    # Server
-    ├── team.tsx          # Server
-    ├── testimonials.tsx  # Server
-    └── cta.tsx           # Server
+├── ui/                     # Reusable primitives
+│   ├── button.tsx          # Client — Framer Motion hover/tap
+│   ├── card.tsx            # Client — Hover lift effect
+│   ├── badge.tsx           # Server — Status indicators
+│   ├── section-header.tsx  # Server — Consistent headings
+│   ├── reveal.tsx          # Client — Scroll-triggered animation
+│   └── counter.tsx         # Client — Animated number counters
+├── layout/                 # Structural components
+│   ├── navigation.tsx      # Client — Sticky nav, mobile menu
+│   ├── footer.tsx          # Server — Footer with links
+│   ├── scan-line.tsx       # Client — Ambient animation
+│   ├── custom-cursor.tsx   # Client — Cursor dot + ring
+│   └── smooth-scroll.tsx   # Client — Lenis wrapper
+└── sections/               # Page sections
+    ├── hero.tsx            # Client — GSAP timeline
+    ├── about.tsx           # Server — Stats with counters
+    ├── services.tsx        # Server — Feature grid
+    ├── technology.tsx      # Server — Design principles
+    ├── team.tsx            # Server — Tech stack grid
+    ├── testimonials.tsx    # Server — Quote cards
+    └── cta.tsx             # Server — Call to action
 ```
 
 ## UI Components
@@ -47,21 +60,17 @@ Client component with Framer Motion animations.
 ```tsx
 import { Button } from "@/components/ui/button";
 
-<Button variant="primary" size="lg">
-  Click me
-</Button>
+<Button variant="primary" size="lg">Click me</Button>
 ```
 
-**Props**:
-- `variant`: `"primary" | "ghost"` (default: `"primary"`)
-- `size`: `"sm" | "md" | "lg"` (default: `"md"`)
-- `disabled`: `boolean`
-- `onClick`: `() => void`
-- `children`: `ReactNode`
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"primary" \| "ghost"` | `"primary"` | Visual style |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Button size |
+| `disabled` | `boolean` | `false` | Disables the button |
+| `onClick` | `() => void` | — | Click handler |
 
-**Animations**:
-- `whileHover`: `{ scale: 1.02 }`
-- `whileTap`: `{ scale: 0.98 }`
+**Animations**: `whileHover: scale(1.02)`, `whileTap: scale(0.98)`
 
 ---
 
@@ -80,12 +89,7 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/ca
 </Card>
 ```
 
-**Props**:
-- `children`: `ReactNode`
-- `className`: `string`
-
-**Animations**:
-- `whileHover`: `{ y: -4 }`
+**Animations**: `whileHover: y(-4)`
 
 ---
 
@@ -99,10 +103,9 @@ import { Badge } from "@/components/ui/badge";
 <Badge variant="accent">Status</Badge>
 ```
 
-**Props**:
-- `variant`: `"accent" | "muted"` (default: `"accent"`)
-- `children`: `ReactNode`
-- `className`: `string`
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"accent" \| "muted"` | `"accent"` | Visual style |
 
 ---
 
@@ -122,13 +125,13 @@ import { SectionHeader } from "@/components/ui/section-header";
 />
 ```
 
-**Props**:
-- `id`: `string` (for anchor links)
-- `label`: `string` (small text above title)
-- `title`: `string` (main heading)
-- `description`: `string` (optional)
-- `centered`: `boolean` (default: `false`)
-- `className`: `string`
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | — | Anchor link target |
+| `label` | `string` | — | Small text above title |
+| `title` | `string` | — | Main heading |
+| `description` | `string` | — | Optional description |
+| `centered` | `boolean` | `false` | Center alignment |
 
 ---
 
@@ -144,17 +147,11 @@ import { Reveal } from "@/components/ui/reveal";
 </Reveal>
 ```
 
-**Props**:
-- `variant`: `"fadeUp" | "fadeIn"` (default: `"fadeUp"`)
-- `delay`: `number` (default: `0`)
-- `duration`: `number` (default: `0.6`)
-- `children`: `ReactNode`
-- `className`: `string`
-
-**Animations**:
-- `initial`: `{ opacity: 0, y: 24 }` (fadeUp) or `{ opacity: 0 }` (fadeIn)
-- `whileInView`: `{ opacity: 1, y: 0 }` or `{ opacity: 1 }`
-- `viewport`: `{ once: true, margin: "-80px" }`
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"fadeUp" \| "fadeIn"` | `"fadeUp"` | Animation type |
+| `delay` | `number` | `0` | Delay in seconds |
+| `duration` | `number` | `0.6` | Duration in seconds |
 
 ---
 
@@ -168,15 +165,12 @@ import { Counter } from "@/components/ui/counter";
 <Counter target={15} suffix="K+" />
 ```
 
-**Props**:
-- `target`: `number` (target value)
-- `suffix`: `string` (default: `""`)
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `target` | `number` | — | Target value |
+| `suffix` | `string` | `""` | Text after number |
 
-**Behavior**:
-- Animates from 0 to target on intersection
-- Uses `IntersectionObserver` with 50% threshold
-- Easing: `1 - Math.pow(1 - progress, 3)`
-- Duration: 2000ms
+**Behavior**: Animates on intersection using `IntersectionObserver`
 
 ## Layout Components
 
@@ -184,138 +178,19 @@ import { Counter } from "@/components/ui/counter";
 
 Client component with sticky header and mobile menu.
 
-```tsx
-import { Navigation } from "@/components/layout/navigation";
-
-<Navigation />
-```
-
-**Features**:
-- Scroll-aware background blur
-- Mobile menu with Framer Motion animations
-- Skip-to-content link
-- ARIA labels for accessibility
-
----
+**Features**: Scroll-aware blur, mobile sheet, skip-to-content link
 
 ### Footer
 
-Server component with navigation links.
+Server component with navigation sections.
 
-```tsx
-import { Footer } from "@/components/layout/footer";
-
-<Footer />
-```
-
-**Features**:
-- Semantic `<footer>` element
-- Navigation sections
-- Copyright notice
-
----
+**Features**: Semantic `<footer>`, legal links, copyright
 
 ### SmoothScroll
 
 Client component wrapping Lenis for smooth scrolling.
 
-```tsx
-import { SmoothScroll } from "@/components/layout/smooth-scroll";
-
-<SmoothScroll>{children}</SmoothScroll>
-```
-
-**Configuration**:
-- Duration: 1.2s
-- Smooth wheel: true
-
-## Section Components
-
-### Hero
-
-Client component with GSAP timeline animation.
-
-**Features**:
-- Staggered text reveal
-- Background radial gradient
-- Animated call-to-action buttons
-- Scroll indicator
-
----
-
-### TrustBar
-
-Server component with Reveal wrappers.
-
-**Features**:
-- 4-column grid
-- Icon + text pairs
-- Scroll-triggered reveal
-
----
-
-### About
-
-Server component with Counter islands.
-
-**Features**:
-- Section header
-- 3-column stats grid
-- Animated counters
-
----
-
-### Services
-
-Server component with Card grid.
-
-**Features**:
-- 3-column responsive grid
-- Icon + number + title + description
-- Staggered reveal
-
----
-
-### Technology
-
-Server component with split layout.
-
-**Features**:
-- 2-column layout
-- Section header on left
-- Feature cards on right
-
----
-
-### Team
-
-Server component with avatar cards.
-
-**Features**:
-- 4-column responsive grid
-- Initials avatar
-- Name and role
-
----
-
-### Testimonials
-
-Server component with quote cards.
-
-**Features**:
-- Star rating
-- Quote text
-- Author info
-
----
-
-### CTA
-
-Server component with centered layout.
-
-**Features**:
-- Section header (centered)
-- Call-to-action buttons
+**Configuration**: Duration 1.2s, smooth wheel enabled
 
 ## Utility Functions
 
@@ -326,7 +201,29 @@ Merges Tailwind CSS classes:
 ```tsx
 import { cn } from "@/utils";
 
-<div className={cn("base-class", condition && "conditional", className)} />
+<div className={cn("base", condition && "conditional", className)} />
 ```
 
 Uses `clsx` and `tailwind-merge` for optimal class merging.
+
+---
+
+## Do
+
+- Use server components by default
+- Add `"use client"` only when needed
+- Follow the existing component patterns
+- Test accessibility at every breakpoint
+
+## Don't
+
+- Do not add client-side state without reason
+- Do not create components that do one thing poorly
+- Do not skip TypeScript types
+- Do not ignore the existing design tokens
+
+## Related
+
+- [Visual Language](./visual-language.md) — Design patterns
+- [Motion](./motion.md) — Animation system
+- [Colors Token](../tokens/colors.json) — Color palette

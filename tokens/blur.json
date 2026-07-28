@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "name": "LUMORA Blur",
+    "version": "1.0.0",
+    "description": "Blur and glassmorphism tokens for LUMORA design system"
+  },
+  "scale": {
+    "none": "0",
+    "sm": "4px",
+    "md": "8px",
+    "lg": "16px",
+    "xl": "24px",
+    "2xl": "40px",
+    "3xl": "64px"
+  },
+  "glassmorphism": {
+    "light": {
+      "blur": "16px",
+      "background": "rgba(255, 255, 255, 0.05)",
+      "border": "rgba(255, 255, 255, 0.08)"
+    },
+    "medium": {
+      "blur": "24px",
+      "background": "rgba(255, 255, 255, 0.08)",
+      "border": "rgba(255, 255, 255, 0.12)"
+    },
+    "heavy": {
+      "blur": "40px",
+      "background": "rgba(255, 255, 255, 0.12)",
+      "border": "rgba(255, 255, 255, 0.16)"
+    }
+  },
+  "usage": {
+    "navigation": "16px",
+    "modal-backdrop": "8px",
+    "card-hover": "4px",
+    "hero-glow": "160px"
+  },
+  "css": {
+    "--blur-sm": "4px",
+    "--blur-md": "8px",
+    "--blur-lg": "16px",
+    "--blur-xl": "24px",
+    "--blur-2xl": "40px"
+  }
+}

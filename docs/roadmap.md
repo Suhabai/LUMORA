@@ -1,6 +1,18 @@
 # Roadmap
 
-LUMORA is actively developed. This document outlines planned features and improvements.
+> What has been built, what is in progress, and what comes next.
+
+---
+
+## Purpose
+
+This document outlines the LUMORA development timeline. It provides visibility into current status, planned features, and long-term vision.
+
+## Principles
+
+- **Transparent** — Public roadmap with clear status
+- **Actionable** — Every item has a clear definition
+- **Prioritized** — Items ordered by impact and effort
 
 ## Current Status
 
@@ -18,7 +30,12 @@ LUMORA is actively developed. This document outlines planned features and improv
 - [x] Accessibility (skip links, ARIA labels, semantic HTML)
 - [x] SEO (JSON-LD, Open Graph, sitemap, robots.txt)
 - [x] Performance optimization (server components, font loading)
-- [x] Documentation
+- [x] Documentation with consistent template
+- [x] Design token system (colors, spacing, radius, typography, motion, shadow, blur, z-index, duration, opacity)
+- [x] GitHub Actions (build, lint, typecheck)
+- [x] Repository standards (.editorconfig, .gitattributes, prettier, commitlint)
+- [x] Architecture documentation
+- [x] Architecture Decision Records
 
 ## Planned
 
@@ -99,10 +116,22 @@ LUMORA is actively developed. This document outlines planned features and improv
 - [ ] Template gallery
 - [ ] Showcase page
 
-## Contributing
+---
 
-Want to help with any of these items? See [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
+## Do
 
-## Updates
+- Check the roadmap before proposing new features
+- Reference issue numbers in pull requests
+- Update this document when features are completed
 
-This roadmap is updated quarterly. For real-time progress, check the [GitHub Issues](https://github.com/lumora-os/lumora-os/issues) page.
+## Don't
+
+- Do not promise delivery dates
+- Do not add features without discussion
+- Do not skip the review process
+
+## Related
+
+- [Architecture](../ARCHITECTURE.md) — Technical decisions
+- [Decisions](../DECISIONS.md) — Architecture Decision Records
+- [Contributing](../CONTRIBUTING.md) — How to contribute

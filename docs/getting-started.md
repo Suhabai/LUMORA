@@ -1,12 +1,26 @@
 # Getting Started
 
-This guide walks through setting up LUMORA for your project.
+> Set up LUMORA OS in your environment and run your first build.
+
+---
+
+## Purpose
+
+This guide walks through installing, configuring, and running LUMORA OS. By the end, you will have a working development environment and understand the project structure.
+
+## Principles
+
+- **Start fast** — Minimal steps from clone to running server
+- **Understand the structure** — Know where everything lives before changing anything
+- **Configure intentionally** — Every setting has a reason
 
 ## Prerequisites
 
-- Node.js 18.17 or later
-- npm, yarn, or pnpm
-- Git (recommended)
+| Requirement | Version | Purpose |
+|-------------|---------|---------|
+| Node.js | 18.17+ | Runtime |
+| npm | 9+ | Package management |
+| Git | 2.30+ | Version control |
 
 ## Installation
 
@@ -34,48 +48,53 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ```
 lumora-os/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Home page
-│   └── styles/             # Global styles
+├── app/                    # Next.js App Router pages
+│   ├── layout.tsx          # Root layout (metadata, fonts, providers)
+│   ├── page.tsx            # Home page (hero, features, sections)
+│   ├── globals.css         # Design tokens and base styles
+│   └── sitemap.ts          # Dynamic sitemap generation
 ├── components/
-│   ├── layout/             # Navigation, footer
-│   ├── sections/           # Page sections
-│   └── ui/                 # Reusable primitives
-├── constants/              # Design data
+│   ├── layout/             # Navigation, footer, scroll, cursor
+│   ├── sections/           # Page sections (hero, about, services)
+│   └── ui/                 # Reusable primitives (button, card, badge)
+├── constants/              # Design data, site config, navigation
 ├── tokens/                 # JSON design tokens
-├── docs/                   # Documentation
-├── types/                  # TypeScript types
-└── utils/                  # Utilities
+├── docs/                   # Framework documentation
+├── types/                  # TypeScript type definitions
+├── utils/                  # Utility functions (cn)
+└── public/                 # Static assets
 ```
 
 ## Configuration
 
 ### TypeScript
 
-The project uses strict TypeScript. Key settings in `tsconfig.json`:
+Strict TypeScript configuration in `tsconfig.json`:
 
-- `strict: true`
-- `noUnusedLocals: true`
-- `noUnusedParameters: true`
-- `noFallthroughCasesInSwitch: true`
+```json
+{
+  "strict": true,
+  "noUnusedLocals": true,
+  "noUnusedParameters": true,
+  "noFallthroughCasesInSwitch": true
+}
+```
 
 ### Tailwind CSS
 
-Design tokens are defined in `styles/globals.css` using the `@theme` directive:
+Design tokens in `globals.css`:
 
 ```css
 @theme {
   --color-bg: #07070a;
   --color-accent: #8a2eff;
   --color-text: #f5f5f7;
-  /* ... */
 }
 ```
 
 ### Components
 
-Components are in `components/ui/`. Client components use `"use client"` directive:
+Server components by default. Client components only when state, effects, or browser APIs are required:
 
 ```tsx
 "use client";
@@ -103,8 +122,22 @@ npm run start
 npm run lint
 ```
 
-## Next Steps
+---
 
-- Read the [Philosophy](./philosophy.md) to understand design decisions
-- Review the [Visual Language](./visual-language.md) for design patterns
-- Explore the [Components](./components.md) API reference
+## Do
+
+- Use server components when possible
+- Follow the existing file naming conventions
+- Keep components small and focused
+
+## Don't
+
+- Don't add `"use client"` unless necessary
+- Don't modify `globals.css` tokens without understanding the design system
+- Don't skip linting before committing
+
+## Related
+
+- [Philosophy](./philosophy.md) — Why LUMORA exists
+- [Architecture](../ARCHITECTURE.md) — Architectural decisions
+- [Components](./components.md) — Component API reference
