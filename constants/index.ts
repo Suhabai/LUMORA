@@ -1,107 +1,91 @@
 export const SITE_CONFIG = {
-  name: "Aurora Dental",
-  tagline: "The Future of Dentistry",
+  name: "LUMORA",
+  tagline: "Design System & Application Framework",
   description:
-    "Premium dental care powered by cutting-edge technology. AI-powered diagnostics and precision treatments for a healthier, brighter smile.",
-  url: "https://auroradental.com",
-  phone: "(555) 234-5678",
-  email: "hello@auroradental.com",
-  address: "123 Future Ave, Suite 200",
-  hours: "Mon–Fri: 8am–6pm",
+    "Cinematic future luxury design system for production web applications. Award-level typography, motion, and spacing.",
+  url: "https://lumora.dev",
+  version: "1.0.0",
 } as const;
 
 export const NAV_LINKS = [
   { href: "#about", label: "About" },
-  { href: "#services", label: "Services" },
-  { href: "#technology", label: "Technology" },
-  { href: "#team", label: "Team" },
-  { href: "#testimonials", label: "Reviews" },
+  { href: "#features", label: "Features" },
+  { href: "#design", label: "Design" },
+  { href: "#components", label: "Components" },
+  { href: "#roadmap", label: "Roadmap" },
 ] as const;
 
-export const SERVICES = [
+export const FEATURES = [
   {
     number: "01",
-    title: "Preventive Care",
-    description: "AI-powered screenings, precision cleanings, and personalized wellness plans.",
-    icon: "Shield",
+    title: "Cinematic Typography",
+    description: "Large-scale editorial type with precise tracking and weight control.",
+    icon: "Type",
   },
   {
     number: "02",
-    title: "Cosmetic Dentistry",
-    description: "Digital smile design, veneers, and whitening treatments crafted to enhance your natural beauty.",
-    icon: "Sparkles",
+    title: "Purposeful Motion",
+    description: "GSAP and Framer Motion orchestrated for meaningful interactions.",
+    icon: "Play",
   },
   {
     number: "03",
-    title: "Implants & Restoration",
-    description: "3D-guided implant placement and same-day crowns using biocompatible materials.",
-    icon: "Layers",
+    title: "Dark-First Palette",
+    description: "Deep backgrounds with luminous accents. Built for extended viewing.",
+    icon: "Palette",
   },
   {
     number: "04",
-    title: "Orthodontics",
-    description: "Clear aligners and accelerated treatments with predictable AI-mapped outcomes.",
-    icon: "Smile",
+    title: "Luxury Spacing",
+    description: "Generous whitespace with fluid responsive scales.",
+    icon: "Maximize",
   },
   {
     number: "05",
-    title: "Emergency Care",
-    description: "Same-day emergency appointments with rapid response protocols.",
-    icon: "Zap",
+    title: "Component Architecture",
+    description: "Reusable, composable primitives. Server-first, client when needed.",
+    icon: "Layers",
   },
   {
     number: "06",
-    title: "Periodontal Therapy",
-    description: "Laser-assisted gum treatment and regenerative procedures.",
-    icon: "Activity",
+    title: "Production Ready",
+    description: "TypeScript strict, accessible, performant, deployable.",
+    icon: "CheckCircle",
   },
 ] as const;
 
-export const TEAM_MEMBERS = [
-  { initials: "DR", name: "Dr. Elena Rossi", role: "Lead Dentist & Founder" },
-  { initials: "JM", name: "Dr. James Mitchell", role: "Orthodontist" },
-  { initials: "AK", name: "Dr. Aisha Khan", role: "Periodontist" },
-  { initials: "SC", name: "Dr. Samuel Chen", role: "Oral Surgeon" },
-] as const;
-
-export const TRUST_ITEMS = [
-  { icon: "ShieldCheck", label: "Board Certified" },
-  { icon: "Users", label: "15,000+ Patients" },
-  { icon: "Clock", label: "Same-Day Appointments" },
-  { icon: "Star", label: "4.9 Star Rating" },
+export const DESIGN_PRINCIPLES = [
+  {
+    title: "Clarity Above All",
+    description: "Every element must earn its presence. If it does not serve the user, remove it.",
+  },
+  {
+    title: "Motion With Purpose",
+    description: "Animation guides attention and communicates state. Never decoration.",
+  },
+  {
+    title: "Generous Space",
+    description: "Whitespace is not empty. It is the breathing room that lets content speak.",
+  },
+  {
+    title: "Darkness as Canvas",
+    description: "Dark interfaces reduce fatigue and create depth. Light is the exception, not the rule.",
+  },
 ] as const;
 
 export const STATS = [
-  { value: 15, suffix: "K+", label: "Patients Treated" },
-  { value: 99, suffix: "%", label: "Success Rate" },
-  { value: 20, suffix: "+", label: "Years Experience" },
+  { value: 100, suffix: "%", label: "TypeScript Strict" },
+  { value: 100, suffix: "", label: "Lighthouse Accessibility" },
+  { value: 95, suffix: "+", label: "Lighthouse Performance" },
 ] as const;
 
-export const TECHNOLOGY_FEATURES = [
-  {
-    title: "AI Diagnostics",
-    description: "Machine learning algorithms detect issues before they become problems.",
-    icon: "Brain",
-  },
-  {
-    title: "3D Imaging",
-    description: "Cone beam CT scans for comprehensive treatment planning.",
-    icon: "ScanLine",
-  },
-  {
-    title: "Laser Dentistry",
-    description: "Minimally invasive procedures with faster healing times.",
-    icon: "Zap",
-  },
-] as const;
-
-export const TESTIMONIALS = [
-  {
-    quote:
-      "I've never felt so comfortable at a dental office. They showed me a 3D model of my teeth and explained everything. My crown was done in one visit. This is the future.",
-    name: "Maria Lopez",
-    initials: "ML",
-    since: "2023",
-    rating: 5,
-  },
+export const TECH_STACK = [
+  { name: "Next.js", role: "Framework" },
+  { name: "React", role: "UI Library" },
+  { name: "TypeScript", role: "Language" },
+  { name: "Tailwind CSS", role: "Styling" },
+  { name: "Framer Motion", role: "Animation" },
+  { name: "GSAP", role: "Timeline Animation" },
+  { name: "Lenis", role: "Smooth Scroll" },
+  { name: "Lucide", role: "Icons" },
 ] as const;

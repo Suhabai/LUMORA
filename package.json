@@ -1,7 +1,14 @@
 {
-  "name": "aurora-dental",
-  "version": "0.1.0",
+  "name": "lumora-os",
+  "version": "1.0.0",
+  "description": "Award-level design system and application framework. Cinematic future luxury for production web applications.",
   "private": true,
+  "license": "MIT",
+  "author": "LUMORA",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lumora-os/lumora-os"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

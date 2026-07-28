@@ -1,23 +1,23 @@
 import {
-  Shield,
-  Sparkles,
+  Type,
+  Play,
+  Palette,
+  Maximize,
   Layers,
-  Smile,
-  Zap,
-  Activity,
+  CheckCircle,
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
-import { SERVICES } from "@/constants";
+import { FEATURES } from "@/constants";
 
 const iconMap = {
-  Shield,
-  Sparkles,
+  Type,
+  Play,
+  Palette,
+  Maximize,
   Layers,
-  Smile,
-  Zap,
-  Activity,
+  CheckCircle,
 } as const;
 
 export function Services() {
@@ -31,27 +31,27 @@ export function Services() {
         <Reveal>
           <SectionHeader
             id="services-heading"
-            label="Our Services"
-            title="Comprehensive, Personalized Care"
-            description="From routine wellness to complex restoration, we deliver treatments tailored to your unique needs."
+            label="Features"
+            title="Everything You Need"
+            description="A complete foundation of design tokens, reusable components, motion systems, and architectural patterns."
           />
         </Reveal>
 
         <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES.map((service, i) => {
-            const Icon = iconMap[service.icon];
+          {FEATURES.map((feature, i) => {
+            const Icon = iconMap[feature.icon];
             return (
-              <Reveal key={service.number} delay={i * 0.05}>
+              <Reveal key={feature.number} delay={i * 0.05}>
                 <Card>
                   <CardHeader>
                     <div className="flex items-center gap-4 mb-1">
                       <Icon size={20} className="text-accent" aria-hidden="true" />
                       <span className="text-xs font-mono text-text-muted" aria-hidden="true">
-                        {service.number}
+                        {feature.number}
                       </span>
                     </div>
-                    <CardTitle>{service.title}</CardTitle>
-                    <CardDescription>{service.description}</CardDescription>
+                    <CardTitle>{feature.title}</CardTitle>
+                    <CardDescription>{feature.description}</CardDescription>
                   </CardHeader>
                 </Card>
               </Reveal>

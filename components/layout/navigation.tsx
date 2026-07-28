@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, ExternalLink } from "lucide-react";
 import { cn } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { NAV_LINKS, SITE_CONFIG } from "@/constants";
@@ -57,7 +57,7 @@ export function Navigation() {
                   <path d="M12 6v6l4 2" />
                 </svg>
               </span>
-              Aurora<span className="text-accent">Dental</span>
+              LUMORA
             </span>
           </Link>
 
@@ -75,14 +75,16 @@ export function Navigation() {
               ))}
             </ul>
             <a
-              href={`tel:${SITE_CONFIG.phone.replace(/\D/g, "")}`}
-              className="flex items-center gap-2 text-[13px] font-medium text-accent"
-              aria-label={`Call us at ${SITE_CONFIG.phone}`}
+              href="https://github.com/lumora-os/lumora-os"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 text-[13px] font-medium text-text-muted hover:text-text transition-colors"
+              aria-label="View on GitHub"
             >
-              <Phone size={13} aria-hidden="true" /> {SITE_CONFIG.phone}
+              <ExternalLink size={13} aria-hidden="true" /> GitHub
             </a>
             <Button variant="primary" size="sm">
-              <Link href="#contact">Book Now</Link>
+              <Link href="#contact">Get Started</Link>
             </Button>
           </div>
 
@@ -135,7 +137,7 @@ export function Navigation() {
               transition={{ delay: NAV_LINKS.length * 0.05, duration: 0.3 }}
             >
               <Button variant="primary" size="lg" onClick={() => setOpen(false)}>
-                <Link href="#contact">Book Consultation</Link>
+                <Link href="#contact">Get Started</Link>
               </Button>
             </motion.div>
           </motion.div>

@@ -10,9 +10,9 @@ export function About() {
         <Reveal>
           <SectionHeader
             id="about-heading"
-            label="About Us"
-            title="Compassionate Care, Precision Results"
-            description="We believe every patient deserves personalized, forward-thinking dental care. Our team combines decades of experience with the latest advances in dental technology."
+            label="About"
+            title="Built for Production"
+            description="LUMORA is a design system and application framework built for teams that demand award-level quality. Every component, token, and pattern is tuned for dark-first, luxury interfaces."
           />
         </Reveal>
 

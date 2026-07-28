@@ -3,21 +3,21 @@ import { SITE_CONFIG } from "@/constants";
 
 const footerLinks = [
   {
-    title: "Clinic",
+    title: "Product",
     links: [
-      { label: "About", href: "#about" },
-      { label: "Services", href: "#services" },
-      { label: "Technology", href: "#technology" },
-      { label: "Team", href: "#team" },
+      { label: "Features", href: "#features" },
+      { label: "Design", href: "#design" },
+      { label: "Components", href: "#components" },
+      { label: "Roadmap", href: "#roadmap" },
     ],
   },
   {
-    title: "Contact",
+    title: "Resources",
     links: [
-      { label: SITE_CONFIG.phone, href: `tel:${SITE_CONFIG.phone.replace(/\D/g, "")}` },
-      { label: SITE_CONFIG.email, href: `mailto:${SITE_CONFIG.email}` },
-      { label: SITE_CONFIG.address, href: "#location" },
-      { label: SITE_CONFIG.hours, href: "#hours" },
+      { label: "Documentation", href: "#docs" },
+      { label: "GitHub", href: "https://github.com/lumora-os/lumora-os" },
+      { label: "Changelog", href: "#changelog" },
+      { label: "License", href: "#license" },
     ],
   },
 ];
@@ -47,7 +47,7 @@ export function Footer() {
                     <path d="M12 6v6l4 2" />
                   </svg>
                 </span>
-                Aurora<span className="text-accent">Dental</span>
+                LUMORA
               </span>
             </Link>
             <p className="text-[15px] leading-relaxed text-text-muted max-w-[320px] mb-6">
@@ -102,7 +102,7 @@ export function Footer() {
           <p className="text-xs text-text-muted">
             &copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
           </p>
-          <p className="text-xs text-text-muted">Award-winning dental experience</p>
+          <p className="text-xs text-text-muted">MIT License</p>
         </div>
       </div>
     </footer>

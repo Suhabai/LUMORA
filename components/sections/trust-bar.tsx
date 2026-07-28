@@ -1,31 +1,51 @@
-import { ShieldCheck, Users, Clock, Star } from "lucide-react";
-import { TRUST_ITEMS } from "@/constants";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
 
-const iconMap = {
-  ShieldCheck,
-  Users,
-  Clock,
-  Star,
-} as const;
+const useCases = [
+  {
+    title: "Consumer Apps",
+    description: "Products that compete on experience and visual quality.",
+  },
+  {
+    title: "Premium Brands",
+    description: "Interfaces where design signals trust and value.",
+  },
+  {
+    title: "Creative Tools",
+    description: "Applications where the interface inspires the work.",
+  },
+  {
+    title: "Marketing Sites",
+    description: "Pages where every pixel communicates brand value.",
+  },
+];
 
 export function TrustBar() {
   return (
-    <section className="py-16 border-t border-b border-border" aria-label="Trust indicators">
+    <section className="py-32 border-t border-b border-border" aria-labelledby="usecases-heading">
       <div className="max-w-[1280px] mx-auto px-[var(--spacing-container)]">
         <Reveal>
-          <ul className="grid grid-cols-2 md:grid-cols-4 gap-8" role="list">
-            {TRUST_ITEMS.map((item) => {
-              const Icon = iconMap[item.icon];
-              return (
-                <li key={item.label} className="flex items-center gap-3 text-text-muted">
-                  <Icon size={16} className="text-accent" aria-hidden="true" />
-                  <span className="text-sm font-medium">{item.label}</span>
-                </li>
-              );
-            })}
-          </ul>
+          <SectionHeader
+            id="usecases-heading"
+            label="Use Cases"
+            title="Built For"
+            description="LUMORA is designed for applications that need to feel different."
+          />
         </Reveal>
+
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {useCases.map((useCase, i) => (
+            <Reveal key={useCase.title} delay={i * 0.05}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>{useCase.title}</CardTitle>
+                  <CardDescription>{useCase.description}</CardDescription>
+                </CardHeader>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );

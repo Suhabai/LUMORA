@@ -1,8 +1,24 @@
-import { Star } from "lucide-react";
 import { Card, CardHeader, CardDescription } from "@/components/ui/card";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
-import { TESTIMONIALS } from "@/constants";
+
+const quotes = [
+  {
+    quote: "LUMORA transformed how we think about design systems. The attention to detail in every token and component is remarkable.",
+    name: "Design Team",
+    initials: "DT",
+  },
+  {
+    quote: "Finally, a design system that understands dark mode is not an afterthought. It's the foundation.",
+    name: "Engineering Lead",
+    initials: "EL",
+  },
+  {
+    quote: "The motion system alone saved us weeks of development. Every animation feels intentional and premium.",
+    name: "Product Manager",
+    initials: "PM",
+  },
+];
 
 export function Testimonials() {
   return (
@@ -16,32 +32,26 @@ export function Testimonials() {
           <SectionHeader
             id="testimonials-heading"
             label="Testimonials"
-            title="What Our Patients Say"
+            title="Trusted by Teams"
           />
         </Reveal>
 
         <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {TESTIMONIALS.map((testimonial) => (
-            <Reveal key={testimonial.name}>
+          {quotes.map((quote) => (
+            <Reveal key={quote.name}>
               <Card>
                 <CardHeader>
-                  <div className="flex gap-1 mb-2" aria-label={`${testimonial.rating} out of 5 stars`}>
-                    {Array.from({ length: testimonial.rating }).map((_, i) => (
-                      <Star key={i} size={14} className="fill-accent text-accent" aria-hidden="true" />
-                    ))}
-                  </div>
                   <CardDescription className="italic">
-                    &ldquo;{testimonial.quote}&rdquo;
+                    &ldquo;{quote.quote}&rdquo;
                   </CardDescription>
                   <div className="flex items-center gap-3 mt-4">
                     <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
                       <span className="text-xs font-bold text-accent" aria-hidden="true">
-                        {testimonial.initials}
+                        {quote.initials}
                       </span>
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-text">{testimonial.name}</p>
-                      <p className="text-xs text-text-muted">Patient since {testimonial.since}</p>
+                      <p className="text-sm font-semibold text-text">{quote.name}</p>
                     </div>
                   </div>
                 </CardHeader>

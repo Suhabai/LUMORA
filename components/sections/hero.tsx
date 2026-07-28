@@ -53,7 +53,7 @@ export function Hero() {
         <div ref={taglineRef} className="opacity-0">
           <span className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-accent/20 bg-accent-soft text-accent text-[11px] font-semibold uppercase tracking-[0.14em] mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" aria-hidden="true" />
-            Accepting New Patients — Limited Spots Available
+            Design System & Application Framework
           </span>
         </div>
 
@@ -64,7 +64,7 @@ export function Hero() {
         >
           The Future
           <br />
-          of <span className="text-accent">Dentistry</span>
+          of <span className="text-accent">Luxury</span>
         </h1>
 
         <p
@@ -76,10 +76,10 @@ export function Hero() {
 
         <div ref={ctasRef} className="flex flex-col sm:flex-row gap-4 justify-center opacity-0">
           <Button variant="primary" size="lg">
-            Book Consultation
+            Get Started
           </Button>
           <Button variant="ghost" size="lg">
-            Our Services
+            View Documentation
           </Button>
         </div>
 

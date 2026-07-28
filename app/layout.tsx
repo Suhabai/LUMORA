@@ -47,17 +47,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Dentist",
+              "@type": "SoftwareApplication",
               name: SITE_CONFIG.name,
               description: SITE_CONFIG.description,
               url: SITE_CONFIG.url,
-              telephone: SITE_CONFIG.phone,
-              email: SITE_CONFIG.email,
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: SITE_CONFIG.address,
+              applicationCategory: "DesignApplication",
+              operatingSystem: "Web",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
               },
-              sameAs: [],
             }),
           }}
         />
