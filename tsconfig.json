@@ -34,5 +34,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "lumora-docs"]
+  "exclude": ["node_modules", "lumora-docs", "_archive"]
 }

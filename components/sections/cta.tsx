@@ -15,8 +15,8 @@ export function CTA() {
             <SectionHeader
               id="cta-heading"
               label="Get Started"
-              title="Build Something Beautiful"
-              description="LUMORA gives you the foundation. You bring the vision."
+              title="Begin Your Journey"
+              description="LUMORA is the foundation. You bring the vision."
               centered
             />
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">

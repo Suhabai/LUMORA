@@ -1,18 +1,18 @@
 export const SITE_CONFIG = {
   name: "LUMORA",
-  tagline: "Design System & Application Framework",
+  tagline: "A Cinematic Digital Experience",
   description:
-    "Cinematic future luxury design system for production web applications. Award-level typography, motion, and spacing.",
+    "A personal portfolio ecosystem built with cinematic storytelling, premium identity, and intentional design.",
   url: "https://lumora.dev",
   version: "1.0.0",
 } as const;
 
 export const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#features", label: "Features" },
-  { href: "#design", label: "Design" },
-  { href: "#components", label: "Components" },
-  { href: "#roadmap", label: "Roadmap" },
+  { href: "/work", label: "Work" },
+  { href: "/system", label: "System" },
+  { href: "/about", label: "About" },
+  { href: "/docs", label: "Docs" },
+  { href: "/contact", label: "Start a Project" },
 ] as const;
 
 export const FEATURES = [
@@ -75,17 +75,6 @@ export const DESIGN_PRINCIPLES = [
 
 export const STATS = [
   { value: 100, suffix: "%", label: "TypeScript Strict" },
-  { value: 100, suffix: "", label: "Lighthouse Accessibility" },
-  { value: 95, suffix: "+", label: "Lighthouse Performance" },
-] as const;
-
-export const TECH_STACK = [
-  { name: "Next.js", role: "Framework" },
-  { name: "React", role: "UI Library" },
-  { name: "TypeScript", role: "Language" },
-  { name: "Tailwind CSS", role: "Styling" },
-  { name: "Framer Motion", role: "Animation" },
-  { name: "GSAP", role: "Timeline Animation" },
-  { name: "Lenis", role: "Smooth Scroll" },
-  { name: "Lucide", role: "Icons" },
+  { value: 100, suffix: "", label: "Accessibility" },
+  { value: 95, suffix: "+", label: "Performance Score" },
 ] as const;

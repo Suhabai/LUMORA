@@ -3,21 +3,19 @@ import { SITE_CONFIG } from "@/constants";
 
 const footerLinks = [
   {
-    title: "Product",
+    title: "Experience",
     links: [
-      { label: "Features", href: "#features" },
-      { label: "Design", href: "#design" },
-      { label: "Components", href: "#components" },
-      { label: "Roadmap", href: "#roadmap" },
+      { label: "Work", href: "/work" },
+      { label: "System", href: "/system" },
+      { label: "About", href: "/about" },
+      { label: "Docs", href: "/docs" },
     ],
   },
   {
-    title: "Resources",
+    title: "Connect",
     links: [
-      { label: "Documentation", href: "#docs" },
+      { label: "Start a Project", href: "/contact" },
       { label: "GitHub", href: "https://github.com/lumora-os/lumora-os" },
-      { label: "Changelog", href: "#changelog" },
-      { label: "License", href: "#license" },
     ],
   },
 ];

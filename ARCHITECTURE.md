@@ -1,12 +1,12 @@
 # Architecture
 
-> The technical architecture and design patterns that power LUMORA OS.
+> The technical architecture and design patterns that power LUMORA.
 
 ---
 
 ## Overview
 
-LUMORA OS is built on Next.js 16 with the App Router, React 19, TypeScript strict, and Tailwind CSS v4. The architecture prioritizes server components, type safety, and performance.
+LUMORA is a cinematic personal portfolio ecosystem built on Next.js 16 with the App Router, React 19, TypeScript strict, and Tailwind CSS v4. The architecture prioritizes server components, type safety, and performance.
 
 ## System Architecture
 

@@ -53,7 +53,7 @@ export function Hero() {
         <div ref={taglineRef} className="opacity-0">
           <span className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-accent/20 bg-accent-soft text-accent text-[11px] font-semibold uppercase tracking-[0.14em] mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" aria-hidden="true" />
-            Design System & Application Framework
+            A Cinematic Digital Experience
           </span>
         </div>
 
@@ -62,9 +62,9 @@ export function Hero() {
           id="hero-heading"
           className="text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[0.94] tracking-[-0.04em] mb-6 opacity-0"
         >
-          The Future
+          Light.
           <br />
-          of <span className="text-accent">Luxury</span>
+          <span className="text-accent">Presence.</span> Memory.
         </h1>
 
         <p

@@ -5,7 +5,8 @@
     "description": "Typography scale and font configuration for LUMORA design system"
   },
   "fontFamily": {
-    "sans": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+    "sans": ["Manrope", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+    "display": ["Cormorant Garamond", "Georgia", "Times New Roman", "serif"],
     "mono": ["Geist Mono", "SF Mono", "Fira Code", "monospace"]
   },
   "scale": {
@@ -60,6 +61,7 @@
     "accent": "#8a2eff"
   },
   "css": {
-    "--font-sans": "\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif"
+    "--font-sans": "\"Manrope\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+    "--font-display": "\"Cormorant Garamond\", Georgia, \"Times New Roman\", serif"
   }
 }

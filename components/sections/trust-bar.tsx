@@ -4,20 +4,20 @@ import { Reveal } from "@/components/ui/reveal";
 
 const useCases = [
   {
-    title: "Consumer Apps",
-    description: "Products that compete on experience and visual quality.",
+    title: "Creative Portfolios",
+    description: "Experiences that showcase work with cinematic presence.",
   },
   {
-    title: "Premium Brands",
-    description: "Interfaces where design signals trust and value.",
+    title: "Personal Brands",
+    description: "Interfaces where design communicates identity and values.",
   },
   {
-    title: "Creative Tools",
-    description: "Applications where the interface inspires the work.",
+    title: "Project Showcases",
+    description: "Stories told through intentional design and motion.",
   },
   {
-    title: "Marketing Sites",
-    description: "Pages where every pixel communicates brand value.",
+    title: "Digital Experiences",
+    description: "Pages where every pixel serves a purpose.",
   },
 ];
 
@@ -28,9 +28,9 @@ export function TrustBar() {
         <Reveal>
           <SectionHeader
             id="usecases-heading"
-            label="Use Cases"
+            label="Purpose"
             title="Built For"
-            description="LUMORA is designed for applications that need to feel different."
+            description="LUMORA is designed for experiences that need to feel different."
           />
         </Reveal>
 

@@ -1,6 +1,6 @@
-# LUMORA OS
+# LUMORA
 
-> Build Once. Create Forever.
+> A Cinematic Digital Experience
 
 ---
 
@@ -8,95 +8,53 @@
 [![Lint](https://github.com/lumora-os/lumora-os/actions/workflows/lint.yml/badge.svg)](https://github.com/lumora-os/lumora-os/actions/workflows/lint.yml)
 [![Typecheck](https://github.com/lumora-os/lumora-os/actions/workflows/typecheck.yml/badge.svg)](https://github.com/lumora-os/lumora-os/actions/workflows/typecheck.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 
-A design system and application framework built for production web applications. Cinematic future luxury for interfaces that need to feel different.
+LUMORA is a personal portfolio ecosystem built with cinematic storytelling, premium identity, and intentional design. It is not a template. It is a world with a recognizable identity.
 
 ---
 
 ## Quick Start
 
 ```bash
-# Clone the repository
 git clone https://github.com/lumora-os/lumora-os.git
-
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+Open [http://localhost:3000](http://localhost:3000) to view the experience.
 
-## Repository Structure
+## Project Structure
 
 ```
-lumora-os/
+LUMORA/
 ├── app/                    # Next.js App Router pages
 │   ├── layout.tsx          # Root layout (metadata, fonts, providers)
-│   ├── page.tsx            # Home page (hero, features, sections)
-│   ├── globals.css         # Design tokens and base styles
+│   ├── page.tsx            # Home experience
 │   └── sitemap.ts          # Dynamic sitemap generation
 ├── components/
 │   ├── layout/             # Navigation, footer, scroll, cursor
-│   ├── sections/           # Page sections (hero, about, services)
-│   └── ui/                 # Reusable primitives (button, card, badge)
-├── constants/              # Design data, site config, navigation
+│   ├── sections/           # Experience sections
+│   └── ui/                 # Reusable primitives
+├── constants/              # Content and configuration
 ├── tokens/                 # JSON design tokens
-├── docs/                   # Framework documentation
-├── types/                  # TypeScript type definitions
-├── utils/                  # Utility functions (cn)
+├── docs/                   # Project documentation
+├── skills/                 # AI collaboration skills
+├── utils/                  # Utility functions
 ├── public/                 # Static assets
-├── .github/                # GitHub Actions and templates
-├── ARCHITECTURE.md         # Architectural decisions
-├── DECISIONS.md            # Architecture Decision Records
-├── CONTRIBUTING.md         # Contribution guidelines
-├── CHANGELOG.md            # Version history
-├── CODE_OF_CONDUCT.md      # Community guidelines
-└── LICENSE                 # MIT License
+├── DESIGN.md               # Design constitution
+├── AGENTS.md               # Working rules
+└── ARCHITECTURE.md         # Technical architecture
 ```
 
-## Design System
+## Design Philosophy
 
-LUMORA includes a complete design token system:
+LUMORA follows five non-negotiable principles:
 
-| Token | Description |
-|-------|-------------|
-| [Colors](./tokens/colors.json) | Color palette and semantic tokens |
-| [Spacing](./tokens/spacing.json) | Spacing scale and layout values |
-| [Radius](./tokens/radius.json) | Border radius tokens |
-| [Typography](./tokens/typography.json) | Type scale and font configuration |
-| [Motion](./tokens/motion.json) | Animation tokens |
-| [Shadow](./tokens/shadow.json) | Elevation and shadow tokens |
-| [Blur](./tokens/blur.json) | Blur and glassmorphism tokens |
-| [Z-Index](./tokens/z-index.json) | Layering and stacking tokens |
-| [Duration](./tokens/duration.json) | Animation duration tokens |
-| [Opacity](./tokens/opacity.json) | Opacity level tokens |
-
-## Features
-
-- **TypeScript Strict** — Maximum type safety
-- **Server Components** — Default for all sections
-- **Framer Motion** — Component-level animations
-- **GSAP** — Timeline animations
-- **Lenis** — Smooth scrolling
-- **Tailwind CSS v4** — Utility-first styling
-- **Accessibility** — WCAG compliant
-- **Performance** — 95+ Lighthouse score
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Getting Started](./docs/getting-started.md) | Installation and setup |
-| [Philosophy](./docs/philosophy.md) | Why LUMORA exists |
-| [Visual Language](./docs/visual-language.md) | Design patterns and rules |
-| [Motion](./docs/motion.md) | Animation system |
-| [Components](./docs/components.md) | Component API reference |
-| [Architecture](./ARCHITECTURE.md) | Technical architecture |
-| [Decisions](./DECISIONS.md) | Architecture Decision Records |
-| [Roadmap](./docs/roadmap.md) | Development timeline |
+1. **Identity Over Trends** — Build a recognizable language, not temporary styles
+2. **Meaning Over Decoration** — Every element must have purpose
+3. **Experience Over Features** — Quality over quantity
+4. **Consistency Creates Identity** — Repeated meaningful patterns
+5. **Simplicity Creates Luxury** — Controlled simplicity
 
 ## Tech Stack
 
@@ -105,11 +63,22 @@ LUMORA includes a complete design token system:
 | Next.js 16 | Framework |
 | React 19 | UI Library |
 | TypeScript 5 | Language |
-| Tailwind CSS 4 | Styling |
+| Tailwind CSS v4 | Styling |
 | Framer Motion | Client Animation |
 | GSAP | Timeline Animation |
 | Lenis | Smooth Scroll |
 | Lucide | Icons |
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Design Constitution](./DESIGN.md) | Complete design system and vision |
+| [Working Rules](./AGENTS.md) | How decisions are made |
+| [Architecture](./ARCHITECTURE.md) | Technical patterns |
+| [Philosophy](./docs/philosophy.md) | Why LUMORA exists |
+| [Visual Language](./docs/visual-language.md) | Design patterns and rules |
+| [Motion System](./docs/motion.md) | Animation system |
 
 ## Scripts
 
@@ -119,14 +88,6 @@ LUMORA includes a complete design token system:
 | `npm run build` | Production build |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
-
-## Contributing
-
-We welcome contributions! Please read our [Contributing Guide](./CONTRIBUTING.md) before submitting a pull request.
-
-## Roadmap
-
-See the [Roadmap](./docs/roadmap.md) for planned features and development timeline.
 
 ## License
 

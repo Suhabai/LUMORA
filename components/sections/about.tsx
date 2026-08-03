@@ -11,8 +11,8 @@ export function About() {
           <SectionHeader
             id="about-heading"
             label="About"
-            title="Built for Production"
-            description="LUMORA is a design system and application framework built for teams that demand award-level quality. Every component, token, and pattern is tuned for dark-first, luxury interfaces."
+            title="Built With Intention"
+            description="LUMORA is a personal portfolio ecosystem where every component, token, and motion is crafted to create a memorable digital experience."
           />
         </Reveal>
 

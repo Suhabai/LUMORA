@@ -1,7 +1,7 @@
 {
   "name": "LUMORA",
   "short_name": "LUMORA",
-  "description": "Design System & Application Framework",
+  "description": "LUMORA — A cinematic personal portfolio ecosystem",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#07070a",
