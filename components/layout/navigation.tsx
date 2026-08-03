@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ExternalLink } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { NAV_LINKS, SITE_CONFIG } from "@/constants";
@@ -38,6 +38,7 @@ export function Navigation() {
           className="max-w-[1280px] mx-auto px-[var(--spacing-container)] flex items-center justify-between h-16 md:h-20"
           aria-label="Main"
         >
+          {/* Brand Zone */}
           <Link href="/" aria-label={`${SITE_CONFIG.name} — Home`}>
             <span className="flex items-center gap-3 font-bold text-base tracking-tight">
               <span
@@ -61,6 +62,7 @@ export function Navigation() {
             </span>
           </Link>
 
+          {/* Navigation Zone */}
           <div className="hidden md:flex items-center gap-8">
             <ul className="flex items-center gap-8" role="list">
               {NAV_LINKS.map((link) => (
@@ -74,17 +76,12 @@ export function Navigation() {
                 </li>
               ))}
             </ul>
-            <a
-              href="https://github.com/lumora-os/lumora-os"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2 text-[13px] font-medium text-text-muted hover:text-text transition-colors"
-              aria-label="View on GitHub"
-            >
-              <ExternalLink size={13} aria-hidden="true" /> GitHub
-            </a>
+          </div>
+
+          {/* Action Zone */}
+          <div className="hidden md:flex items-center gap-6">
             <Button variant="primary" size="sm">
-              <Link href="#contact">Get Started</Link>
+              <Link href="/contact">Start a Project</Link>
             </Button>
           </div>
 
@@ -137,7 +134,7 @@ export function Navigation() {
               transition={{ delay: NAV_LINKS.length * 0.05, duration: 0.3 }}
             >
               <Button variant="primary" size="lg" onClick={() => setOpen(false)}>
-                <Link href="#contact">Get Started</Link>
+                <Link href="/contact">Start a Project</Link>
               </Button>
             </motion.div>
           </motion.div>

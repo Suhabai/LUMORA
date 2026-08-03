@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
@@ -14,19 +15,17 @@ export function CTA() {
           <div className="text-center">
             <SectionHeader
               id="cta-heading"
-              label="Get Started"
+              label="Get in Touch"
               title="Begin Your Journey"
-              description="LUMORA is the foundation. You bring the vision."
+              description="Let's create something memorable together."
               centered
             />
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="primary" size="lg">
-                View Documentation
+                <Link href="/contact">Start a Project</Link>
               </Button>
               <Button variant="ghost" size="lg">
-                <a href="https://github.com/lumora-os/lumora-os">
-                  GitHub
-                </a>
+                <Link href="/work">View Work</Link>
               </Button>
             </div>
           </div>

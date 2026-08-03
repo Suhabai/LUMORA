@@ -1,50 +1,27 @@
 # LUMORA
 
-> A Cinematic Digital Experience
+> Designing digital experiences that feel alive.
 
 ---
 
-[![Build](https://github.com/lumora-os/lumora-os/actions/workflows/build.yml/badge.svg)](https://github.com/lumora-os/lumora-os/actions/workflows/build.yml)
-[![Lint](https://github.com/lumora-os/lumora-os/actions/workflows/lint.yml/badge.svg)](https://github.com/lumora-os/lumora-os/actions/workflows/lint.yml)
-[![Typecheck](https://github.com/lumora-os/lumora-os/actions/workflows/typecheck.yml/badge.svg)](https://github.com/lumora-os/lumora-os/actions/workflows/typecheck.yml)
+[![Build](https://github.com/lumora/lumora/actions/workflows/build.yml/badge.svg)](https://github.com/lumora/lumora/actions/workflows/build.yml)
+[![Lint](https://github.com/lumora/lumora/actions/workflows/lint.yml/badge.svg)](https://github.com/lumora/lumora/actions/workflows/lint.yml)
+[![Typecheck](https://github.com/lumora/lumora/actions/workflows/typecheck.yml/badge.svg)](https://github.com/lumora/lumora/actions/workflows/typecheck.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
-LUMORA is a personal portfolio ecosystem built with cinematic storytelling, premium identity, and intentional design. It is not a template. It is a world with a recognizable identity.
+LUMORA is a cinematic personal portfolio ecosystem. Not a template. Not a framework. A world with a recognizable identity.
 
 ---
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/lumora-os/lumora-os.git
+git clone https://github.com/lumora/lumora.git
 npm install
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the experience.
-
-## Project Structure
-
-```
-LUMORA/
-├── app/                    # Next.js App Router pages
-│   ├── layout.tsx          # Root layout (metadata, fonts, providers)
-│   ├── page.tsx            # Home experience
-│   └── sitemap.ts          # Dynamic sitemap generation
-├── components/
-│   ├── layout/             # Navigation, footer, scroll, cursor
-│   ├── sections/           # Experience sections
-│   └── ui/                 # Reusable primitives
-├── constants/              # Content and configuration
-├── tokens/                 # JSON design tokens
-├── docs/                   # Project documentation
-├── skills/                 # AI collaboration skills
-├── utils/                  # Utility functions
-├── public/                 # Static assets
-├── DESIGN.md               # Design constitution
-├── AGENTS.md               # Working rules
-└── ARCHITECTURE.md         # Technical architecture
-```
 
 ## Design Philosophy
 
@@ -62,7 +39,7 @@ LUMORA follows five non-negotiable principles:
 |------------|------|
 | Next.js 16 | Framework |
 | React 19 | UI Library |
-| TypeScript 5 | Language |
+| TypeScript | Language |
 | Tailwind CSS v4 | Styling |
 | Framer Motion | Client Animation |
 | GSAP | Timeline Animation |
@@ -76,9 +53,7 @@ LUMORA follows five non-negotiable principles:
 | [Design Constitution](./DESIGN.md) | Complete design system and vision |
 | [Working Rules](./AGENTS.md) | How decisions are made |
 | [Architecture](./ARCHITECTURE.md) | Technical patterns |
-| [Philosophy](./docs/philosophy.md) | Why LUMORA exists |
-| [Visual Language](./docs/visual-language.md) | Design patterns and rules |
-| [Motion System](./docs/motion.md) | Animation system |
+| [Project Master Record](./LUMORA_PROJECT_MASTER_RECORD.md) | Central project reference |
 
 ## Scripts
 

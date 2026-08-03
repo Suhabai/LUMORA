@@ -15,7 +15,6 @@ const footerLinks = [
     title: "Connect",
     links: [
       { label: "Start a Project", href: "/contact" },
-      { label: "GitHub", href: "https://github.com/lumora-os/lumora-os" },
     ],
   },
 ];
@@ -51,26 +50,6 @@ export function Footer() {
             <p className="text-[15px] leading-relaxed text-text-muted max-w-[320px] mb-6">
               {SITE_CONFIG.description}
             </p>
-            <nav aria-label="Legal">
-              <ul className="flex gap-6" role="list">
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="text-xs font-medium text-text-muted hover:text-text transition-colors"
-                  >
-                    Privacy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/terms"
-                    className="text-xs font-medium text-text-muted hover:text-text transition-colors"
-                  >
-                    Terms
-                  </Link>
-                </li>
-              </ul>
-            </nav>
           </div>
 
           {footerLinks.map((group) => (

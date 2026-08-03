@@ -25,16 +25,11 @@
     "float": {
       "0%, 100%": { "transform": "translateY(0)" },
       "50%": { "transform": "translateY(-6px)" }
-    },
-    "ring-pulse": {
-      "0%": { "transform": "scale(0.8)", "opacity": 0.6 },
-      "100%": { "transform": "scale(2.2)", "opacity": 0 }
     }
   },
   "animation": {
     "pulse": "pulse-soft 3s ease-in-out infinite",
-    "float": "float 6s ease-in-out infinite",
-    "ring": "ring-pulse 3s ease-out infinite"
+    "float": "float 6s ease-in-out infinite"
   },
   "component": {
     "hover-scale": {
@@ -57,7 +52,6 @@
   "css": {
     "--ease-out": "cubic-bezier(0.16, 1, 0.3, 1)",
     "--animate-pulse": "pulse-soft 3s ease-in-out infinite",
-    "--animate-float": "float 6s ease-in-out infinite",
-    "--animate-ring": "ring-pulse 3s ease-out infinite"
+    "--animate-float": "float 6s ease-in-out infinite"
   }
 }

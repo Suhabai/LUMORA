@@ -191,12 +191,19 @@ export default function Home() {
 
 ### Font Optimization
 
-Inter font is loaded with `next/font` for optimal performance:
+Manrope (interface) and Cormorant Garamond (display) are loaded with `next/font` for optimal performance:
 
 ```tsx
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-display",
   display: "swap",
 });
 ```

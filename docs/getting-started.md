@@ -1,12 +1,12 @@
 # Getting Started
 
-> Set up LUMORA OS in your environment and run your first build.
+> Set up LUMORA in your environment and run your first build.
 
 ---
 
 ## Purpose
 
-This guide walks through installing, configuring, and running LUMORA OS. By the end, you will have a working development environment and understand the project structure.
+This guide walks through installing, configuring, and running LUMORA. By the end, you will have a working development environment and understand the project structure.
 
 ## Principles
 
@@ -26,10 +26,10 @@ This guide walks through installing, configuring, and running LUMORA OS. By the 
 
 ```bash
 # Clone the repository
-git clone https://github.com/lumora-os/lumora-os.git
+git clone https://github.com/lumora/lumora.git
 
 # Navigate to project
-cd lumora-os
+cd lumora
 
 # Install dependencies
 npm install
@@ -47,7 +47,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## Project Structure
 
 ```
-lumora-os/
+lumora/
 ├── app/                    # Next.js App Router pages
 │   ├── layout.tsx          # Root layout (metadata, fonts, providers)
 │   ├── page.tsx            # Home page (hero, features, sections)

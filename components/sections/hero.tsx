@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SITE_CONFIG } from "@/constants";
 
 export function Hero() {
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -53,33 +52,33 @@ export function Hero() {
         <div ref={taglineRef} className="opacity-0">
           <span className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-accent/20 bg-accent-soft text-accent text-[11px] font-semibold uppercase tracking-[0.14em] mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" aria-hidden="true" />
-            A Cinematic Digital Experience
+            Independent Designer &amp; Creative Developer
           </span>
         </div>
 
         <h1
           ref={headingRef}
           id="hero-heading"
-          className="text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[0.94] tracking-[-0.04em] mb-6 opacity-0"
+          className="font-display text-[clamp(3rem,8vw,6.5rem)] font-bold leading-[0.94] tracking-[-0.04em] mb-6 opacity-0"
         >
-          Light.
+          Designing Digital Experiences
           <br />
-          <span className="text-accent">Presence.</span> Memory.
+          That Feel <span className="text-accent">Alive</span>.
         </h1>
 
         <p
           ref={descriptionRef}
           className="text-lg leading-[1.7] text-text-muted max-w-[520px] mx-auto mb-10 opacity-0"
         >
-          {SITE_CONFIG.description}
+          I create cinematic digital experiences where design, motion, and technology come together to form something memorable.
         </p>
 
         <div ref={ctasRef} className="flex flex-col sm:flex-row gap-4 justify-center opacity-0">
           <Button variant="primary" size="lg">
-            Get Started
+            <a href="/work">View Selected Work</a>
           </Button>
           <Button variant="ghost" size="lg">
-            View Documentation
+            <a href="/system">Explore the Design System</a>
           </Button>
         </div>
 

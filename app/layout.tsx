@@ -3,8 +3,6 @@ import { Manrope, Cormorant_Garamond } from "next/font/google";
 import { SITE_CONFIG } from "@/constants";
 import { Navigation } from "@/components/layout/navigation";
 import { Footer } from "@/components/layout/footer";
-import { CustomCursor } from "@/components/layout/custom-cursor";
-import { ScanLine } from "@/components/layout/scan-line";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import "@/styles/globals.css";
 
@@ -64,8 +62,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans bg-bg text-text antialiased">
         <SmoothScroll>
-          <CustomCursor />
-          <ScanLine />
           <a
             href="#hero"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-bg"

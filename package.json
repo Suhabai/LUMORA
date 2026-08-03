@@ -1,5 +1,5 @@
 {
-  "name": "lumora-os",
+  "name": "lumora",
   "version": "1.0.0",
   "description": "LUMORA — A cinematic personal portfolio ecosystem built with intention, emotion, and identity.",
   "private": true,
@@ -7,7 +7,7 @@
   "author": "LUMORA",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lumora-os/lumora-os"
+    "url": "https://github.com/lumora/lumora"
   },
   "scripts": {
     "dev": "next dev",
