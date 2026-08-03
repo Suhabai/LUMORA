@@ -381,6 +381,7 @@ Before any implementation is approved, verify:
 | DESIGN.md | Complete design constitution (3,338 lines) |
 | AGENTS.md | Working rules and principles |
 | ARCHITECTURE.md | Technical architecture patterns |
+| SKILL_ARCHITECTURE.md | Intelligence layer and skill system design |
 | This file | Central project reference |
 | CLEANUP_REPORT.md | Previous cleanup sprint results |
 | AUDIT_REPORT.md | Original audit findings |
@@ -395,3 +396,4 @@ Before any implementation is approved, verify:
 | 2026-08-03 | Cleanup & Alignment Sprint v1 | Complete |
 | 2026-08-03 | Alignment Sprint v2 | Complete |
 | 2026-08-03 | Final Foundation Lock v3 | Complete |
+| 2026-08-03 | Skill Architecture Design | Complete |

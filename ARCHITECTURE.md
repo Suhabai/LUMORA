@@ -276,6 +276,7 @@ Strict TypeScript configuration:
 
 ## Related
 
+- [Skill Architecture](./docs/SKILL_ARCHITECTURE.md) — Intelligence layer and skill system design
 - [Decisions](./DECISIONS.md) — Architecture Decision Records
 - [Components](./docs/components.md) — Component API reference
 - [Getting Started](./docs/getting-started.md) — Setup guide
