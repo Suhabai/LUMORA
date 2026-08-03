@@ -296,7 +296,7 @@ If the Core is removed and LUMORA loses its identity, the Core system is success
 - `skills/` — AI collaboration skill definitions
 
 **Route Structure:**
-- `/` — Home experience (Hero + Core + Selected Works + Philosophy + Process + About + Contact)
+- `/` — Home experience (Hero + Core Experience + Selected Works + Design Philosophy + Process + About + Contact)
 - `/work` — Portfolio overview
 - `/work/omnia` — OMNIA project world
 - `/work/nexora` — NEXORA project world
@@ -393,4 +393,5 @@ Before any implementation is approved, verify:
 |------|--------|--------|
 | 2026-08-03 | Initial project audit | Complete |
 | 2026-08-03 | Cleanup & Alignment Sprint v1 | Complete |
-| 2026-08-03 | Alignment Sprint v2 | In Progress |
+| 2026-08-03 | Alignment Sprint v2 | Complete |
+| 2026-08-03 | Final Foundation Lock v3 | Complete |

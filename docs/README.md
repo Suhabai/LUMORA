@@ -1,12 +1,12 @@
 # Documentation
 
-> The complete documentation for LUMORA OS.
+> The complete documentation for LUMORA.
 
 ---
 
 ## Overview
 
-LUMORA OS is a design system and application framework built for production web applications. This documentation covers everything from setup to advanced patterns.
+LUMORA is a cinematic personal portfolio ecosystem. This documentation covers design principles, technical patterns, and development guidance.
 
 ## Quick Links
 

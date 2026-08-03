@@ -4,9 +4,10 @@
 
 ---
 
-[![Build](https://github.com/lumora/lumora/actions/workflows/build.yml/badge.svg)](https://github.com/lumora/lumora/actions/workflows/build.yml)
-[![Lint](https://github.com/lumora/lumora/actions/workflows/lint.yml/badge.svg)](https://github.com/lumora/lumora/actions/workflows/lint.yml)
-[![Typecheck](https://github.com/lumora/lumora/actions/workflows/typecheck.yml/badge.svg)](https://github.com/lumora/lumora/actions/workflows/typecheck.yml)
+<!-- TODO: Update badge URLs once repository visibility is confirmed -->
+<!-- [![Build](https://github.com/OWNER/REPO/actions/workflows/build.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/build.yml) -->
+<!-- [![Lint](https://github.com/OWNER/REPO/actions/workflows/lint.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/lint.yml) -->
+<!-- [![Typecheck](https://github.com/OWNER/REPO/actions/workflows/typecheck.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/typecheck.yml) -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 
 LUMORA is a cinematic personal portfolio ecosystem. Not a template. Not a framework. A world with a recognizable identity.
@@ -16,7 +17,8 @@ LUMORA is a cinematic personal portfolio ecosystem. Not a template. Not a framew
 ## Quick Start
 
 ```bash
-git clone https://github.com/lumora/lumora.git
+# TODO: Update with correct repository URL
+git clone https://github.com/Suhabai/LUMORA.git
 npm install
 npm run dev
 ```

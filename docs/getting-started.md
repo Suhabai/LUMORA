@@ -26,7 +26,8 @@ This guide walks through installing, configuring, and running LUMORA. By the end
 
 ```bash
 # Clone the repository
-git clone https://github.com/lumora/lumora.git
+# TODO: Update with correct repository URL
+git clone https://github.com/Suhabai/LUMORA.git
 
 # Navigate to project
 cd lumora
@@ -50,18 +51,19 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 lumora/
 ├── app/                    # Next.js App Router pages
 │   ├── layout.tsx          # Root layout (metadata, fonts, providers)
-│   ├── page.tsx            # Home page (hero, features, sections)
-│   ├── globals.css         # Design tokens and base styles
+│   ├── page.tsx            # Home page (hero, sections)
 │   └── sitemap.ts          # Dynamic sitemap generation
 ├── components/
-│   ├── layout/             # Navigation, footer, scroll, cursor
-│   ├── sections/           # Page sections (hero, about, services)
+│   ├── layout/             # Navigation, footer, scroll
+│   ├── sections/           # Page sections (hero, about, contact)
 │   └── ui/                 # Reusable primitives (button, card, badge)
 ├── constants/              # Design data, site config, navigation
 ├── tokens/                 # JSON design tokens
-├── docs/                   # Framework documentation
+├── styles/                 # Global styles and CSS variables
+├── docs/                   # Project documentation
 ├── types/                  # TypeScript type definitions
 ├── utils/                  # Utility functions (cn)
+├── skills/                 # AI collaboration skill definitions
 └── public/                 # Static assets
 ```
 

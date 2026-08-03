@@ -1,5 +1,15 @@
 "use client";
 
+/**
+ * PROTOTYPE — Custom Cursor
+ *
+ * Status: Not finalized. This is an experimental component.
+ * The cursor is NOT rendered in production (removed from layout.tsx).
+ * Do not re-enable without a final design decision.
+ *
+ * TODO: Decide final cursor direction before re-enabling.
+ */
+
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useCallback, useEffect } from "react";
 

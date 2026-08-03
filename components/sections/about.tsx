@@ -1,7 +1,5 @@
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
-import { Counter } from "@/components/ui/counter";
-import { STATS } from "@/constants";
 
 export function About() {
   return (
@@ -11,21 +9,10 @@ export function About() {
           <SectionHeader
             id="about-heading"
             label="About"
-            title="Built With Intention"
-            description="LUMORA is a personal portfolio ecosystem where every component, token, and motion is crafted to create a memorable digital experience."
+            title="Independent Designer & Creative Developer"
+            description="I design and build digital experiences where motion, atmosphere, and intention come together. Every project is crafted to feel alive."
           />
         </Reveal>
-
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12">
-          {STATS.map((stat, i) => (
-            <Reveal key={stat.label} delay={i * 0.1}>
-              <div className="text-center">
-                <Counter target={stat.value} suffix={stat.suffix} />
-                <p className="text-sm text-text-muted mt-3">{stat.label}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </div>
     </section>
   );

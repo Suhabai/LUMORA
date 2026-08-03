@@ -7,7 +7,7 @@
   "author": "LUMORA",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lumora/lumora"
+    "url": "https://github.com/Suhabai/LUMORA"
   },
   "scripts": {
     "dev": "next dev",

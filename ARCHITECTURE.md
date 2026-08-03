@@ -15,7 +15,7 @@ LUMORA is a cinematic personal portfolio ecosystem built on Next.js 16 with the 
 │                    Presentation                      │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐ │
 │  │   Sections   │  │     UI      │  │   Layout    │ │
-│  │  (Server)    │  │  (Mixed)    │  │  (Mixed)    │ │
+│  │  (Mixed)     │  │  (Mixed)    │  │  (Mixed)    │ │
 │  └─────────────┘  └─────────────┘  └─────────────┘ │
 ├─────────────────────────────────────────────────────┤
 │                     Application                      │
@@ -47,7 +47,7 @@ export function About() {
   return (
     <section>
       <Reveal>
-        <SectionHeader label="About" title="Our Story" />
+        <SectionHeader label="About" title="Independent Designer & Creative Developer" />
       </Reveal>
     </section>
   );

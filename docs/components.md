@@ -38,17 +38,16 @@ components/
 ├── layout/                 # Structural components
 │   ├── navigation.tsx      # Client — Sticky nav, mobile menu
 │   ├── footer.tsx          # Server — Footer with links
-│   ├── scan-line.tsx       # Client — Ambient animation
-│   ├── custom-cursor.tsx   # Client — Cursor dot + ring
+│   ├── custom-cursor.tsx   # Client — PROTOTYPE (not rendered)
 │   └── smooth-scroll.tsx   # Client — Lenis wrapper
 └── sections/               # Page sections
     ├── hero.tsx            # Client — GSAP timeline
-    ├── about.tsx           # Server — Stats with counters
-    ├── services.tsx        # Server — Feature grid
-    ├── technology.tsx      # Server — Design principles
-    ├── team.tsx            # Server — Tech stack grid
-    ├── testimonials.tsx    # Server — Quote cards
-    └── cta.tsx             # Server — Call to action
+    ├── about.tsx           # Server — About section
+    ├── contact.tsx         # Server — Contact CTA
+    ├── core-experience.tsx # Server — Living Core placeholder
+    ├── selected-works.tsx  # Server — Project worlds grid
+    ├── design-philosophy.tsx # Server — Design principles
+    └── process.tsx         # Server — Process placeholder
 ```
 
 ## UI Components
