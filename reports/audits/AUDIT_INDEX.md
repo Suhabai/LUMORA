@@ -15,6 +15,7 @@ They provide traceability, verification history, and quality control across the 
 | Document | Audit Report | Version | Status |
 |----------|--------------|---------|--------|
 | AGENTS.md | AGENTS_AUDIT_REPORT.md | v1.0.0 | Approved |
+| DESIGN.md | DESIGN_AUDIT_REPORT.md | v1.0.0 | Approved |
 
 ---
 
@@ -51,7 +52,6 @@ Approved
 
 Planned audits:
 
-- DESIGN.md Audit
 - LUMORA_PROJECT_MASTER_RECORD.md Audit
 - SKILL_SPECIFICATION.md Audit
 - Documentation Audit
