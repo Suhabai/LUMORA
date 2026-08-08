@@ -119,4 +119,92 @@
     mask-image: linear-gradient(to bottom, black 60%, transparent);
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
   }
+
+  /* Cinematic section dividers — atmospheric transitions between sections */
+  .section-divider-top {
+    position: relative;
+  }
+  .section-divider-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.035), transparent);
+    pointer-events: none;
+  }
+
+  /* Atmosphere gradient for section transitions */
+  .atmosphere-fade-in {
+    background: linear-gradient(180deg, var(--color-bg) 0%, transparent 100%);
+  }
+  .atmosphere-fade-out {
+    background: linear-gradient(0deg, var(--color-bg) 0%, transparent 100%);
+  }
+
+  /* Subtle glow for focus moments */
+  .glow-subtle {
+    box-shadow: 0 0 60px rgba(138, 46, 255, 0.06), 0 0 120px rgba(138, 46, 255, 0.03);
+  }
+
+  /* ── Section Atmosphere ──
+     Cinematic transitions between sections.
+     Creates visual continuity through gradient depth. */
+  .section-atmosphere {
+    position: relative;
+  }
+  .section-atmosphere::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 15%, rgba(255,255,255,0.04) 50%, transparent 85%);
+    pointer-events: none;
+  }
+  .section-atmosphere::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 15%, rgba(255,255,255,0.04) 50%, transparent 85%);
+    pointer-events: none;
+  }
+
+  /* Depth transition — creates the feeling of moving deeper */
+  .depth-transition {
+    position: relative;
+    overflow: hidden;
+  }
+  .depth-transition::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(180deg, rgba(7,7,10,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Atmospheric section separators — extremely subtle */
+  .atmo-separator {
+    position: relative;
+    height: 1px;
+    margin: 0 12%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.035), transparent);
+  }
+
+  /* ── Scroll-Linked Atmosphere ──
+     As user scrolls past hero, environmental elements recede.
+     Uses --hero-fade (1 at top, 0 past first viewport). */
+  #hero [aria-hidden="true"] {
+    opacity: var(--hero-fade, 1);
+    transition: opacity 0.3s ease;
+  }
 }

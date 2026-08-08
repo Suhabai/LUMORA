@@ -1,0 +1,224 @@
+/* ═══════════════════════════════════════════════════════
+   LUMORA — Living Core System
+   The quiet heartbeat of the experience
+   ═══════════════════════════════════════════════════════ */
+
+.living-core {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Atmosphere Layer ──
+   The outermost presence field.
+   Always present, rarely noticed consciously. */
+
+.core-atmosphere {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.12),
+    transparent 70%
+  );
+  animation: core-breathe 10s ease-in-out infinite;
+  transition: background 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Field Layer ──
+   Represents structure and intelligence.
+   Transparent depth with refined surface. */
+
+.core-field {
+  position: absolute;
+  inset: 20px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.2),
+    transparent 65%
+  );
+  transition: background 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Source Layer ──
+   The internal glow — energy and life.
+   Creates the feeling of a living system. */
+
+.core-source {
+  position: absolute;
+  inset: 55px;
+  border-radius: 50%;
+  background: rgba(220, 180, 255, 0.85);
+  transition: background 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Core Modes
+   ═══════════════════════════════════════════════════════ */
+
+/* Hero — most atmospheric state, primary identity */
+
+.core-hero {
+  width: 160px;
+  height: 160px;
+}
+
+.core-hero .core-atmosphere {
+  animation: core-breathe 10s ease-in-out infinite;
+}
+
+/* Ambient — reduced presence, background companion */
+
+.core-ambient {
+  width: 160px;
+  height: 160px;
+  transform: scale(0.55);
+  opacity: 0.45;
+}
+
+.core-ambient .core-atmosphere {
+  animation: core-breathe 14s ease-in-out infinite;
+}
+
+/* Minimal — almost static, lowest visual intensity */
+
+.core-minimal {
+  width: 160px;
+  height: 160px;
+  transform: scale(0.4);
+  opacity: 0.3;
+}
+
+.core-minimal .core-atmosphere {
+  animation: core-breathe-slow 18s ease-in-out infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Core Intensities
+   ═══════════════════════════════════════════════════════ */
+
+/* Soft — default LUMORA, subtle luminosity */
+
+.core-intensity-soft .core-atmosphere {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.12),
+    transparent 70%
+  );
+}
+
+.core-intensity-soft .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.2),
+    transparent 65%
+  );
+}
+
+.core-intensity-soft .core-source {
+  background: rgba(220, 180, 255, 0.85);
+}
+
+/* Medium — slightly stronger, still restrained */
+
+.core-intensity-medium .core-atmosphere {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.2),
+    transparent 70%
+  );
+}
+
+.core-intensity-medium .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.3),
+    transparent 65%
+  );
+}
+
+.core-intensity-medium .core-source {
+  background: rgba(220, 180, 255, 0.92);
+}
+
+/* Strong — calm but defined, never flashy */
+
+.core-intensity-strong .core-atmosphere {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.28),
+    transparent 70%
+  );
+}
+
+.core-intensity-strong .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.38),
+    transparent 65%
+  );
+}
+
+.core-intensity-strong .core-source {
+  background: rgba(230, 190, 255, 0.95);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Core Interaction States
+   ═══════════════════════════════════════════════════════ */
+
+/* Subtle — gentle response on hover */
+
+.core-interaction-subtle {
+  cursor: default;
+}
+
+.core-interaction-subtle:hover .core-source {
+  transform: scale(1.04);
+}
+
+.core-interaction-subtle:hover .core-field {
+  transform: scale(1.015);
+}
+
+/* None — disable all interaction effects */
+
+.core-interaction-none {
+  pointer-events: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Breathing Animations
+   Slow, organic, cinematic rhythm
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes core-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.92;
+  }
+}
+
+@keyframes core-breathe-slow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.01);
+    opacity: 0.95;
+  }
+}

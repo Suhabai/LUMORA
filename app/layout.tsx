@@ -4,6 +4,7 @@ import { SITE_CONFIG } from "@/constants";
 import { Navigation } from "@/components/layout/navigation";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
+import { ScrollAtmosphere } from "@/components/layout/scroll-atmosphere";
 import "@/styles/globals.css";
 
 const manrope = Manrope({
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="font-sans bg-bg text-text antialiased">
+        <ScrollAtmosphere />
         <SmoothScroll>
           <a
             href="#hero"

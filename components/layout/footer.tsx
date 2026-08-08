@@ -28,7 +28,7 @@ export function Footer() {
             <Link href="/" aria-label={`${SITE_CONFIG.name} — Home`}>
               <span className="inline-flex items-center gap-3 font-bold text-base tracking-tight mb-5">
                 <span
-                  className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center"
+                  className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/20 flex items-center justify-center"
                   aria-hidden="true"
                 >
                   <svg
@@ -36,8 +36,8 @@ export function Footer() {
                     height="14"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#07070a"
-                    strokeWidth="2.5"
+                    stroke="var(--color-accent)"
+                    strokeWidth="2"
                     strokeLinecap="round"
                   >
                     <circle cx="12" cy="12" r="10" />

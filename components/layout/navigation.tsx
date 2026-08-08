@@ -29,8 +29,8 @@ export function Navigation() {
     <>
       <header
         className={cn(
-          "fixed top-0 inset-x-0 z-50 transition-all duration-500",
-          scrolled && "bg-bg/80 backdrop-blur-xl border-b border-border"
+          "fixed top-0 inset-x-0 z-50 transition-all duration-700",
+          scrolled && "bg-bg/70 backdrop-blur-2xl border-b border-border/50"
         )}
         role="banner"
       >
@@ -42,7 +42,7 @@ export function Navigation() {
           <Link href="/" aria-label={`${SITE_CONFIG.name} — Home`}>
             <span className="flex items-center gap-3 font-bold text-base tracking-tight">
               <span
-                className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center"
+                className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/20 flex items-center justify-center transition-colors duration-500 hover:bg-accent/25"
                 aria-hidden="true"
               >
                 <svg
@@ -50,8 +50,8 @@ export function Navigation() {
                   height="14"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#07070a"
-                  strokeWidth="2.5"
+                  stroke="var(--color-accent)"
+                  strokeWidth="2"
                   strokeLinecap="round"
                 >
                   <circle cx="12" cy="12" r="10" />
