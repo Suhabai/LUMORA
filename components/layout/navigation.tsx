@@ -5,8 +5,14 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/utils";
-import { Button } from "@/components/ui/button";
-import { NAV_LINKS, SITE_CONFIG } from "@/constants";
+import { SITE_CONFIG } from "@/constants";
+
+const ENV_LINKS = [
+  { href: "#works", label: "Worlds" },
+  { href: "#philosophy", label: "Thinking" },
+  { href: "#about", label: "Person" },
+  { href: "#contact", label: "Threshold" },
+] as const;
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -30,7 +36,7 @@ export function Navigation() {
       <header
         className={cn(
           "fixed top-0 inset-x-0 z-50 transition-all duration-700",
-          scrolled && "bg-bg/70 backdrop-blur-2xl border-b border-border/50"
+          scrolled && "bg-bg/60 backdrop-blur-2xl"
         )}
         role="banner"
       >
@@ -38,7 +44,7 @@ export function Navigation() {
           className="max-w-[1280px] mx-auto px-[var(--spacing-container)] flex items-center justify-between h-16 md:h-20"
           aria-label="Main"
         >
-          {/* Brand Zone */}
+          {/* Brand Zone — the identity, always present */}
           <Link href="/" aria-label={`${SITE_CONFIG.name} — Home`}>
             <span className="flex items-center gap-3 font-bold text-base tracking-tight">
               <span
@@ -62,28 +68,23 @@ export function Navigation() {
             </span>
           </Link>
 
-          {/* Navigation Zone */}
+          {/* Environment links — subtle orientation, not site map */}
           <div className="hidden md:flex items-center gap-8">
             <ul className="flex items-center gap-8" role="list">
-              {NAV_LINKS.map((link) => (
+              {ENV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <a
                     href={link.href}
-                    className="text-[13px] font-medium text-text-muted hover:text-text transition-colors duration-200"
+                    className="text-[13px] font-medium text-text-muted/60 hover:text-text transition-colors duration-300"
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Action Zone */}
-          <div className="hidden md:flex items-center gap-6">
-            <Button variant="primary" size="sm">
-              <Link href="/contact">Start a Project</Link>
-            </Button>
-          </div>
+          {/* No CTA button — the experience IS the invitation */}
 
           <button
             className="md:hidden w-10 h-10 flex items-center justify-center text-text"
@@ -111,32 +112,23 @@ export function Navigation() {
             aria-label="Mobile navigation"
           >
             <ul className="flex flex-col items-center gap-8" role="list">
-              {NAV_LINKS.map((link, i) => (
+              {ENV_LINKS.map((link, i) => (
                 <motion.li
                   key={link.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05, duration: 0.3 }}
                 >
-                  <Link
+                  <a
                     href={link.href}
                     className="text-2xl font-medium text-text"
                     onClick={() => setOpen(false)}
                   >
                     {link.label}
-                  </Link>
+                  </a>
                 </motion.li>
               ))}
             </ul>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: NAV_LINKS.length * 0.05, duration: 0.3 }}
-            >
-              <Button variant="primary" size="lg" onClick={() => setOpen(false)}>
-                <Link href="/contact">Start a Project</Link>
-              </Button>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

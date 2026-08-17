@@ -3,134 +3,140 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ArrowDown } from "lucide-react";
-import LivingCore from "@/components/core/LivingCore";
+import { useExperience } from "@/components/layout/experience-context";
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const coreRef = useRef<HTMLDivElement>(null);
   const identityRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const statementRef = useRef<HTMLParagraphElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const envResponseRef = useRef<HTMLDivElement>(null);
+  const { event } = useExperience();
 
+  // ── North Star Entrance Sequence ──
+  // 0.0s  Environment already exists (GlobalCore)
+  // 0.4s  Core becomes perceptible (GlobalCore handles this)
+  // 1.0s  Core establishes its breathing rhythm
+  // 1.5s  LUMORA identity appears
+  // 2.2s  Headline emerges
+  // 2.8s  Invitation appears
+  //
+  // The environment must not appear as a normal page fade.
+  // The user should feel: "The space was already here."
   useEffect(() => {
+    if (!sectionRef.current) return;
+
     const ctx = gsap.context(() => {
+      const dur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--core-motion-duration") || "1");
+
       const tl = gsap.timeline({
         defaults: { ease: "power3.out" },
-        delay: 0.4,
       });
 
-      // Core presence — slow emergence, establishes identity
-      tl.fromTo(
-        coreRef.current,
-        { opacity: 0, scale: 0.85 },
-        { opacity: 1, scale: 1, duration: 2.8, ease: "power2.out" }
-      );
+      // Environment responds to Core awakening — immediate, the space was already here
+      if (envResponseRef.current) {
+        tl.fromTo(
+          envResponseRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 1.6 * dur, ease: "power2.out" },
+          0
+        );
+      }
 
-      // Identity signal — quiet, small
+      // LUMORA identity — emerges at 1.5s, above the Core
       tl.fromTo(
         identityRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 1.4, ease: "power2.out" },
-        "-=1.8"
+        { opacity: 0, y: 6 },
+        { opacity: 1, y: 0, duration: 1.2 * dur, ease: "power2.out" },
+        1.5
       );
 
-      // Main heading — cinematic clip-path reveal
+      // Headline — emerges at 2.2s, below the Core
       tl.fromTo(
         headingRef.current,
-        { opacity: 0, y: 40, clipPath: "inset(100% 0 0 0)" },
-        { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: 1.6, ease: "power3.out" },
-        "-=0.8"
+        { opacity: 0, y: 14, clipPath: "inset(100% 0 0 0)" },
+        { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)", duration: 1.4 * dur, ease: "power3.out" },
+        2.2
       );
 
-      // Supporting statement
-      tl.fromTo(
-        statementRef.current,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" },
-        "-=0.6"
-      );
-
-      // Scroll invitation — last, very quiet
+      // Invitation — appears at 2.8s, quiet and unhurried
       tl.fromTo(
         scrollRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 2.0, ease: "power2.out" },
-        "-=0.4"
+        { opacity: 1, duration: 1.6 * dur, ease: "power2.out" },
+        2.8
       );
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [event]);
 
   return (
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-screen flex items-center justify-center px-[var(--spacing-container)] overflow-hidden"
+      className="relative min-h-screen px-[var(--spacing-container)] overflow-hidden"
       aria-labelledby="hero-heading"
     >
-      {/* ── Atmosphere Layers ──
-          Deep environmental presence, not decoration.
-          Reduced opacity to ensure headline is the primary visual signal. */}
+      {/* ── Focus vignette ──
+          The global environment carries the atmosphere.
+          This only concentrates attention inward. */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Primary depth — radial from center */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(138,46,255,0.025)_0%,transparent_65%)]" />
-        {/* Soft ambient wash — broader, quieter */}
-        <div className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[600px] md:h-[600px] rounded-full bg-accent/[0.015] blur-[150px]" />
-        {/* Edge vignette — focus inward */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_40%,rgba(7,7,10,0.4)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,transparent_46%,rgba(7,7,10,0.32)_100%)]" />
       </div>
 
-      {/* ── Living Core ──
-          The quiet center of LUMORA.
-          Desktop: experienced. Mobile: sensed. */}
+      {/* ── Environment Response ──
+          The Core awakens. The environment responds.
+          This is the first causal effect. */}
       <div
-        ref={coreRef}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.0] md:scale-[1.8] lg:scale-[2.2] opacity-0 pointer-events-none"
+        ref={envResponseRef}
+        className="absolute inset-0 pointer-events-none opacity-0"
         aria-hidden="true"
       >
-        <LivingCore mode="hero" intensity="soft" interaction="none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_48%,rgba(140,55,240,0.04)_0%,transparent_55%)]" />
       </div>
 
-      {/* ── Content Hierarchy ──
-          CORE → identity signal → main statement → supporting → invitation */}
-      <div className="max-w-[800px] text-center relative z-10">
-        {/* Identity signal — small, quiet, establishes context */}
-        <div ref={identityRef} className="opacity-0 mb-8 md:mb-10">
-          <span className="inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.2em] text-text-muted">
-            <span className="w-8 h-px bg-accent/30" aria-hidden="true" />
-            Independent Designer &amp; Creative Developer
-            <span className="w-8 h-px bg-accent/30" aria-hidden="true" />
-          </span>
-        </div>
+      {/* ── Emotional order: ENVIRONMENT → CORE (global) → LUMORA → HEADLINE → INVITATION ──
+          The Core (global) awakens first.
+          The environment responds.
+          Then meaning appears. */}
 
-        {/* Main statement — the visual anchor, the entrance moment */}
+      {/* Identity signal — LUMORA, quiet, above the Core */}
+      <div
+        ref={identityRef}
+        className="absolute top-[14vh] left-0 right-0 flex justify-center opacity-0"
+        style={{ zIndex: 10 }}
+      >
+        <span className="inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.2em] text-text-muted">
+          <span className="w-8 h-px bg-accent/30" aria-hidden="true" />
+          LUMORA
+          <span className="w-8 h-px bg-accent/30" aria-hidden="true" />
+        </span>
+      </div>
+
+      {/* Main statement — emerges from the Core's presence, below it */}
+      <div className="absolute top-[60vh] left-0 right-0 text-center px-[var(--spacing-container)]" style={{ zIndex: 10 }}>
         <h1
           ref={headingRef}
           id="hero-heading"
-          className="font-display text-[clamp(2.25rem,7vw,6rem)] font-bold leading-[0.92] tracking-[-0.04em] mb-8 md:mb-10 opacity-0"
+          className="font-display text-[clamp(2rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.02em] mb-0 opacity-0 text-text/90 core-type-calm"
         >
-          Designing Digital Experiences
+          Environments that feel
           <br />
-          That Feel <span className="text-accent">Alive</span>.
+          <span className="text-accent">alive</span>.
         </h1>
+      </div>
 
-        {/* Supporting statement — calm, confident, brief */}
-        <p
-          ref={statementRef}
-          className="text-[15px] md:text-[16px] leading-[1.75] text-text-muted max-w-[460px] mx-auto opacity-0"
-        >
-          I create cinematic digital experiences where design, motion, and technology form something memorable.
-        </p>
-
-        {/* Scroll invitation — subtle, unhurried, tighter on mobile */}
-        <div ref={scrollRef} className="mt-14 md:mt-24 flex flex-col items-center gap-2.5 opacity-0">
-          <span className="text-[9px] font-medium uppercase tracking-[0.2em] text-text-faint">
-            Scroll to explore
-          </span>
-          <ArrowDown size={12} className="text-text-faint" aria-hidden="true" />
-        </div>
+      {/* Scroll invitation — quiet, unhurried */}
+      <div
+        ref={scrollRef}
+        className="absolute bottom-[7vh] left-0 right-0 flex flex-col items-center gap-2.5 opacity-0"
+        style={{ zIndex: 10 }}
+      >
+        <span className="text-[9px] font-medium uppercase tracking-[0.2em] text-text-faint">
+          Begin
+        </span>
+        <ArrowDown size={12} className="text-text-faint" aria-hidden="true" />
       </div>
     </section>
   );

@@ -1,39 +1,22 @@
 import Link from "next/link";
 import { SITE_CONFIG } from "@/constants";
 
-const footerLinks = [
-  {
-    title: "Experience",
-    links: [
-      { label: "Work", href: "/work" },
-      { label: "System", href: "/system" },
-      { label: "About", href: "/about" },
-      { label: "Docs", href: "/docs" },
-    ],
-  },
-  {
-    title: "Connect",
-    links: [
-      { label: "Start a Project", href: "/contact" },
-    ],
-  },
-];
-
 export function Footer() {
   return (
-    <footer className="border-t border-border py-16 md:py-20" role="contentinfo">
+    <footer className="relative border-t border-border/30 py-16 md:py-20" role="contentinfo">
       <div className="max-w-[1280px] mx-auto px-[var(--spacing-container)]">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16">
-          <div className="col-span-2 md:col-span-2">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+          {/* Identity */}
+          <div>
             <Link href="/" aria-label={`${SITE_CONFIG.name} — Home`}>
-              <span className="inline-flex items-center gap-3 font-bold text-base tracking-tight mb-5">
+              <span className="inline-flex items-center gap-3 font-bold text-base tracking-tight mb-3">
                 <span
-                  className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/20 flex items-center justify-center"
+                  className="w-7 h-7 rounded-lg bg-accent/10 border border-accent/15 flex items-center justify-center"
                   aria-hidden="true"
                 >
                   <svg
-                    width="14"
-                    height="14"
+                    width="12"
+                    height="12"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="var(--color-accent)"
@@ -47,39 +30,42 @@ export function Footer() {
                 LUMORA
               </span>
             </Link>
-            <p className="text-[15px] leading-relaxed text-text-muted max-w-[320px] mb-6">
-              {SITE_CONFIG.description}
+            <p className="text-[13px] text-text-muted/50 max-w-[280px]">
+              A cinematic digital experience.
             </p>
           </div>
 
-          {footerLinks.map((group) => (
-            <div key={group.title}>
-              <h3 className="text-xs font-semibold uppercase tracking-[0.12em] text-text mb-5">
-                {group.title}
-              </h3>
-              <nav aria-label={group.title}>
-                <ul className="flex flex-col gap-3" role="list">
-                  {group.links.map((link) => (
-                    <li key={link.label}>
-                      <Link
-                        href={link.href}
-                        className="text-[15px] text-text-muted hover:text-text transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          ))}
+          {/* Minimal links */}
+          <div className="flex items-center gap-6">
+            <a
+              href="#works"
+              className="text-[12px] font-medium text-text-muted/40 hover:text-text-muted transition-colors duration-300"
+            >
+              Worlds
+            </a>
+            <a
+              href="#about"
+              className="text-[12px] font-medium text-text-muted/40 hover:text-text-muted transition-colors duration-300"
+            >
+              Person
+            </a>
+            <a
+              href="#contact"
+              className="text-[12px] font-medium text-text-muted/40 hover:text-text-muted transition-colors duration-300"
+            >
+              Connect
+            </a>
+          </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-text-muted">
-            &copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
+        {/* Bottom */}
+        <div className="mt-12 pt-6 border-t border-border/20 flex flex-col md:flex-row justify-between items-center gap-3">
+          <p className="text-[11px] text-text-muted/30">
+            &copy; {new Date().getFullYear()} {SITE_CONFIG.name}
           </p>
-          <p className="text-xs text-text-muted">MIT License</p>
+          <p className="text-[11px] text-text-muted/30">
+            Designed &amp; built by Sohrab
+          </p>
         </div>
       </div>
     </footer>

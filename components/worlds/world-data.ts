@@ -5,7 +5,7 @@ export const worlds: World[] = [
     id: "omnia",
     title: "OMNIA",
     category: "Digital Experience",
-    description: "A world built around precision, structure and silence.",
+    description: "Precision, structure, and silence — a world built around control.",
     feeling: ["Architecture", "Precision", "Silence"],
     restingAtmosphere: {
       gradient: {
@@ -42,7 +42,7 @@ export const worlds: World[] = [
     id: "nexora",
     title: "NEXORA",
     category: "Intelligent System",
-    description: "An experience shaped by discovery and intelligence.",
+    description: "An intelligent system shaped by discovery. Each layer reveals something.",
     feeling: ["Intelligence", "Discovery", "Depth"],
     restingAtmosphere: {
       gradient: {
@@ -79,7 +79,7 @@ export const worlds: World[] = [
     id: "velocity",
     title: "VELOCITY",
     category: "Dynamic Experience",
-    description: "A digital world built around movement and flow.",
+    description: "Built around movement and direction. Energy that flows with purpose.",
     feeling: ["Movement", "Energy", "Flow"],
     restingAtmosphere: {
       gradient: {

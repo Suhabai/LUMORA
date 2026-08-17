@@ -15,9 +15,9 @@ interface LivingCoreProps {
 
 
 export default function LivingCore({
-  mode = "hero",
+  mode = "presence",
   intensity = "soft",
-  interaction = "subtle",
+  interaction = "none",
 }: LivingCoreProps) {
 
   return (

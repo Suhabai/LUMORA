@@ -5,6 +5,8 @@ import { Navigation } from "@/components/layout/navigation";
 import { Footer } from "@/components/layout/footer";
 import { SmoothScroll } from "@/components/layout/smooth-scroll";
 import { ScrollAtmosphere } from "@/components/layout/scroll-atmosphere";
+import { GlobalCore } from "@/components/layout/global-core";
+import { ExperienceProvider } from "@/components/layout/experience-context";
 import "@/styles/globals.css";
 
 const manrope = Manrope({
@@ -64,15 +66,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans bg-bg text-text antialiased">
         <ScrollAtmosphere />
         <SmoothScroll>
-          <a
-            href="#hero"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-bg"
-          >
-            Skip to content
-          </a>
-          <Navigation />
-          <main id="hero">{children}</main>
-          <Footer />
+          <ExperienceProvider>
+            <GlobalCore />
+            <a
+              href="#hero"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-bg"
+            >
+              Skip to content
+            </a>
+            <Navigation />
+            <main id="hero">{children}</main>
+            <Footer />
+          </ExperienceProvider>
         </SmoothScroll>
       </body>
     </html>

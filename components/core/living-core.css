@@ -1,102 +1,812 @@
 /* ═══════════════════════════════════════════════════════
    LUMORA — Living Core System
-   The quiet heartbeat of the experience
+   A living material, not a glowing orb.
+
+   Organic layer — visible surface, asymmetric deformation
+   Source — internal light originating from within
+   Field — energy that builds around the source
+   Halo — pressure membrane where energy meets material
+   Atmosphere — environment around the material
+
+   The layers belong to the same physical object.
+   They share rhythm, deformation, and energy.
    ═══════════════════════════════════════════════════════ */
 
 .living-core {
   position: relative;
-  width: 160px;
-  height: 160px;
-  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 240px;
+  height: 240px;
+  transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+              width 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+              height 2.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Atmosphere Layer ──
-   The outermost presence field.
-   Always present, rarely noticed consciously. */
+/* ── Organic Layer ──
+   The material's visible surface.
+   Not a perfect circle — asymmetric deformation gives it life.
+   This layer IS the material body — it must be readable as a distinct shape.
+   The dark edge ring defines where material ends and environment begins. */
+
+.core-organic {
+  position: absolute;
+  inset: 0;
+  border-radius: 42% 58% 55% 45% / 52% 44% 56% 48%;
+  background:
+    radial-gradient(
+      ellipse 68% 62% at 38% 36%,
+      rgba(205, 165, 255, 0.38) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 62% 58%,
+      rgba(140, 60, 240, 0.18) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle,
+      rgba(160, 90, 245, 0.32) 0%,
+      rgba(130, 55, 220, 0.18) 45%,
+      rgba(80, 30, 160, 0.08) 75%,
+      rgba(40, 15, 100, 0.04) 100%
+    );
+  animation: core-deform 12s ease-in-out infinite;
+  pointer-events: none;
+  transition: border-radius 3.6s cubic-bezier(0.16, 1, 0.3, 1),
+              background 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Surface Layer ──
+   The organic membrane's tonal texture.
+   Creates perceptible material depth — surface + energy + depth.
+   Visible enough to suggest physical material, not just CSS layers. */
+
+.core-surface {
+  position: absolute;
+  inset: 6px;
+  border-radius: 44% 56% 53% 47% / 50% 46% 54% 50%;
+  background:
+    radial-gradient(
+      ellipse 72% 65% at 40% 38%,
+      rgba(180, 130, 255, 0.22) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 48% 42% at 58% 55%,
+      rgba(110, 45, 210, 0.10) 0%,
+      transparent 45%
+    );
+  animation: core-surface-drift 16s ease-in-out infinite;
+  pointer-events: none;
+  transition: background 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Source ──
+   Internal light originating from inside the material.
+   Light comes from within, not placed on top.
+   Concentrated center → tight inner falloff → restrained outer falloff.
+   The source must read as a distinct point of light inside the material. */
+
+.core-source {
+  position: absolute;
+  inset: 85px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 48% 46%,
+      rgba(250, 230, 255, 1) 0%,
+      rgba(240, 210, 255, 0.92) 10%,
+      rgba(215, 170, 255, 0.72) 28%,
+      rgba(185, 125, 255, 0.40) 50%,
+      rgba(155, 85, 245, 0.15) 75%,
+      transparent 100%
+    );
+  box-shadow:
+    0 0 10px rgba(200, 140, 255, 0.45),
+    0 0 25px rgba(175, 100, 250, 0.28),
+    0 0 50px rgba(150, 70, 240, 0.12),
+    0 0 80px rgba(130, 55, 225, 0.05),
+    inset 0 0 6px rgba(255, 255, 255, 0.22),
+    inset 0 0 2px rgba(255, 255, 255, 0.35);
+  animation: core-source-pulse 8s ease-in-out infinite;
+  transition: background 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Field ──
+   Energy that builds around the source.
+   Not a glow — energy radiating from the source outward.
+   The field pulses with the source's rhythm.
+   Must remain secondary to the source — visible but not dominant. */
+
+.core-field {
+  position: absolute;
+  inset: 40px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      ellipse 70% 65% at 46% 44%,
+      rgba(175, 90, 255, 0.28) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(160, 70, 250, 0.22) 0%,
+      rgba(140, 55, 240, 0.10) 45%,
+      rgba(120, 40, 220, 0.03) 72%,
+      transparent 88%
+    );
+  transition: background 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Halo ──
+   The pressure membrane — where energy meets material.
+   A visible boundary that defines the material's skin.
+   Subtle asymmetry matches the organic deformation.
+   The membrane is the material's edge, not decoration.
+   Must be readable as the boundary between material and environment. */
+
+.core-halo {
+  position: absolute;
+  inset: 18px;
+  border-radius: 44% 56% 52% 48% / 50% 46% 54% 50%;
+  background:
+    radial-gradient(
+      ellipse 75% 70% at 45% 43%,
+      transparent 28%,
+      rgba(160, 80, 250, 0.18) 42%,
+      rgba(140, 60, 240, 0.10) 56%,
+      rgba(110, 40, 210, 0.04) 70%,
+      transparent 82%
+    );
+  animation: core-halo-drift 14s ease-in-out infinite;
+  transition: background 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Atmosphere ──
+   The environment around the material.
+   The material exists within this space.
+   This is not part of the material itself.
+   Must remain clearly secondary — the Core is the subject, this is the space. */
 
 .core-atmosphere {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(170, 80, 255, 0.12),
-    transparent 70%
-  );
+  background:
+    radial-gradient(
+      ellipse 80% 75% at 44% 42%,
+      rgba(155, 65, 250, 0.16) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(140, 50, 240, 0.10) 0%,
+      rgba(125, 40, 225, 0.04) 40%,
+      transparent 72%
+    );
   animation: core-breathe 10s ease-in-out infinite;
-  transition: background 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background 2.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Field Layer ──
-   Represents structure and intelligence.
-   Transparent depth with refined surface. */
+/* ── Traces ──
+   Extremely fine environmental linework around the Core.
+   Orbital/radial traces that feel like the Core's field.
+   Not decorative particles — these are the material's spatial influence.
+   Faint, precise, organic. Must remain clearly secondary. */
 
-.core-field {
+.core-traces {
   position: absolute;
-  inset: 20px;
+  inset: -60%;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(170, 80, 255, 0.2),
-    transparent 65%
-  );
-  transition: background 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 28%,
+      rgba(150, 70, 248, 0.02) 30%,
+      transparent 31%,
+      transparent 38%,
+      rgba(140, 60, 243, 0.015) 39%,
+      transparent 40%,
+      transparent 48%,
+      rgba(130, 50, 238, 0.01) 49%,
+      transparent 50%
+    );
+  animation: core-traces-rotate 45s linear infinite;
+  pointer-events: none;
 }
 
-/* ── Source Layer ──
-   The internal glow — energy and life.
-   Creates the feeling of a living system. */
-
-.core-source {
+.core-traces::before {
+  content: "";
   position: absolute;
-  inset: 55px;
+  inset: 0;
   border-radius: 50%;
-  background: rgba(220, 180, 255, 0.85);
-  transition: background 1.6s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 33%,
+      rgba(155, 75, 250, 0.015) 34%,
+      transparent 35%,
+      transparent 43%,
+      rgba(145, 65, 245, 0.01) 44%,
+      transparent 45%
+    );
+  animation: core-traces-counter 60s linear infinite;
+}
+
+.core-traces::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  border: 1px solid rgba(150, 70, 248, 0.025);
+  animation: core-traces-breathe 12s ease-in-out infinite;
 }
 
 
 /* ═══════════════════════════════════════════════════════
-   Core Modes
+   Experience Phase Modes
+   Each phase is perceptually distinct.
+   The material behaves differently — not just size/opacity.
    ═══════════════════════════════════════════════════════ */
 
-/* Hero — most atmospheric state, primary identity */
+/* Entry — awakening, first emergence.
+   The material is forming. Rhythm starts slow. */
+
+.core-entry {
+  width: 240px;
+  height: 240px;
+  transform: scale(0.5);
+  opacity: 0;
+}
+
+.core-entry .core-organic {
+  animation: core-deform 14s ease-in-out infinite;
+  background:
+    radial-gradient(
+      ellipse 65% 60% at 40% 38%,
+      rgba(195, 150, 255, 0.30) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle,
+      rgba(150, 80, 245, 0.24) 0%,
+      rgba(120, 50, 220, 0.12) 55%,
+      transparent 100%
+    );
+}
+
+.core-entry .core-surface {
+  background:
+    radial-gradient(
+      ellipse 68% 62% at 42% 40%,
+      rgba(175, 125, 255, 0.16) 0%,
+      transparent 45%
+    );
+}
+
+.core-entry .core-source {
+  background:
+    radial-gradient(
+      circle at 48% 46%,
+      rgba(245, 220, 255, 0.95) 0%,
+      rgba(225, 185, 255, 0.8) 25%,
+      rgba(190, 135, 255, 0.5) 55%,
+      rgba(160, 95, 245, 0.2) 100%
+    );
+  box-shadow:
+    0 0 10px rgba(175, 115, 250, 0.35),
+    0 0 25px rgba(155, 90, 240, 0.18),
+    0 0 45px rgba(135, 70, 230, 0.08),
+    inset 0 0 5px rgba(255, 255, 255, 0.20);
+}
+
+.core-entry .core-field {
+  background:
+    radial-gradient(
+      ellipse 68% 62% at 46% 44%,
+      rgba(165, 80, 255, 0.24) 0%,
+      transparent 52%
+    ),
+    radial-gradient(
+      circle,
+      rgba(155, 65, 250, 0.18) 0%,
+      rgba(140, 50, 240, 0.08) 50%,
+      transparent 72%
+    );
+}
+
+.core-entry .core-halo {
+  background:
+    radial-gradient(
+      ellipse 72% 68% at 44% 42%,
+      transparent 30%,
+      rgba(155, 70, 250, 0.14) 46%,
+      rgba(135, 55, 235, 0.06) 60%,
+      transparent 72%
+    );
+}
+
+.core-entry .core-atmosphere {
+  animation: core-breathe-entry 12s ease-in-out infinite;
+  background:
+    radial-gradient(
+      ellipse 78% 72% at 44% 42%,
+      rgba(150, 60, 248, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(140, 50, 240, 0.06) 0%,
+      transparent 65%
+    );
+}
+
+/* Presence — calm breathing, established identity.
+   The material is present, breathing with rhythm. */
+
+.core-presence {
+  width: 240px;
+  height: 240px;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.core-presence .core-organic {
+  animation: core-deform 12s ease-in-out infinite;
+  background:
+    radial-gradient(
+      ellipse 68% 62% at 38% 36%,
+      rgba(205, 165, 255, 0.38) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 62% 58%,
+      rgba(140, 60, 240, 0.18) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle,
+      rgba(160, 90, 245, 0.32) 0%,
+      rgba(130, 55, 220, 0.18) 45%,
+      rgba(80, 30, 160, 0.08) 75%,
+      rgba(40, 15, 100, 0.04) 100%
+    );
+}
+
+.core-presence .core-source {
+  box-shadow:
+    0 0 12px rgba(200, 140, 255, 0.48),
+    0 0 30px rgba(175, 100, 250, 0.30),
+    0 0 55px rgba(150, 70, 240, 0.14),
+    0 0 85px rgba(130, 55, 225, 0.06),
+    inset 0 0 8px rgba(255, 255, 255, 0.22),
+    inset 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+.core-presence .core-field {
+  background:
+    radial-gradient(
+      ellipse 70% 65% at 46% 44%,
+      rgba(175, 90, 255, 0.30) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(160, 70, 250, 0.24) 0%,
+      rgba(140, 55, 240, 0.12) 45%,
+      rgba(120, 40, 220, 0.04) 72%,
+      transparent 88%
+    );
+}
+
+.core-presence .core-atmosphere {
+  animation: core-breathe 10s ease-in-out infinite;
+}
+
+/* Discovery — responsive, alert, scroll-reactive.
+   The material is alert, breathing faster, searching. */
+
+.core-discovery {
+  width: 240px;
+  height: 240px;
+  transform: scale(0.9);
+  opacity: 0.88;
+}
+
+.core-discovery .core-organic {
+  animation: core-deform-discovery 10s ease-in-out infinite;
+}
+
+.core-discovery .core-source {
+  box-shadow:
+    0 0 12px rgba(185, 125, 255, 0.42),
+    0 0 28px rgba(165, 85, 255, 0.22),
+    inset 0 0 8px rgba(255, 255, 255, 0.20);
+}
+
+.core-discovery .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.28) 0%,
+    rgba(150, 60, 250, 0.14) 50%,
+    transparent 72%
+  );
+}
+
+.core-discovery .core-atmosphere {
+  animation: core-breathe-discovery 8s ease-in-out infinite;
+  background: radial-gradient(
+    circle,
+    rgba(155, 65, 250, 0.16) 0%,
+    rgba(140, 50, 240, 0.08) 35%,
+    transparent 72%
+  );
+}
+
+/* Worlds — environmental companion.
+   The material adapts to the world's energy. */
+
+.core-worlds {
+  width: 240px;
+  height: 240px;
+  transform: scale(0.65);
+  opacity: 0.62;
+}
+
+.core-worlds .core-organic {
+  animation: core-deform 14s ease-in-out infinite;
+}
+
+.core-worlds .core-source {
+  box-shadow:
+    0 0 10px rgba(185, 125, 255, 0.32),
+    0 0 22px rgba(165, 85, 255, 0.16),
+    inset 0 0 6px rgba(255, 255, 255, 0.16);
+}
+
+.core-worlds .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.24) 0%,
+    rgba(150, 60, 250, 0.12) 50%,
+    transparent 72%
+  );
+}
+
+.core-worlds .core-atmosphere {
+  animation: core-breathe 14s ease-in-out infinite;
+  background: radial-gradient(
+    circle,
+    rgba(155, 65, 250, 0.14) 0%,
+    rgba(140, 50, 240, 0.06) 35%,
+    transparent 72%
+  );
+}
+
+/* Thinking — quieter, slower, contemplative.
+   The material thinks — slower rhythm, more internal energy. */
+
+.core-thinking {
+  width: 240px;
+  height: 240px;
+  transform: scale(0.55);
+  opacity: 0.52;
+}
+
+.core-thinking .core-organic {
+  animation: core-deform-slow 16s ease-in-out infinite;
+}
+
+.core-thinking .core-source {
+  background: radial-gradient(
+    circle,
+    rgba(228, 200, 255, 0.92) 0%,
+    rgba(200, 155, 255, 0.7) 45%,
+    rgba(170, 115, 245, 0.35) 100%
+  );
+  box-shadow:
+    0 0 10px rgba(165, 105, 245, 0.28),
+    0 0 22px rgba(145, 85, 235, 0.14),
+    inset 0 0 6px rgba(255, 255, 255, 0.16);
+}
+
+.core-thinking .core-halo {
+  background: radial-gradient(
+    circle,
+    transparent 34%,
+    rgba(155, 70, 250, 0.12) 50%,
+    transparent 70%
+  );
+}
+
+.core-thinking .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(170, 80, 255, 0.24) 0%,
+    rgba(150, 60, 250, 0.12) 50%,
+    transparent 72%
+  );
+}
+
+.core-thinking .core-atmosphere {
+  animation: core-breathe-slow 16s ease-in-out infinite;
+  background: radial-gradient(
+    circle,
+    rgba(150, 65, 245, 0.12) 0%,
+    rgba(130, 45, 235, 0.05) 35%,
+    transparent 72%
+  );
+}
+
+/* Human — warmer, intimate, close.
+   The material is near — warmth, connection. */
+
+.core-human {
+  width: 240px;
+  height: 240px;
+  transform: scale(0.48);
+  opacity: 0.45;
+}
+
+.core-human .core-organic {
+  animation: core-deform-slow 18s ease-in-out infinite;
+}
+
+.core-human .core-source {
+  background: radial-gradient(
+    circle,
+    rgba(248, 220, 255, 0.92) 0%,
+    rgba(230, 190, 255, 0.75) 45%,
+    rgba(205, 160, 250, 0.4) 100%
+  );
+  box-shadow:
+    0 0 12px rgba(205, 140, 255, 0.32),
+    0 0 28px rgba(185, 120, 245, 0.16),
+    inset 0 0 8px rgba(255, 255, 255, 0.14);
+}
+
+.core-human .core-halo {
+  background: radial-gradient(
+    circle,
+    transparent 34%,
+    rgba(200, 135, 255, 0.14) 50%,
+    transparent 70%
+  );
+}
+
+.core-human .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(200, 135, 255, 0.26) 0%,
+    rgba(180, 115, 245, 0.14) 50%,
+    transparent 72%
+  );
+}
+
+.core-human .core-atmosphere {
+  animation: core-breathe-slow 18s ease-in-out infinite;
+  background: radial-gradient(
+    circle,
+    rgba(195, 125, 255, 0.14) 0%,
+    rgba(175, 105, 245, 0.06) 35%,
+    transparent 72%
+  );
+}
+
+/* Threshold — calm final presence, stillness.
+   Shape is closest to circle — the material settles. */
+
+.core-threshold {
+  width: 240px;
+  height: 240px;
+  transform: scale(0.42);
+  opacity: 0.35;
+}
+
+.core-threshold .core-organic {
+  border-radius: 48% 52% 50% 50% / 50% 50% 50% 50%;
+  animation: core-deform-still 22s ease-in-out infinite;
+}
+
+.core-threshold .core-source {
+  background: radial-gradient(
+    circle,
+    rgba(215, 180, 255, 0.78) 0%,
+    rgba(190, 150, 250, 0.52) 45%,
+    rgba(165, 120, 240, 0.22) 100%
+  );
+  box-shadow:
+    0 0 8px rgba(165, 120, 240, 0.20),
+    0 0 18px rgba(145, 100, 230, 0.10),
+    inset 0 0 4px rgba(255, 255, 255, 0.12);
+}
+
+.core-threshold .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(160, 75, 250, 0.20) 0%,
+    rgba(140, 55, 235, 0.10) 50%,
+    transparent 72%
+  );
+}
+
+.core-threshold .core-atmosphere {
+  animation: core-breathe-slow 20s ease-in-out infinite;
+  background: radial-gradient(
+    circle,
+    rgba(150, 65, 245, 0.10) 0%,
+    rgba(130, 45, 235, 0.04) 35%,
+    transparent 72%
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Legacy Modes (preserved for compatibility)
+   ═══════════════════════════════════════════════════════ */
 
 .core-hero {
-  width: 160px;
-  height: 160px;
+  width: 240px;
+  height: 240px;
+}
+
+.core-hero .core-organic {
+  background:
+    radial-gradient(
+      ellipse 68% 62% at 38% 36%,
+      rgba(205, 165, 255, 0.38) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 62% 58%,
+      rgba(140, 60, 240, 0.18) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle,
+      rgba(160, 90, 245, 0.32) 0%,
+      rgba(130, 55, 220, 0.18) 45%,
+      rgba(80, 30, 160, 0.08) 75%,
+      rgba(40, 15, 100, 0.04) 100%
+    );
+}
+
+.core-hero .core-source {
+  background:
+    radial-gradient(
+      circle at 48% 46%,
+      rgba(250, 230, 255, 1) 0%,
+      rgba(240, 210, 255, 0.92) 10%,
+      rgba(215, 170, 255, 0.72) 28%,
+      rgba(185, 125, 255, 0.40) 50%,
+      rgba(155, 85, 245, 0.15) 75%,
+      transparent 100%
+    );
+  box-shadow:
+    0 0 12px rgba(200, 140, 255, 0.48),
+    0 0 30px rgba(175, 100, 250, 0.30),
+    0 0 55px rgba(150, 70, 240, 0.14),
+    0 0 85px rgba(130, 55, 225, 0.06),
+    inset 0 0 8px rgba(255, 255, 255, 0.22),
+    inset 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+.core-hero .core-field {
+  background:
+    radial-gradient(
+      ellipse 70% 65% at 46% 44%,
+      rgba(175, 90, 255, 0.30) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(160, 70, 250, 0.24) 0%,
+      rgba(140, 55, 240, 0.12) 45%,
+      rgba(120, 40, 220, 0.04) 72%,
+      transparent 88%
+    );
+}
+
+.core-hero .core-halo {
+  background:
+    radial-gradient(
+      ellipse 75% 70% at 45% 43%,
+      transparent 28%,
+      rgba(160, 80, 250, 0.18) 42%,
+      rgba(140, 60, 240, 0.10) 56%,
+      rgba(110, 40, 210, 0.04) 70%,
+      transparent 82%
+    );
 }
 
 .core-hero .core-atmosphere {
   animation: core-breathe 10s ease-in-out infinite;
+  background:
+    radial-gradient(
+      ellipse 80% 75% at 44% 42%,
+      rgba(155, 65, 250, 0.16) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(140, 50, 240, 0.10) 0%,
+      rgba(125, 40, 225, 0.04) 40%,
+      transparent 72%
+    );
 }
 
-/* Ambient — reduced presence, background companion */
-
 .core-ambient {
-  width: 160px;
-  height: 160px;
+  width: 240px;
+  height: 240px;
   transform: scale(0.55);
-  opacity: 0.45;
+  opacity: 0.55;
+}
+
+.core-ambient .core-source {
+  box-shadow:
+    0 0 10px rgba(195, 135, 255, 0.38),
+    0 0 25px rgba(175, 100, 250, 0.22),
+    inset 0 0 6px rgba(255, 255, 255, 0.18);
+}
+
+.core-ambient .core-field {
+  background:
+    radial-gradient(
+      ellipse 70% 65% at 46% 44%,
+      rgba(170, 85, 255, 0.26) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(155, 65, 250, 0.18) 0%,
+      rgba(140, 50, 240, 0.08) 45%,
+      transparent 72%
+    );
 }
 
 .core-ambient .core-atmosphere {
   animation: core-breathe 14s ease-in-out infinite;
+  background:
+    radial-gradient(
+      ellipse 80% 75% at 44% 42%,
+      rgba(150, 60, 248, 0.14) 0%,
+      transparent 55%
+    );
 }
 
-/* Minimal — almost static, lowest visual intensity */
-
 .core-minimal {
-  width: 160px;
-  height: 160px;
+  width: 240px;
+  height: 240px;
   transform: scale(0.4);
-  opacity: 0.3;
+  opacity: 0.38;
+}
+
+.core-minimal .core-source {
+  box-shadow:
+    0 0 8px rgba(185, 125, 255, 0.30),
+    0 0 18px rgba(165, 90, 250, 0.16),
+    inset 0 0 5px rgba(255, 255, 255, 0.14);
+}
+
+.core-minimal .core-field {
+  background: radial-gradient(
+    circle,
+    rgba(160, 70, 250, 0.20) 0%,
+    rgba(140, 50, 240, 0.10) 50%,
+    transparent 72%
+  );
 }
 
 .core-minimal .core-atmosphere {
   animation: core-breathe-slow 18s ease-in-out infinite;
+  background:
+    radial-gradient(
+      ellipse 78% 72% at 44% 42%,
+      rgba(145, 55, 245, 0.10) 0%,
+      transparent 55%
+    );
 }
 
 
@@ -104,78 +814,143 @@
    Core Intensities
    ═══════════════════════════════════════════════════════ */
 
-/* Soft — default LUMORA, subtle luminosity */
-
-.core-intensity-soft .core-atmosphere {
-  background: radial-gradient(
-    circle,
-    rgba(170, 80, 255, 0.12),
-    transparent 70%
-  );
+.core-intensity-soft .core-source {
+  background:
+    radial-gradient(
+      circle at 48% 46%,
+      rgba(245, 222, 255, 0.95) 0%,
+      rgba(230, 195, 255, 0.82) 25%,
+      rgba(200, 150, 255, 0.55) 55%,
+      rgba(170, 110, 248, 0.22) 100%
+    );
 }
 
 .core-intensity-soft .core-field {
-  background: radial-gradient(
-    circle,
-    rgba(170, 80, 255, 0.2),
-    transparent 65%
-  );
+  background:
+    radial-gradient(
+      ellipse 68% 62% at 46% 44%,
+      rgba(165, 80, 255, 0.22) 0%,
+      transparent 52%
+    ),
+    radial-gradient(
+      circle,
+      rgba(155, 65, 250, 0.16) 0%,
+      rgba(140, 50, 240, 0.06) 50%,
+      transparent 72%
+    );
 }
 
-.core-intensity-soft .core-source {
-  background: rgba(220, 180, 255, 0.85);
-}
-
-/* Medium — slightly stronger, still restrained */
-
-.core-intensity-medium .core-atmosphere {
-  background: radial-gradient(
-    circle,
-    rgba(170, 80, 255, 0.2),
-    transparent 70%
-  );
-}
-
-.core-intensity-medium .core-field {
-  background: radial-gradient(
-    circle,
-    rgba(170, 80, 255, 0.3),
-    transparent 65%
-  );
+.core-intensity-soft .core-atmosphere {
+  background:
+    radial-gradient(
+      ellipse 78% 72% at 44% 42%,
+      rgba(150, 60, 248, 0.12) 0%,
+      transparent 55%
+    );
 }
 
 .core-intensity-medium .core-source {
-  background: rgba(220, 180, 255, 0.92);
+  background:
+    radial-gradient(
+      circle at 48% 46%,
+      rgba(250, 230, 255, 1) 0%,
+      rgba(240, 210, 255, 0.92) 10%,
+      rgba(215, 170, 255, 0.72) 28%,
+      rgba(185, 125, 255, 0.40) 50%,
+      rgba(155, 85, 245, 0.15) 75%,
+      transparent 100%
+    );
+  box-shadow:
+    0 0 12px rgba(200, 140, 255, 0.48),
+    0 0 30px rgba(175, 100, 250, 0.30),
+    0 0 55px rgba(150, 70, 240, 0.14),
+    0 0 85px rgba(130, 55, 225, 0.06),
+    inset 0 0 8px rgba(255, 255, 255, 0.22);
 }
 
-/* Strong — calm but defined, never flashy */
-
-.core-intensity-strong .core-atmosphere {
-  background: radial-gradient(
-    circle,
-    rgba(170, 80, 255, 0.28),
-    transparent 70%
-  );
+.core-intensity-medium .core-field {
+  background:
+    radial-gradient(
+      ellipse 70% 65% at 46% 44%,
+      rgba(175, 90, 255, 0.30) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(160, 70, 250, 0.24) 0%,
+      rgba(140, 55, 240, 0.12) 45%,
+      rgba(120, 40, 220, 0.04) 72%,
+      transparent 88%
+    );
 }
 
-.core-intensity-strong .core-field {
-  background: radial-gradient(
-    circle,
-    rgba(170, 80, 255, 0.38),
-    transparent 65%
-  );
+.core-intensity-medium .core-atmosphere {
+  background:
+    radial-gradient(
+      ellipse 80% 75% at 44% 42%,
+      rgba(155, 65, 250, 0.18) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(145, 55, 245, 0.10) 0%,
+      transparent 65%
+    );
 }
 
 .core-intensity-strong .core-source {
-  background: rgba(230, 190, 255, 0.95);
+  background:
+    radial-gradient(
+      circle at 48% 46%,
+      rgba(252, 235, 255, 1) 0%,
+      rgba(245, 215, 255, 0.96) 12%,
+      rgba(225, 180, 255, 0.82) 30%,
+      rgba(195, 135, 255, 0.50) 55%,
+      rgba(165, 95, 245, 0.20) 78%,
+      transparent 100%
+    );
+  box-shadow:
+    0 0 15px rgba(205, 145, 255, 0.50),
+    0 0 35px rgba(180, 110, 250, 0.32),
+    0 0 65px rgba(155, 80, 240, 0.15),
+    0 0 100px rgba(135, 60, 225, 0.06),
+    inset 0 0 10px rgba(255, 255, 255, 0.25);
+}
+
+.core-intensity-strong .core-field {
+  background:
+    radial-gradient(
+      ellipse 72% 67% at 46% 44%,
+      rgba(180, 95, 255, 0.34) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(165, 75, 250, 0.28) 0%,
+      rgba(145, 60, 240, 0.14) 45%,
+      rgba(125, 45, 225, 0.05) 72%,
+      transparent 88%
+    );
+}
+
+.core-intensity-strong .core-atmosphere {
+  background:
+    radial-gradient(
+      ellipse 82% 78% at 44% 42%,
+      rgba(160, 70, 250, 0.22) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle,
+      rgba(150, 60, 245, 0.14) 0%,
+      transparent 65%
+    );
 }
 
 
 /* ═══════════════════════════════════════════════════════
    Core Interaction States
    ═══════════════════════════════════════════════════════ */
-
-/* Subtle — gentle response on hover */
 
 .core-interaction-subtle {
   cursor: default;
@@ -189,8 +964,6 @@
   transform: scale(1.015);
 }
 
-/* None — disable all interaction effects */
-
 .core-interaction-none {
   pointer-events: none;
 }
@@ -198,27 +971,208 @@
 
 /* ═══════════════════════════════════════════════════════
    Breathing Animations
-   Slow, organic, cinematic rhythm
+   The material breathes with character, not uniform scale.
+   Asymmetric: the material has its own rhythm.
    ═══════════════════════════════════════════════════════ */
 
 @keyframes core-breathe {
   0%, 100% {
-    transform: scale(1);
+    transform: scale(1) scaleX(1);
     opacity: 1;
   }
   50% {
-    transform: scale(1.02);
-    opacity: 0.92;
+    transform: scale(1.05) scaleX(0.98);
+    opacity: 0.85;
   }
 }
 
 @keyframes core-breathe-slow {
   0%, 100% {
-    transform: scale(1);
+    transform: scale(1) scaleX(1);
     opacity: 1;
   }
   50% {
-    transform: scale(1.01);
+    transform: scale(1.025) scaleX(0.99);
+    opacity: 0.9;
+  }
+}
+
+@keyframes core-breathe-entry {
+  0% {
+    transform: scale(0.88) scaleX(1.02);
+    opacity: 0.3;
+  }
+  35% {
+    transform: scale(1.06) scaleX(0.97);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes core-breathe-discovery {
+  0%, 100% {
+    transform: scale(1) scaleX(1);
+    opacity: 0.7;
+  }
+  25% {
+    transform: scale(1.06) scaleX(0.96);
+    opacity: 0.88;
+  }
+  75% {
+    transform: scale(0.96) scaleX(1.03);
+    opacity: 0.6;
+  }
+}
+
+@keyframes core-breathe-fast {
+  0%, 100% {
+    transform: scale(1) scaleX(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.07) scaleX(0.95);
+    opacity: 0.82;
+  }
+}
+
+/* ── Organic Deformation ──
+   The material's shape subtly shifts.
+   Asymmetric border-radius creates a living form.
+   Each phase has its own rhythm. */
+
+@keyframes core-deform {
+  0%, 100% {
+    border-radius: 42% 58% 55% 45% / 52% 44% 56% 48%;
+  }
+  25% {
+    border-radius: 48% 52% 42% 58% / 45% 55% 48% 52%;
+  }
+  50% {
+    border-radius: 55% 45% 48% 52% / 42% 58% 52% 48%;
+  }
+  75% {
+    border-radius: 45% 55% 52% 48% / 55% 45% 44% 56%;
+  }
+}
+
+@keyframes core-deform-discovery {
+  0%, 100% {
+    border-radius: 44% 56% 52% 48% / 50% 46% 54% 50%;
+  }
+  30% {
+    border-radius: 50% 50% 44% 56% / 46% 54% 50% 50%;
+  }
+  60% {
+    border-radius: 46% 54% 56% 44% / 54% 46% 48% 52%;
+  }
+}
+
+@keyframes core-deform-slow {
+  0%, 100% {
+    border-radius: 46% 54% 50% 50% / 50% 50% 50% 50%;
+  }
+  50% {
+    border-radius: 50% 50% 46% 54% / 46% 54% 52% 48%;
+  }
+}
+
+@keyframes core-deform-still {
+  0%, 100% {
+    border-radius: 48% 52% 50% 50% / 50% 50% 50% 50%;
+  }
+  50% {
+    border-radius: 50% 50% 48% 52% / 50% 50% 50% 50%;
+  }
+}
+
+/* ── Surface Drift ──
+   The membrane's tonal texture shifts subtly.
+   Creates perceptible material depth without obvious animation. */
+
+@keyframes core-surface-drift {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    opacity: 0.88;
+    transform: translate(1px, -0.5px) rotate(0.5deg);
+  }
+  66% {
+    opacity: 0.94;
+    transform: translate(-0.5px, 0.5px) rotate(-0.3deg);
+  }
+}
+
+/* ── Source Pulse ──
+   Internal luminosity modulation.
+   The source breathes with extremely subtle brightness variation.
+   Light originates from within — this is the material's heartbeat. */
+
+@keyframes core-source-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.92;
+    transform: scale(1.015);
+  }
+}
+
+/* ── Halo Drift ──
+   The pressure membrane breathes asymmetrically.
+   Matches the organic deformation rhythm. */
+
+@keyframes core-halo-drift {
+  0%, 100% {
+    border-radius: 44% 56% 52% 48% / 50% 46% 54% 50%;
+    opacity: 1;
+  }
+  33% {
+    border-radius: 48% 52% 48% 52% / 46% 54% 52% 48%;
+    opacity: 0.9;
+  }
+  66% {
+    border-radius: 46% 54% 54% 46% / 52% 48% 46% 54%;
     opacity: 0.95;
+  }
+}
+
+/* ── Traces Rotation ──
+   Environmental linework rotates extremely slowly.
+   Creates the sense of spatial influence without visual noise. */
+
+@keyframes core-traces-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes core-traces-counter {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+@keyframes core-traces-breathe {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+/* ── Mobile Scale ──
+   The material remains present but proportionally smaller. */
+
+@media (max-width: 640px) {
+  .living-core {
+    width: 196px;
+    height: 196px;
   }
 }

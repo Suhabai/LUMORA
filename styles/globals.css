@@ -2,7 +2,7 @@
 
 /* ═══════════════════════════════════════════════════════
    LUMORA — Design Tokens
-   A Cinematic Personal Portfolio Ecosystem
+   A Cinematic Digital Experience
    ═══════════════════════════════════════════════════════ */
 
 @theme {
@@ -120,78 +120,6 @@
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
   }
 
-  /* Cinematic section dividers — atmospheric transitions between sections */
-  .section-divider-top {
-    position: relative;
-  }
-  .section-divider-top::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 15%;
-    right: 15%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.035), transparent);
-    pointer-events: none;
-  }
-
-  /* Atmosphere gradient for section transitions */
-  .atmosphere-fade-in {
-    background: linear-gradient(180deg, var(--color-bg) 0%, transparent 100%);
-  }
-  .atmosphere-fade-out {
-    background: linear-gradient(0deg, var(--color-bg) 0%, transparent 100%);
-  }
-
-  /* Subtle glow for focus moments */
-  .glow-subtle {
-    box-shadow: 0 0 60px rgba(138, 46, 255, 0.06), 0 0 120px rgba(138, 46, 255, 0.03);
-  }
-
-  /* ── Section Atmosphere ──
-     Cinematic transitions between sections.
-     Creates visual continuity through gradient depth. */
-  .section-atmosphere {
-    position: relative;
-  }
-  .section-atmosphere::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 15%, rgba(255,255,255,0.04) 50%, transparent 85%);
-    pointer-events: none;
-  }
-  .section-atmosphere::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 15%, rgba(255,255,255,0.04) 50%, transparent 85%);
-    pointer-events: none;
-  }
-
-  /* Depth transition — creates the feeling of moving deeper */
-  .depth-transition {
-    position: relative;
-    overflow: hidden;
-  }
-  .depth-transition::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 120px;
-    background: linear-gradient(180deg, rgba(7,7,10,0.3) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-  }
-
   /* Atmospheric section separators — extremely subtle */
   .atmo-separator {
     position: relative;
@@ -201,10 +129,527 @@
   }
 
   /* ── Scroll-Linked Atmosphere ──
-     As user scrolls past hero, environmental elements recede.
-     Uses --hero-fade (1 at top, 0 past first viewport). */
+     As user scrolls past hero, environmental elements recede. */
   #hero [aria-hidden="true"] {
     opacity: var(--hero-fade, 1);
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
+  }
+
+  /* ── Section Depth ──
+     Content sections have subtle atmospheric lift.
+     Not pure black — a hint of surface that creates depth. */
+  .section-depth {
+    position: relative;
+  }
+  .section-depth::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(12, 10, 22, 0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Scroll-Velocity Response ──
+     Environmental elements respond to scroll speed.
+     Fast scroll = subtle atmospheric shift. */
+  .world-geometry {
+    transition: opacity 2.0s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 2.0s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* World sections get slightly stronger atmosphere on fast scroll */
+  [data-world] .atmosphere-layer {
+    transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Core Visual Grammar System
+   The Core generates behavior across the experience.
+   Sections consume these values.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Typography Modulation ──
+   The Core's phase subtly influences typographic rhythm.
+   Never change font family or hierarchy.
+   Only modulate spacing, weight emphasis, and breathing. */
+
+.core-type-mod {
+  letter-spacing: calc(-0.03em + var(--core-letter-spacing, 0em));
+  line-height: calc(1.1 * var(--core-line-height-mod, 1));
+  transition: letter-spacing 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+              line-height 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.core-type-calm {
+  letter-spacing: calc(-0.02em + var(--core-letter-spacing, 0em) * 0.5);
+  line-height: calc(1.05 * var(--core-line-height-mod, 1));
+  transition: letter-spacing 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+              line-height 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Spacing Modulation ──
+   Spatial rhythm responds to Core state.
+   The page breathes with the Core. */
+
+.core-space {
+  padding-top: calc(var(--spacing-section) * var(--core-section-pad, 1));
+  padding-bottom: calc(var(--spacing-section) * var(--core-section-pad, 1));
+  transition: padding 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.core-space-inner {
+  gap: calc(2rem * var(--core-section-pad, 1));
+  transition: gap 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Motion Modulation ──
+   Animation timing responds to Core breathing.
+   Content moves with the Core's rhythm. */
+
+.core-motion {
+  --core-dur: calc(1.2s * var(--core-motion-duration, 1));
+  transition-duration: var(--core-dur);
+}
+
+/* ── Atmosphere Modulation ──
+   Section atmosphere responds to Core state.
+   One system, not independent gradients. */
+
+.core-atmo {
+  opacity: var(--core-atmosphere-intensity, 0.7);
+  transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Transition Height Modulation ──
+   Breathing room between sections responds to Core. */
+
+.core-transition {
+  height: calc(12rem * var(--core-transition-height, 1));
+  transition: height 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 768px) {
+  .core-transition {
+    height: calc(16rem * var(--core-transition-height, 1));
+  }
+}
+
+/* ── Phase-Specific Atmosphere Colors ──
+   The Core's phase determines atmospheric temperature.
+   Stays within the existing purple family. */
+
+.core-atmo-entry {
+  background: radial-gradient(ellipse at 50% 42%, rgba(140,55,240,0.05) 0%, transparent 55%);
+}
+
+.core-atmo-presence {
+  background: radial-gradient(ellipse at 50% 42%, rgba(140,55,240,0.07) 0%, transparent 55%);
+}
+
+.core-atmo-discovery {
+  background: radial-gradient(ellipse at 50% 42%, rgba(150,60,245,0.06) 0%, transparent 50%);
+}
+
+.core-atmo-thinking {
+  background: radial-gradient(ellipse at 50% 35%, rgba(130,45,235,0.04) 0%, transparent 50%);
+}
+
+.core-atmo-human {
+  background: radial-gradient(ellipse at 45% 45%, rgba(195,125,255,0.05) 0%, transparent 50%);
+}
+
+.core-atmo-threshold {
+  background: radial-gradient(ellipse at 50% 55%, rgba(130,45,235,0.03) 0%, transparent 50%);
+}
+
+/* ── CTA Interaction Characters ──
+   Each world's CTA has its own interaction personality. */
+
+.cta-omnia {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cta-omnia:hover {
+  letter-spacing: 0.18em;
+}
+
+.cta-nexora {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cta-nexora:hover {
+  opacity: 0.7;
+}
+
+.cta-velocity {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cta-velocity:hover {
+  transform: translateX(6px);
+}
+
+/* ═══════════════════════════════════════════════════════
+   Global Environment Layer
+   One continuous environmental field across the homepage.
+   Driven entirely by the Core's phase state.
+   The background evolves — it never resets.
+   ═══════════════════════════════════════════════════════ */
+
+.env-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.env-void {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 140% 120% at 50% 22%, rgba(18, 13, 30, 0.6) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 80% at 50% 50%, rgba(12, 8, 22, 0.3) 0%, transparent 60%),
+    linear-gradient(to bottom, transparent 45%, rgba(5, 4, 8, 0.5) 100%);
+}
+
+.env-field {
+  position: absolute;
+  inset: 0;
+  opacity: var(--core-atmosphere-intensity, 0.7);
+  transform: translate(
+      calc((var(--env-field-x, 50) - 50) * 1vw),
+      calc((var(--env-field-y, 42) - 50) * 1vh)
+    )
+    scale(var(--env-field-scale, 1));
+  transition: transform 2.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.env-field::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  background:
+    radial-gradient(
+      ellipse 75% 70% at 48% 46%,
+      rgba(155, 68, 248, 0.20) 0%,
+      transparent 52%
+    ),
+    radial-gradient(
+      circle,
+      rgba(145, 58, 242, 0.12) 0%,
+      rgba(125, 42, 224, 0.05) 35%,
+      transparent 65%
+    );
+  animation: env-breathe 16s ease-in-out infinite;
+}
+
+.env-depth {
+  position: absolute;
+  inset: 0;
+  opacity: var(--env-depth, 0);
+  transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background:
+    linear-gradient(125deg, transparent 36%, rgba(150, 60, 245, 0.06) 46%, transparent 56%),
+    linear-gradient(55deg, transparent 34%, rgba(130, 45, 235, 0.035) 44%, transparent 54%),
+    radial-gradient(ellipse 80% 60% at 55% 45%, rgba(140, 55, 240, 0.025) 0%, transparent 50%);
+}
+
+.env-warmth {
+  position: absolute;
+  inset: 0;
+  opacity: var(--env-warmth, 0);
+  transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: radial-gradient(
+    ellipse 130% 100% at 55% 55%,
+    rgba(214, 140, 255, 0.14) 0%,
+    rgba(188, 110, 250, 0.06) 38%,
+    transparent 68%
+  );
+}
+
+.env-settle {
+  position: absolute;
+  inset: 0;
+  opacity: var(--env-settle, 0);
+  transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(
+    to bottom,
+    transparent 52%,
+    rgba(122, 45, 222, 0.07) 74%,
+    transparent 94%
+  );
+}
+
+.env-mist {
+  position: absolute;
+  inset: 0;
+  opacity: 0.45;
+  background:
+    radial-gradient(
+      ellipse 85% 65% at 50% 20%,
+      rgba(135, 50, 238, 0.06) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 60% 45% at 48% 55%,
+      rgba(125, 42, 228, 0.03) 0%,
+      transparent 45%
+    );
+}
+
+.env-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 120% 120% at 50% 50%,
+    transparent 48%,
+    rgba(4, 3, 7, 0.48) 100%
+  );
+}
+
+/* ── Environmental Traces ──
+   Extremely fine linework extending from the Core into surrounding space.
+   Not decorative particles — these are the Core's spatial influence.
+   Orbital/radial traces that feel like the material's field. */
+
+.env-traces {
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+}
+
+.env-traces::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 30%,
+      rgba(155, 75, 250, 0.018) 31%,
+      transparent 32%,
+      transparent 42%,
+      rgba(145, 65, 245, 0.012) 43%,
+      transparent 44%,
+      transparent 54%,
+      rgba(135, 55, 240, 0.008) 55%,
+      transparent 56%
+    );
+  animation: env-traces-rotate 80s linear infinite;
+}
+
+.env-traces::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 650px;
+  height: 650px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(155, 75, 250, 0.02);
+  animation: env-traces-breathe 16s ease-in-out infinite;
+}
+
+@keyframes env-traces-rotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes env-traces-breathe {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+}
+
+@keyframes env-breathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.84; transform: scale(1.035); }
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   World Geometry — Spatial Signatures
+   Each world's geometry participates in the composition.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── OMNIA — Architectural System ──
+   Precision, structure, silence.
+   A central axis descends from the Core.
+   Guide lines align to the content block edges. */
+
+.omnia-guide-l {
+  left: max(var(--spacing-container), calc(50% - 300px));
+}
+
+.omnia-guide-r {
+  right: max(var(--spacing-container), calc(50% - 300px));
+}
+
+.omnia-axis {
+  transform-origin: top center;
+}
+
+.omnia-coremark {
+  box-shadow: 0 0 18px rgba(180, 120, 255, 0.42);
+}
+
+/* ── NEXORA — Depth System ──
+   Surface → layer → depth → hidden layer.
+   Wrappers carry the static depth scale; GSAP animates the inner layer. */
+
+.nexora-wrap {
+  position: absolute;
+  pointer-events: none;
+}
+
+.nexora-deep {
+  transform: scale(0.86);
+  transform-origin: right center;
+}
+
+.nexora-mid {
+  transform: scale(0.94);
+  transform-origin: right center;
+}
+
+.nexora-near {
+  transform: scale(1);
+  transform-origin: right center;
+}
+
+/* ── VELOCITY — Directional System ──
+   Diagonals, momentum, asymmetry.
+   The field drifts continuously — the world moves even when still. */
+
+.velocity-field {
+  animation: velocity-drift 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes velocity-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-16px, 9px, 0); }
+}
+
+.velocity-dash {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(180, 120, 255, 0.2) 0 1px,
+    transparent 1px 7px
+  );
+  transform-origin: left center;
+}
+
+.velocity-line,
+.velocity-accent {
+  transform-origin: left center;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Philosophy — Sequential Thought Moments
+   Each principle is a full moment.
+   Current = dominant, previous = faint memory, next = anticipation.
+   ═══════════════════════════════════════════════════════ */
+
+.principle-moment {
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  will-change: opacity, transform, filter;
+}
+
+@media (min-width: 768px) {
+  .principle-moment {
+    min-height: 104vh;
+  }
+}
+
+.principle-moment-inner {
+  max-width: 760px;
+}
+
+@media (min-width: 768px) {
+  .principle-moment-offset .principle-moment-inner {
+    margin-left: 9%;
+  }
+}
+
+/* ── Philosophy atmosphere thread — deepens the journey ── */
+.philosophy-thread {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(130, 45, 235, 0.09) 30%,
+    rgba(130, 45, 235, 0.09) 70%,
+    transparent
+  );
+}
+
+/* ── Principle atmosphere — supports active thought ── */
+.principle-atmosphere {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 50%,
+    rgba(150, 60, 245, 0.06) 0%,
+    transparent 70%
+  );
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════════════════════
+   About — The Human Moment
+   The emotional center receives a quiet bloom of warmth.
+   ═══════════════════════════════════════════════════════ */
+
+.about-moment-line {
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Threshold — Settling
+   The final scene settles into a horizon.
+   ═══════════════════════════════════════════════════════ */
+
+.threshold-horizon {
+  opacity: 0;
+  transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   Responsive Geometry Restraint
+   Mobile keeps presence but reduces structural clutter.
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .omnia-guide-l,
+  .omnia-guide-r,
+  .omnia-bracket {
+    display: none;
+  }
+
+  .env-field::before {
+    inset: -12%;
+  }
+
+  .env-traces::before {
+    width: 320px;
+    height: 320px;
+  }
+
+  .env-traces::after {
+    width: 420px;
+    height: 420px;
   }
 }

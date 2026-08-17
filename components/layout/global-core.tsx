@@ -1,0 +1,236 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import LivingCore from "@/components/core/LivingCore";
+import { useExperience } from "./experience-context";
+
+// Phase-specific Core configurations
+const PHASE_CONFIG: Record<string, {
+  x: number; y: number; scale: number; breatheRate: number;
+  offsetX: string; offsetY: string;
+}> = {
+  entry:      { x: 0,   y: 0,    scale: 1.12, breatheRate: 12, offsetX: "0px",   offsetY: "0px" },
+  presence:   { x: 0,   y: 0,    scale: 1.12, breatheRate: 10, offsetX: "0px",   offsetY: "0px" },
+  discovery:  { x: 8,   y: -4,   scale: 0.88, breatheRate: 8,  offsetX: "8px",   offsetY: "-4px" },
+  thinking:   { x: -5,  y: 6,    scale: 0.7,  breatheRate: 16, offsetX: "-5px",  offsetY: "6px" },
+  human:      { x: 12,  y: 8,    scale: 0.6,  breatheRate: 18, offsetX: "12px",  offsetY: "8px" },
+  threshold:  { x: 0,   y: 0,    scale: 0.5,  breatheRate: 22, offsetX: "0px",   offsetY: "0px" },
+};
+
+export function GlobalCore() {
+  const { phase, event } = useExperience();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const coreRef = useRef<HTMLDivElement>(null);
+  const envRef = useRef<HTMLDivElement>(null);
+  const hasAppeared = useRef(false);
+  const rafRef = useRef<number>(0);
+  const prevEventRef = useRef<string>("");
+
+  // ── North Star Entry Sequence ──
+  // 0.0s  Environment already exists (opacity 1 from start)
+  // 0.4s  Core becomes perceptible
+  // 1.0s  Core establishes its breathing rhythm
+  //
+  // The environment must not appear as a normal page fade.
+  // The user should feel: "The space was already here."
+  useEffect(() => {
+    if (!containerRef.current || !coreRef.current) return;
+    if (!hasAppeared.current) {
+      hasAppeared.current = true;
+
+      // Environment is already present — it was always here
+      if (envRef.current) {
+        gsap.set(envRef.current, { opacity: 1 });
+      }
+
+      // Core emerges at 0.4s — becomes perceptible, not fully formed
+      gsap.fromTo(
+        coreRef.current,
+        { opacity: 0, scale: 0.65 },
+        { opacity: 1, scale: 1, duration: 1.6, ease: "power2.out", delay: 0.4 }
+      );
+    }
+  }, []);
+
+  // ── Core Event Response ──
+  // When the Core event changes, the environment responds causally.
+  useEffect(() => {
+    if (!containerRef.current || !coreRef.current) return;
+    if (event === prevEventRef.current) return;
+    prevEventRef.current = event;
+
+    const root = document.documentElement;
+
+    // Set event CSS class for event-driven animations
+    root.style.setProperty("--core-event", event);
+
+    // Event-specific Core behavior
+    switch (event) {
+      case "core-awaken":
+        // Core becomes perceptible — environment responds
+        gsap.to(coreRef.current, {
+          scale: 1,
+          duration: 1.4,
+          ease: "power2.out",
+        });
+        break;
+
+      case "core-expand":
+        // Core breathes outward — presence establishes
+        gsap.to(coreRef.current, {
+          scale: PHASE_CONFIG.presence.scale,
+          duration: 1.8,
+          ease: "power3.out",
+        });
+        break;
+
+      case "core-compress":
+        // Core concentrates inward — thinking begins
+        gsap.to(coreRef.current, {
+          scale: PHASE_CONFIG.thinking.scale,
+          x: PHASE_CONFIG.thinking.x,
+          y: PHASE_CONFIG.thinking.y,
+          duration: 2.0,
+          ease: "power3.inOut",
+        });
+        break;
+
+      case "core-drift":
+        // Core shifts depth — discovery/worlds
+        gsap.to(coreRef.current, {
+          scale: PHASE_CONFIG.discovery.scale,
+          x: PHASE_CONFIG.discovery.x,
+          y: PHASE_CONFIG.discovery.y,
+          duration: 1.6,
+          ease: "power3.out",
+        });
+        break;
+
+      case "core-focus":
+        // Core thinks — philosophy concentration
+        gsap.to(coreRef.current, {
+          scale: PHASE_CONFIG.thinking.scale,
+          x: PHASE_CONFIG.thinking.x,
+          y: PHASE_CONFIG.thinking.y,
+          duration: 2.2,
+          ease: "power2.inOut",
+        });
+        break;
+
+      case "core-settle":
+        // Core calms — human/threshold stillness
+        gsap.to(coreRef.current, {
+          scale: PHASE_CONFIG.human.scale,
+          x: PHASE_CONFIG.human.x,
+          y: PHASE_CONFIG.human.y,
+          duration: 2.4,
+          ease: "power2.inOut",
+        });
+        break;
+
+      case "core-release":
+        // Core releases energy — velocity/direction
+        gsap.to(coreRef.current, {
+          scale: PHASE_CONFIG.discovery.scale,
+          x: 0,
+          y: 0,
+          duration: 1.4,
+          ease: "power3.out",
+        });
+        break;
+    }
+  }, [event]);
+
+  // Scroll-linked behavior: velocity, direction, phase-based offsets
+  // The first scroll should create a noticeable but restrained response.
+  // Core reacts, environmental field shifts, atmosphere stretches subtly.
+  useEffect(() => {
+    function updateCore() {
+      if (!containerRef.current) return;
+
+      const root = document.documentElement;
+      const velocity = parseFloat(root.style.getPropertyValue("--scroll-velocity") || "0");
+      const direction = parseFloat(root.style.getPropertyValue("--scroll-direction") || "0");
+
+      const config = PHASE_CONFIG[phase] || PHASE_CONFIG.presence;
+
+      // Velocity-driven drift: subtle horizontal stretch on fast scroll
+      const velocityDrift = velocity * direction * 14;
+      const velocityStretch = 1 + velocity * 0.05;
+
+      // Apply transform via CSS custom properties (GPU-composited, no re-render).
+      // Set on the container so the environment layer inherits and follows the Core.
+      containerRef.current.style.setProperty("--core-offset-x", `${config.x + velocityDrift}px`);
+      containerRef.current.style.setProperty("--core-offset-y", `${config.y}px`);
+      containerRef.current.style.setProperty("--core-phase-scale", String(config.scale));
+      containerRef.current.style.setProperty("--core-velocity-stretch", String(velocityStretch));
+
+      rafRef.current = requestAnimationFrame(updateCore);
+    }
+
+    rafRef.current = requestAnimationFrame(updateCore);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [phase]);
+
+  // Map experience phase to core mode
+  const modeMap: Record<string, "entry" | "presence" | "discovery" | "worlds" | "thinking" | "human" | "threshold"> = {
+    entry: "entry",
+    presence: "presence",
+    discovery: "discovery",
+    worlds: "worlds",
+    thinking: "thinking",
+    human: "human",
+    threshold: "threshold",
+  };
+
+  const coreMode = modeMap[phase] || "presence";
+
+  return (
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center"
+      aria-hidden="true"
+    >
+      {/* ── Global Environment Layer ──
+          One continuous atmosphere, coupled to the Core's position and scale.
+          The background evolves with the Core — it never resets per section.
+          Environmental traces extend from the Core into the surrounding space. */}
+      <div
+        ref={envRef}
+        className="env-layer"
+        style={{
+          transform:
+            "translate(calc(var(--core-offset-x, 0px) * 2.2), calc(var(--core-offset-y, 0px) * 2.2)) scale(calc(var(--core-phase-scale, 1) * 1.7))",
+          transition: "transform 2.0s cubic-bezier(0.16, 1, 0.3, 1)",
+          willChange: "transform",
+        }}
+      >
+        <div className="env-void" />
+        <div className="env-field" />
+        <div className="env-depth" />
+        <div className="env-warmth" />
+        <div className="env-settle" />
+        <div className="env-mist" />
+        <div className="env-traces" />
+        <div className="env-vignette" />
+      </div>
+
+      {/* ── The Living Core ── */}
+      <div
+        ref={coreRef}
+        style={{
+          transform: "translate(var(--core-offset-x, 0px), var(--core-offset-y, 0px)) scale(var(--core-phase-scale, 1)) scaleX(var(--core-velocity-stretch, 1))",
+          transition: "transform 2.0s cubic-bezier(0.16, 1, 0.3, 1)",
+          willChange: "transform",
+        }}
+      >
+        <LivingCore
+          mode={coreMode}
+          intensity="medium"
+          interaction="none"
+        />
+      </div>
+    </div>
+  );
+}

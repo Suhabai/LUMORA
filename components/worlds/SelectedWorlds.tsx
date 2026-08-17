@@ -1,11 +1,11 @@
-import WorldCard from "./WorldCard"
+import WorldSection from "./WorldSection"
 import { worlds } from "./world-data"
 
 export default function SelectedWorlds() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {worlds.map((world) => (
-        <WorldCard key={world.id} world={world} />
+    <div className="relative">
+      {worlds.map((world, index) => (
+        <WorldSection key={world.id} world={world} index={index} />
       ))}
     </div>
   )

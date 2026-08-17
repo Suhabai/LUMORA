@@ -23,8 +23,12 @@ export default function LivingCoreVisual({
   return (
     <div className={classNames}>
       <div className="core-atmosphere" />
+      <div className="core-organic" />
+      <div className="core-surface" />
+      <div className="core-halo" />
       <div className="core-field" />
       <div className="core-source" />
+      <div className="core-traces" />
     </div>
   )
 
