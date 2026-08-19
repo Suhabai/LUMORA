@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { NexoraExperience } from "@/components/worlds/nexora-experience";
 
 export const metadata: Metadata = {
   title: "NEXORA",
-  description: "NEXORA — An AI-native experience world.",
+  description:
+    "NEXORA — an intelligent system shaped by discovery. A digital experience world built on depth and layering. A case study in intelligent restraint.",
+  openGraph: {
+    title: "NEXORA — LUMORA",
+    description:
+      "Intelligence, discovery, and depth — a digital experience world built on layered calm.",
+    type: "website",
+  },
 };
 
 export default function NexoraPage() {
-  return (
-    <section className="min-h-screen flex items-center justify-center px-[var(--spacing-container)]">
-      <div className="text-center">
-        <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-[-0.03em] mb-4">
-          NEXORA
-        </h1>
-        <p className="text-text-muted text-lg">Coming soon.</p>
-      </div>
-    </section>
-  );
+  return <NexoraExperience />;
 }

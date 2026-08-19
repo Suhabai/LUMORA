@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { OmniaExperience } from "@/components/worlds/omnia-experience";
 
 export const metadata: Metadata = {
   title: "OMNIA",
-  description: "OMNIA — A luxury experience world.",
+  description:
+    "OMNIA — precision, structure, and silence. A digital experience world built around control. A case study in architectural restraint.",
+  openGraph: {
+    title: "OMNIA — LUMORA",
+    description:
+      "Precision, structure, and silence — a digital experience world built around control.",
+    type: "website",
+  },
 };
 
 export default function OmniaPage() {
-  return (
-    <section className="min-h-screen flex items-center justify-center px-[var(--spacing-container)]">
-      <div className="text-center">
-        <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-[-0.03em] mb-4">
-          OMNIA
-        </h1>
-        <p className="text-text-muted text-lg">Coming soon.</p>
-      </div>
-    </section>
-  );
+  return <OmniaExperience />;
 }

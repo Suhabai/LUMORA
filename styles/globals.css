@@ -263,6 +263,27 @@
   background: radial-gradient(ellipse at 50% 55%, rgba(130,45,235,0.03) 0%, transparent 50%);
 }
 
+/* ── Core Warmth Veil ──
+   Rests above the Core. As the human phase warms, the material's glow
+   leans toward rose — intimate, soft, no longer performing.
+   Opacity driven by --core-warmth (set by GlobalCore per phase). */
+.core-warmth-veil {
+  position: absolute;
+  inset: -40%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 205, 235, 0.40) 0%,
+    rgba(238, 160, 224, 0.16) 32%,
+    transparent 66%
+  );
+  opacity: var(--core-warmth, 0);
+  mix-blend-mode: screen;
+  transition: opacity 2.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
 /* ── CTA Interaction Characters ──
    Each world's CTA has its own interaction personality. */
 
@@ -557,10 +578,357 @@
 
 
 /* ═══════════════════════════════════════════════════════
+   World Structural Geometry
+   SVG-driven visual signatures for each world.
+   These make each world recognizable WITHOUT text.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── OMNIA — Structure ──
+   Axis breathing, coremark pulse, bracket fade. */
+
+.omnia-axis-line {
+  transform-origin: center top;
+  animation: omnia-axis-breathe 12s ease-in-out infinite;
+}
+
+@keyframes omnia-axis-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.omnia-crosshair {
+  animation: omnia-crosshair-pulse 8s ease-in-out infinite;
+}
+
+@keyframes omnia-crosshair-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.omnia-coremark-dot {
+  animation: omnia-coremark-glow 8s ease-in-out infinite;
+}
+
+@keyframes omnia-coremark-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(138, 46, 255, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(138, 46, 255, 0.6));
+  }
+}
+
+.omnia-bracket-el {
+  animation: omnia-bracket-fade 14s ease-in-out infinite;
+}
+
+@keyframes omnia-bracket-fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.omnia-floor-band {
+  animation: omnia-floor-pulse 10s ease-in-out infinite;
+}
+
+@keyframes omnia-floor-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+.omnia-guide-line {
+  animation: omnia-guide-drift 16s ease-in-out infinite;
+}
+
+@keyframes omnia-guide-drift {
+  0%, 100% { opacity: 1; stroke-dashoffset: 0; }
+  50% { opacity: 0.6; stroke-dashoffset: 10; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   OMNIA — Dedicated Case Study Page
+   The "Assemble" entry. Structure is held invisible until GSAP
+   constructs it post-mount, so there is never a flash of the
+   finished geometry on first paint.
+   ═══════════════════════════════════════════════════════ */
+
+.omnia-experience [data-geometry] {
+  opacity: 0;
+}
+
+.omnia-experience .omnia-axis-line,
+.omnia-experience .omnia-guide-line {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+}
+
+.omnia-experience .omnia-floor-band,
+.omnia-experience .omnia-crosshair,
+.omnia-experience .omnia-bracket-el,
+.omnia-experience .omnia-coremark-dot {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.omnia-hero-rule {
+  transform-origin: center;
+}
+
+
+/* ── NEXORA — Depth ──
+   Plane reveal, thread fade, depth point glow. */
+
+.nexora-depth-plane {
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nexora-plane-deep {
+  animation: nexora-deep-breathe 18s ease-in-out infinite;
+}
+
+@keyframes nexora-deep-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.80; }
+}
+
+.nexora-plane-mid {
+  animation: nexora-mid-breathe 14s ease-in-out infinite;
+}
+
+@keyframes nexora-mid-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+.nexora-plane-near {
+  animation: nexora-near-breathe 10s ease-in-out infinite;
+}
+
+@keyframes nexora-near-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.88; }
+}
+
+.nexora-thread {
+  animation: nexora-thread-fade 12s ease-in-out infinite;
+}
+
+@keyframes nexora-thread-fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.nexora-depth-point {
+  animation: nexora-point-pulse 8s ease-in-out infinite;
+}
+
+@keyframes nexora-point-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.nexora-depth-ring {
+  animation: nexora-ring-expand 8s ease-in-out infinite;
+}
+
+@keyframes nexora-ring-expand {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   NEXORA — Dedicated Case Study Page
+   The "Unfold" entry. Depth planes begin as a flat stack of
+   dark glass and separate into distinct Z-depth planes.
+   Held invisible until GSAP constructs them post-mount, so
+   there is never a flash of the finished depth on first paint.
+   ═══════════════════════════════════════════════════════ */
+
+.nexora-experience [data-geometry] {
+  transform-box: fill-box;
+}
+
+.nexora-experience .nexora-plane-deep,
+.nexora-experience .nexora-plane-mid,
+.nexora-experience .nexora-plane-near,
+.nexora-experience .nexora-depth-point,
+.nexora-experience .nexora-depth-ring {
+  transform-origin: 50% 50%;
+}
+
+.nexora-backdrop {
+  opacity: 0;
+}
+
+.nexora-glass {
+  background: linear-gradient(135deg, rgba(138, 46, 255, 0.07), rgba(138, 46, 255, 0.02));
+  border: 1px solid rgba(138, 46, 255, 0.16);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.nexora-system-rect {
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .nexora-experience .nexora-hero-glass {
+    display: none;
+  }
+}
+
+
+/* ── VELOCITY — Momentum ──
+   Trajectory flow, dash stream, momentum dot ride.
+   Rotation is set via inline style from coreState. */
+
+.velocity-trajectory {
+  animation: velocity-line-flow 10s ease-in-out infinite;
+}
+
+@keyframes velocity-line-flow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.velocity-counter {
+  animation: velocity-counter-pulse 12s ease-in-out infinite;
+}
+
+@keyframes velocity-counter-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.velocity-dash-stream {
+  animation: velocity-dash-move 6s linear infinite;
+}
+
+@keyframes velocity-dash-move {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -32; }
+}
+
+.velocity-momentum-dot {
+  animation: velocity-dot-ride 8s ease-in-out infinite;
+}
+
+@keyframes velocity-dot-ride {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+.velocity-momentum-ring {
+  animation: velocity-ring-pulse 8s ease-in-out infinite;
+}
+
+@keyframes velocity-ring-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   VELOCITY — Dedicated Case Study Page
+   The "Release" entry. The field begins collapsed at its source
+   and draws out along the diagonal. Held invisible until GSAP
+   constructs it post-mount, so there is never a flash of the
+   finished field on first paint.
+   ═══════════════════════════════════════════════════════ */
+
+.velocity-experience [data-geometry] {
+  transform-box: fill-box;
+}
+
+.velocity-experience .velocity-trajectory,
+.velocity-experience .velocity-dash-stream {
+  transform-origin: 0% 50%;
+}
+
+.velocity-experience .velocity-counter {
+  transform-origin: 100% 50%;
+}
+
+.velocity-experience .velocity-momentum-dot,
+.velocity-experience .velocity-momentum-ring {
+  transform-origin: 50% 50%;
+}
+
+.velocity-backdrop {
+  opacity: 0;
+}
+
+.velocity-glass {
+  background: linear-gradient(135deg, rgba(138, 46, 255, 0.07), rgba(138, 46, 255, 0.02));
+  border: 1px solid rgba(138, 46, 255, 0.16);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+@media (max-width: 768px) {
+  .velocity-experience .velocity-hero-frame {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   SYSTEM — Dedicated Design System Exhibition Page
+   A spatial museum walk. Reveal elements are held invisible
+   until GSAP surfaces them post-mount, so there is never a
+   flash of the full exhibition on first paint.
+   ═══════════════════════════════════════════════════════ */
+
+.system-experience [data-system-entrance],
+.system-experience [data-system-reveal] {
+  opacity: 0;
+}
+
+.system-state-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  box-shadow: 0 0 12px rgba(185, 108, 255, 0.45);
+  animation: system-dot-breathe 5s ease-in-out infinite;
+}
+
+.system-state-dot--warm {
+  background: linear-gradient(135deg, #d48fc8, #8a2eff);
+  box-shadow: 0 0 14px rgba(212, 143, 200, 0.5);
+}
+
+@keyframes system-dot-breathe {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   DOCS — The Record
+   An editorial reading environment. Entrance and chapter
+   elements are held invisible until GSAP surfaces them
+   post-mount, so the record opens as a page, never a flash.
+   ═══════════════════════════════════════════════════════ */
+
+.docs-experience [data-docs-entrance],
+.docs-experience [data-docs-reveal] {
+  opacity: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════
    Philosophy — Sequential Thought Moments
    Each principle is a full moment.
    Current = dominant, previous = faint memory, next = anticipation.
    ═══════════════════════════════════════════════════════ */
+
+.philosophy-pin {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.philosophy-stage {
+  height: 100vh;
+  height: 100svh;
+}
 
 .principle-moment {
   min-height: 92vh;
@@ -616,6 +984,32 @@
   font-style: italic;
 }
 
+/* ── About — The Environment Listens ──
+   As the emotional peak approaches, the surroundings recede.
+   The world stops performing and gathers around a single voice.
+   The focal glow blooms behind the revelation; the listen veil
+   dims the edges so only the person remains in the light. */
+
+.about-focal-glow {
+  background: radial-gradient(
+    ellipse 60% 55% at 50% 50%,
+    rgba(245, 180, 250, 0.22) 0%,
+    rgba(210, 130, 245, 0.08) 45%,
+    transparent 68%
+  );
+  will-change: opacity, transform;
+}
+
+.about-listen {
+  background: radial-gradient(
+    ellipse 72% 72% at 50% 50%,
+    transparent 0%,
+    transparent 40%,
+    rgba(5, 4, 9, 0.55) 100%
+  );
+  will-change: opacity;
+}
+
 /* ═══════════════════════════════════════════════════════
    Threshold — Settling
    The final scene settles into a horizon.
@@ -624,6 +1018,33 @@
 .threshold-horizon {
   opacity: 0;
   transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Threshold Point — the Core's stillness made visible ──
+   Where the horizon lines converge, a single point of presence.
+   The Core has settled to absolute stillness — not dead, but at rest.
+   A very slow breath keeps it alive. */
+.threshold-point {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 240, 255, 0.9);
+  box-shadow:
+    0 0 12px rgba(210, 140, 255, 0.55),
+    0 0 32px rgba(180, 100, 250, 0.25);
+  animation: threshold-point-breathe 6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes threshold-point-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
 }
 
 
@@ -636,6 +1057,18 @@
   .omnia-guide-l,
   .omnia-guide-r,
   .omnia-bracket {
+    display: none;
+  }
+
+  .nexora-plane-deep {
+    opacity: 0.4;
+  }
+
+  .nexora-plane-mid {
+    opacity: 0.6;
+  }
+
+  .velocity-counter {
     display: none;
   }
 

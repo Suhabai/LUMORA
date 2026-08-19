@@ -49,19 +49,15 @@ export function DesignPhilosophy() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Motion duration derives from Core state
-    const dur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--core-motion-duration") || "1");
+    const dur = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        "--core-motion-duration"
+      ) || "1"
+    );
 
     const ctx = gsap.context(() => {
-      // ── CORE FOCUS → PHILOSOPHY BEGINS ──
-      // The Core transitions from external exploration to internal concentration.
-      // World motion slows. The vertical philosophy thread emerges.
-      // The first principle becomes dominant.
-      // Then each following principle emerges from the previous one's settling state.
-      // The principles feel like: thought causing thought.
-      // Not: scroll causing item reveal.
-
-      // Heading reveal — emerges from Core focus
+      // ── HEADING REVEAL ──
+      // Emerges from Core focus — the thinking begins
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
@@ -81,102 +77,228 @@ export function DesignPhilosophy() {
       }
 
       if (!principlesRef.current) return;
-      const moments = principlesRef.current.querySelectorAll(".principle-moment");
+      const moments = gsap.utils.toArray<HTMLElement>(".principle-moment");
 
-      // ── Sequential Thought Moments ──
-      // Each principle occupies a full viewport.
-      // Current = dominant · Previous = faint memory · Next = quiet anticipation.
-      // Each moment has its own reveal character.
-      // The thought causes the next thought.
+      // ── STAGE SETUP ──
+      // All five thoughts are stacked at the center of one stage.
+      // Every thought begins in "quiet anticipation" — invisible, waiting below.
+      gsap.set(moments, {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        opacity: 0,
+        y: 40,
+        scale: 0.97,
+        filter: "blur(5px)",
+        willChange: "transform, opacity, filter",
+      });
+
+      // ── MASTER THOUGHT JOURNEY ──
+      // The section is pinned. Scrolling drives a continuous mental
+      // progression. One viewport of scroll per thought.
+      //
+      // Each thought arcs through three states:
+      //   Anticipation  (opacity 0,   y 40,  scale 0.97, blur)
+      //   Dominant      (opacity 1,   y 0,   scale 1,    sharp)
+      //   Faint memory  (opacity 0.15, y -40, scale 0.9,  blurred)
+      //
+      // Segments overlap by 0.1 — the next thought begins to emerge
+      // before the current one fully recedes. They melt, not cut.
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: principlesRef.current,
+          start: "top top",
+          end: `+=${moments.length * 100}%`,
+          scrub: 1.1 * dur,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
       moments.forEach((moment, i) => {
-        const title = moment.querySelector(".principle-title");
-        const desc = moment.querySelector(".principle-desc");
-        const line = moment.querySelector(".principle-line");
         const number = moment.querySelector(".principle-number");
+        const desc = moment.querySelector(".principle-desc");
+        const title = moment.querySelector(".principle-title");
+        const line = moment.querySelector(".principle-line");
         const atmosphere = moment.querySelector(".principle-atmosphere");
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: moment,
-            start: "top 88%",
-            end: "top -18%",
-            scrub: 1.1 * dur,
-          },
-        });
+        // The thought's segment begins slightly early — overlapping the
+        // previous thought's memory phase. The journey is one continuous wave.
+        const segmentStart = Math.max(0, i - 0.12);
+        const emergeDuration = 0.6;
+        const recedeAt = segmentStart + 0.68;
+        const recedeDuration = 0.42;
 
-        // State journey: anticipation → dominant → faint memory
-        // This is the thought becoming, being, then remembering
+        // ── PRINCIPLE ARC ──
+        // Anticipation → Dominant → Faint memory
         tl.fromTo(
           moment,
-          { opacity: 0.15, scale: 0.975, filter: "blur(3px)" },
-          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.45, ease: "power2.out" },
-          0
+          { opacity: 0, y: 40, scale: 0.97, filter: "blur(5px)" },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: emergeDuration,
+            ease: "power2.out",
+          },
+          segmentStart
         ).to(
           moment,
-          { opacity: 0.08, scale: 0.995, filter: "blur(2px)", duration: 0.5, ease: "power1.inOut" },
-          0.5
+          {
+            opacity: 0.15,
+            y: -40,
+            scale: 0.9,
+            filter: "blur(4px)",
+            duration: recedeDuration,
+            ease: "power1.inOut",
+          },
+          recedeAt
         );
 
-        // Atmosphere rises when principle is active — the thought's environment
+        // ── THOUGHT ATMOSPHERE ──
+        // A soft radial bloom accompanies the thought, then fades.
         if (atmosphere) {
           tl.fromTo(
             atmosphere,
             { opacity: 0 },
-            { opacity: 1, duration: 0.4, ease: "power2.out" },
-            0
-          );
-          tl.to(
+            { opacity: 0.9, duration: 0.55, ease: "power1.out" },
+            segmentStart
+          ).to(
             atmosphere,
             { opacity: 0, duration: 0.4, ease: "power1.inOut" },
-            0.55
+            recedeAt
           );
         }
 
-        // Distinct reveal per principle — the journey never repeats itself
+        // ── ELEMENT REVEALS ──
+        // Each element arrives with its own character as the thought forms.
+
+        // Number — the quiet anchor that grounds the thought
+        if (number) {
+          tl.fromTo(
+            number,
+            { opacity: 0, y: -8 },
+            { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" },
+            segmentStart + 0.1
+          );
+        }
+
+        // Line — the atmospheric gesture unique to each thought
+        if (line) {
+          tl.fromTo(
+            line,
+            { scaleX: 0, opacity: 0 },
+            { scaleX: 1, opacity: 1, duration: 0.35, ease: "power3.out" },
+            segmentStart + 0.12
+          );
+        }
+
+        // Title — distinct reveal per principle.
+        // Each idea arrives differently, like a thought forming.
+        const titleStart = segmentStart + 0.06;
         switch (i % 5) {
           case 0:
-            if (line) tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 0.35 }, 0.05);
-            if (title) tl.fromTo(title, { x: -26, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4 }, 0.05);
-            if (desc) tl.fromTo(desc, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, 0.2);
+            // From the left — a lateral thought
+            if (title)
+              tl.fromTo(
+                title,
+                { x: -30, opacity: 0, filter: "blur(3px)" },
+                {
+                  x: 0,
+                  opacity: 1,
+                  filter: "blur(0px)",
+                  duration: 0.42,
+                  ease: "power3.out",
+                },
+                titleStart
+              );
             break;
           case 1:
-            if (title) tl.fromTo(title, { y: 30, clipPath: "inset(100% 0 0 0)", opacity: 0 }, { y: 0, clipPath: "inset(0% 0 0 0)", opacity: 1, duration: 0.45 }, 0.05);
-            if (desc) tl.fromTo(desc, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 0.2);
+            // From below with clip reveal — a thought rising
+            if (title)
+              tl.fromTo(
+                title,
+                { y: 35, clipPath: "inset(100% 0 0 0)", opacity: 0 },
+                {
+                  y: 0,
+                  clipPath: "inset(0% 0 0 0)",
+                  opacity: 1,
+                  duration: 0.45,
+                  ease: "power3.out",
+                },
+                titleStart
+              );
             break;
           case 2:
-            if (number) tl.fromTo(number, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.3 }, 0.08);
-            if (title) tl.fromTo(title, { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4 }, 0.05);
-            if (desc) tl.fromTo(desc, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.2);
+            // Scale from center — a thought materializing
+            if (title)
+              tl.fromTo(
+                title,
+                { scale: 0.88, opacity: 0, filter: "blur(4px)" },
+                {
+                  scale: 1,
+                  opacity: 1,
+                  filter: "blur(0px)",
+                  duration: 0.44,
+                  ease: "power3.out",
+                },
+                titleStart
+              );
             break;
           case 3:
-            if (line) tl.fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 0.4 }, 0.05);
-            if (title) tl.fromTo(title, { clipPath: "inset(0 100% 0 0)", opacity: 0 }, { clipPath: "inset(0 0% 0 0)", opacity: 1, duration: 0.45 }, 0.05);
-            if (desc) tl.fromTo(desc, { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, 0.2);
+            // Reveal from right edge — a thought sliding in
+            if (title)
+              tl.fromTo(
+                title,
+                { clipPath: "inset(0 100% 0 0)", opacity: 0 },
+                {
+                  clipPath: "inset(0 0% 0 0)",
+                  opacity: 1,
+                  duration: 0.45,
+                  ease: "power3.out",
+                },
+                titleStart
+              );
             break;
           case 4:
-            if (title) tl.fromTo(title, { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5 }, 0.05);
-            if (desc) tl.fromTo(desc, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.2);
+            // Emergence from blur — a thought crystallizing
+            if (title)
+              tl.fromTo(
+                title,
+                { opacity: 0, filter: "blur(8px)", y: 8 },
+                {
+                  opacity: 1,
+                  filter: "blur(0px)",
+                  y: 0,
+                  duration: 0.5,
+                  ease: "power3.out",
+                },
+                titleStart
+              );
             break;
         }
-      });
 
-      // The thinking environment deepens as the visitor descends
-      const thread = sectionRef.current?.querySelector(".philosophy-thread");
-      if (thread) {
-        gsap.fromTo(
-          thread,
-          { opacity: 0.4 },
-          {
-            opacity: 1,
-            scrollTrigger: {
-              trigger: principlesRef.current,
-              start: "top 60%",
-              end: "bottom 20%",
-              scrub: 1.5,
+        // Description — the thought behind the idea.
+        // Always follows the title, completing the thought.
+        if (desc) {
+          tl.fromTo(
+            desc,
+            { y: 14, opacity: 0, filter: "blur(2px)" },
+            {
+              y: 0,
+              opacity: 1,
+              filter: "blur(0px)",
+              duration: 0.35,
+              ease: "power2.out",
             },
-          }
-        );
-      }
+            segmentStart + 0.22
+          );
+        }
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -189,18 +311,11 @@ export function DesignPhilosophy() {
       className="relative px-[var(--spacing-container)] overflow-hidden"
       aria-labelledby="philosophy-heading"
     >
-      {/* ── Thinking Atmosphere ──
-          The Core's thinking phase quietens the global environment.
-          Here, only a vertical thread remains — the line of thought. */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="philosophy-thread absolute left-1/2 top-[4%] bottom-[4%] w-px opacity-40" />
-      </div>
-
       <div className="max-w-[1280px] mx-auto relative z-10">
         {/* ── Section Introduction ──
-            Establishes the worldview. */}
+            Establishes the worldview. Scrolls normally before the pin. */}
         <div ref={headingRef} className="py-32 md:py-44 max-w-[560px] opacity-0">
-          <span className="inline-block text-[10px] font-semibold uppercase tracking-[0.16em] text-accent mb-5">
+          <span className="inline-block text-[10px] font-semibold uppercase tracking-[0.16em] text-accent mb-5 font-sans">
             Thinking
           </span>
           <h2
@@ -214,42 +329,56 @@ export function DesignPhilosophy() {
         </div>
 
         {/* ── Principles Journey ──
-            Five sequential moments.
-            Scroll through thought, not a list. */}
-        <div ref={principlesRef} className="pb-32 md:pb-44">
-          {PRINCIPLES.map((principle, i) => (
+            Pinned. Five sequential thoughts on one stage.
+            Current = dominant, previous = faint memory, next = anticipation.
+            The thoughts overlap and melt into one another. */}
+        <div ref={principlesRef} className="philosophy-pin relative">
+          <div className="philosophy-stage relative mx-auto w-full max-w-[900px]">
+            {/* Line of thought — stable through the entire journey */}
             <div
-              key={principle.number}
-              className={`principle-moment ${i % 2 === 1 ? "principle-moment-offset" : ""}`}
-            >
-              {/* Principle atmosphere — supports the active thought */}
-              <div className="principle-atmosphere absolute inset-0 pointer-events-none opacity-0" aria-hidden="true" />
-              <div className="principle-moment-inner">
-                {/* Principle number — quiet anchor */}
-                <span className="principle-number block text-[10px] font-semibold text-accent/40 tracking-[0.16em] mb-6">
-                  {principle.number}
-                </span>
+              className="philosophy-thread absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
+              aria-hidden="true"
+            />
 
-                {/* Atmospheric line — unique per principle */}
-                {i < 3 && (
-                  <div className="principle-line h-px w-[40px] bg-accent/15 mb-6 origin-left" />
-                )}
-                {i === 3 && (
-                  <div className="principle-line h-px w-[60px] bg-accent/15 mb-6 origin-left" />
-                )}
+            {PRINCIPLES.map((principle, i) => (
+              <div
+                key={principle.number}
+                className={`principle-moment ${
+                  i % 2 === 1 ? "principle-moment-offset" : ""
+                }`}
+              >
+                {/* Thought atmosphere — the environment of the active idea */}
+                <div
+                  className="principle-atmosphere absolute inset-0 pointer-events-none opacity-0"
+                  aria-hidden="true"
+                />
 
-                {/* Principle title — the idea */}
-                <h3 className="principle-title font-display text-[clamp(1.75rem,3.6vw,2.6rem)] font-semibold tracking-[-0.02em] mb-5 text-text/95">
-                  {principle.title}
-                </h3>
+                <div className="principle-moment-inner">
+                  {/* Number — quiet anchor */}
+                  <span className="principle-number block text-[10px] font-semibold text-accent/40 tracking-[0.16em] mb-6 font-sans">
+                    {principle.number}
+                  </span>
 
-                {/* Principle description — the thought behind it */}
-                <p className="principle-desc text-text-muted text-[15px] md:text-[16px] leading-[1.8] max-w-[560px]">
-                  {principle.description}
-                </p>
+                  {/* Line — atmospheric gesture */}
+                  <div
+                    className={`principle-line h-px bg-accent/15 mb-6 origin-left ${
+                      i === 3 ? "w-[60px]" : "w-[40px]"
+                    }`}
+                  />
+
+                  {/* Title — the idea (Cormorant Garamond) */}
+                  <h3 className="principle-title font-display text-[clamp(1.75rem,3.6vw,2.6rem)] font-semibold tracking-[-0.02em] mb-5 text-text/95">
+                    {principle.title}
+                  </h3>
+
+                  {/* Description — the thought behind it (Manrope) */}
+                  <p className="principle-desc font-sans text-text-muted text-[15px] md:text-[16px] leading-[1.8] max-w-[560px]">
+                    {principle.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

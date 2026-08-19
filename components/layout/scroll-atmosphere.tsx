@@ -80,8 +80,13 @@ export function ScrollAtmosphere() {
         }
       });
 
-      // If at the very top, we're in entry
-      if (scrollY < vh * 0.1) {
+      // If at the very top, we're in entry — unless we arrived at a settled
+      // destination, which is already at rest. The threshold (contact) and
+      // the introspective record (docs) maintain their state instead of
+      // replaying the entry.
+      const phaseAtTop = currentPhase as string;
+      const isSettledDestination = phaseAtTop === "threshold" || phaseAtTop === "thinking";
+      if (scrollY < vh * 0.1 && !isSettledDestination) {
         currentPhase = "entry";
       }
 

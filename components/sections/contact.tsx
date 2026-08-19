@@ -12,6 +12,8 @@ export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const questionRef = useRef<HTMLDivElement>(null);
   const invitationRef = useRef<HTMLDivElement>(null);
+  const closingRef = useRef<HTMLDivElement>(null);
+  const pointRef = useRef<HTMLDivElement>(null);
   const { event } = useExperience();
 
   useEffect(() => {
@@ -22,49 +24,50 @@ export function Contact() {
 
     const ctx = gsap.context(() => {
       // ── CORE COMPLETES CYCLE → ENVIRONMENT SETTLES ──
-      // Core completes its cycle.
-      // Movement settles.
-      // The horizon lines emerge.
-      // Atmosphere becomes stable.
-      // The final question appears.
+      // This is an arrival, not a footer.
+      // The Core settles into absolute stillness — a single point of presence.
+      // The horizon lines converge. The atmosphere becomes stable.
+      // The final question appears, unhurried.
       // The invitation appears only after the environment reaches rest.
       // The visitor feels: arrival.
 
-      // The question — slow, deliberate reveal. Caused by Core settling.
+      // The question — slow, deliberate, scrubbed. No hard reveal.
+      // Caused by Core settling into stillness.
       if (questionRef.current) {
         gsap.fromTo(
           questionRef.current,
-          { opacity: 0, y: 20 },
+          { opacity: 0, y: 20, filter: "blur(2px)" },
           {
             opacity: 1,
             y: 0,
-            duration: 1.6 * dur,
+            filter: "blur(0px)",
             ease: "power2.out",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 65%",
-              toggleActions: "play none none reverse",
+              start: "top 82%",
+              end: "top 45%",
+              scrub: 1.2 * dur,
             },
           }
         );
       }
 
-      // The invitation — quiet arrival. Appears after environment reaches rest.
+      // The invitation — quiet arrival, after the environment reaches rest.
+      // "Let's explore it." — crossing a threshold, not clicking a button.
       if (invitationRef.current) {
-        gsap.fromTo(
+        const inviteTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            end: "top 30%",
+            scrub: 1.2 * dur,
+          },
+        });
+        inviteTl.fromTo(
           invitationRef.current,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 1.8 * dur,
-            ease: "power2.out",
-            delay: 0.3 * dur,
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 60%",
-              toggleActions: "play none none reverse",
-            },
-          }
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+          0.35
         );
       }
 
@@ -87,6 +90,45 @@ export function Contact() {
           }
         );
       });
+
+      // ── The Threshold Point ──
+      // Where the horizon lines converge, the Core's stillness appears:
+      // a single point of presence. The material has settled — not dead,
+      // at rest. A very slow breath keeps it alive.
+      if (pointRef.current) {
+        gsap.fromTo(
+          pointRef.current,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 65%",
+              end: "center 55%",
+              scrub: 1.4 * dur,
+            },
+          }
+        );
+      }
+
+      // Closing — the final settling, a breath before the end
+      if (closingRef.current) {
+        gsap.fromTo(
+          closingRef.current,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: closingRef.current,
+              start: "top 94%",
+              end: "bottom 60%",
+              scrub: 1.2 * dur,
+            },
+          }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -100,14 +142,26 @@ export function Contact() {
       aria-labelledby="contact-heading"
     >
       {/* ── Threshold Environment ──
-          The Core settles into stillness (global).
+          The Core settles into absolute stillness (global).
           Here, a horizon assembles — the scene arrives at rest.
-          The environment completes its cycle. */}
+          A single point marks where the journey has settled.
+          No form. No conversion. An opening. */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Horizon lines — converging toward stillness */}
         <div className="threshold-settle threshold-horizon absolute bottom-[22%] left-[14%] right-[14%] h-px bg-gradient-to-r from-transparent via-accent/[0.12] to-transparent" />
         <div className="threshold-settle threshold-horizon absolute bottom-[15%] left-[22%] right-[22%] h-px bg-gradient-to-r from-transparent via-accent/[0.08] to-transparent" />
         <div className="threshold-settle threshold-horizon absolute bottom-[9%] left-[18%] right-[18%] h-px bg-gradient-to-r from-transparent via-accent/[0.05] to-transparent" />
+
+        {/* The threshold point — the Core at rest, where the lines converge */}
+        <div
+          ref={pointRef}
+          className="threshold-point absolute bottom-[22%] left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+
+        {/* Grounding warmth — the last presence */}
         <div className="threshold-settle absolute bottom-0 left-0 right-0 h-[40%] bg-[radial-gradient(ellipse_at_50%_100%,rgba(130,45,235,0.04)_0%,transparent_60%)]" />
+        {/* Subtle ambient — the space before the threshold */}
+        <div className="threshold-settle absolute top-0 left-0 right-0 h-[30%] bg-[radial-gradient(ellipse_at_50%_0%,rgba(138,46,255,0.02)_0%,transparent_50%)]" />
       </div>
 
       <div className="max-w-[1280px] mx-auto relative z-10">
@@ -126,25 +180,22 @@ export function Contact() {
             </h2>
           </div>
 
-          {/* The invitation — quiet, unhurried. Crossing a threshold. */}
+          {/* The invitation — quiet, unhurried. Crossing a threshold.
+              A serene line, not a button. An opening, not a conversion. */}
           <div ref={invitationRef} className="opacity-0">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-3 group cta-nexora"
-            >
-              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted transition-colors duration-500 group-hover:text-accent">
+            <Link href="/contact" className="group inline-flex flex-col items-start gap-3">
+              <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-text transition-colors duration-700 group-hover:text-accent font-sans">
                 Let&apos;s explore it.
               </span>
-              <svg
-                className="w-4 h-4 text-text-muted transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-accent group-hover:translate-x-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-              </svg>
+              <span className="h-px w-16 origin-left bg-accent/35 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-[0.45]" />
             </Link>
+          </div>
+
+          {/* Closing — the final settling. A quiet breath. */}
+          <div ref={closingRef} className="mt-24 md:mt-32 opacity-0">
+            <p className="font-sans text-text-faint text-[12px] leading-[1.7] max-w-[320px]">
+              The work begins with a conversation.
+            </p>
           </div>
         </div>
       </div>

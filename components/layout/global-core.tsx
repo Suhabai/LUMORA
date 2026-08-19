@@ -6,16 +6,21 @@ import LivingCore from "@/components/core/LivingCore";
 import { useExperience } from "./experience-context";
 
 // Phase-specific Core configurations
+// Each phase defines the Core's spatial position, scale, and breathing rhythm.
+// Human: smaller, offset, slower — intimate. Threshold: smallest, centered, still.
+// warmth  (0-1) shifts the Core's color toward rose — the material warms.
+// softness (0-1) blurs and dims the Core — the material softens into intimacy.
 const PHASE_CONFIG: Record<string, {
   x: number; y: number; scale: number; breatheRate: number;
   offsetX: string; offsetY: string;
+  warmth: number; softness: number;
 }> = {
-  entry:      { x: 0,   y: 0,    scale: 1.12, breatheRate: 12, offsetX: "0px",   offsetY: "0px" },
-  presence:   { x: 0,   y: 0,    scale: 1.12, breatheRate: 10, offsetX: "0px",   offsetY: "0px" },
-  discovery:  { x: 8,   y: -4,   scale: 0.88, breatheRate: 8,  offsetX: "8px",   offsetY: "-4px" },
-  thinking:   { x: -5,  y: 6,    scale: 0.7,  breatheRate: 16, offsetX: "-5px",  offsetY: "6px" },
-  human:      { x: 12,  y: 8,    scale: 0.6,  breatheRate: 18, offsetX: "12px",  offsetY: "8px" },
-  threshold:  { x: 0,   y: 0,    scale: 0.5,  breatheRate: 22, offsetX: "0px",   offsetY: "0px" },
+  entry:      { x: 0,   y: 0,    scale: 1.12, breatheRate: 12, offsetX: "0px",   offsetY: "0px",   warmth: 0.0, softness: 0.0 },
+  presence:   { x: 0,   y: 0,    scale: 1.12, breatheRate: 10, offsetX: "0px",   offsetY: "0px",   warmth: 0.0, softness: 0.0 },
+  discovery:  { x: 8,   y: -4,   scale: 0.88, breatheRate: 8,  offsetX: "8px",   offsetY: "-4px",  warmth: 0.05, softness: 0.05 },
+  thinking:   { x: -5,  y: 6,    scale: 0.7,  breatheRate: 16, offsetX: "-5px",  offsetY: "6px",   warmth: 0.12, softness: 0.14 },
+  human:      { x: 12,  y: 8,    scale: 0.6,  breatheRate: 18, offsetX: "12px",  offsetY: "8px",   warmth: 0.85, softness: 0.55 },
+  threshold:  { x: 0,   y: 0,    scale: 0.5,  breatheRate: 22, offsetX: "0px",   offsetY: "0px",   warmth: 0.35, softness: 0.82 },
 };
 
 export function GlobalCore() {
@@ -53,8 +58,20 @@ export function GlobalCore() {
     }
   }, []);
 
+  // ── Core Warmth & Softness ──
+  // Driven by phase. The material's character changes with the journey:
+  // presence is sharp and vivid; human becomes warm and soft;
+  // threshold is soft and nearly still.
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const config = PHASE_CONFIG[phase] || PHASE_CONFIG.presence;
+    containerRef.current.style.setProperty("--core-warmth", String(config.warmth));
+    containerRef.current.style.setProperty("--core-softness", String(config.softness));
+  }, [phase]);
+
   // ── Core Event Response ──
   // When the Core event changes, the environment responds causally.
+  // The settle event is phase-aware: human and threshold have distinct expressions.
   useEffect(() => {
     if (!containerRef.current || !coreRef.current) return;
     if (event === prevEventRef.current) return;
@@ -118,16 +135,25 @@ export function GlobalCore() {
         });
         break;
 
-      case "core-settle":
-        // Core calms — human/threshold stillness
+      case "core-settle": {
+        // Core settles — phase-aware.
+        // Human: offset, warm, intimate. Threshold: centered, still, final.
+        const config = phase === "threshold"
+          ? PHASE_CONFIG.threshold
+          : PHASE_CONFIG.human;
+
         gsap.to(coreRef.current, {
-          scale: PHASE_CONFIG.human.scale,
-          x: PHASE_CONFIG.human.x,
-          y: PHASE_CONFIG.human.y,
-          duration: 2.4,
+          scale: config.scale,
+          x: config.x,
+          y: config.y,
+          duration: phase === "threshold" ? 3.0 : 2.4,
           ease: "power2.inOut",
         });
+
+        // Environment responds to settling — warmth and settle values
+        // set by scroll-atmosphere CSS custom properties
         break;
+      }
 
       case "core-release":
         // Core releases energy — velocity/direction
@@ -140,7 +166,7 @@ export function GlobalCore() {
         });
         break;
     }
-  }, [event]);
+  }, [event, phase]);
 
   // Scroll-linked behavior: velocity, direction, phase-based offsets
   // The first scroll should create a noticeable but restrained response.
@@ -216,13 +242,18 @@ export function GlobalCore() {
         <div className="env-vignette" />
       </div>
 
-      {/* ── The Living Core ── */}
+      {/* ── The Living Core ──
+          The material itself. As the journey deepens it grows smaller,
+          slower, warmer, and softer. In the threshold it becomes a
+          quiet, distant presence — nearly still. */}
       <div
         ref={coreRef}
+        className="relative"
         style={{
           transform: "translate(var(--core-offset-x, 0px), var(--core-offset-y, 0px)) scale(var(--core-phase-scale, 1)) scaleX(var(--core-velocity-stretch, 1))",
-          transition: "transform 2.0s cubic-bezier(0.16, 1, 0.3, 1)",
-          willChange: "transform",
+          filter: "blur(calc(var(--core-softness, 0) * 1.1px)) hue-rotate(calc(var(--core-warmth, 0) * 16deg)) saturate(calc(1 + var(--core-warmth, 0) * 0.18)) brightness(calc(1.02 - var(--core-softness, 0) * 0.12))",
+          transition: "transform 2.0s cubic-bezier(0.16, 1, 0.3, 1), filter 2.6s cubic-bezier(0.16, 1, 0.3, 1)",
+          willChange: "transform, filter",
         }}
       >
         <LivingCore
@@ -230,6 +261,9 @@ export function GlobalCore() {
           intensity="medium"
           interaction="none"
         />
+        {/* Warmth veil — the material's glow leans toward rose in human moments.
+            Rests above the Core, softening its edges as intimacy grows. */}
+        <div className="core-warmth-veil" />
       </div>
     </div>
   );

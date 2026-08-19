@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { ContactExperience } from "@/components/contact/contact-experience";
 
 export const metadata: Metadata = {
-  title: "Contact",
-  description: "Start a project with LUMORA.",
+  title: "The Threshold",
+  description:
+    "The work begins with a conversation. A quiet, direct way to reach Sohrab and LUMORA.",
+  openGraph: {
+    title: "The Threshold — LUMORA",
+    description:
+      "The work begins with a conversation. An opening, not a form.",
+    type: "website",
+  },
 };
 
 export default function ContactPage() {
-  return (
-    <section className="min-h-screen flex items-center justify-center px-[var(--spacing-container)]">
-      <div className="text-center">
-        <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-[-0.03em] mb-4">
-          Start a Project
-        </h1>
-        <p className="text-text-muted text-lg">Coming soon.</p>
-      </div>
-    </section>
-  );
+  return <ContactExperience />;
 }

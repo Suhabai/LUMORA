@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { VelocityExperience } from "@/components/worlds/velocity-experience";
 
 export const metadata: Metadata = {
   title: "VELOCITY",
-  description: "VELOCITY — An automotive experience world.",
+  description:
+    "VELOCITY — movement, direction, and momentum. A digital experience world built around kinetic flow. A case study in directed energy.",
+  openGraph: {
+    title: "VELOCITY — LUMORA",
+    description:
+      "Movement, direction, and momentum — a digital experience world built on directed energy.",
+    type: "website",
+  },
 };
 
 export default function VelocityPage() {
-  return (
-    <section className="min-h-screen flex items-center justify-center px-[var(--spacing-container)]">
-      <div className="text-center">
-        <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-[-0.03em] mb-4">
-          VELOCITY
-        </h1>
-        <p className="text-text-muted text-lg">Coming soon.</p>
-      </div>
-    </section>
-  );
+  return <VelocityExperience />;
 }
