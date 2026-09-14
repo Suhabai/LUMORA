@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { AboutExperience } from "@/components/sections/about-experience";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About LUMORA — the vision, the philosophy, the person behind it.",
+  description:
+    "LUMORA — a digital studio focused on cinematic web experiences. Experience should feel alive. One studio, one vision, one connected path from idea to design to build.",
+  openGraph: {
+    title: "About — LUMORA",
+    description:
+      "A digital studio focused on cinematic web experiences. Experience should feel alive.",
+    type: "website",
+  },
 };
 
 export default function AboutPage() {
-  return (
-    <section className="min-h-screen flex items-center justify-center px-[var(--spacing-container)]">
-      <div className="text-center">
-        <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-[-0.03em] mb-4">
-          About
-        </h1>
-        <p className="text-text-muted text-lg">Coming soon.</p>
-      </div>
-    </section>
-  );
+  return <AboutExperience />;
 }
