@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { WorkExperience } from "@/components/sections/work-experience";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Selected projects and case studies from LUMORA.",
+  description:
+    "Three worlds, each built around a different truth. OMNIA — precision and structure. NEXORA — intelligence and discovery. VELOCITY — movement and momentum. Explore how different energies shape digital experiences.",
+  openGraph: {
+    title: "Work — LUMORA",
+    description:
+      "Three worlds, each built around a different truth. Precision, intelligence, and movement — exploring how different energies shape digital experiences.",
+    type: "website",
+  },
 };
 
 export default function WorkPage() {
-  return (
-    <section className="min-h-screen flex items-center justify-center px-[var(--spacing-container)]">
-      <div className="text-center">
-        <h1 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-[-0.03em] mb-4">
-          Work
-        </h1>
-        <p className="text-text-muted text-lg">Coming soon.</p>
-      </div>
-    </section>
-  );
+  return <WorkExperience />;
 }

@@ -102,33 +102,64 @@ export function Navigation() {
         {open && (
           <motion.div
             id="mobile-menu"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-bg flex flex-col items-center justify-center gap-8 md:hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-40 bg-bg/98 backdrop-blur-sm flex flex-col items-center justify-center md:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
           >
-            <ul className="flex flex-col items-center gap-8" role="list">
-              {ENV_LINKS.map((link, i) => (
-                <motion.li
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05, duration: 0.3 }}
-                >
-                  <a
-                    href={link.href}
-                    className="text-2xl font-medium text-text"
-                    onClick={() => setOpen(false)}
+            {/* Ambient atmosphere */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              aria-hidden="true"
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(138,46,255,0.03)_0%,transparent_65%)]" />
+            </div>
+
+            <nav className="relative z-10 w-full max-w-[320px] px-8" aria-label="Mobile">
+              <ul className="flex flex-col items-stretch gap-2" role="list">
+                {ENV_LINKS.map((link, i) => (
+                  <motion.li
+                    key={link.href}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      delay: 0.12 + i * 0.07,
+                      duration: 0.5,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                   >
-                    {link.label}
-                  </a>
-                </motion.li>
-              ))}
-            </ul>
+                    <a
+                      href={link.href}
+                      className="group flex items-baseline gap-5 py-3 border-b border-border/40 transition-colors duration-300"
+                      onClick={() => setOpen(false)}
+                    >
+                      <span className="text-[10px] font-medium tabular-nums text-text-faint/80 transition-colors duration-300 group-hover:text-accent/60">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="font-display text-[clamp(1.6rem,5vw,2.2rem)] font-light leading-[1.1] tracking-[-0.01em] text-text/80 transition-colors duration-300 group-hover:text-text">
+                        {link.label}
+                      </span>
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+
+              {/* Closing mark */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="mt-14 flex justify-center"
+              >
+                <span className="text-[9px] font-medium uppercase tracking-[0.2em] text-text-faint/40">
+                  LUMORA
+                </span>
+              </motion.div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
