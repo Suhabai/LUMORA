@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.11 — Optical Threshold + Identity Ceiling</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 30px;overflow-x:auto}
+.tab{padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:160px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.svg-container.knockout{background:#fff;border:3px solid #000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements span{color:#999}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+hr{border:none;border-top:1px solid #222;margin:20px 0}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid-3 .col{min-width:0}
+.callout-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#444;margin-bottom:4px}
+.comparison-box{border:1px solid #333;padding:12px;margin-bottom:12px;background:#0e0e0e}
+.comparison-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.matrix-table{width:100%;border-collapse:collapse;font-size:10px;margin-top:12px}
+.matrix-table th,.matrix-table td{border:1px solid #333;padding:6px 8px;text-align:left}
+.matrix-table th{background:#1a1a1a;color:#888;text-transform:uppercase;letter-spacing:1px;font-size:9px}
+.matrix-table td{color:#aaa}
+.matrix-table .class-reject{color:#f44}
+.matrix-table .class-hold{color:#fa0}
+.matrix-table .class-advance{color:#4f4}
+.note-area{width:100%;background:#111;color:#ccc;border:1px solid #333;font-family:inherit;font-size:11px;padding:8px;min-height:60px;resize:vertical}
+.layer-box{border:1px solid #333;padding:16px;margin-bottom:16px;background:#0e0e0e}
+.layer-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.11 — Optical Threshold + Identity Ceiling</h1>
+<p>Isolated refinement research. Parameterized undercut/release testing. No production files modified.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="mo-thresh">01 — M/O Threshold</div>
+<div class="tab" data-tab="or-thresh">02 — O/R Threshold</div>
+<div class="tab" data-tab="grid">03 — Combined Grid</div>
+<div class="tab" data-tab="optical">04 — Optical Test</div>
+<div class="tab" data-tab="identity">05 — Identity Ceiling</div>
+<div class="tab" data-tab="scale">06 — Scale Test</div>
+<div class="tab" data-tab="realworld">07 — Real-World</div>
+<div class="tab" data-tab="color">08 — One-Color</div>
+<div class="tab" data-tab="layers">09 — Review Layers</div>
+<div class="tab" data-tab="matrix">10 — Final Matrix</div>
+<div class="tab" data-tab="dependency">11 — Scale Dependency</div>
+<div class="tab" data-tab="review">12 — Human Review</div>
+</div>
+
+<!-- 01 — M/O UNDERCUT THRESHOLD -->
+<div class="tab-content active" id="tab-mo-thresh">
+<div class="section">
+<div class="section-title">Part 1 — M/O Undercut Threshold</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Five undercut values tested against BASE. All other variables identical.
+M/O-A mechanism: M right stem bottom extends inward.
+</p>
+<div id="mo-threshold-output"></div>
+</div>
+</div>
+
+<!-- 02 — O/R RELEASE THRESHOLD -->
+<div class="tab-content" id="tab-or-thresh">
+<div class="section">
+<div class="section-title">Part 2 — O/R Release Threshold</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Five R-leg release values tested against BASE. All other variables identical.
+O/R-C mechanism: R leg endpoint extends outward.
+</p>
+<div id="or-threshold-output"></div>
+</div>
+</div>
+
+<!-- 03 — COMBINED GRID -->
+<div class="tab-content" id="tab-grid">
+<div class="section">
+<div class="section-title">Part 3 — Combined Grid (3x3)</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+M/O: -10u, -15u, -20u crossed with O/R: +150u, +200u, +250u.
+9 combinations. No individual letter redesign. Only measured values combined.
+</p>
+<div id="grid-output"></div>
+</div>
+</div>
+
+<!-- 04 — OPTICAL TEST -->
+<div class="tab-content" id="tab-optical">
+<div class="section">
+<div class="section-title">Part 4 — Optical Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+For every grid combination: readability, junction clarity, word rhythm, spatial balance,
+signature visibility, fashion/editorial drift, tech/dramatic drift, authorship, restraint.
+</p>
+<div id="optical-output"></div>
+</div>
+</div>
+
+<!-- 05 — IDENTITY THRESHOLD -->
+<div class="tab-content" id="tab-identity">
+<div class="section">
+<div class="section-title">Part 5 — Identity Threshold</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+For each value: INVISIBLE / BARELY PERCEPTIBLE / PERCEPTIBLE / SIGNATURE / OVERWORKED.
+Target: SIGNATURE without OVERWORKED.
+</p>
+<div id="identity-output"></div>
+</div>
+</div>
+
+<!-- 06 — SCALE TEST -->
+<div class="tab-content" id="tab-scale">
+<div class="section">
+<div class="section-title">Part 6 — Scale Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Strongest combinations at 240, 120, 48, 24, 16 px. Plus actual rasterization at 16/24/48 x 1x/2x.
+</p>
+<div id="scale-output"></div>
+</div>
+</div>
+
+<!-- 07 — REAL-WORLD DIGITAL SIZES -->
+<div class="tab-content" id="tab-realworld">
+<div class="section">
+<div class="section-title">Part 7 — Real-World Digital Sizes</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+14px, 12px, 11px. Determine where custom details disappear. Wordmark must remain clear, balanced, recognizable.
+</p>
+<div id="realworld-output"></div>
+</div>
+</div>
+
+<!-- 08 — ONE-COLOR -->
+<div class="tab-content" id="tab-color">
+<div class="section">
+<div class="section-title">Part 8 — One-Color Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Black on white, white on black, knockout. No effects.
+</p>
+<div id="color-output"></div>
+</div>
+</div>
+
+<!-- 09 — HUMAN REVIEW LAYERS -->
+<div class="tab-content" id="tab-layers">
+<div class="section">
+<div class="section-title">Part 9 — Human Review Layers</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Three visual layers: BASE / OPTICAL SWEET SPOT / OVERWORKED.
+Establishes boundary between subtle identity and decoration.
+</p>
+<div id="layers-output"></div>
+</div>
+</div>
+
+<!-- 10 — FINAL MATRIX -->
+<div class="tab-content" id="tab-matrix">
+<div class="section">
+<div class="section-title">Part 10 — Final Matrix</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Complete evaluation table. Classification: REJECT / HOLD / ADVANCE.
+</p>
+<div id="matrix-output"></div>
+</div>
+</div>
+
+<!-- 11 — SCALE DEPENDENCY -->
+<div class="tab-content" id="tab-dependency">
+<div class="section">
+<div class="section-title">Part 11 — Scale Dependency</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Determine whether undercut/release should be: A (fixed), B (reduced at small), C (increased at small).
+Use actual raster evidence.
+</p>
+<div id="dependency-output"></div>
+</div>
+</div>
+
+<!-- 12 — HUMAN REVIEW -->
+<div class="tab-content" id="tab-review">
+<div class="section">
+<div class="section-title">Part 12 — Human Review</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Editable notes. Classification per combination. Recommendation for 0C.12.
+</p>
+<div id="review-output"></div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// SVG LETTER GEOMETRY ENGINE
+// Exact reuse from Phase 0C.9 / 0C.10
+// ============================================================
+const SW=70,CAP_TOP=100,BASELINE=800,CAP_H=700,CENTER=450,VB_W=3600,VB_H=1000;
+const POS={L:80,U:600,M:1130,O:1780,R:2330,A:2900};
+
+function bL(x){return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4},${BASELINE-SW} L${x+SW*4},${BASELINE} L${x},${BASELINE} Z`]}
+function bU(x){const rx=x+440,cr=100;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-cr} Q${x+SW},${BASELINE} ${x+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${x+SW+cr},${BASELINE+SW/2} Q${x},${BASELINE+SW/2} ${x},${BASELINE-cr} Z`]}
+function bM(x){const w=560,vd=CAP_TOP+280;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,`M${x+SW},${CAP_TOP} L${x+SW+10},${CAP_TOP} L${x+w/2},${vd} L${x+w/2-SW/3},${vd} Z`,`M${x+w/2},${vd} L${x+w/2+SW/3},${vd} L${x+w-SW-10},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,`M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE} L${x+w-SW},${BASELINE} Z`]}
+function bO(x){const cx=x+260,rx=230,ry=310,sw=SW/2;return[`M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`]}
+function bR(x){const sx=x,bc=x+SW+140,brx=160,bry=170,bb=CENTER+30,sw=SW/2;return[`M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,`M${sx+SW},${CAP_TOP} L${bc+brx},${CAP_TOP} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW},${bb} Z`,`M${sx+SW+sw},${CAP_TOP+sw} L${bc+brx-sw},${CAP_TOP+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW+sw},${bb-sw} Z`,`M${sx+SW},${bb} L${sx+SW+SW/2},${bb} L${sx+SW*4+60},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`]}
+function bA(x){const w=480,cx=x+w/2,cy=CENTER+80,lw=SW*0.85;return[`M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx-w/2+lw},${BASELINE} L${cx-w/2},${BASELINE} Z`,`M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-lw},${BASELINE} Z`,`M${cx-w/3},${cy} L${cx+w/3},${cy} L${cx+w/3},${cy+SW*0.7} L${cx-w/3},${cy+SW*0.7} Z`]}
+
+function getBase(){return{L:bL(POS.L),U:bU(POS.U),M:bM(POS.M),O:bO(POS.O),R:bR(POS.R),A:bA(POS.A)}}
+
+// ============================================================
+// PARAMETERIZED MODIFICATIONS
+// ============================================================
+function applyMoUndercut(paths, undercut) {
+  const p=JSON.parse(JSON.stringify(paths));
+  const m=POS.M,w=560,vd=CAP_TOP+280;
+  p.M=[
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+10},${CAP_TOP} L${m+w/2},${vd} L${m+w/2-SW/3},${vd} Z`,
+    `M${m+w/2},${vd} L${m+w/2+SW/3},${vd} L${m+w-SW-10},${CAP_TOP} L${m+w-SW},${CAP_TOP} Z`,
+    `M${m+w-SW},${CAP_TOP} L${m+w},${CAP_TOP} L${m+w},${BASELINE-Math.abs(undercut)} L${m+w-SW-(Math.abs(undercut)*8/15)},${BASELINE} L${m+w-SW},${BASELINE} Z`
+  ];
+  return p;
+}
+
+function applyOrRelease(paths, release) {
+  const p=JSON.parse(JSON.stringify(paths));
+  const rx=POS.R,bb=CENTER+30,sw=SW/2;
+  p.R=[
+    `M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,
+    `M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bb} L${rx+SW},${bb} Z`,
+    `M${rx+SW+SW/2},${CAP_TOP+SW/2} L${rx+SW+140+160-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${rx+SW+140+160*0.3-SW/4},${bb-SW/2} L${rx+SW+SW/2},${bb-SW/2} Z`,
+    `M${rx+SW},${bb} L${rx+SW+SW/2},${bb} L${rx+SW*4+60+release},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`
+  ];
+  return p;
+}
+
+function applyCombined(paths, undercut, release) {
+  let p = applyMoUndercut(paths, undercut);
+  p = applyOrRelease(p, release);
+  return p;
+}
+
+// ============================================================
+// SVG RENDERING
+// ============================================================
+function renderSVG(paths,w,h,fill){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="${fill==='white'?'#fff':'#000'}"/>`;
+  const c=fill==='white'?'#ffffff':'#000000';
+  for(const l of['L','U','M','O','R','A']){const ps=paths[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+function renderOverlay(n,c,w,h){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="#fff"/>`;
+  for(const l of['L','U','M','O','R','A']){const ps=n[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`}
+  for(const l of['L','U','M','O','R','A']){const ps=c[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+
+// ============================================================
+// SECTION 1: M/O THRESHOLD
+// ============================================================
+function renderMOThreshold(){
+  const base=getBase();
+  const vals=[{u:-8,l:'MO-01 (-8u)'},{u:-10,l:'MO-02 (-10u)'},{u:-15,l:'MO-03 (-15u)'},{u:-20,l:'MO-04 (-20u)'},{u:-24,l:'MO-05 (-24u)'}];
+  let h='';
+  for(const v of vals){
+    const custom=applyMoUndercut(base,v.u);
+    h+=`<div class="experiment"><div class="experiment-title">${v.l}</div>`;
+    h+=`<div class="row"><div class="col"><div class="callout-label">BASE</div><div class="svg-container">${renderSVG(base,480,94,'black')}</div></div>`;
+    h+=`<div class="col"><div class="callout-label">CUSTOM</div><div class="svg-container">${renderSVG(custom,480,94,'black')}</div></div></div>`;
+    h+=`<div class="comparison-box" style="margin-top:12px"><div class="comparison-label">Overlay</div><div style="background:#fff;display:inline-block;line-height:0">${renderOverlay(base,custom,480,94)}</div></div>`;
+    h+=`<div class="measurements"><div>M undercut: <span class="val">${v.u}u</span></div><div>M right stem base y: <span class="val">${BASELINE+Math.round(v.u)}</span></div></div>`;
+    h+=`</div>`;
+  }
+  document.getElementById('mo-threshold-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 2: O/R THRESHOLD
+// ============================================================
+function renderORThreshold(){
+  const base=getBase();
+  const vals=[{r:100,l:'OR-01 (+100u)'},{r:150,l:'OR-02 (+150u)'},{r:200,l:'OR-03 (+200u)'},{r:250,l:'OR-04 (+250u)'},{r:300,l:'OR-05 (+300u)'}];
+  let h='';
+  for(const v of vals){
+    const custom=applyOrRelease(base,v.r);
+    h+=`<div class="experiment"><div class="experiment-title">${v.l}</div>`;
+    h+=`<div class="row"><div class="col"><div class="callout-label">BASE</div><div class="svg-container">${renderSVG(base,480,94,'black')}</div></div>`;
+    h+=`<div class="col"><div class="callout-label">CUSTOM</div><div class="svg-container">${renderSVG(custom,480,94,'black')}</div></div></div>`;
+    h+=`<div class="comparison-box" style="margin-top:12px"><div class="comparison-label">Overlay</div><div style="background:#fff;display:inline-block;line-height:0">${renderOverlay(base,custom,480,94)}</div></div>`;
+    h+=`<div class="measurements"><div>R leg extension: <span class="val">+${v.r}u</span></div><div>R leg endpoint: <span class="val">x=${POS.R+SW*4+60+v.r}</span></div></div>`;
+    h+=`</div>`;
+  }
+  document.getElementById('or-threshold-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 3: COMBINED GRID
+// ============================================================
+function renderGrid(){
+  const base=getBase();
+  const moVals=[-10,-15,-20];
+  const orVals=[150,200,250];
+  let h='<div class="experiment"><div class="experiment-title">3x3 Combined Matrix — Full Word LUMORA</div>';
+  h+='<table class="matrix-table"><tr><th></th>';
+  for(const r of orVals) h+=`<th>O/R +${r}u</th>`;
+  h+='</tr>';
+  for(const mo of moVals){
+    h+=`<tr><th>M/O ${mo}u</th>`;
+    for(const or of orVals){
+      const c=applyCombined(base,mo,or);
+      h+=`<td><div class="svg-container" style="margin-bottom:4px">${renderSVG(c,280,55,'black')}</div><div style="font-size:9px;color:#555">MO${mo}_OR${or}</div></td>`;
+    }
+    h+='</tr>';
+  }
+  h+='</table></div>';
+
+  // Overlays for each
+  h+='<div class="experiment"><div class="experiment-title">Overlay Comparison (BASE=gray, Custom=black)</div><div class="grid-3">';
+  for(const mo of moVals){
+    for(const or of orVals){
+      const c=applyCombined(base,mo,or);
+      h+=`<div class="col"><div class="callout-label">MO${mo} / OR${or}</div><div style="background:#fff;display:inline-block;line-height:0">${renderOverlay(base,c,240,47)}</div></div>`;
+    }
+  }
+  h+='</div></div>';
+  document.getElementById('grid-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 4: OPTICAL TEST
+// ============================================================
+function renderOptical(){
+  const moVals=[-10,-15,-20];
+  const orVals=[150,200,250];
+  const qs=['Readability','Junction clarity','Word rhythm','Spatial balance','Signature visibility','Fashion/editorial drift','Tech/dramatic drift','Authorship','Restraint'];
+  let h='<div class="experiment"><div class="experiment-title">Optical Evaluation Matrix</div>';
+  h+='<table class="matrix-table"><tr><th>Combination</th>';
+  for(const q of qs) h+=`<th>${q}</th>`;
+  h+='</tr>';
+  for(const mo of moVals){
+    for(const or of orVals){
+      h+=`<tr><td style="color:#c0c0c0">MO${mo} / OR${or}</td>`;
+      for(const q of qs){
+        h+=`<td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit;padding:1px 3px"><option value="">—</option><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select></td>`;
+      }
+      h+='</tr>';
+    }
+  }
+  h+='</table></div>';
+  document.getElementById('optical-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 5: IDENTITY THRESHOLD
+// ============================================================
+function renderIdentity(){
+  const thresholds=[
+    {v:'MO-8u / OR+100u',desc:'Minimum values'},
+    {v:'MO-10u / OR+150u',desc:'Low-moderate'},
+    {v:'MO-15u / OR+200u',desc:'Phase 0C.10 TEST 01 values'},
+    {v:'MO-20u / OR+250u',desc:'Moderate-strong'},
+    {v:'MO-24u / OR+300u',desc:'Maximum tested'}
+  ];
+  const levels=['INVISIBLE','BARELY PERCEPTIBLE','PERCEPTIBLE','SIGNATURE','OVERWORKED'];
+  let h='<div class="experiment"><div class="experiment-title">Identity Classification</div>';
+  h+='<table class="matrix-table"><tr><th>Combination</th><th>Description</th><th>Classification</th></tr>';
+  for(const t of thresholds){
+    h+=`<tr><td style="color:#c0c0c0">${t.v}</td><td>${t.desc}</td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 4px"><option value="">—</option>`;
+    for(const l of levels) h+=`<option>${l}</option>`;
+    h+=`</select></td></tr>`;
+  }
+  h+='</table></div>';
+  document.getElementById('identity-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 6: SCALE TEST
+// ============================================================
+function renderScale(){
+  const base=getBase();
+  const combos=[
+    {name:'BASE',paths:base},
+    {name:'MO-10 / OR+150',paths:applyCombined(base,-10,150)},
+    {name:'MO-15 / OR+200',paths:applyCombined(base,-15,200)},
+    {name:'MO-20 / OR+250',paths:applyCombined(base,-20,250)}
+  ];
+  const scales=[240,120,48,24,16];
+  let h='';
+  for(const sz of scales){
+    const w=Math.round(VB_W*sz/CAP_H);
+    h+=`<div class="experiment"><div class="experiment-title">${sz}px Cap Height</div><div class="row">`;
+    for(const c of combos){
+      h+=`<div class="col"><div class="label">${c.name}</div>${renderSVG(c.paths,w,sz,'black')}</div>`;
+    }
+    h+='</div></div>';
+  }
+  // Raster simulation at specific sizes
+  const rasterSizes=[{sz:16,dpr:1,tag:'16px 1x'},{sz:16,dpr:2,tag:'16px 2x'},{sz:24,dpr:1,tag:'24px 1x'},{sz:24,dpr:2,tag:'24px 2x'},{sz:48,dpr:1,tag:'48px 1x'},{sz:48,dpr:2,tag:'48px 2x'}];
+  h+='<div class="experiment"><div class="experiment-title">Actual Raster Output</div>';
+  for(const rs of rasterSizes){
+    const w=Math.round(VB_W*rs.sz*rs.dpr/CAP_H);
+    const dispW=Math.round(VB_W*rs.sz/CAP_H);
+    h+=`<div style="margin-bottom:12px"><div class="callout-label">${rs.tag}</div><div class="row">`;
+    for(const c of combos){
+      h+=`<div class="col"><div style="width:${dispW}px;height:${Math.round(rs.sz)}px;overflow:hidden;border:1px solid #222">${renderSVG(c.paths,w,rs.sz*rs.dpr,'black')}</div></div>`;
+    }
+    h+='</div></div>';
+  }
+  h+='</div>';
+  document.getElementById('scale-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 7: REAL-WORLD SIZES
+// ============================================================
+function renderRealWorld(){
+  const base=getBase();
+  const combos=[
+    {name:'BASE',paths:base},
+    {name:'MO-10 / OR+150',paths:applyCombined(base,-10,150)},
+    {name:'MO-15 / OR+200',paths:applyCombined(base,-15,200)},
+    {name:'MO-20 / OR+250',paths:applyCombined(base,-20,250)}
+  ];
+  const sizes=[14,12,11];
+  let h='';
+  for(const sz of sizes){
+    const w=Math.round(VB_W*sz/CAP_H);
+    h+=`<div class="experiment"><div class="experiment-title">${sz}px — Body Text Scale</div><div class="row">`;
+    for(const c of combos){
+      h+=`<div class="col"><div class="label">${c.name}</div>${renderSVG(c.paths,w,sz,'black')}</div>`;
+    }
+    h+='</div></div>';
+  }
+  document.getElementById('realworld-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 8: ONE-COLOR
+// ============================================================
+function renderOneColor(){
+  const base=getBase();
+  const combos=[
+    {name:'BASE',paths:base},
+    {name:'MO-10 / OR+150',paths:applyCombined(base,-10,150)},
+    {name:'MO-15 / OR+200',paths:applyCombined(base,-15,200)},
+    {name:'MO-20 / OR+250',paths:applyCombined(base,-20,250)}
+  ];
+  const w=480,h2=94;
+  let h='';
+  for(const c of combos){
+    h+=`<div class="experiment"><div class="experiment-title">${c.name}</div><div class="row">`;
+    h+=`<div class="col"><div class="label">Black on White</div><div class="svg-container">${renderSVG(c.paths,w,h2,'black')}</div></div>`;
+    h+=`<div class="col"><div class="label">White on Black</div><div class="svg-container dark">${renderSVG(c.paths,w,h2,'white')}</div></div>`;
+    h+=`<div class="col"><div class="label">Knockout</div><div class="svg-container knockout">${renderSVG(c.paths,w,h2,'black')}</div></div>`;
+    h+='</div></div>';
+  }
+  document.getElementById('color-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 9: REVIEW LAYERS
+// ============================================================
+function renderLayers(){
+  const base=getBase();
+  const sweet=applyCombined(base,-15,200);
+  const over=applyCombined(base,-24,300);
+  const w=520,h=101;
+  let h2='';
+  h2+=`<div class="layer-box"><div class="layer-label">LAYER 1 — BASE</div><div class="svg-container">${renderSVG(base,w,h,'black')}</div></div>`;
+  h2+=`<div class="layer-box"><div class="layer-label">LAYER 2 — OPTICAL SWEET SPOT (MO-15 / OR+200)</div><div class="svg-container">${renderSVG(sweet,w,h,'black')}</div></div>`;
+  h2+=`<div class="layer-box"><div class="layer-label">LAYER 3 — OVERWORKED (MO-24 / OR+300)</div><div class="svg-container">${renderSVG(over,w,h,'black')}</div></div>`;
+  h2+='<div class="experiment"><div class="experiment-title">Overlay: BASE vs SWEET SPOT</div><div style="background:#fff;display:inline-block;line-height:0">'+renderOverlay(base,sweet,w,h)+'</div></div>';
+  h2+='<div class="experiment"><div class="experiment-title">Overlay: BASE vs OVERWORKED</div><div style="background:#fff;display:inline-block;line-height:0">'+renderOverlay(base,over,w,h)+'</div></div>';
+  document.getElementById('layers-output').innerHTML=h2;
+}
+
+// ============================================================
+// SECTION 10: FINAL MATRIX
+// ============================================================
+function renderMatrix(){
+  const combos=[
+    {mo:-8,or:100},{mo:-8,or:150},{mo:-8,or:200},{mo:-8,or:250},{mo:-8,or:300},
+    {mo:-10,or:100},{mo:-10,or:150},{mo:-10,or:200},{mo:-10,or:250},{mo:-10,or:300},
+    {mo:-15,or:100},{mo:-15,or:150},{mo:-15,or:200},{mo:-15,or:250},{mo:-15,or:300},
+    {mo:-20,or:100},{mo:-20,or:150},{mo:-20,or:200},{mo:-20,or:250},{mo:-20,or:300},
+    {mo:-24,or:100},{mo:-24,or:150},{mo:-24,or:200},{mo:-24,or:250},{mo:-24,or:300}
+  ];
+  const cols=['M/O','O/R','Readability','Signature','Restraint','Authorship','Fashion risk','Tech risk','Small-scale','Classification'];
+  let h='<div class="experiment"><div class="experiment-title">Final Evaluation Matrix</div>';
+  h+='<table class="matrix-table"><tr>';
+  for(const c of cols) h+=`<th>${c}</th>`;
+  h+='</tr>';
+  for(const combo of combos){
+    h+=`<tr><td style="color:#c0c0c0">${combo.mo}u</td><td style="color:#c0c0c0">+${combo.or}u</td>`;
+    for(let i=2;i<cols.length-1;i++){
+      h+=`<td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit;padding:1px 3px"><option value="">—</option><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select></td>`;
+    }
+    h+=`<td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit;padding:1px 3px"><option value="">—</option><option class="class-reject">REJECT</option><option class="class-hold">HOLD</option><option class="class-advance">ADVANCE</option></select></td>`;
+    h+='</tr>';
+  }
+  h+='</table></div>';
+  document.getElementById('matrix-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 11: SCALE DEPENDENCY
+// ============================================================
+function renderDependency(){
+  const base=getBase();
+  const sizes=[48,24,16,14,12];
+  const variants=[
+    {name:'Fixed MO-15/OR+200',fn:p=>applyCombined(p,-15,200)},
+    {name:'Reduced at small (MO-10/OR+150)',fn:p=>applyCombined(p,-10,150)},
+    {name:'Increased at small (MO-20/OR+250)',fn:p=>applyCombined(p,-20,250)}
+  ];
+  let h='<div class="experiment"><div class="experiment-title">Scale Dependency Test</div>';
+  h+='<p style="color:#555;font-size:10px;margin-bottom:12px">Three strategies: A (fixed), B (reduced at small), C (increased at small). Rendered at actual size.</p>';
+  for(const sz of sizes){
+    const w=Math.round(VB_W*sz/CAP_H);
+    h+=`<div style="margin-bottom:12px"><div class="callout-label">${sz}px</div><div class="row">`;
+    h+=`<div class="col"><div class="label">BASE</div>${renderSVG(base,w,sz,'black')}</div>`;
+    for(const v of variants){
+      h+=`<div class="col"><div class="label">${v.name}</div>${renderSVG(v.fn(base),w,sz,'black')}</div>`;
+    }
+    h+='</div></div>';
+  }
+  h+='</div>';
+  h+='<div class="experiment"><div class="experiment-title">Dependency Classification</div>';
+  h+='<table class="matrix-table"><tr><th>Modification</th><th>Fixed (A)</th><th>Reduced at small (B)</th><th>Increased at small (C)</th><th>Recommendation</th></tr>';
+  h+='<tr><td>M/O Undercut</td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit"><option value="">—</option><option>YES</option><option>NO</option></select></td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit"><option value="">—</option><option>YES</option><option>NO</option></select></td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit"><option value="">—</option><option>YES</option><option>NO</option></select></td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit"><option value="">—</option><option>A</option><option>B</option><option>C</option></select></td></tr>';
+  h+='<tr><td>O/R Release</td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit"><option value="">—</option><option>YES</option><option>NO</option></select></td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit"><option value="">—</option><option>YES</option><option>NO</option></select></td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit"><option value="">—</option><option>YES</option><option>NO</option></select></td><td><select style="background:#111;color:#ccc;border:1px solid #444;font-size:9px;font-family:inherit"><option value="">—</option><option>A</option><option>B</option><option>C</option></select></td></tr>';
+  h+='</table></div>';
+  document.getElementById('dependency-output').innerHTML=h;
+}
+
+// ============================================================
+// SECTION 12: HUMAN REVIEW
+// ============================================================
+function renderReview(){
+  const combos=[
+    {mo:-8,or:100,name:'MO-8 / OR+100'},
+    {mo:-10,or:150,name:'MO-10 / OR+150'},
+    {mo:-15,or:200,name:'MO-15 / OR+200'},
+    {mo:-20,or:250,name:'MO-20 / OR+250'},
+    {mo:-24,or:300,name:'MO-24 / OR+300'}
+  ];
+  let h='';
+  for(const c of combos){
+    h+=`<div class="experiment"><div class="experiment-title">${c.name}</div>`;
+    h+=`<div class="row"><div class="col"><div class="svg-container">${renderSVG(applyCombined(getBase(),c.mo,c.or),400,78,'black')}</div></div></div>`;
+    h+=`<div style="margin:8px 0"><label style="font-size:10px;color:#888">Classification:</label> <select style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px"><option value="">—</option><option>REJECT</option><option>HOLD</option><option>ADVANCE</option></select></div>`;
+    h+=`<textarea class="note-area" placeholder="Notes..."></textarea></div>`;
+  }
+  h+='<div class="experiment"><div class="experiment-title">Recommendation for 0C.12</div><textarea class="note-area" placeholder="What should the next phase investigate?" style="min-height:100px"></textarea></div>';
+  document.getElementById('review-output').innerHTML=h;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function renderAll(){
+  renderMOThreshold();
+  renderORThreshold();
+  renderGrid();
+  renderOptical();
+  renderIdentity();
+  renderScale();
+  renderRealWorld();
+  renderOneColor();
+  renderLayers();
+  renderMatrix();
+  renderDependency();
+  renderReview();
+}
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

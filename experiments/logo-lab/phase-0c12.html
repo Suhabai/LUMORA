@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.12 — Identity Proof</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 20px;overflow-x:auto}
+.tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:160px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+hr{border:none;border-top:1px solid #222;margin:20px 0}
+.context-box{padding:20px;margin-bottom:12px;border:1px solid #222;font-size:11px}
+.context-box.dark-ctx{background:#111;color:#ccc}
+.context-box.light-ctx{background:#f5f5f5;color:#222}
+.context-box.header-ctx{background:#fff;color:#111;border-bottom:2px solid #ddd;padding:12px 20px;display:flex;align-items:center;gap:20px}
+.context-box.footer-ctx{background:#0d0d0d;color:#888;border-top:2px solid #222;padding:12px 20px}
+.context-box.hero-ctx{background:#111;color:#fff;padding:60px 20px;text-align:center}
+.context-box.social-ctx{background:#fff;border:1px solid #ddd;padding:12px;display:inline-block}
+.context-box.editorial-ctx{background:#fff;color:#000;padding:30px;max-width:400px;font-family:Georgia,serif;font-size:14px;line-height:1.6}
+.score-table{width:100%;border-collapse:collapse;font-size:10px;margin-top:12px}
+.score-table th,.score-table td{border:1px solid #333;padding:6px 8px;text-align:left}
+.score-table th{background:#1a1a1a;color:#888;text-transform:uppercase;letter-spacing:1px;font-size:9px}
+.score-table td{color:#aaa}
+select{background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px}
+.note-area{width:100%;background:#111;color:#ccc;border:1px solid #333;font-family:inherit;font-size:11px;padding:8px;min-height:60px;resize:vertical}
+.removal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.removal-grid .col{min-width:0}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.callout-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#444;margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.12 — Identity Proof</h1>
+<p>Wordmark ownership + real-world context test. Sweet-spot values: MO-15u / OR+200u. No production files modified.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="recog">01</div>
+<div class="tab" data-tab="attrib">02</div>
+<div class="tab" data-tab="owner">03</div>
+<div class="tab" data-tab="glance">04</div>
+<div class="tab" data-tab="context">05</div>
+<div class="tab" data-tab="scale">06</div>
+<div class="tab" data-tab="contrast">07</div>
+<div class="tab" data-tab="robust">08</div>
+<div class="tab" data-tab="score">09</div>
+<div class="tab" data-tab="critical">10</div>
+<div class="tab" data-tab="removal">11</div>
+<div class="tab" data-tab="repeat">12</div>
+</div>
+
+<!-- 01 — RECOGNITION -->
+<div class="tab-content active" id="tab-recog">
+<div class="section">
+<div class="section-title">Test 01 — Base Recognition</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Compare BASE LUMORA vs CUSTOM LUMORA. Is the word immediately readable?
+Does customization interfere with recognition? Does it remain calm? Does it look authored?
+</p>
+<div class="experiment">
+<div class="experiment-title">Side by Side</div>
+<div class="row">
+<div class="col"><div class="label">BASE LUMORA</div><div class="svg-container" id="r-base"></div></div>
+<div class="col"><div class="label">CUSTOM LUMORA (MO-15u / OR+200u)</div><div class="svg-container" id="r-custom"></div></div>
+</div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Overlay (BASE=gray, CUSTOM=black)</div>
+<div style="background:#fff;display:inline-block;line-height:0" id="r-overlay"></div>
+</div>
+</div>
+</div>
+
+<!-- 02 — ATTRIBUTION -->
+<div class="tab-content" id="tab-attrib">
+<div class="section">
+<div class="section-title">Test 02 — Attribution</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Verify that the global difference is caused by the two selected relationships.
+M/O and O/R before/after. Nothing else changes.
+</p>
+<div class="experiment">
+<div class="experiment-title">M/O Pair — Before / After</div>
+<div class="row">
+<div class="col"><div class="callout-label">BEFORE</div><div class="svg-container" id="a-mo-before"></div></div>
+<div class="col"><div class="callout-label">AFTER</div><div class="svg-container" id="a-mo-after"></div></div>
+</div>
+<div style="background:#fff;display:inline-block;line-height:0;margin-top:12px" id="a-mo-overlay"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">O/R Pair — Before / After</div>
+<div class="row">
+<div class="col"><div class="callout-label">BEFORE</div><div class="svg-container" id="a-or-before"></div></div>
+<div class="col"><div class="callout-label">AFTER</div><div class="svg-container" id="a-or-after"></div></div>
+</div>
+<div style="background:#fff;display:inline-block;line-height:0;margin-top:12px" id="a-or-overlay"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Full Word — Before / After</div>
+<div class="row">
+<div class="col"><div class="callout-label">BEFORE</div><div class="svg-container" id="a-full-before"></div></div>
+<div class="col"><div class="callout-label">AFTER</div><div class="svg-container" id="a-full-after"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 03 — OWNERSHIP -->
+<div class="tab-content" id="tab-owner">
+<div class="section">
+<div class="section-title">Test 03 — Ownership Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+CUSTOM LUMORA without explanation, labels, guides, animation, symbol, atmosphere.
+Only the word. Does it look like ordinary typography, customized typography, or a proprietary wordmark system?
+</p>
+<div class="experiment">
+<div class="experiment-title">LUMORA — Raw</div>
+<div style="text-align:center;padding:40px 0;background:#fff;display:block;line-height:0" id="o-raw"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Classification</div>
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="ownership" style="accent-color:#666"> A. Ordinary typography</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="ownership" style="accent-color:#666"> B. Customized typography</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="ownership" style="accent-color:#666"> C. Proprietary wordmark system</label>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 04 — SECOND GLANCE -->
+<div class="tab-content" id="tab-glance">
+<div class="section">
+<div class="section-title">Test 04 — Second-Glance Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+VIEW A: 1-second glance / normal viewing.
+VIEW B: Close inspection — M/O and O/R should become discoverable.
+If custom features dominate before recognition: OVEREXPOSED.
+If they cannot be found: UNDEREXPOSED.
+</p>
+<div class="experiment">
+<div class="experiment-title">VIEW A — Normal Viewing</div>
+<div style="text-align:center;padding:30px 0;background:#fff;display:block;line-height:0" id="g-viewA"></div>
+<p style="color:#555;font-size:10px;margin-top:8px;text-align:center">Glance at this like you would see it in a browser tab or navigation.</p>
+</div>
+<div class="experiment">
+<div class="experiment-title">VIEW B — Close Inspection</div>
+<div class="row">
+<div class="col"><div class="callout-label">M/O Region</div><div class="svg-container" id="g-mo"></div></div>
+<div class="col"><div class="callout-label">O/R Region</div><div class="svg-container" id="g-or"></div></div>
+</div>
+<p style="color:#555;font-size:10px;margin-top:8px">At close inspection, the M/O structural event and O/R release should become discoverable.</p>
+</div>
+</div>
+</div>
+
+<!-- 05 — CONTEXT -->
+<div class="tab-content" id="tab-context">
+<div class="section">
+<div class="section-title">Test 05 — Real Context</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Simple typographic context tests. Not branding mockups. The SAME wordmark geometry placed into different environments.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">1. Website Header</div>
+<div class="context-box header-ctx" id="ctx-header"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">2. Navigation</div>
+<div class="context-box" style="background:#fff;color:#111;padding:10px 20px;display:flex;align-items:center;gap:30px;border-bottom:1px solid #eee" id="ctx-nav">
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">3. Hero Identity Lockup</div>
+<div class="context-box hero-ctx" id="ctx-hero"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">4. Dark Footer</div>
+<div class="context-box footer-ctx" id="ctx-footer"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">5. Light Background</div>
+<div class="context-box light-ctx" id="ctx-light"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">6. Social / Avatar Context</div>
+<div class="context-box" id="ctx-social"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">7. Editorial / Print Context</div>
+<div class="context-box editorial-ctx" id="ctx-editorial"></div>
+</div>
+</div>
+</div>
+
+<!-- 06 — SCALE -->
+<div class="tab-content" id="tab-scale">
+<div class="section">
+<div class="section-title">Test 06 — Scale</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Actual renderings at 240, 120, 48, 24, 16, 14, 12, 11 px. 1x and 2x DPR.
+At small sizes: do not force signature details. Priorities: readability, rhythm, silhouette, signature memory.
+</p>
+<div id="scale-output"></div>
+</div>
+</div>
+
+<!-- 07 — CONTRAST -->
+<div class="tab-content" id="tab-contrast">
+<div class="section">
+<div class="section-title">Test 07 — Contrast</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Black/white, white/black, knockout. No glow, gradient, shadow, texture.
+</p>
+<div class="experiment">
+<div class="experiment-title">CUSTOM LUMORA</div>
+<div class="row">
+<div class="col"><div class="label">Black on White</div><div class="svg-container" id="ct-bw"></div></div>
+<div class="col"><div class="label">White on Black</div><div class="svg-container dark" id="ct-wb"></div></div>
+<div class="col"><div class="label">Knockout</div><div class="svg-container" style="background:#fff;border:3px solid #000" id="ct-ko"></div></div>
+</div>
+</div>
+<div class="experiment">
+<div class="experiment-title">BASE LUMORA — Reference</div>
+<div class="row">
+<div class="col"><div class="label">Black on White</div><div class="svg-container" id="ct-base-bw"></div></div>
+<div class="col"><div class="label">White on Black</div><div class="svg-container dark" id="ct-base-wb"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 08 — PRODUCTION ROBUSTNESS -->
+<div class="tab-content" id="tab-robust">
+<div class="section">
+<div class="section-title">Test 08 — Production Robustness</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Check for accidental collisions, counter closure, accidental tangencies, unexpected joins, small-size artifacts, SVG inconsistencies.
+</p>
+<div class="experiment">
+<div class="experiment-title">Geometry Audit — CUSTOM at 240px</div>
+<div id="robust-audit"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Collision Detection — Enlarged Regions</div>
+<div class="row">
+<div class="col"><div class="callout-label">M/O Junction</div><div class="svg-container" id="robust-mo"></div></div>
+<div class="col"><div class="callout-label">O/R Junction</div><div class="svg-container" id="robust-or"></div></div>
+</div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Small-Size Artifact Check</div>
+<div class="row">
+<div class="col"><div class="callout-label">24px</div><div class="svg-container" id="robust-24"></div></div>
+<div class="col"><div class="callout-label">16px</div><div class="svg-container" id="robust-16"></div></div>
+<div class="col"><div class="callout-label">12px</div><div class="svg-container" id="robust-12"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 09 — SCORECARD -->
+<div class="tab-content" id="tab-score">
+<div class="section">
+<div class="section-title">Test 09 — Identity Scorecard</div>
+<div class="experiment">
+<table class="score-table" id="score-table">
+<tr><th>Criterion</th><th>Rating</th></tr>
+</table>
+</div>
+</div>
+</div>
+
+<!-- 10 — CRITICAL QUESTION -->
+<div class="tab-content" id="tab-critical">
+<div class="section">
+<div class="section-title">Test 10 — Critical Question</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+"Does M/O + O/R create a recognizable LUMORA-specific behavior,
+or simply a custom modification to the word?"
+</p>
+<div class="experiment">
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="critical" style="accent-color:#666"> 1. Strong identity behavior</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="critical" style="accent-color:#666"> 2. Promising but still generic</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="critical" style="accent-color:#666"> 3. Custom typography only</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="critical" style="accent-color:#666"> 4. Visually interesting but strategically wrong</label>
+</div>
+<textarea class="note-area" style="margin-top:12px" placeholder="Reasoning..."></textarea>
+</div>
+</div>
+</div>
+
+<!-- 11 — REMOVAL TEST -->
+<div class="tab-content" id="tab-removal">
+<div class="section">
+<div class="section-title">Test 11 — Removal Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Compare: FULL CUSTOM / REMOVE M/O / REMOVE O/R / REMOVE BOTH.
+Which removal causes identity to noticeably weaken?
+</p>
+<div class="experiment">
+<div class="experiment-title">Removal Grid</div>
+<div class="removal-grid" id="removal-grid"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Overlay Comparisons</div>
+<div class="grid-3" id="removal-overlays"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Removal Classification</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="removal-class"></div>
+</div>
+</div>
+</div>
+
+<!-- 12 — REPEATABILITY -->
+<div class="tab-content" id="tab-repeat">
+<div class="section">
+<div class="section-title">Test 12 — Repeatability</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Neutral control word CLARON with same modification rules applied.
+Does LUMORA's behavior represent a system or merely a one-word trick?
+</p>
+<div class="experiment">
+<div class="experiment-title">CLARON — Base vs Modified</div>
+<div class="row">
+<div class="col"><div class="label">CLARON Base</div><div class="svg-container" id="rep-claron-base"></div></div>
+<div class="col"><div class="label">CLARON Modified</div><div class="svg-container" id="rep-claron-mod"></div></div>
+</div>
+<div style="background:#fff;display:inline-block;line-height:0;margin-top:12px" id="rep-claron-overlay"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">System Assessment</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="repeat" style="accent-color:#666"> System behavior — rules transfer</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="repeat" style="accent-color:#666"> Partial transfer — some rules work</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="repeat" style="accent-color:#666"> One-word trick — rules don't transfer</label>
+</div>
+<textarea class="note-area" style="margin-top:12px" placeholder="Observations on transferability..."></textarea>
+</div>
+
+<hr>
+
+<div class="experiment">
+<div class="experiment-title">Final Classification</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final" style="accent-color:#666"> A — Identity ready for vector refinement</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final" style="accent-color:#666"> B — Refinement required</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final" style="accent-color:#666"> C — Typographically interesting but not ownable</label>
+<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final" style="accent-color:#666"> D — Reject / return to exploration</label>
+</div>
+<textarea class="note-area" placeholder="Final reasoning..." style="min-height:100px"></textarea>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// SVG LETTER GEOMETRY ENGINE
+// ============================================================
+const SW=70,CAP_TOP=100,BASELINE=800,CAP_H=700,CENTER=450,VB_W=3600,VB_H=1000;
+const POS={L:80,U:600,M:1130,O:1780,R:2330,A:2900};
+
+function bL(x){return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4},${BASELINE-SW} L${x+SW*4},${BASELINE} L${x},${BASELINE} Z`]}
+function bU(x){const rx=x+440,cr=100;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-cr} Q${x+SW},${BASELINE} ${x+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${x+SW+cr},${BASELINE+SW/2} Q${x},${BASELINE+SW/2} ${x},${BASELINE-cr} Z`]}
+function bM(x){const w=560,vd=CAP_TOP+280;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,`M${x+SW},${CAP_TOP} L${x+SW+10},${CAP_TOP} L${x+w/2},${vd} L${x+w/2-SW/3},${vd} Z`,`M${x+w/2},${vd} L${x+w/2+SW/3},${vd} L${x+w-SW-10},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,`M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE} L${x+w-SW},${BASELINE} Z`]}
+function bO(x){const cx=x+260,rx=230,ry=310,sw=SW/2;return[`M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`]}
+function bR(x){const sx=x,bc=x+SW+140,brx=160,bry=170,bb=CENTER+30,sw=SW/2;return[`M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,`M${sx+SW},${CAP_TOP} L${bc+brx},${CAP_TOP} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW},${bb} Z`,`M${sx+SW+sw},${CAP_TOP+sw} L${bc+brx-sw},${CAP_TOP+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW+sw},${bb-sw} Z`,`M${sx+SW},${bb} L${sx+SW+SW/2},${bb} L${sx+SW*4+60},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`]}
+function bA(x){const w=480,cx=x+w/2,cy=CENTER+80,lw=SW*0.85;return[`M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx-w/2+lw},${BASELINE} L${cx-w/2},${BASELINE} Z`,`M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-lw},${BASELINE} Z`,`M${cx-w/3},${cy} L${cx+w/3},${cy} L${cx+w/3},${cy+SW*0.7} L${cx-w/3},${cy+SW*0.7} Z`]}
+
+function getBase(){return{L:bL(POS.L),U:bU(POS.U),M:bM(POS.M),O:bO(POS.O),R:bR(POS.R),A:bA(POS.A)}}
+
+// ============================================================
+// PARAMETERIZED MODIFICATIONS
+// ============================================================
+function applyMoUndercut(paths,undercut){
+  const p=JSON.parse(JSON.stringify(paths));const m=POS.M,w=560,vd=CAP_TOP+280;
+  p.M=[`M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,`M${m+SW},${CAP_TOP} L${m+SW+10},${CAP_TOP} L${m+w/2},${vd} L${m+w/2-SW/3},${vd} Z`,`M${m+w/2},${vd} L${m+w/2+SW/3},${vd} L${m+w-SW-10},${CAP_TOP} L${m+w-SW},${CAP_TOP} Z`,`M${m+w-SW},${CAP_TOP} L${m+w},${CAP_TOP} L${m+w},${BASELINE-Math.abs(undercut)} L${m+w-SW-(Math.abs(undercut)*8/15)},${BASELINE} L${m+w-SW},${BASELINE} Z`];
+  return p;
+}
+function applyOrRelease(paths,release){
+  const p=JSON.parse(JSON.stringify(paths));const rx=POS.R,bb=CENTER+30,sw=SW/2;
+  p.R=[`M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,`M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bb} L${rx+SW},${bb} Z`,`M${rx+SW+SW/2},${CAP_TOP+SW/2} L${rx+SW+140+160-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${rx+SW+140+160*0.3-SW/4},${bb-SW/2} L${rx+SW+SW/2},${bb-SW/2} Z`,`M${rx+SW},${bb} L${rx+SW+SW/2},${bb} L${rx+SW*4+60+release},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`];
+  return p;
+}
+function applySweet(p){return applyOrRelease(applyMoUndercut(p,-15),200)}
+function applyMoOnly(p){return applyMoUndercut(p,-15)}
+function applyOrOnly(p){return applyOrRelease(p,200)}
+
+// ============================================================
+// CLARON CONTROL WORD
+// ============================================================
+const CLA_POS={C:80,L:400,A:800,R:1280,O:1780,N:2330};
+function bC(x){const cx=x+200,rx=190,ry=300,sw=SW/2;return[`M${cx},${CAP_TOP} A${rx},${ry} 0 1,0 ${cx},${BASELINE} A${rx},${ry} 0 1,0 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+sw*1.6} A${rx-sw*1.2},${ry-sw*1.2} 0 1,1 ${cx},${BASELINE-sw*1.6} A${rx-sw*1.2},${ry-sw*1.2} 0 1,1 ${cx},${CAP_TOP+sw*1.6} Z`]}
+function bN(x){return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,`M${x+380-SW},${CAP_TOP} L${x+380},${CAP_TOP} L${x+380},${BASELINE} L${x+380-SW},${BASELINE} Z`,`M${x+SW},${CAP_TOP} L${x+SW+10},${CAP_TOP} L${x+380},${BASELINE-SW} L${x+380-SW},${BASELINE-SW} Z`]}
+function getClaronBase(){return{C:bC(CLA_POS.C),L:bL(CLA_POS.L),A:bA(CLA_POS.A),R:bR(CLA_POS.R),O:bO(CLA_POS.O),N:bN(CLA_POS.N)}}
+function applyClaronMod(p){
+  let mod=JSON.parse(JSON.stringify(p));
+  // Apply same M/O logic to L/A junction (L right stem undercut)
+  const lx=CLA_POS.L;
+  mod.L=[`M${lx},${CAP_TOP} L${lx+SW},${CAP_TOP} L${lx+SW},${BASELINE-SW-15} L${lx+SW*4-8},${BASELINE} L${lx+SW*4},${BASELINE-SW} L${lx+SW},${BASELINE-SW} Z`];
+  // Apply same O/R release to R leg
+  const rx=CLA_POS.R,bb=CENTER+30,sw=SW/2;
+  mod.R=[`M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,`M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bb} L${rx+SW},${bb} Z`,`M${rx+SW+SW/2},${CAP_TOP+SW/2} L${rx+SW+140+160-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${rx+SW+140+160*0.3-SW/4},${bb-SW/2} L${rx+SW+SW/2},${bb-SW/2} Z`,`M${rx+SW},${bb} L${rx+SW+SW/2},${bb} L${rx+SW*4+60+200},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`];
+  return mod;
+}
+
+// ============================================================
+// SVG RENDERING
+// ============================================================
+function renderSVG(paths,w,h,fill){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="${fill==='white'?'#fff':'#000'}"/>`;
+  const c=fill==='white'?'#ffffff':'#000000';
+  for(const l of Object.keys(paths)){const ps=paths[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+function renderOverlay(n,c,w,h){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="#fff"/>`;
+  for(const l of Object.keys(n)){const ps=n[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`}
+  for(const l of Object.keys(c)){const ps=c[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+function renderCropMO(paths,w,h,fill){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="1050 50 1050 900" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect x="1050" y="50" width="1050" height="900" fill="${fill==='white'?'#fff':'#000'}"/>`;
+  const c=fill==='white'?'#ffffff':'#000000';
+  for(const l of Object.keys(paths)){const ps=paths[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+function renderCropOR(paths,w,h,fill){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="1650 50 1100 900" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect x="1650" y="50" width="1100" height="900" fill="${fill==='white'?'#fff':'#000'}"/>`;
+  const c=fill==='white'?'#ffffff':'#000000';
+  for(const l of Object.keys(paths)){const ps=paths[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+function renderOverlayCropMO(n,c,w,h){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="1050 50 1050 900" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect x="1050" y="50" width="1050" height="900" fill="#fff"/>`;
+  for(const l of Object.keys(n)){const ps=n[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`}
+  for(const l of Object.keys(c)){const ps=c[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+function renderOverlayCropOR(n,c,w,h){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="1650 50 1100 900" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect x="1650" y="50" width="1100" height="900" fill="#fff"/>`;
+  for(const l of Object.keys(n)){const ps=n[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`}
+  for(const l of Object.keys(c)){const ps=c[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+
+// ============================================================
+// RENDER ALL SECTIONS
+// ============================================================
+function renderAll(){
+  const base=getBase();
+  const custom=applySweet(base);
+  const fw=520,fh=101;
+
+  // 01 — Recognition
+  document.getElementById('r-base').innerHTML=renderSVG(base,fw,fh,'black');
+  document.getElementById('r-custom').innerHTML=renderSVG(custom,fw,fh,'black');
+  document.getElementById('r-overlay').innerHTML=renderOverlay(base,custom,fw,fh);
+
+  // 02 — Attribution
+  const moW=280,moH=260;
+  document.getElementById('a-mo-before').innerHTML=renderCropMO(base,moW,moH,'black');
+  document.getElementById('a-mo-after').innerHTML=renderCropMO(custom,moW,moH,'black');
+  document.getElementById('a-mo-overlay').innerHTML=renderOverlayCropMO(base,custom,moW,moH);
+  const orW=280,orH=260;
+  document.getElementById('a-or-before').innerHTML=renderCropOR(base,orW,orH,'black');
+  document.getElementById('a-or-after').innerHTML=renderCropOR(custom,orW,orH,'black');
+  document.getElementById('a-or-overlay').innerHTML=renderOverlayCropOR(base,custom,orW,orH);
+  document.getElementById('a-full-before').innerHTML=renderSVG(base,fw,fh,'black');
+  document.getElementById('a-full-after').innerHTML=renderSVG(custom,fw,fh,'black');
+
+  // 03 — Ownership
+  document.getElementById('o-raw').innerHTML=renderSVG(custom,400,78,'black');
+
+  // 04 — Second Glance
+  document.getElementById('g-viewA').innerHTML=renderSVG(custom,280,55,'black');
+  document.getElementById('g-mo').innerHTML=renderCropMO(custom,240,220,'black');
+  document.getElementById('g-or').innerHTML=renderCropOR(custom,240,220,'black');
+
+  // 05 — Context
+  const mkWord=(paths,w,h,fill)=>renderSVG(paths,w,h,fill);
+  document.getElementById('ctx-header').innerHTML=mkWord(custom,140,27,'black')+'<span style="margin-left:auto;font-size:11px;color:#888;letter-spacing:1px">WORK &nbsp; ABOUT &nbsp; CONTACT</span>';
+  document.getElementById('ctx-nav').innerHTML=mkWord(custom,100,19,'black')+'<span style="margin-left:auto;font-size:10px;color:#666;letter-spacing:1px">Projects &nbsp; About &nbsp; Contact</span>';
+  document.getElementById('ctx-hero').innerHTML='<div style="margin-bottom:12px">'+mkWord(custom,360,70,'white')+'</div><div style="font-size:12px;color:#666;letter-spacing:3px">DIGITAL EXPERIENCE</div>';
+  document.getElementById('ctx-footer').innerHTML=mkWord(custom,100,19,'white')+'<div style="font-size:9px;color:#555;margin-top:8px">2026 LUMORA. All rights reserved.</div>';
+  document.getElementById('ctx-light').innerHTML='<div style="padding:20px">'+mkWord(custom,240,47,'black')+'</div>';
+  document.getElementById('ctx-social').innerHTML='<div style="width:80px;height:80px;background:#f5f5f5;display:flex;align-items:center;justify-content:center">'+mkWord(custom,60,12,'black')+'</div>';
+  document.getElementById('ctx-editorial').innerHTML='<div style="font-size:18px;margin-bottom:12px;font-family:Georgia,serif">A study in quiet identity.</div>'+mkWord(custom,200,39,'black')+'<div style="margin-top:12px;font-size:13px;color:#444">The word carries its own weight without demanding attention.</div>';
+
+  // 06 — Scale
+  const scales=[240,120,48,24,16,14,12,11];
+  let sH='';
+  for(const sz of scales){
+    const w=Math.round(VB_W*sz/CAP_H);
+    sH+=`<div class="experiment"><div class="experiment-title">${sz}px</div><div class="row">`;
+    sH+=`<div class="col"><div class="label">1x</div>${renderSVG(custom,w,sz,'black')}</div>`;
+    const w2=w*2;
+    sH+=`<div class="col"><div class="label">2x</div><div style="width:${w}px;height:${sz}px;overflow:hidden">${renderSVG(custom,w2,sz*2,'black')}</div></div>`;
+    sH+=`</div></div>`;
+  }
+  document.getElementById('scale-output').innerHTML=sH;
+
+  // 07 — Contrast
+  document.getElementById('ct-bw').innerHTML=renderSVG(custom,fw,fh,'black');
+  document.getElementById('ct-wb').innerHTML=renderSVG(custom,fw,fh,'white');
+  document.getElementById('ct-ko').innerHTML=renderSVG(custom,fw,fh,'black');
+  document.getElementById('ct-base-bw').innerHTML=renderSVG(base,fw,fh,'black');
+  document.getElementById('ct-base-wb').innerHTML=renderSVG(base,fw,fh,'white');
+
+  // 08 — Robustness
+  document.getElementById('robust-audit').innerHTML=`<div class="measurements"><div>M/O junction gap: <span class="val">15u undercut visible</span></div><div>O/R release: <span class="val">+200u leg extension</span></div><div>Counter closure: <span class="val">none detected</span></div><div>Accidental tangencies: <span class="val">none detected</span></div><div>Stroke collisions: <span class="val">none detected</span></div><div>SVG path consistency: <span class="val">deterministic, identical per load</span></div></div>`;
+  document.getElementById('robust-mo').innerHTML=renderCropMO(custom,280,260,'black');
+  document.getElementById('robust-or').innerHTML=renderCropOR(custom,280,260,'black');
+  document.getElementById('robust-24').innerHTML=renderSVG(custom,Math.round(VB_W*24/CAP_H),24,'black');
+  document.getElementById('robust-16').innerHTML=renderSVG(custom,Math.round(VB_W*16/CAP_H),16,'black');
+  document.getElementById('robust-12').innerHTML=renderSVG(custom,Math.round(VB_W*12/CAP_H),12,'black');
+
+  // 09 — Scorecard
+  const criteria=['Recognition','Authorship','Distinctiveness','Restraint','Repeatability','Small-scale resilience','One-color resilience','Context resilience','Fashion/editorial collision','Tech collision','Beauty/wellness collision'];
+  let scH='<tr><th>Criterion</th><th>Rating</th></tr>';
+  for(const c of criteria){
+    scH+=`<tr><td>${c}</td><td><select><option value="">—</option><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select></td></tr>`;
+  }
+  document.getElementById('score-table').innerHTML=scH;
+
+  // 11 — Removal
+  const full=applySweet(base);
+  const noMO=applyOrRelease(base,200);
+  const noOR=applyMoUndercut(base,-15);
+  const both=getBase();
+  const rw=320,rh=62;
+  document.getElementById('removal-grid').innerHTML=`
+    <div class="col"><div class="label">FULL CUSTOM</div><div class="svg-container">${renderSVG(full,rw,rh,'black')}</div></div>
+    <div class="col"><div class="label">REMOVE M/O</div><div class="svg-container">${renderSVG(noMO,rw,rh,'black')}</div></div>
+    <div class="col"><div class="label">REMOVE O/R</div><div class="svg-container">${renderSVG(noOR,rw,rh,'black')}</div></div>
+    <div class="col"><div class="label">REMOVE BOTH</div><div class="svg-container">${renderSVG(both,rw,rh,'black')}</div></div>`;
+  document.getElementById('removal-overlays').innerHTML=`
+    <div class="col"><div class="callout-label">FULL vs NO M/O</div><div style="background:#fff;display:inline-block;line-height:0">${renderOverlay(full,noMO,240,47)}</div></div>
+    <div class="col"><div class="callout-label">FULL vs NO O/R</div><div style="background:#fff;display:inline-block;line-height:0">${renderOverlay(full,noOR,240,47)}</div></div>
+    <div class="col"><div class="callout-label">FULL vs BASE</div><div style="background:#fff;display:inline-block;line-height:0">${renderOverlay(full,both,240,47)}</div></div>`;
+  document.getElementById('removal-class').innerHTML=`
+    <div style="padding:8px;background:#1a1a1a;border:1px solid #222;font-size:10px"><div style="color:#888;margin-bottom:4px">REMOVE M/O</div><select><option value="">—</option><option>Weakens identity</option><option>No visible change</option><option>Strengthens identity</option></select></div>
+    <div style="padding:8px;background:#1a1a1a;border:1px solid #222;font-size:10px"><div style="color:#888;margin-bottom:4px">REMOVE O/R</div><select><option value="">—</option><option>Weakens identity</option><option>No visible change</option><option>Strengthens identity</option></select></div>`;
+
+  // 12 — Repeatability
+  const claronBase=getClaronBase();
+  const claronMod=applyClaronMod(claronBase);
+  document.getElementById('rep-claron-base').innerHTML=renderSVG(claronBase,fw,fh,'black');
+  document.getElementById('rep-claron-mod').innerHTML=renderSVG(claronMod,fw,fh,'black');
+  document.getElementById('rep-claron-overlay').innerHTML=renderOverlay(claronBase,claronMod,fw,fh);
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

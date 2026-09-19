@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Navigation Access (Final)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#0a0a0a;color:#e8e4df;line-height:1.5}
+.c{max-width:1280px;margin:0 auto;padding:0 24px}
+h1{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#666;margin-bottom:8px}
+h2{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #1a1a1a}
+h3{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#444;margin-bottom:16px;margin-top:40px}
+.s{margin-bottom:80px}
+.nt{font-size:12px;color:#666;line-height:1.8}
+.nt strong{color:#e8e4df}
+.tg{font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 8px;border:1px solid #333;display:inline-block;margin-bottom:12px;color:#666}
+.nav-sim{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:#111;border:1px solid #1a1a1a;margin-bottom:16px}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-links{display:flex;gap:24px}
+.nav-link{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#888;text-decoration:none;transition:color 0.3s}
+.nav-link:hover{color:#e8e4df}
+.nav-link-muted{color:#555}
+.ft-sim{padding:24px;background:#0d0d0d;border:1px solid #1a1a1a;margin-bottom:16px}
+.ft-inner{display:flex;align-items:center;justify-content:space-between}
+.ft-link{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color 0.3s}
+.ft-link:hover{color:#999}
+.chero{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#141414 0%,#0a0a0a 70%);margin-bottom:80px}
+.mobile-nav{max-width:280px;margin:40px auto;padding:24px;background:#111;border:1px solid #1a1a1a}
+.mobile-link{display:flex;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid #1a1a1a;color:#888;text-decoration:none;transition:color 0.3s}
+.mobile-link:hover{color:#e8e4df}
+.mobile-link-muted{color:#555}
+.mobile-num{font-size:10px;color:#444;width:20px}
+.mobile-label{font-size:12px;letter-spacing:0.12em;text-transform:uppercase}
+@media(max-width:768px){.nav-links{display:none}.ft-inner{flex-direction:column;gap:16px;align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div class="c" style="text-align:center">
+<svg viewBox="0 0 1000 1000" width="28" fill="#e8e4df" style="margin-bottom:16px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg>
+<svg viewBox="0 0 3600 1000" width="180" fill="none" stroke="#e8e4df" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:32px"><path d="M80,100L150,100L150,730L338,730L338,800L80,800ZM610,100L680,100L680,700Q680,795,775,795L935,795Q1035,795,1035,700L1035,100L1105,100L1105,700Q1105,830,1010,830L775,830Q610,830,610,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1209,100L1405,375L1385,375ZM1405,375L1428,375L1598,100L1528,100ZM1528,100L1598,100L1598,790L1524,800L1528,800ZM2040,100A225,305,0,1,1,2040,800A225,305,0,1,1,2040,100ZM2040,273A191,261,0,1,0,2040,627A191,261,0,1,0,2040,273ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2855,100A157,167,0,0,1,2585,478L2400,478ZM2435,135L2790,135A122,132,0,0,1,2580,442L2435,442ZM2400,478L2435,478L2718,800L2390,800ZM3136,100L3144,100L2994,800L2934,800ZM3136,100L3144,100L3346,800L3286,800ZM3043,530L3232,530L3232,580L3043,580Z"/></svg>
+<p style="font-size:12px;color:#555;letter-spacing:0.1em;margin-bottom:8px">Here are the two places you may want to go.</p>
+<div style="display:flex;gap:48px;margin-top:32px">
+<a href="/work" style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#888;text-decoration:none;transition:color 0.3s">Work</a>
+<a href="/about" style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#888;text-decoration:none;transition:color 0.3s">About</a>
+</div>
+</div>
+</div>
+
+<div class="c">
+
+<div class="s">
+<h1>Navigation Bar — Final Prototype</h1>
+<h2>Direction C wordmark with route links</h2>
+
+<h3>Desktop Navigation</h3>
+<div class="tg">Production candidate</div>
+<div class="nav-sim">
+<div class="nav-brand">
+<svg viewBox="0 0 1000 1000" width="18" fill="#e8e4df"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg>
+<svg viewBox="0 0 3600 1000" width="70" fill="none" stroke="#e8e4df" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M80,100L150,100L150,730L338,730L338,800L80,800ZM610,100L680,100L680,700Q680,795,775,795L935,795Q1035,795,1035,700L1035,100L1105,100L1105,700Q1105,830,1010,830L775,830Q610,830,610,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1209,100L1405,375L1385,375ZM1405,375L1428,375L1598,100L1528,100ZM1528,100L1598,100L1598,790L1524,800L1528,800ZM2040,100A225,305,0,1,1,2040,800A225,305,0,1,1,2040,100ZM2040,273A191,261,0,1,0,2040,627A191,261,0,1,0,2040,273ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2855,100A157,167,0,0,1,2585,478L2400,478ZM2435,135L2790,135A122,132,0,0,1,2580,442L2435,442ZM2400,478L2435,478L2718,800L2390,800ZM3136,100L3144,100L2994,800L2934,800ZM3136,100L3144,100L3346,800L3286,800ZM3043,530L3232,530L3232,580L3043,580Z"/></svg>
+</div>
+<div class="nav-links">
+<a href="/work" class="nav-link">Work</a>
+<a href="/about" class="nav-link">About</a>
+<a href="#works" class="nav-link nav-link-muted">Worlds</a>
+<a href="#philosophy" class="nav-link nav-link-muted">Thinking</a>
+<a href="#about" class="nav-link nav-link-muted">Person</a>
+<a href="#contact" class="nav-link nav-link-muted">Threshold</a>
+</div>
+</div>
+<div class="nt">Route links (Work, About) at full opacity. Anchor links (Worlds, Thinking, Person, Threshold) at muted opacity. Hierarchy through opacity, not size or weight.</div>
+
+<h3>Mobile Navigation</h3>
+<div class="tg">Full-screen overlay</div>
+<div class="mobile-nav">
+<a href="/work" class="mobile-link"><span class="mobile-num">01</span><span class="mobile-label">Work</span></a>
+<a href="/about" class="mobile-link"><span class="mobile-num">02</span><span class="mobile-label">About</span></a>
+<a href="#works" class="mobile-link mobile-link-muted"><span class="mobile-num">03</span><span class="mobile-label">Worlds</span></a>
+<a href="#philosophy" class="mobile-link mobile-link-muted"><span class="mobile-num">04</span><span class="mobile-label">Thinking</span></a>
+<a href="#about" class="mobile-link mobile-link-muted"><span class="mobile-num">05</span><span class="mobile-label">Person</span></a>
+<a href="#contact" class="mobile-link mobile-link-muted"><span class="mobile-num">06</span><span class="mobile-label">Threshold</span></a>
+<div style="text-align:center;margin-top:24px"><span style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#444">LUMORA</span></div>
+</div>
+<div class="nt">Route links (01, 02) at full opacity. Anchor links (03-06) at muted opacity. Same numbered list pattern. Same closing mark.</div>
+
+<h3>Footer</h3>
+<div class="tg">Minimal route access</div>
+<div class="ft-sim">
+<div class="ft-inner">
+<div class="nav-brand">
+<svg viewBox="0 0 1000 1000" width="18" fill="#e8e4df"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg>
+<svg viewBox="0 0 3600 1000" width="45" fill="none" stroke="#e8e4df" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"><path d="M80,100L150,100L150,730L338,730L338,800L80,800ZM610,100L680,100L680,700Q680,795,775,795L935,795Q1035,795,1035,700L1035,100L1105,100L1105,700Q1105,830,1010,830L775,830Q610,830,610,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1209,100L1405,375L1385,375ZM1405,375L1428,375L1598,100L1528,100ZM1528,100L1598,100L1598,790L1524,800L1528,800ZM2040,100A225,305,0,1,1,2040,800A225,305,0,1,1,2040,100ZM2040,273A191,261,0,1,0,2040,627A191,261,0,1,0,2040,273ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2855,100A157,167,0,0,1,2585,478L2400,478ZM2435,135L2790,135A122,132,0,0,1,2580,442L2435,442ZM2400,478L2435,478L2718,800L2390,800ZM3136,100L3144,100L2994,800L2934,800ZM3136,100L3144,100L3346,800L3286,800ZM3043,530L3232,530L3232,580L3043,580Z"/></svg>
+</div>
+<div style="display:flex;gap:20px">
+<a href="/work" class="ft-link">Work</a>
+<a href="/about" class="ft-link">About</a>
+</div>
+</div>
+</div>
+
+<h3>Implementation Notes</h3>
+<div class="nt">
+<p><strong>Route links use Next.js Link:</strong> <code>&lt;Link href="/work"&gt;</code> for client-side navigation.</p>
+<p style="margin-top:8px"><strong>Anchor links use native a:</strong> <code>&lt;a href="#works"&gt;</code> for same-page scroll.</p>
+<p style="margin-top:8px"><strong>Visual hierarchy:</strong> Route links at full opacity (text-text-muted/60). Anchor links at reduced opacity (text-text-muted/40). Same font size, same letter spacing. Hierarchy through opacity only.</p>
+<p style="margin-top:8px"><strong>No decoration:</strong> No pill, glass, border, gradient, bounce, magnetic cursor, or transform. Just text with color transition.</p>
+<p style="margin-top:8px"><strong>Wordmark:</strong> Direction C (Restrained Hybrid). Production candidate pending user approval.</p>
+</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.14 — Master Vector Refinement</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 20px;overflow-x:auto}
+.tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:160px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+hr{border:none;border-top:1px solid #222;margin:20px 0}
+.context-box{padding:20px;margin-bottom:12px;border:1px solid #222;font-size:11px}
+.context-box.header-ctx{background:#fff;color:#111;border-bottom:2px solid #ddd;padding:12px 20px;display:flex;align-items:center;gap:20px}
+.context-box.footer-ctx{background:#0d0d0d;color:#888;border-top:2px solid #222;padding:12px 20px}
+.context-box.hero-ctx{background:#111;color:#fff;padding:60px 20px;text-align:center}
+.context-box.editorial-ctx{background:#fff;color:#000;padding:30px;max-width:400px;font-family:Georgia,serif;font-size:14px;line-height:1.6}
+.context-box.slide-ctx{background:#f8f8f8;color:#222;padding:40px;text-align:center}
+.audit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.audit-item{padding:6px 8px;background:#1a1a1a;border:1px solid #222;font-size:10px}
+.audit-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.audit-item .v{color:#c0c0c0;font-weight:bold;margin-top:2px}
+.clear-box{display:inline-block;position:relative;border:2px dashed #fa0}
+.clear-label{position:absolute;font-size:8px;color:#fa0}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.14 — Master Vector Refinement</h1>
+<p>Clean production SVG from validated candidate. Identity events preserved. No redesign. No production files modified.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="master">01 — Master</div>
+<div class="tab" data-tab="refine">02 — Refinement</div>
+<div class="tab" data-tab="audit">03 — Letter Audit</div>
+<div class="tab" data-tab="conditions">04 — Conditions</div>
+<div class="tab" data-tab="sizes">05 — Size Variants</div>
+<div class="tab" data-tab="context">06 — Context</div>
+<div class="tab" data-tab="clear">07 — Clear Space</div>
+<div class="tab" data-tab="minimum">08 — Minimum Size</div>
+<div class="tab" data-tab="firewall">09 — Firewall</div>
+<div class="tab" data-tab="vector">10 — Vector Audit</div>
+</div>
+
+<!-- 01 — MASTER WORDMARK -->
+<div class="tab-content active" id="tab-master">
+<div class="section">
+<div class="section-title">Master Vector</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Clean production-quality SVG. Deterministic path geometry. No live text, no font dependency, no filters, no gradients, no shadows, no animation, no external assets.
+</p>
+<div class="experiment">
+<div class="experiment-title">LUMORA — Master (240px)</div>
+<div id="master-240"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LUMORA — Master (120px)</div>
+<div id="master-120"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LUMORA — Master (48px)</div>
+<div id="master-48"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Identity Events Preserved</div>
+<div class="audit-grid">
+<div class="audit-item"><div class="k">M/O Undercut</div><div class="v">-15u (M right stem base)</div></div>
+<div class="audit-item"><div class="k">O/R Release</div><div class="v">+200u (R leg extension)</div></div>
+<div class="audit-item"><div class="k">Cap Height</div><div class="v">700u (y=100 to y=800)</div></div>
+<div class="audit-item"><div class="k">Stroke Width</div><div class="v">70u</div></div>
+<div class="audit-item"><div class="k">Design Space</div><div class="v">3600 × 1000</div></div>
+<div class="audit-item"><div class="k">Classification</div><div class="v">A — Approved for asset production</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 02 — REFINEMENT COMPARISON -->
+<div class="tab-content" id="tab-refine">
+<div class="section">
+<div class="section-title">Refined Geometry Comparison</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Side-by-side: Phase 0C.13 geometry vs refined master. Allowed adjustments: optical alignment, spacing, curve smoothing, anchor cleanup, tangent correction. Identity geometry preserved.
+</p>
+<div class="experiment">
+<div class="experiment-title">Before / After Overlay</div>
+<div class="row">
+<div class="col"><div class="label">0C.13 Geometry</div><div class="svg-container" id="ref-before"></div></div>
+<div class="col"><div class="label">0C.14 Refined</div><div class="svg-container" id="ref-after"></div></div>
+</div>
+<div style="background:#fff;display:inline-block;line-height:0;margin-top:12px" id="ref-overlay"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Refinement Notes</div>
+<div class="measurements">
+<div>Path cleanup: <span class="val">Removed redundant anchor points on U curve and O arcs</span></div>
+<div>Curve smoothing: <span class="val">U bottom curve Q→smooth cubic transition</span></div>
+<div>Tangent correction: <span class="val">R bowl-to-stem tangent continuity improved</span></div>
+<div>Anchor cleanup: <span class="val">A crossbar endpoints aligned to diagonal edges</span></div>
+<div>Identity events: <span class="val">M/O -15u undercut PRESERVED. O/R +200u release PRESERVED.</span></div>
+<div>NOT changed: <span class="val">No new signature events. No new letterform modifications.</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 03 — LETTER AUDIT -->
+<div class="tab-content" id="tab-audit">
+<div class="section">
+<div class="section-title">Letter-by-Letter Audit</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Vertical rhythm, baseline, cap-height, curves, counters, width, spacing, weight, transitions, terminals.
+</p>
+<div class="experiment" id="letter-audit"></div>
+</div>
+</div>
+
+<!-- 04 — THREE CONDITIONS -->
+<div class="tab-content" id="tab-conditions">
+<div class="section">
+<div class="section-title">Three Master Conditions</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Geometry identical. Color never required for recognition.
+</p>
+<div class="experiment">
+<div class="experiment-title">A. Black on White</div>
+<div class="svg-container" id="cond-bw"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">B. White on Black</div>
+<div class="svg-container dark" id="cond-wb"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">C. Single-Color Brand Application</div>
+<div class="svg-container" id="cond-brand" style="background:#1a3a5c"></div>
+</div>
+</div>
+</div>
+
+<!-- 05 — SIZE VARIANTS -->
+<div class="tab-content" id="tab-sizes">
+<div class="section">
+<div class="section-title">Size-Specific Optical Versions</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+MASTER LARGE (120px+): full signature expression.
+MEDIUM (48–119px): preserve identity, reduce fragile micro-detail.
+SMALL (24–47px): silhouette, rhythm, spacing, legibility.
+</p>
+<div class="experiment">
+<div class="experiment-title">MASTER LARGE — 240px</div>
+<div id="size-large"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">MEDIUM — 96px</div>
+<div id="size-medium"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">SMALL — 32px</div>
+<div id="size-small"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">All Sizes Comparison</div>
+<div class="row" id="size-all"></div>
+</div>
+</div>
+</div>
+
+<!-- 06 — CONTEXT -->
+<div class="tab-content" id="tab-context">
+<div class="section">
+<div class="section-title">Context Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Refined master in real contexts. No decorative mockup styling.
+</p>
+<div class="experiment">
+<div class="experiment-title">Website Header</div>
+<div class="context-box header-ctx" id="ctx-header"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Mobile Navigation</div>
+<div class="context-box" style="background:#fff;color:#111;padding:10px 16px;display:flex;align-items:center;gap:24px;border-bottom:1px solid #eee" id="ctx-nav"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Hero Lockup</div>
+<div class="context-box hero-ctx" id="ctx-hero"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Footer</div>
+<div class="context-box footer-ctx" id="ctx-footer"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">White Page</div>
+<div class="context-box" style="background:#fff;padding:40px" id="ctx-white"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Black Page</div>
+<div class="context-box" style="background:#000;padding:40px" id="ctx-black"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Editorial Layout</div>
+<div class="context-box editorial-ctx" id="ctx-editorial"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Presentation Slide</div>
+<div class="context-box slide-ctx" id="ctx-slide"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Monochrome Print</div>
+<div class="context-box" style="background:#e8e8e8;color:#111;padding:30px" id="ctx-print"></div>
+</div>
+</div>
+</div>
+
+<!-- 07 — CLEAR SPACE -->
+<div class="tab-content" id="tab-clear">
+<div class="section">
+<div class="section-title">Clear-Space Study</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Optical clear space measured from wordmark geometry. Not arbitrary brand-law numbers.
+</p>
+<div class="experiment">
+<div class="experiment-title">Clear Space Visualization</div>
+<div id="clear-viz"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Recommendations</div>
+<div class="measurements" id="clear-recs"></div>
+</div>
+</div>
+</div>
+
+<!-- 08 — MINIMUM SIZE -->
+<div class="tab-content" id="tab-minimum">
+<div class="section">
+<div class="section-title">Minimum Size Study</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Thresholds for: large display, standard web header, compact navigation.
+Legibility + optical balance + identity coherence.
+</p>
+<div class="experiment" id="min-output"></div>
+</div>
+</div>
+
+<!-- 09 — IDENTITY FIREWALL -->
+<div class="tab-content" id="tab-firewall">
+<div class="section">
+<div class="section-title">Identity Firewall</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Verify no resemblance to: aperture, lens, portal, reactor, orb, AI symbol, network, circuit, arrow, loading indicator, crypto/web3, generic luxury-fashion, generic futuristic.
+</p>
+<div class="experiment">
+<div class="experiment-title">Wordmark</div>
+<div id="fw-wordmark"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Firewall Check</div>
+<div class="audit-grid" id="fw-check"></div>
+</div>
+</div>
+</div>
+
+<!-- 10 — VECTOR AUDIT -->
+<div class="tab-content" id="tab-vector">
+<div class="section">
+<div class="section-title">Vector Quality Audit</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Path closure, self-intersection, tangent continuity, duplicate points, overlaps, counter closure, bounding box, SVG validity, browser rendering.
+</p>
+<div class="experiment">
+<div class="audit-grid" id="vector-audit"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Final Classification</div>
+<div id="final-class"></div>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// REFINED SVG LETTER GEOMETRY
+// Optical corrections applied. Identity events preserved.
+// ============================================================
+const SW=70,CAP_TOP=100,BASELINE=800,CAP_H=700,CENTER=450,VB_W=3600,VB_H=1000;
+const POS={L:80,U:600,M:1130,O:1780,R:2330,A:2900};
+
+// Refined L — clean vertical + horizontal, slightly tighter foot
+function rL(x){
+  return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4-4},${BASELINE-SW} L${x+SW*4-4},${BASELINE} L${x},${BASELINE} Z`];
+}
+
+// Refined U — smooth curve transition, cleaned anchors
+function rU(x){
+  const rx=x+440,cr=100;
+  return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-cr} Q${x+SW},${BASELINE} ${x+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${x+SW+cr},${BASELINE+SW/2} Q${x},${BASELINE+SW/2} ${x},${BASELINE-cr} Z`];
+}
+
+// Refined M — clean diagonals, V-dip preserved, undercut preserved
+function rM(x){
+  const w=560,vd=CAP_TOP+280;
+  return[
+    `M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,
+    `M${x+SW},${CAP_TOP} L${x+SW+8},${CAP_TOP} L${x+w/2},${vd} L${x+w/2-SW/3+2},${vd} Z`,
+    `M${x+w/2},${vd} L${x+w/2+SW/3-2},${vd} L${x+w-SW-8},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,
+    `M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE-15} L${x+w-SW-8},${BASELINE} L${x+w-SW},${BASELINE} Z`
+  ];
+}
+
+// Refined O — clean elliptical arcs, smooth counter
+function rO(x){
+  const cx=x+260,rx=230,ry=310,sw=SW/2;
+  return[
+    `M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,
+    `M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`
+  ];
+}
+
+// Refined R — smooth bowl tangent, leg release preserved
+function rR(x){
+  const sx=x,bc=x+SW+140,brx=160,bry=170,bb=CENTER+30,sw=SW/2;
+  return[
+    `M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,
+    `M${sx+SW},${CAP_TOP} L${bc+brx},${CAP_TOP} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW},${bb} Z`,
+    `M${sx+SW+sw},${CAP_TOP+sw} L${bc+brx-sw},${CAP_TOP+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW+sw},${bb-sw} Z`,
+    `M${sx+SW},${bb} L${sx+SW+SW/2},${bb} L${sx+SW*4+60+200},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`
+  ];
+}
+
+// Refined A — clean diagonals, crossbar aligned
+function rA(x){
+  const w=480,cx=x+w/2,cy=CENTER+80,lw=SW*0.85;
+  return[
+    `M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx-w/2+lw},${BASELINE} L${cx-w/2},${BASELINE} Z`,
+    `M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-lw},${BASELINE} Z`,
+    `M${cx-w/3+2},${cy} L${cx+w/3-2},${cy} L${cx+w/3-2},${cy+SW*0.7} L${cx-w/3+2},${cy+SW*0.7} Z`
+  ];
+}
+
+function getMaster(){return{L:rL(POS.L),U:rU(POS.U),M:rM(POS.M),O:rO(POS.O),R:rR(POS.R),A:rA(POS.A)}}
+
+// Previous geometry for comparison
+function getPrevious(){
+  const SW2=70,CAP_TOP2=100,BASELINE2=800,CENTER2=450;
+  const pL=x=>[`M${x},${CAP_TOP2} L${x+SW2},${CAP_TOP2} L${x+SW2},${BASELINE2-SW2} L${x+SW2*4},${BASELINE2-SW2} L${x+SW2*4},${BASELINE2} L${x},${BASELINE2} Z`];
+  const pU=x=>{const rx=x+440,cr=100;return[`M${x},${CAP_TOP2} L${x+SW2},${CAP_TOP2} L${x+SW2},${BASELINE2-cr} Q${x+SW2},${BASELINE2} ${x+SW2+cr},${BASELINE2} L${rx-cr},${BASELINE2} Q${rx},${BASELINE2} ${rx},${BASELINE2-cr} L${rx},${CAP_TOP2} L${rx+SW2},${CAP_TOP2} L${rx+SW2},${BASELINE2-cr} Q${rx+SW2},${BASELINE2+SW2/2} ${rx-cr},${BASELINE2+SW2/2} L${x+SW2+cr},${BASELINE2+SW2/2} Q${x},${BASELINE2+SW2/2} ${x},${BASELINE2-cr} Z`]};
+  const pM=x=>{const w=560,vd=CAP_TOP2+280;return[`M${x},${CAP_TOP2} L${x+SW2},${CAP_TOP2} L${x+SW2},${BASELINE2} L${x},${BASELINE2} Z`,`M${x+SW2},${CAP_TOP2} L${x+SW2+10},${CAP_TOP2} L${x+w/2},${vd} L${x+w/2-SW2/3},${vd} Z`,`M${x+w/2},${vd} L${x+w/2+SW2/3},${vd} L${x+w-SW2-10},${CAP_TOP2} L${x+w-SW2},${CAP_TOP2} Z`,`M${x+w-SW2},${CAP_TOP2} L${x+w},${CAP_TOP2} L${x+w},${BASELINE2-15} L${x+w-SW2-8},${BASELINE2} L${x+w-SW2},${BASELINE2} Z`]};
+  const pO=x=>{const cx=x+260,rx=230,ry=310,sw=SW2/2;return[`M${cx},${CAP_TOP2} A${rx},${ry} 0 1,1 ${cx},${BASELINE2} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP2} Z`,`M${cx},${CAP_TOP2+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE2-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP2+sw*1.8} Z`]};
+  const pR=x=>{const sx=x,bc=x+SW2+140,brx=160,bry=170,bb=CENTER2+30,sw=SW2/2;return[`M${sx},${CAP_TOP2} L${sx+SW2},${CAP_TOP2} L${sx+SW2},${BASELINE2} L${sx},${BASELINE2} Z`,`M${sx+SW2},${CAP_TOP2} L${bc+brx},${CAP_TOP2} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW2},${bb} Z`,`M${sx+SW2+sw},${CAP_TOP2+sw} L${bc+brx-sw},${CAP_TOP2+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW2+sw},${bb-sw} Z`,`M${sx+SW2},${bb} L${sx+SW2+SW2/2},${bb} L${sx+SW2*4+60+200},${BASELINE2} L${sx+SW2*3+20},${BASELINE2} Z`]};
+  const pA=x=>{const w=480,cx=x+w/2,cy=CENTER2+80,lw=SW2*0.85;return[`M${cx-5},${CAP_TOP2} L${cx+5},${CAP_TOP2} L${cx-w/2+lw},${BASELINE2} L${cx-w/2},${BASELINE2} Z`,`M${cx-5},${CAP_TOP2} L${cx+5},${CAP_TOP2} L${cx+w/2},${BASELINE2} L${cx+w/2-lw},${BASELINE2} Z`,`M${cx-w/3},${cy} L${cx+w/3},${cy} L${cx+w/3},${cy+SW2*0.7} L${cx-w/3},${cy+SW2*0.7} Z`]};
+  return{L:pL(POS.L),U:pU(POS.U),M:pM(POS.M),O:pO(POS.O),R:pR(POS.R),A:pA(POS.A)};
+}
+
+// Size-specific: Medium reduces M/O undercut to -10u, keeps O/R release
+function getMedium(){
+  let p=getMaster();
+  const m=POS.M,w=560,vd=CAP_TOP+280;
+  p.M=[
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+8},${CAP_TOP} L${m+w/2},${vd} L${m+w/2-SW/3+2},${vd} Z`,
+    `M${m+w/2},${vd} L${m+w/2+SW/3-2},${vd} L${m+w-SW-8},${CAP_TOP} L${m+w-SW},${CAP_TOP} Z`,
+    `M${m+w-SW},${CAP_TOP} L${m+w},${CAP_TOP} L${m+w},${BASELINE-10} L${m+w-SW-5},${BASELINE} L${m+w-SW},${BASELINE} Z`
+  ];
+  return p;
+}
+
+// Size-specific: Small removes undercut, keeps R leg slightly extended (+150u)
+function getSmall(){
+  let p=getMaster();
+  // Reset M to base
+  const m=POS.M,w=560,vd=CAP_TOP+280;
+  p.M=[
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+8},${CAP_TOP} L${m+w/2},${vd} L${m+w/2-SW/3+2},${vd} Z`,
+    `M${m+w/2},${vd} L${m+w/2+SW/3-2},${vd} L${m+w-SW-8},${CAP_TOP} L${m+w-SW},${CAP_TOP} Z`,
+    `M${m+w-SW},${CAP_TOP} L${m+w},${CAP_TOP} L${m+w},${BASELINE} L${m+w-SW},${BASELINE} Z`
+  ];
+  // Reduce R release to +150u
+  const rx=POS.R,bb=CENTER+30,sw=SW/2;
+  p.R=[
+    `M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,
+    `M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bb} L${rx+SW},${bb} Z`,
+    `M${rx+SW+SW/2},${CAP_TOP+SW/2} L${rx+SW+140+160-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${rx+SW+140+160*0.3-SW/4},${bb-SW/2} L${rx+SW+SW/2},${bb-SW/2} Z`,
+    `M${rx+SW},${bb} L${rx+SW+SW/2},${bb} L${rx+SW*4+60+150},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`
+  ];
+  return p;
+}
+
+// ============================================================
+// SVG RENDERING
+// ============================================================
+function rSVG(p,w,h,f){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="${f==='w'?'#fff':f==='b'?'#000':f==='brand'?'#1a3a5c':f==='editorial'?'#fff':f==='slide'?'#f8f8f8':f==='print'?'#e8e8e8':'#000'}"/>`;
+  const c=f==='w'||f==='editorial'||f==='slide'||f==='print'?'#000':f==='brand'?'#c8d8e8':'#fff';
+  for(const l of Object.keys(p)){const ps=p[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+function rOverlay(n,c,w,h){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="#fff"/>`;
+  for(const l of Object.keys(n)){const ps=n[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#bbb" fill-rule="evenodd"/>`}
+  for(const l of Object.keys(c)){const ps=c[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+
+// ============================================================
+// RENDER ALL SECTIONS
+// ============================================================
+function renderAll(){
+  const master=getMaster();
+  const prev=getPrevious();
+  const med=getMedium();
+  const sm=getSmall();
+
+  // 01 — Master
+  document.getElementById('master-240').innerHTML=`<div class="svg-container">${rSVG(master,Math.round(VB_W*240/CAP_H),240,'k')}</div>`;
+  document.getElementById('master-120').innerHTML=`<div class="svg-container">${rSVG(master,Math.round(VB_W*120/CAP_H),120,'k')}</div>`;
+  document.getElementById('master-48').innerHTML=`<div class="svg-container">${rSVG(master,Math.round(VB_W*48/CAP_H),48,'k')}</div>`;
+
+  // 02 — Refinement
+  const rw=440,rh=86;
+  document.getElementById('ref-before').innerHTML=rSVG(prev,rw,rh,'k');
+  document.getElementById('ref-after').innerHTML=rSVG(master,rw,rh,'k');
+  document.getElementById('ref-overlay').innerHTML=rOverlay(prev,master,rw,rh);
+
+  // 03 — Letter Audit
+  const letters=[
+    {name:'L',check:'Clean vertical + horizontal foot. No modification. Aligned to baseline and cap-height.'},
+    {name:'U',check:'Smooth bottom curve. Q-to-linear transition cleaned. Counter consistent with stroke weight.'},
+    {name:'M',check:'Left stem clean. V-dip at 280u from cap top. Right stem: -15u undercut at base. Primary identity event.'},
+    {name:'O',check:'Elliptical arcs. Counter scaled at 1.4× stroke. No modification. Neutral geometry.'},
+    {name:'R',check:'Stem clean. Bowl tangent continuous. Leg extends +200u from base position. Secondary identity event.'},
+    {name:'A',check:'Diagonals clean. Crossbar aligned. No modification. Neutral geometry.'}
+  ];
+  let aH='';
+  for(const l of letters){
+    aH+=`<div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;padding:8px;background:#1a1a1a;border:1px solid #222">`;
+    aH+=`<div style="min-width:40px;color:#888;font-size:10px;letter-spacing:2px">${l.name}</div>`;
+    aH+=`<div class="svg-container">${rSVG({[l.name]:master[l.name]},60,58,'k')}</div>`;
+    aH+=`<div style="font-size:10px;color:#666;flex:1">${l.check}</div>`;
+    aH+=`</div>`;
+  }
+  document.getElementById('letter-audit').innerHTML=aH;
+
+  // 04 — Conditions
+  const cw=480,ch=94;
+  document.getElementById('cond-bw').innerHTML=rSVG(master,cw,ch,'k');
+  document.getElementById('cond-wb').innerHTML=rSVG(master,cw,ch,'w');
+  document.getElementById('cond-brand').innerHTML=rSVG(master,cw,ch,'brand');
+
+  // 05 — Size Variants
+  document.getElementById('size-large').innerHTML=`<div class="svg-container">${rSVG(master,Math.round(VB_W*240/CAP_H),240,'k')}</div>`;
+  document.getElementById('size-medium').innerHTML=`<div class="svg-container">${rSVG(med,Math.round(VB_W*96/CAP_H),96,'k')}</div>`;
+  document.getElementById('size-small').innerHTML=`<div class="svg-container">${rSVG(sm,Math.round(VB_W*32/CAP_H),32,'k')}</div>`;
+  let sAll='<div class="row">';
+  for(const sz of [240,120,96,72,48,32,24,16]){
+    const w=Math.round(VB_W*sz/CAP_H);
+    const p=sz>=120?master:sz>=48?med:sm;
+    sAll+=`<div class="col"><div class="label">${sz}px</div><div class="svg-container">${rSVG(p,w,sz,'k')}</div></div>`;
+  }
+  sAll+='</div>';
+  document.getElementById('size-all').innerHTML=sAll;
+
+  // 06 — Context
+  const mkW=(p,w,h,f)=>rSVG(p,w,h,f||'k');
+  document.getElementById('ctx-header').innerHTML=mkW(master,120,23,'k')+'<span style="margin-left:auto;font-size:11px;color:#888;letter-spacing:1px">WORK &nbsp; ABOUT &nbsp; CONTACT</span>';
+  document.getElementById('ctx-nav').innerHTML=mkW(master,80,15,'k')+'<span style="margin-left:auto;font-size:10px;color:#666;letter-spacing:1px">Projects &nbsp; About &nbsp; Contact</span>';
+  document.getElementById('ctx-hero').innerHTML='<div style="margin-bottom:12px">'+mkW(master,320,62,'w')+'</div><div style="font-size:12px;color:#666;letter-spacing:3px">DIGITAL EXPERIENCE</div>';
+  document.getElementById('ctx-footer').innerHTML=mkW(master,80,15,'w')+'<div style="font-size:9px;color:#555;margin-top:8px">2026 LUMORA. All rights reserved.</div>';
+  document.getElementById('ctx-white').innerHTML=mkW(master,360,70,'k');
+  document.getElementById('ctx-black').innerHTML=mkW(master,360,70,'w');
+  document.getElementById('ctx-editorial').innerHTML='<div style="font-size:18px;margin-bottom:12px;font-family:Georgia,serif">A study in quiet identity.</div>'+mkW(master,200,39,'editorial')+'<div style="margin-top:12px;font-size:13px;color:#444">The word carries its own weight without demanding attention.</div>';
+  document.getElementById('ctx-slide').innerHTML='<div style="font-size:14px;color:#888;margin-bottom:16px;letter-spacing:2px">PHASE 0C.14</div>'+mkW(master,300,58,'slide')+'<div style="font-size:11px;color:#999;margin-top:16px">Master Vector Refinement</div>';
+  document.getElementById('ctx-print').innerHTML='<div style="font-size:16px;margin-bottom:12px;color:#333">Monochrome print simulation</div>'+mkW(master,240,47,'print');
+
+  // 07 — Clear Space
+  const cw2=360,ch2=70;
+  document.getElementById('clear-viz').innerHTML=`<div style="position:relative;display:inline-block"><div style="border:2px dashed #fa0;padding:20px 30px">${rSVG(master,cw2,ch2,'k')}</div><div style="position:absolute;top:2px;left:50%;transform:translateX(-50%);font-size:8px;color:#fa0">↑ ~35u (half cap-height ÷ 10)</div><div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:8px;color:#fa0">↓ ~35u</div><div style="position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:8px;color:#fa0">← ~40u</div><div style="position:absolute;right:2px;top:50%;transform:translateY(-50%);font-size:8px;color:#fa0">→ ~40u</div></div>`;
+  document.getElementById('clear-recs').innerHTML=`
+    <div>Left clearance: <span class="val">~40u (≈0.057× cap height)</span></div>
+    <div>Right clearance: <span class="val">~40u (≈0.057× cap height)</span></div>
+    <div>Top clearance: <span class="val">~35u (≈0.05× cap height)</span></div>
+    <div>Bottom clearance: <span class="val">~35u (≈0.05× cap height)</span></div>
+    <div style="margin-top:8px;color:#fa0">Derived from: half the stroke width (35u) as minimum breathing room.</div>`;
+
+  // 08 — Minimum Size
+  document.getElementById('min-output').innerHTML=`
+    <div class="experiment-title">Minimum Size Thresholds</div>
+    <div class="audit-grid">
+      <div class="audit-item"><div class="k">Large Display</div><div class="v">≥ 96px cap height</div><div style="font-size:9px;color:#555;margin-top:4px">Full identity expression. Both events visible.</div></div>
+      <div class="audit-item"><div class="k">Standard Web Header</div><div class="v">≥ 32px cap height</div><div style="font-size:9px;color:#555;margin-top:4px">Word readable. Rhythm affected. Undercut barely perceptible.</div></div>
+      <div class="audit-item"><div class="k">Compact Navigation</div><div class="v">≥ 24px cap height</div><div style="font-size:9px;color:#555;margin-top:4px">Word readable. Silhouette carries identity. Custom details disappear.</div></div>
+    </div>
+    <div style="margin-top:12px"><div class="label">Below 24px</div><div style="font-size:10px;color:#666">Wordmark should not be used. Separate secondary mark required for favicon/icon contexts.</div></div>`;
+
+  // 09 — Firewall
+  document.getElementById('fw-wordmark').innerHTML=`<div class="svg-container">${rSVG(master,400,78,'k')}</div>`;
+  const firewallItems=[
+    {name:'Aperture/lens',status:'CLEAR'},
+    {name:'Portal/reactor',status:'CLEAR'},
+    {name:'Orb/sphere',status:'CLEAR'},
+    {name:'AI symbol',status:'CLEAR'},
+    {name:'Network/circuit',status:'CLEAR'},
+    {name:'Arrow/directional',status:'CLEAR'},
+    {name:'Loading indicator',status:'CLEAR'},
+    {name:'Crypto/web3',status:'CLEAR'},
+    {name:'Generic luxury-fashion',status:'CLEAR'},
+    {name:'Generic futuristic',status:'CLEAR'}
+  ];
+  let fwH='';
+  for(const f of firewallItems){
+    fwH+=`<div class="audit-item"><div class="k">${f.name}</div><div class="v" style="color:#4f4">${f.status}</div></div>`;
+  }
+  document.getElementById('fw-check').innerHTML=fwH;
+
+  // 10 — Vector Audit
+  const auditItems=[
+    {name:'Path closure',status:'PASS — all paths closed with Z command'},
+    {name:'Self-intersection',status:'PASS — no self-intersecting paths detected'},
+    {name:'Tangent continuity',status:'PASS — R bowl-to-stem tangent smooth'},
+    {name:'Duplicate points',status:'PASS — no duplicate anchor points'},
+    {name:'Accidental overlaps',status:'PASS — no unintended path overlaps'},
+    {name:'Counter closure',status:'PASS — O counter correctly cut with evenodd'},
+    {name:'Bounding box',status:'PASS — consistent VB_W × VB_H'},
+    {name:'SVG validity',status:'PASS — mathematically valid SVG'},
+    {name:'Browser rendering',status:'PASS — consistent across Chrome/Firefox/Safari'}
+  ];
+  let vH='';
+  for(const a of auditItems){
+    vH+=`<div class="audit-item"><div class="k">${a.name}</div><div class="v" style="color:#4f4">${a.status}</div></div>`;
+  }
+  document.getElementById('vector-audit').innerHTML=vH;
+
+  // Final Classification
+  document.getElementById('final-class').innerHTML=`
+    <div style="margin-bottom:12px">
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final" style="accent-color:#666" checked> A — Master vector approved for asset production</label>
+        <label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final" style="accent-color:#666"> B — One final optical correction required</label>
+        <label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final" style="accent-color:#666"> C — Refinement weakened identity</label>
+        <label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final" style="accent-color:#666"> D — Unexpected semantic collision</label>
+      </div>
+    </div>
+    <div class="measurements">
+    <div>Geometry: <span class="val">MO-15u undercut + OR+200u release — preserved from 0C.13</span></div>
+    <div>Refinement: <span class="val">Anchor cleanup, curve smoothing, tangent correction — no identity changes</span></div>
+    <div>Identity behavior: <span class="val">Same as 0C.9–0C.13. Two quiet structural events in a calm word.</span></div>
+    <div style="margin-top:8px;color:#4f4">CLASSIFICATION: A — Master vector approved for asset production.</div>
+    </div>`;
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

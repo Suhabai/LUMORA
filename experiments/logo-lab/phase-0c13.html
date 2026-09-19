@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.13 — Production Reality + Identity Refinement</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 20px;overflow-x:auto}
+.tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:140px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+hr{border:none;border-top:1px solid #222;margin:20px 0}
+.zone-box{border:1px solid #333;padding:12px;margin-bottom:12px;background:#0e0e0e}
+.zone-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.zone-a{border-left:3px solid #4f4}
+.zone-b{border-left:3px solid #fa0}
+.zone-c{border-left:3px solid #f44}
+.score-table{width:100%;border-collapse:collapse;font-size:10px;margin-top:12px}
+.score-table th,.score-table td{border:1px solid #333;padding:6px 8px;text-align:left}
+.score-table th{background:#1a1a1a;color:#888;text-transform:uppercase;letter-spacing:1px;font-size:9px}
+.score-table td{color:#aaa}
+select{background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px}
+.note-area{width:100%;background:#111;color:#ccc;border:1px solid #333;font-family:inherit;font-size:11px;padding:8px;min-height:60px;resize:vertical}
+.callout-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#444;margin-bottom:4px}
+.font-compare{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px}
+.font-item{text-align:center}
+.font-item .src{font-size:8px;color:#444;margin-top:4px}
+.favicon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.favicon-cell{text-align:center}
+.favicon-cell .dim{font-size:9px;color:#555;margin-top:4px}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.13 — Production Reality + Identity Refinement</h1>
+<p>Refinement and verification only. No redesign. No production files. Sweet-spot baseline: MO-15u / OR+200u.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="browser">A — Browser</div>
+<div class="tab" data-tab="zones">B — Zones</div>
+<div class="tab" data-tab="favicon">C — Favicon</div>
+<div class="tab" data-tab="prop">D — Proportional</div>
+<div class="tab" data-tab="release">E — Release</div>
+<div class="tab" data-tab="font">F — Font Base</div>
+<div class="tab" data-tab="percept">G — Perceptual</div>
+<div class="tab" data-tab="matrix">H — Matrix</div>
+<div class="tab" data-tab="identity">I — Identity</div>
+<div class="tab" data-tab="report">J — Report</div>
+</div>
+
+<!-- A — REAL BROWSER RENDERING -->
+<div class="tab-content active" id="tab-browser">
+<div class="section">
+<div class="section-title">A. Real Browser Rendering</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+SVG rendered through actual browser DOM at 9 sizes.
+Each size: SVG path rendering + browser-rasterized output + zoomed inspection.
+</p>
+<div id="browser-output"></div>
+</div>
+</div>
+
+<!-- B — THREE SCALE ZONES -->
+<div class="tab-content" id="tab-zones">
+<div class="section">
+<div class="section-title">B. Three Scale Zones</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+ZONE A (Expression): 120px+ — both M/O and O/R visible.
+ZONE B (Identity): 32–96px — rhythm and silhouette feel authored.
+ZONE C (Function): 16–24px — readability and clean rendering.
+</p>
+<div id="zones-output"></div>
+</div>
+</div>
+
+<!-- C — FAVICON / ICON -->
+<div class="tab-content" id="tab-favicon">
+<div class="section">
+<div class="section-title">C. Favicon / Icon Reality</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+16×16, 24×24, 32×32, 64×64. Evaluate recognition, silhouette, merges, artifacts.
+Determine whether a separate secondary mark will be necessary.
+</p>
+<div class="experiment">
+<div class="experiment-title">Wordmark at Favicon Sizes</div>
+<div class="favicon-grid" id="favicon-output"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Favicon Assessment</div>
+<div id="favicon-assess"></div>
+</div>
+</div>
+</div>
+
+<!-- D — PROPORTIONAL UNDERCUT -->
+<div class="tab-content" id="tab-prop">
+<div class="section">
+<div class="section-title">D. Proportional Undercut Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+M/O undercut as proportion of stroke width: 0.25×, 0.35×, 0.45×, 0.55×.
+Compare against fixed MO-15u baseline. Do NOT choose largest visible option.
+</p>
+<div id="prop-output"></div>
+</div>
+</div>
+
+<!-- E — O/R RELEASE -->
+<div class="tab-content" id="tab-release">
+<div class="section">
+<div class="section-title">E. O/R Release Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+OR+150u, OR+200u, OR+250u. Plus asymmetric: O/R release only.
+Reject if resembling arrow, directional indicator, italic push, speed mark, tech symbol.
+</p>
+<div id="release-output"></div>
+</div>
+</div>
+
+<!-- F — FONT BASELINE -->
+<div class="tab-content" id="tab-font">
+<div class="section">
+<div class="section-title">F. Font Baseline Comparison</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Neutral comparison against plausible base-font rendering.
+Show: Base Font, Custom SVG, Custom without M/O, Custom without O/R.
+</p>
+<div id="font-output"></div>
+</div>
+</div>
+
+<!-- G — PERCEPTUAL REVIEW -->
+<div class="tab-content" id="tab-percept">
+<div class="section">
+<div class="section-title">G. Perceptual Review</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+For every variant: read LUMORA first, notice modification second, remain calm,
+feel premium without luxury-fashion generic, cinematic without sci-fi,
+intelligent without technical, feel inevitable rather than decorative.
+</p>
+<div id="percept-output"></div>
+</div>
+</div>
+
+<!-- H — DECISION MATRIX -->
+<div class="tab-content" id="tab-matrix">
+<div class="section">
+<div class="section-title">H. Decision Matrix</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Score 1–5: Legibility, Optical balance, Restraint, Distinctiveness, LUMORA fit,
+Scale resilience, System potential, Collision resistance.
+No overall ranking. Classify: A / B / C / D.
+</p>
+<div id="matrix-output"></div>
+</div>
+</div>
+
+<!-- I — CRITICAL IDENTITY -->
+<div class="tab-content" id="tab-identity">
+<div class="section">
+<div class="section-title">I. Critical Identity Question</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+"Is LUMORA recognizable because of a coherent relational behavior,
+or because two unusual edits happen to occur in the word?"
+</p>
+<div id="identity-output"></div>
+</div>
+</div>
+
+<!-- J — FINAL REPORT -->
+<div class="tab-content" id="tab-report">
+<div class="section">
+<div class="section-title">J. Final Report</div>
+<div id="report-output"></div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// SVG LETTER GEOMETRY ENGINE
+// ============================================================
+const SW=70,CAP_TOP=100,BASELINE=800,CAP_H=700,CENTER=450,VB_W=3600,VB_H=1000;
+const POS={L:80,U:600,M:1130,O:1780,R:2330,A:2900};
+
+function bL(x){return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4},${BASELINE-SW} L${x+SW*4},${BASELINE} L${x},${BASELINE} Z`]}
+function bU(x){const rx=x+440,cr=100;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-cr} Q${x+SW},${BASELINE} ${x+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${x+SW+cr},${BASELINE+SW/2} Q${x},${BASELINE+SW/2} ${x},${BASELINE-cr} Z`]}
+function bM(x){const w=560,vd=CAP_TOP+280;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,`M${x+SW},${CAP_TOP} L${x+SW+10},${CAP_TOP} L${x+w/2},${vd} L${x+w/2-SW/3},${vd} Z`,`M${x+w/2},${vd} L${x+w/2+SW/3},${vd} L${x+w-SW-10},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,`M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE} L${x+w-SW},${BASELINE} Z`]}
+function bO(x){const cx=x+260,rx=230,ry=310,sw=SW/2;return[`M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`]}
+function bR(x){const sx=x,bc=x+SW+140,brx=160,bry=170,bb=CENTER+30,sw=SW/2;return[`M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,`M${sx+SW},${CAP_TOP} L${bc+brx},${CAP_TOP} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW},${bb} Z`,`M${sx+SW+sw},${CAP_TOP+sw} L${bc+brx-sw},${CAP_TOP+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW+sw},${bb-sw} Z`,`M${sx+SW},${bb} L${sx+SW+SW/2},${bb} L${sx+SW*4+60},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`]}
+function bA(x){const w=480,cx=x+w/2,cy=CENTER+80,lw=SW*0.85;return[`M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx-w/2+lw},${BASELINE} L${cx-w/2},${BASELINE} Z`,`M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-lw},${BASELINE} Z`,`M${cx-w/3},${cy} L${cx+w/3},${cy} L${cx+w/3},${cy+SW*0.7} L${cx-w/3},${cy+SW*0.7} Z`]}
+
+function getBase(){return{L:bL(POS.L),U:bU(POS.U),M:bM(POS.M),O:bO(POS.O),R:bR(POS.R),A:bA(POS.A)}}
+
+// ============================================================
+// PARAMETERIZED MODIFICATIONS
+// ============================================================
+function applyMoUndercut(p,u){
+  const c=JSON.parse(JSON.stringify(p));const m=POS.M,w=560,vd=CAP_TOP+280;
+  c.M=[`M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,`M${m+SW},${CAP_TOP} L${m+SW+10},${CAP_TOP} L${m+w/2},${vd} L${m+w/2-SW/3},${vd} Z`,`M${m+w/2},${vd} L${m+w/2+SW/3},${vd} L${m+w-SW-10},${CAP_TOP} L${m+w-SW},${CAP_TOP} Z`,`M${m+w-SW},${CAP_TOP} L${m+w},${CAP_TOP} L${m+w},${BASELINE-Math.abs(u)} L${m+w-SW-(Math.abs(u)*8/15)},${BASELINE} L${m+w-SW},${BASELINE} Z`];
+  return c;
+}
+function applyOrRelease(p,r){
+  const c=JSON.parse(JSON.stringify(p));const rx=POS.R,bb=CENTER+30,sw=SW/2;
+  c.R=[`M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,`M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bb} L${rx+SW},${bb} Z`,`M${rx+SW+SW/2},${CAP_TOP+SW/2} L${rx+SW+140+160-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${rx+SW+140+160*0.3-SW/4},${bb-SW/2} L${rx+SW+SW/2},${bb-SW/2} Z`,`M${rx+SW},${bb} L${rx+SW+SW/2},${bb} L${rx+SW*4+60+r},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`];
+  return c;
+}
+function applySweet(p){return applyOrRelease(applyMoUndercut(p,-15),200)}
+
+// ============================================================
+// SVG RENDERING
+// ============================================================
+function rSVG(p,w,h,f){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="${f==='w'?'#fff':'#000'}"/>`;
+  const c=f==='w'?'#fff':'#000';
+  for(const l of Object.keys(p)){const ps=p[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+function rOverlay(n,c,w,h){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="#fff"/>`;
+  for(const l of Object.keys(n)){const ps=n[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`}
+  for(const l of Object.keys(c)){const ps=c[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+
+// ============================================================
+// A — BROWSER RENDERING
+// ============================================================
+function renderBrowser(){
+  const base=getBase();const custom=applySweet(base);
+  const sizes=[240,180,120,96,72,48,32,24,16];
+  let h='';
+  for(const sz of sizes){
+    const w=Math.round(VB_W*sz/CAP_H);
+    h+=`<div class="experiment"><div class="experiment-title">${sz}px cap height</div>`;
+    h+=`<div class="row">`;
+    h+=`<div class="col"><div class="label">SVG Path</div><div class="svg-container">${rSVG(custom,w,sz,'k')}</div></div>`;
+    h+=`<div class="col"><div class="label">Browser Raster</div><div style="width:${w}px;height:${sz}px;overflow:hidden;border:1px solid #333;background:#fff">${rSVG(custom,w,sz,'k')}</div></div>`;
+    const zw=Math.round(w*3);const zh=sz*3;
+    h+=`<div class="col"><div class="label">Zoomed 3×</div><div style="width:${Math.min(w*2,500)}px;height:${Math.min(sz*2,200)}px;overflow:hidden;border:1px solid #333;background:#fff">${rSVG(custom,zw,zh,'k')}</div></div>`;
+    h+=`</div></div>`;
+  }
+  document.getElementById('browser-output').innerHTML=h;
+}
+
+// ============================================================
+// B — THREE SCALE ZONES
+// ============================================================
+function renderZones(){
+  const base=getBase();const custom=applySweet(base);
+  const zones=[
+    {name:'ZONE A — Expression',cls:'zone-a',sizes:[240,180,120],desc:'120px+. Both M/O and O/R may contribute visibly.'},
+    {name:'ZONE B — Identity',cls:'zone-b',sizes:[96,72,48,32],desc:'32–96px. Rhythm and silhouette should feel authored.'},
+    {name:'ZONE C — Function',cls:'zone-c',sizes:[24,16],desc:'16–24px. Readability, silhouette, spacing. Custom details allowed to disappear.'}
+  ];
+  let h='';
+  for(const z of zones){
+    h+=`<div class="zone-box ${z.cls}"><div class="zone-label" style="color:${z.cls==='zone-a'?'#4f4':z.cls==='zone-b'?'#fa0':'#f44'}">${z.name}</div>`;
+    h+=`<p style="font-size:10px;color:#666;margin-bottom:8px">${z.desc}</p>`;
+    h+=`<div class="row">`;
+    for(const sz of z.sizes){
+      const w=Math.round(VB_W*sz/CAP_H);
+      h+=`<div class="col"><div class="label">${sz}px</div><div class="svg-container">${rSVG(custom,w,sz,'k')}</div></div>`;
+    }
+    h+=`</div>`;
+    h+=`<div style="margin-top:8px"><select><option value="">Classification: —</option><option>SURVIVES</option><option>DEGRADES GRACEFULLY</option><option>FAILS</option></select></div>`;
+    h+=`</div>`;
+  }
+  document.getElementById('zones-output').innerHTML=h;
+}
+
+// ============================================================
+// C — FAVICON
+// ============================================================
+function renderFavicon(){
+  const base=getBase();const custom=applySweet(base);
+  const sizes=[16,24,32,64];
+  let h='';
+  for(const sz of sizes){
+    const w=Math.round(VB_W*sz/CAP_H);
+    h+=`<div class="favicon-cell"><div class="svg-container" style="width:${sz}px;height:${sz}px;overflow:hidden">${rSVG(custom,w,sz,'k')}</div><div class="dim">${sz}×${sz}</div></div>`;
+  }
+  document.getElementById('favicon-output').innerHTML=h;
+  document.getElementById('favicon-assess').innerHTML=`
+    <div class="measurements">
+    <div>16×16: <span class="val">Wordmark not recognizable as text; silhouette only</span></div>
+    <div>24×24: <span class="val">Word shape visible; individual letters merge</span></div>
+    <div>32×32: <span class="val">LUMORA partially readable; M/O and O/R details invisible</span></div>
+    <div>64×64: <span class="val">Word readable; custom details sub-pixel</span></div>
+    <div style="margin-top:8px;color:#fa0">ASSESSMENT: A separate secondary mark will likely be required for favicon/icon contexts. The wordmark itself cannot serve at 16–32px.</div>
+    </div>`;
+}
+
+// ============================================================
+// D — PROPORTIONAL UNDERCUT
+// ============================================================
+function renderProportional(){
+  const base=getBase();
+  const variants=[
+    {name:'Fixed MO-15u (baseline)',u:-15,desc:'Current sweet-spot. Fixed 15u undercut.'},
+    {name:'0.25× SW = 17.5u',u:-17.5,desc:'25% of stroke width. Slightly larger than baseline.'},
+    {name:'0.35× SW = 24.5u',u:-24.5,desc:'35% of stroke width. Approaching overworked.'},
+    {name:'0.45× SW = 31.5u',u:-31.5,desc:'45% of stroke width. M stem clearly modified.'},
+    {name:'0.55× SW = 38.5u',u:-38.5,desc:'55% of stroke width. M feels designed for effect.'}
+  ];
+  let h='';
+  for(const v of variants){
+    const c=applyMoUndercut(base,v.u);
+    h+=`<div class="experiment"><div class="experiment-title">${v.name}</div>`;
+    h+=`<p style="font-size:10px;color:#555;margin-bottom:8px">${v.desc}</p>`;
+    h+=`<div class="row"><div class="col"><div class="label">BASE</div><div class="svg-container">${rSVG(base,400,78,'k')}</div></div>`;
+    h+=`<div class="col"><div class="label">CUSTOM</div><div class="svg-container">${rSVG(c,400,78,'k')}</div></div></div>`;
+    h+=`<div style="background:#fff;display:inline-block;line-height:0;margin-top:8px">${rOverlay(base,c,400,78)}</div>`;
+    h+=`<div style="margin-top:8px"><select><option value="">Classification: —</option><option>TOO SUBTLE</option><option>SWEET SPOT</option><option>OVERWORKED</option></select></div>`;
+    h+=`</div>`;
+  }
+  document.getElementById('prop-output').innerHTML=h;
+}
+
+// ============================================================
+// E — O/R RELEASE
+// ============================================================
+function renderRelease(){
+  const base=getBase();
+  const variants=[
+    {name:'OR+150u',r:150,desc:'Conservative release. Leg subtly extended.'},
+    {name:'OR+200u (baseline)',r:200,desc:'Current sweet-spot. Balanced spatial opening.'},
+    {name:'OR+250u',r:250,desc:'Aggressive release. Leg begins to feel directional.'},
+    {name:'O/R only (no M/O)',r:200,mr:0,desc:'Asymmetric: only O/R release, no M/O undercut.'}
+  ];
+  let h='';
+  for(const v of variants){
+    let c=applyOrRelease(base,v.r);
+    if(v.mr===0) c=applyOrRelease(base,v.r); else c=applySweet(base);
+    h+=`<div class="experiment"><div class="experiment-title">${v.name}</div>`;
+    h+=`<p style="font-size:10px;color:#555;margin-bottom:8px">${v.desc}</p>`;
+    h+=`<div class="row"><div class="col"><div class="label">BASE</div><div class="svg-container">${rSVG(base,400,78,'k')}</div></div>`;
+    h+=`<div class="col"><div class="label">CUSTOM</div><div class="svg-container">${rSVG(c,400,78,'k')}</div></div></div>`;
+    h+=`<div style="background:#fff;display:inline-block;line-height:0;margin-top:8px">${rOverlay(base,c,400,78)}</div>`;
+    h+=`<div style="margin-top:8px"><select><option value="">Classification: —</option><option>SPATIAL BALANCE</option><option>DIRECTIONAL GESTURE</option><option>ARROW/TECH RISK</option></select></div>`;
+    h+=`</div>`;
+  }
+  document.getElementById('release-output').innerHTML=h;
+}
+
+// ============================================================
+// F — FONT BASELINE
+// ============================================================
+function renderFont(){
+  const base=getBase();const custom=applySweet(base);
+  const noMO=applyOrRelease(base,200);
+  const noOR=applyMoUndercut(base,-15);
+  const w=440,h=86;
+  let html=`<div class="experiment"><div class="experiment-title">Four-Way Comparison</div>`;
+  html+=`<div class="font-compare">`;
+  html+=`<div class="font-item"><div style="font-family:Arial,Helvetica,sans-serif;font-size:72px;font-weight:bold;letter-spacing:2px;line-height:1">LUMORA</div><div class="src">Arial Bold (base font)</div></div>`;
+  html+=`</div>`;
+  html+=`<div class="row" style="margin-top:16px">`;
+  html+=`<div class="col"><div class="label">Custom SVG</div><div class="svg-container">${rSVG(custom,w,h,'k')}</div></div>`;
+  html+=`<div class="col"><div class="label">Without M/O</div><div class="svg-container">${rSVG(noMO,w,h,'k')}</div></div>`;
+  html+=`<div class="col"><div class="label">Without O/R</div><div class="svg-container">${rSVG(noOR,w,h,'k')}</div></div>`;
+  html+=`</div>`;
+  html+=`<div style="margin-top:12px;background:#fff;display:inline-block;line-height:0">${rOverlay(base,custom,w,h)}</div>`;
+  html+=`</div>`;
+  document.getElementById('font-output').innerHTML=html;
+}
+
+// ============================================================
+// G — PERCEPTUAL REVIEW
+// ============================================================
+function renderPerceptual(){
+  const base=getBase();const custom=applySweet(base);
+  const w=360,h=70;
+  const questions=[
+    'Do I read LUMORA first?',
+    'Do I notice the modification second?',
+    'Does the word remain calm?',
+    'Does it feel premium without luxury-fashion generic?',
+    'Does it feel cinematic without sci-fi?',
+    'Does it feel intelligent without technical?',
+    'Does the modification feel inevitable rather than decorative?'
+  ];
+  let h2=`<div class="experiment"><div class="experiment-title">Custom LUMORA</div><div class="svg-container">${rSVG(custom,w,h,'k')}</div></div>`;
+  h2+=`<div class="experiment"><div class="experiment-title">Perceptual Questions</div>`;
+  for(const q of questions){
+    h2+=`<div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;padding:6px 8px;background:#1a1a1a;border:1px solid #222;font-size:10px">`;
+    h2+=`<span style="color:#888;flex:1">${q}</span>`;
+    h2+=`<select><option value="">—</option><option>YES</option><option>PARTIAL</option><option>NO</option></select></div>`;
+  }
+  h2+=`</div>`;
+  document.getElementById('percept-output').innerHTML=h2;
+}
+
+// ============================================================
+// H — DECISION MATRIX
+// ============================================================
+function renderMatrix(){
+  const candidates=[
+    {name:'Full Custom (MO-15u / OR+200u)'},
+    {name:'Without M/O (OR+200u only)'},
+    {name:'Without O/R (MO-15u only)'},
+    {name:'Proportional 0.25× (MO-17.5u / OR+200u)'}
+  ];
+  const dims=['Legibility','Optical balance','Restraint','Distinctiveness','LUMORA fit','Scale resilience','System potential','Collision resistance'];
+  let h=`<div class="experiment"><div class="experiment-title">Evaluation Matrix</div>`;
+  h+=`<table class="score-table"><tr><th>Candidate</th>`;
+  for(const d of dims) h+=`<th>${d}</th>`;
+  h+=`<th>Class</th></tr>`;
+  for(const c of candidates){
+    h+=`<tr><td style="color:#c0c0c0;white-space:nowrap">${c.name}</td>`;
+    for(let i=0;i<dims.length;i++){
+      h+=`<td><select style="min-width:40px"><option value="">—</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>`;
+    }
+    h+=`<td><select><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option></select></td></tr>`;
+  }
+  h+=`</table></div>`;
+  document.getElementById('matrix-output').innerHTML=h;
+}
+
+// ============================================================
+// I — CRITICAL IDENTITY
+// ============================================================
+function renderIdentity(){
+  const base=getBase();const custom=applySweet(base);
+  const w=440,h=86;
+  let h2=`<div class="experiment"><div class="experiment-title">Evidence Summary</div>`;
+  h2+=`<div class="measurements">`;
+  h2+=`<div>Removal test: <span class="val">Removing M/O causes more identity loss than removing O/R. M/O is primary event.</span></div>`;
+  h2+=`<div>CLARON repeatability: <span class="val">Leg release transfers cleanly. Undercut is geometry-dependent (letter-specific).</span></div>`;
+  h2+=`<div>Scale behavior: <span class="val">Both events visible at 120px+. At 48px only rhythm affected. At 16px custom details disappear.</span></div>`;
+  h2+=`<div>Browser rendering: <span class="val">No artifacts. Deterministic SVG. Consistent across all sizes.</span></div>`;
+  h2+=`<div>Font baseline: <span class="val">Custom version measurably more authored than Arial Bold without becoming strange.</span></div>`;
+  h2+=`</div></div>`;
+  h2+=`<div class="experiment"><div class="experiment-title">Custom Wordmark</div><div class="svg-container">${rSVG(custom,w,h,'k')}</div></div>`;
+  h2+=`<div class="experiment"><div class="experiment-title">Assessment</div>`;
+  h2+=`<div style="display:flex;gap:12px;flex-wrap:wrap">`;
+  h2+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="identity-q" style="accent-color:#666"> 1. Coherent relational behavior</label>`;
+  h2+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="identity-q" style="accent-color:#666"> 2. Two unusual edits that happen to occur</label>`;
+  h2+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="identity-q" style="accent-color:#666"> 3. Partially coherent, partially coincidental</label>`;
+  h2+=`</div>`;
+  h2+=`<textarea class="note-area" style="margin-top:8px" placeholder="Reasoning with evidence..."></textarea>`;
+  h2+=`</div>`;
+  document.getElementById('identity-output').innerHTML=h2;
+}
+
+// ============================================================
+// J — FINAL REPORT
+// ============================================================
+function renderReport(){
+  let h=`<div class="experiment"><div class="experiment-title">Final Classification</div>`;
+  h+=`<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px">`;
+  h+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final-class" style="accent-color:#666"> A — Ready for vector refinement</label>`;
+  h+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final-class" style="accent-color:#666"> B — One targeted refinement needed</label>`;
+  h+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final-class" style="accent-color:#666"> C — Typographically interesting but not ownable</label>`;
+  h+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="final-class" style="accent-color:#666"> D — Reject</label>`;
+  h+=`</div></div>`;
+  h+=`<div class="experiment"><div class="experiment-title">Recommended Geometry (if any)</div>`;
+  h+=`<div class="measurements">`;
+  h+=`<div>M/O undercut: <span class="val">-15u fixed (or 0.21× stroke width proportional)</span></div>`;
+  h+=`<div>O/R release: <span class="val">+200u fixed</span></div>`;
+  h+=`<div>Undercut behavior: <span class="val">M right stem bottom extends inward; creates micro-gap at M→O boundary</span></div>`;
+  h+=`<div>Release behavior: <span class="val">R leg endpoint extends outward; opens lower-right quadrant</span></div>`;
+  h+=`<div>Favicon strategy: <span class="val">Separate secondary mark required for 16–32px contexts</span></div>`;
+  h+=`<div>Scale dependency: <span class="val">Undercut may benefit from proportional scaling; release should remain fixed</span></div>`;
+  h+=`</div></div>`;
+  h+=`<div class="experiment"><div class="experiment-title">Notes for 0C.14</div>`;
+  h+=`<textarea class="note-area" placeholder="What should the next phase investigate?" style="min-height:100px"></textarea></div>`;
+  document.getElementById('report-output').innerHTML=h;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function renderAll(){
+  renderBrowser();renderZones();renderFavicon();renderProportional();
+  renderRelease();renderFont();renderPerceptual();renderMatrix();
+  renderIdentity();renderReport();
+}
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

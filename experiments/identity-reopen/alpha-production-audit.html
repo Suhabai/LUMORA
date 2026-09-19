@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidate Alpha &#8212; Final Production Audit</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07070a;--bg-light:#0c0c10;--bg-mid:#1a1a1f;--text:#e8e4df;--text-dim:#8a8580;--text-muted:#5a5550;--stroke:#c0bab3;--border:rgba(232,228,223,.08)}
+html{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6}
+body{min-height:100vh}
+.hd{padding:80px 60px 60px;border-bottom:1px solid var(--border)}
+.hd h1{font-size:28px;font-weight:600;letter-spacing:-.02em;margin-bottom:12px}
+.hd .sub{font-size:13px;color:var(--text-dim);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.sc{padding:60px;border-bottom:1px solid var(--border)}
+.sl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.st{font-size:18px;font-weight:600;letter-spacing:-.01em;margin-bottom:40px}
+.sr{display:flex;align-items:center;gap:40px;padding:32px 0;border-bottom:1px solid var(--border)}
+.sr:last-child{border-bottom:none}
+.slbl{flex-shrink:0;width:60px;font-size:13px;font-weight:600;color:var(--text-dim);font-variant-numeric:tabular-nums}
+.ssv{flex-shrink:0;display:flex;align-items:center}
+.ssv svg{display:block}
+.snt{font-size:12px;color:var(--text-muted);line-height:1.5;max-width:360px}
+.cc{margin-bottom:24px;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:rgba(232,228,223,.03);border-bottom:1px solid var(--border)}
+.cn{font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.cd{font-size:11px;color:var(--text-dim)}
+.cp{padding:40px;display:flex;align-items:center;justify-content:center}
+.nm{display:flex;align-items:center;gap:32px;width:100%;padding:16px 24px;background:#07070a;border-radius:4px}
+.nb{display:flex;align-items:center;gap:8px}
+.nl{display:flex;gap:24px;margin-left:auto}
+.nk{font-size:13px;color:var(--text-dim);text-decoration:none;letter-spacing:.02em}
+.nmm{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:375px;padding:14px 20px;background:#07070a;border-radius:4px}
+.hb{display:flex;flex-direction:column;gap:5px}
+.hb span{display:block;width:20px;height:1.5px;background:var(--text-dim)}
+.fm{width:100%;padding:32px 24px;background:var(--bg-light);border-radius:4px}
+.fb{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.fl{display:flex;gap:20px;flex-wrap:wrap}
+.fk{font-size:11px;color:var(--text-muted);text-decoration:none}
+.hm{width:100%;height:320px;background:radial-gradient(ellipse at center,#12121a 0%,#07070a 70%);display:flex;align-items:center;justify-content:center;border-radius:4px}
+.pm{width:100%;padding:40px 32px;background:#0a0a0e;border-radius:4px;text-align:center}
+.pm svg{margin-bottom:20px}
+.pm .pt{font-size:13px;color:var(--text-dim);max-width:360px;margin:20px auto 0;line-height:1.7}
+.om{width:100%;max-width:600px;aspect-ratio:1200/630;background:#000;border-radius:4px;display:flex;align-items:center;justify-content:center;gap:20px;border:1px solid var(--border)}
+.cr{margin-bottom:24px;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.cl{padding:12px 20px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);background:rgba(232,228,223,.03);border-bottom:1px solid var(--border)}
+.cv{padding:40px;display:flex;align-items:center;justify-content:center;min-height:140px}
+.cor{display:flex;align-items:center;gap:40px;padding:32px 0;border-bottom:1px solid var(--border)}
+.cor:last-child{border-bottom:none}
+.col{flex-shrink:0;width:80px;font-size:13px;font-weight:600;color:var(--text-dim);font-variant-numeric:tabular-nums}
+.clk{display:flex;align-items:center;gap:12px}
+.cot{font-size:12px;color:var(--text-muted);max-width:300px;line-height:1.5}
+.vl{list-style:none;max-width:560px}
+.vi{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)}
+.vi:last-child{border-bottom:none}
+.vc{flex-shrink:0;width:16px;height:16px;border:1.5px solid var(--text-muted);border-radius:2px;display:flex;align-items:center;justify-content:center}
+.vc.done{border-color:var(--text);background:rgba(232,228,223,.1)}
+.vc.done::after{content:"";display:block;width:8px;height:5px;border-left:1.5px solid var(--text);border-bottom:1.5px solid var(--text);transform:rotate(-45deg) translateY(-1px)}
+.vv{margin-left:auto;font-size:12px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.cls{padding:80px 60px;text-align:center}
+.cg{font-size:48px;font-weight:700;letter-spacing:-.03em;margin-bottom:8px}
+.ct{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim)}
+.dn{display:inline-block;margin-top:12px;padding:8px 16px;background:rgba(232,228,223,.04);border:1px solid var(--border);border-radius:3px;font-size:12px;color:var(--text-muted);font-variant-numeric:tabular-nums}
+@media(max-width:768px){.hd,.sc,.cls{padding-left:24px;padding-right:24px}.sr,.cor{flex-wrap:wrap;gap:16px}.nl{display:none}.fl{flex-direction:column;gap:12px}}
+</style>
+</head>
+<body>
+<header class="hd">
+<h1>Candidate Alpha &#8212; Final Production Audit</h1>
+<p class="sub">Phase 0E.2.4 &nbsp;|&nbsp; M junction y=370 &nbsp;|&nbsp; O counter rx=227 &nbsp;|&nbsp; R-B (restrained) &nbsp;|&nbsp; September 19, 2026</p>
+</header>
+
+<!-- Section 01 -->
+<section class="sc">
+<p class="sl">Section 01</p>
+<h2 class="st">Scale Tests</h2>
+<div class="sr">
+  <span class="slbl">240px</span>
+  <div class="ssv"><svg width="240" height="86" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Full detail. All geometry crisp. A and R junctions clearly resolved.</span>
+</div>
+<div class="sr">
+  <span class="slbl">180px</span>
+  <div class="ssv"><svg width="180" height="65" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Strong legibility. Wordmark reads cleanly. No distortion.</span>
+</div>
+<div class="sr">
+  <span class="slbl">120px</span>
+  <div class="ssv"><svg width="120" height="43" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Compact but clear. Individual letters distinct. Counter shapes hold.</span>
+</div>
+<div class="sr">
+  <span class="slbl">96px</span>
+  <div class="ssv"><svg width="96" height="35" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Minimum display size. O counter still visible. R leg reads.</span>
+</div>
+<div class="sr">
+  <span class="slbl">72px</span>
+  <div class="ssv"><svg width="72" height="26" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Small display. Letter shapes hold. Some detail loss on A junction.</span>
+</div>
+<div class="sr">
+  <span class="slbl">48px</span>
+  <div class="ssv"><svg width="48" height="17" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Tight. Wordmark legible but detail compressed. Acceptable for inline.</span>
+</div>
+<div class="sr">
+  <span class="slbl">32px</span>
+  <div class="ssv"><svg width="32" height="12" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Minimal. Recognizable as wordmark. Counter detail collapses.</span>
+</div>
+<div class="sr">
+  <span class="slbl">24px</span>
+  <div class="ssv"><svg width="24" height="9" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Alias size. Shape reads. Detail not expected.</span>
+</div>
+<div class="sr">
+  <span class="slbl">16px</span>
+  <div class="ssv"><svg width="16" height="6" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+  <span class="snt">Pixel-level. Iconic trace only. Validation of silhouette.</span>
+</div>
+</section>
+
+<!-- Section 02 -->
+<section class="sc">
+<p class="sl">Section 02</p>
+<h2 class="st">Context Tests</h2>
+<div class="cc">
+<div class="ch"><span class="cn">01</span><span class="cd">Navigation Desktop</span></div>
+<div class="cp">
+<div class="nm">
+<div class="nb"><svg width="24" height="31" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg><span style="display:inline-block;width:8px"></span><svg width="28" height="10" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+<div class="nl"><a class="nk" href="#">Work</a><a class="nk" href="#">About</a><a class="nk" href="#">Contact</a></div>
+</div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">02</span><span class="cd">Navigation Mobile</span></div>
+<div class="cp">
+<div class="nmm">
+<svg width="24" height="31" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg>
+<div class="hb"><span></span><span></span><span></span></div>
+</div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">03</span><span class="cd">Footer Desktop</span></div>
+<div class="cp" style="padding:0;width:100%">
+<div class="fm">
+<div class="fb"><svg width="24" height="31" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg><span style="display:inline-block;width:8px"></span><svg width="28" height="10" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+<div class="fl"><a class="fk" href="#">Instagram</a><a class="fk" href="#">LinkedIn</a><a class="fk" href="#">Work Inquiries</a><a class="fk" href="#">Privacy</a></div>
+</div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">04</span><span class="cd">Footer Mobile</span></div>
+<div class="cp" style="padding:0;width:100%">
+<div class="fm" style="max-width:375px;margin:0 auto">
+<div class="fb"><svg width="24" height="31" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg><span style="display:inline-block;width:8px"></span><svg width="24" height="9" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+<div class="fl"><a class="fk" href="#">Instagram</a><a class="fk" href="#">LinkedIn</a></div>
+</div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">05</span><span class="cd">Homepage Hero</span></div>
+<div class="cp" style="padding:0;width:100%">
+<div class="hm">
+<svg width="320" height="115" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg>
+</div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">06</span><span class="cd">Work Page</span></div>
+<div class="cp" style="padding:0;width:100%">
+<div class="pm">
+<svg width="180" height="65" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg>
+<div class="pt">Selected projects exploring the intersection of motion, identity, and craft.</div>
+</div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">07</span><span class="cd">About Page</span></div>
+<div class="cp" style="padding:0;width:100%">
+<div class="pm">
+<svg width="140" height="50" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg>
+<div class="pt">LUMORA is a design studio focused on cinematic digital experiences. We believe in identity over trends, meaning over decoration.</div>
+</div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">08</span><span class="cd">Contact Page</span></div>
+<div class="cp" style="padding:0;width:100%">
+<div class="pm">
+<svg width="140" height="50" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg>
+<div class="pt" style="margin-top:32px">hello@lumora.studio</div>
+</div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">09</span><span class="cd">Editorial Context</span></div>
+<div class="cp" style="padding:40px;flex-direction:column;align-items:flex-start;gap:24px">
+<div><svg width="120" height="43" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+<div style="max-width:480px"><div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:8px">The Wordmark</div><div style="font-size:13px;color:var(--text-dim);line-height:1.7">Alpha introduces a custom letterform system. The M carries the V-dip at y=370, O uses a precise elliptical counter (rx=227), and R-B are restrained to maintain horizontal flow.</div></div>
+</div>
+</div>
+<div class="cc">
+<div class="ch"><span class="cn">10</span><span class="cd">OG Image Simulation (1200x630)</span></div>
+<div class="cp" style="padding:40px;justify-content:center">
+<div class="om">
+<svg width="48" height="61" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg>
+<svg width="200" height="72" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 03 -->
+<section class="sc">
+<p class="sl">Section 03</p>
+<h2 class="st">Color Tests</h2>
+<div class="cr">
+<div class="cl">01 &mdash; Black on White</div>
+<div class="cv" style="background:#f5f5f7">
+<svg width="200" height="72" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#1a1a1f"/></svg>
+</div>
+</div>
+<div class="cr">
+<div class="cl">02 &mdash; White on Dark</div>
+<div class="cv" style="background:#07070a">
+<svg width="200" height="72" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg>
+</div>
+</div>
+<div class="cr">
+<div class="cl">03 &mdash; Neutral on Mid-tone</div>
+<div class="cv" style="background:#1a1a1f">
+<svg width="200" height="72" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#c0bab3"/></svg>
+</div>
+</div>
+</section>
+
+<!-- Section 04 -->
+<section class="sc">
+<p class="sl">Section 04</p>
+<h2 class="st">M Core Compatibility</h2>
+<div class="cor">
+  <span class="col">Large</span>
+  <div class="clk"><svg width="48" height="61" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg><span style="display:inline-block;width:12px"></span><svg width="" height="0" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+</div>
+<div class="cor">
+  <span class="col">Medium</span>
+  <div class="clk"><svg width="30" height="38" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg><span style="display:inline-block;width:12px"></span><svg width="" height="0" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+</div>
+<div class="cor">
+  <span class="col">Small</span>
+  <div class="clk"><svg width="18" height="23" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg><span style="display:inline-block;width:12px"></span><svg width="" height="0" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+</div>
+<div class="cor">
+  <span class="col">Compact</span>
+  <div class="clk"><svg width="8" height="10" viewBox="0 0 784 1000" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" fill="#e8e4df"/></svg><span style="display:inline-block;width:12px"></span><svg width="" height="0" viewBox="0 0 2500 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" fill="#e8e4df"/></svg></div>
+</div>
+
+<div style="padding:24px 0;border-top:1px solid var(--border)">
+<div class="dn">V-dip comparison: M Core V-dip at y=411 &nbsp;|&nbsp; Wordmark M V-dip at y=370 &mdash; 41px offset creates visual breathing room in the wordmark lockup</div>
+</div>
+</section>
+
+<!-- Section 05 -->
+<section class="sc">
+<p class="sl">Section 05</p>
+<h2 class="st">Final Verification</h2>
+<ul class="vl">
+<li class="vi">
+<div class="vc done"></div>
+<span>All 9 wordmark SVG files</span>
+<span class="vv">Alpha geometry</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Navigation lockup</span>
+<span class="vv">Alpha</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Footer lockup</span>
+<span class="vv">Alpha</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>OG image</span>
+<span class="vv">Alpha + M Core</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Identity Freeze</span>
+<span class="vv">v3</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>M Core</span>
+<span class="vv">Unchanged</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Favicon</span>
+<span class="vv">Unchanged</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Apple icon</span>
+<span class="vv">Unchanged</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Living Core</span>
+<span class="vv">Unchanged</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Motion</span>
+<span class="vv">Unchanged</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Sonic</span>
+<span class="vv">Unchanged (silent)</span>
+</li>
+<li class="vi">
+<div class="vc done"></div>
+<span>Legacy logo-assets</span>
+<span class="vv">Updated to Alpha</span>
+</li>
+</ul>
+</section>
+
+<section class="cls">
+<div class="cg">A</div>
+<div class="ct">Wordmark Finalized</div>
+</section>
+</body>
+</html>

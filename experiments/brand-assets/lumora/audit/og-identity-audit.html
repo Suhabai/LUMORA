@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — OG Identity Audit — Phase 0C.23</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;padding:30px}
+h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400;margin-bottom:4px}
+p{font-size:11px;color:#555;margin-bottom:20px}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.meta{font-size:9px;color:#555;margin-top:8px}
+.og-box{width:100%;max-width:600px;line-height:0;border:1px solid #333}
+.audit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.audit-item{padding:6px 8px;background:#1a1a1a;border:1px solid #222;font-size:10px}
+.audit-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.audit-item .v{color:#c0c0c0;font-weight:bold;margin-top:2px}
+.pass{color:#4f4}
+</style>
+</head>
+<body>
+
+<h1>LUMORA — OG Identity Audit</h1>
+<p>Phase 0C.23 — Static OG replacement verification.</p>
+
+<div class="section">
+<div class="section-title">Production OG Image</div>
+
+<div class="experiment">
+<div class="experiment-title">opengraph-image.png — 1200x630</div>
+<div class="og-box"><img src="../../../app/opengraph-image.png" width="1200" height="630" style="width:100%;height:auto"></div>
+<div class="meta">Served at: /opengraph-image | 1200x630 | M Core + LUMORA wordmark | No Living Core | No purple glow</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Approved Source Assets</div>
+
+<div class="experiment">
+<div class="experiment-title">lumora-og-black.png — Source</div>
+<div class="og-box"><img src="../raster/lumora-og-black.png" width="1200" height="630" style="width:100%;height:auto"></div>
+<div class="meta">experiments/brand-assets/lumora/raster/lumora-og-black.png | 1200x630 | 25096 bytes</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">lumora-og-white.png — Alternate</div>
+<div class="og-box" style="border:1px solid #ddd"><img src="../raster/lumora-og-white.png" width="1200" height="630" style="width:100%;height:auto"></div>
+<div class="meta">experiments/brand-assets/lumora/raster/lumora-og-white.png | 1200x630 | 13424 bytes</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Validation Summary</div>
+<div class="experiment">
+<div class="audit-grid">
+<div class="audit-item"><div class="k">Route</div><div class="v pass">/opengraph-image</div></div>
+<div class="audit-item"><div class="k">Dimensions</div><div class="v pass">1200x630</div></div>
+<div class="audit-item"><div class="k">Format</div><div class="v pass">PNG (RGBA)</div></div>
+<div class="audit-item"><div class="k">M Core</div><div class="v pass">PRESENT</div></div>
+<div class="audit-item"><div class="k">Wordmark</div><div class="v pass">PRESENT</div></div>
+<div class="audit-item"><div class="k">Living Core</div><div class="v pass">ABSENT (correct)</div></div>
+<div class="audit-item"><div class="k">Purple glow</div><div class="v pass">ABSENT (correct)</div></div>
+<div class="audit-item"><div class="k">Generator</div><div class="v pass">REMOVED</div></div>
+<div class="audit-item"><div class="k">Metadata</div><div class="v pass">/opengraph-image (unchanged)</div></div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

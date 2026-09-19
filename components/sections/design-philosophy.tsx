@@ -49,6 +49,8 @@ export function DesignPhilosophy() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const dur = parseFloat(
       getComputedStyle(document.documentElement).getPropertyValue(
         "--core-motion-duration"
@@ -56,6 +58,12 @@ export function DesignPhilosophy() {
     );
 
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set(headingRef.current, { opacity: 1, y: 0 });
+        gsap.set(".principle-moment", { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", position: "absolute", top: 0, left: 0, width: "100%", height: "100%" });
+        gsap.set(".principle-number, .principle-line, .principle-title, .principle-desc, .principle-atmosphere", { opacity: 1, y: 0, scaleX: 1, scale: 1, filter: "blur(0px)" });
+        return;
+      }
       // ── HEADING REVEAL ──
       // Emerges from Core focus — the thinking begins
       if (headingRef.current) {

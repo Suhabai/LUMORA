@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="none">
+  <!-- LUMORA Micro-Mark — M-OPTICAL -->
+  <!-- Medium-scale correction. Undercut preserved, diagonal detail simplified. -->
+  <path fill="#000" fill-rule="evenodd" d="
+    M258,50 L328,50 L328,950 L258,950 Z
+    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+    M328,50 L540,411 L664,50 Z
+  "/>
+</svg>

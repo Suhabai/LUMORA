@@ -1,0 +1,361 @@
+/* ═══════════════════════════════════════════════════════════
+   HERO V2 — LIVING LIGHT
+   Visually richer atmospheric layers for the LUMORA hero.
+   Layer architecture: VOID → ATMOSPHERE → LIGHT → GLOW → VIGNETTE
+   All CSS-only: gradients, pseudo-elements, @keyframes.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── LAYER 1: VOID ──
+   Deep near-black foundation with tonal variation.
+   Richer than baseline: multiple radial gradients
+   create subtle depth even in the darkness. */
+.hero-v2-void {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 160% 140% at 50% 30%, rgba(14, 10, 24, 0.7) 0%, transparent 50%),
+    radial-gradient(ellipse 120% 100% at 50% 50%, rgba(10, 7, 18, 0.5) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 50% 60%, rgba(8, 5, 14, 0.3) 0%, transparent 50%),
+    linear-gradient(to bottom, rgba(5, 3, 10, 1) 0%, rgba(8, 5, 14, 1) 50%, rgba(5, 3, 10, 1) 100%);
+}
+
+/* ── LAYER 2: ATMOSPHERE ──
+   Clearly visible purple atmospheric field.
+   Larger and more structured than baseline's faint radial.
+   This is the first major visual difference:
+   the void now has a perceptible, living atmosphere. */
+.hero-v2-atmosphere {
+  position: absolute;
+  inset: -12%;
+  opacity: 0;
+  background:
+    radial-gradient(
+      ellipse 80% 70% at 48% 44%,
+      rgba(155, 68, 248, 0.14) 0%,
+      rgba(140, 55, 240, 0.08) 25%,
+      rgba(125, 42, 224, 0.03) 45%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 52% 50%,
+      rgba(145, 58, 242, 0.06) 0%,
+      transparent 50%
+    );
+  animation: hv2-atmosphere-drift 24s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/* Atmosphere ::before — secondary field, slightly offset
+   Creates layered depth by having a second glow at a different position */
+.hero-v2-atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 54% 42%,
+      rgba(165, 85, 255, 0.06) 0%,
+      transparent 55%
+    );
+  animation: hv2-atmo-inner 18s ease-in-out infinite reverse;
+}
+
+/* Atmosphere ::after — upper mist, very faint
+   Adds atmospheric density without heaviness */
+.hero-v2-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 90% 40% at 50% 15%,
+      rgba(135, 50, 238, 0.04) 0%,
+      transparent 55%
+    );
+  animation: hv2-mist-breathe 20s ease-in-out infinite;
+}
+
+/* ── LAYER 3: DIRECTIONAL LIGHT STRUCTURE ──
+   Architectural light that frames the Core.
+   Abstract, geometric, soft-edged.
+   Inspired by directional light shaping composition. */
+.hero-v2-light {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+/* Upper fan — light radiating downward from above the Core.
+   This creates the primary directional impression:
+   light falls from above, revealing the space. */
+.dl-fan-upper {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: 70%;
+  height: 55%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(
+      ellipse 100% 80% at 50% 0%,
+      rgba(155, 72, 248, 0.09) 0%,
+      rgba(140, 55, 240, 0.04) 35%,
+      transparent 65%
+    );
+  clip-path: polygon(30% 0%, 70% 0%, 85% 100%, 15% 100%);
+  animation: hv2-fan-breathe 20s ease-in-out infinite;
+}
+
+/* Lower fan — subtle counter-balance.
+   Very faint, prevents the upper fan from creating
+   perceived weight imbalance. */
+.dl-fan-lower {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  width: 50%;
+  height: 35%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(
+      ellipse 100% 80% at 50% 100%,
+      rgba(145, 58, 242, 0.035) 0%,
+      transparent 60%
+    );
+  clip-path: polygon(20% 0%, 80% 0%, 65% 100%, 35% 100%);
+  animation: hv2-fan-breathe 20s ease-in-out infinite reverse;
+}
+
+/* Left accent — architectural edge light.
+   A faint vertical streak that suggests spatial depth
+   without being a literal line. */
+.dl-accent-left {
+  position: absolute;
+  top: 20%;
+  left: 12%;
+  width: 1px;
+  height: 60%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(155, 72, 248, 0.06) 30%,
+    rgba(140, 55, 240, 0.03) 70%,
+    transparent 100%
+  );
+  filter: blur(8px);
+  animation: hv2-accent-pulse 16s ease-in-out infinite;
+}
+
+/* Right accent — architectural edge light.
+   Slightly offset from left to create asymmetry. */
+.dl-accent-right {
+  position: absolute;
+  top: 25%;
+  right: 14%;
+  width: 1px;
+  height: 50%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(145, 58, 242, 0.04) 35%,
+    rgba(155, 72, 248, 0.02) 65%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  animation: hv2-accent-pulse 16s ease-in-out infinite reverse;
+}
+
+/* ── LAYER 4: CORE GLOW ──
+   Focal luminance that concentrates around the Core.
+   This makes the Core feel like it occupies real space —
+   light gathers where the Core exists. */
+.hero-v2-core-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 45vw;
+  height: 45vw;
+  max-width: 600px;
+  max-height: 600px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  background:
+    radial-gradient(
+      ellipse 60% 55% at 50% 48%,
+      rgba(155, 72, 248, 0.10) 0%,
+      rgba(140, 55, 240, 0.05) 30%,
+      rgba(125, 42, 224, 0.02) 50%,
+      transparent 70%
+    );
+  animation: hv2-glow-breathe 14s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/* Core glow ::before — inner ring of light
+   Creates a subtle focal ring that frames the Core region */
+.hero-v2-core-glow::before {
+  content: "";
+  position: absolute;
+  inset: 15%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(165, 85, 255, 0.04) 0%,
+    transparent 60%
+  );
+  animation: hv2-glow-ring 18s ease-in-out infinite;
+}
+
+/* ── LAYER 5: VIGNETTE ──
+   Tighter, more deliberate than baseline.
+   Concentrates attention inward toward the Core.
+   Baseline: transparent 46% → rgba(7,7,10, 0.32) 100%
+   V2: transparent 40% → rgba(5,3,10, 0.45) 100% — tighter, richer */
+.hero-v2-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 110% 110% at 50% 48%,
+    transparent 40%,
+    rgba(5, 3, 10, 0.45) 100%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+   All extremely slow. The environment is "slowly alive."
+   ═══════════════════════════════════════════════════════════ */
+
+/* Atmosphere drift — very slow positional shift */
+@keyframes hv2-atmosphere-drift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  33% {
+    transform: translate(-0.8%, -0.5%) scale(1.015);
+    opacity: 0.92;
+  }
+  66% {
+    transform: translate(0.4%, 0.3%) scale(0.99);
+    opacity: 0.96;
+  }
+}
+
+/* Inner atmosphere — reverse drift for layered depth */
+@keyframes hv2-atmo-inner {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(0.6%, 0.4%) scale(1.02);
+    opacity: 0.88;
+  }
+}
+
+/* Mist breathing — subtle opacity fluctuation */
+@keyframes hv2-mist-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+/* Fan breathing — the directional light structure breathes */
+@keyframes hv2-fan-breathe {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translateX(-50%) scaleY(1.03);
+  }
+}
+
+/* Accent pulse — very slow edge light fluctuation */
+@keyframes hv2-accent-pulse {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  50% { opacity: 0.6; transform: scaleY(1.02); }
+}
+
+/* Core glow breathing — focal luminance rhythm */
+@keyframes hv2-glow-breathe {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  33% {
+    transform: translate(-50%, -50%) scale(1.04);
+    opacity: 0.88;
+  }
+  66% {
+    transform: translate(-50%, -50%) scale(0.97);
+    opacity: 0.94;
+  }
+}
+
+/* Glow ring — inner focal ring subtle pulse */
+@keyframes hv2-glow-ring {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.06); opacity: 0.8; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   Desktop: full visual treatment.
+   Tablet: reduced intensity.
+   Mobile: simplified, reduced.
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .hero-v2-atmosphere {
+    inset: -8%;
+  }
+  .hero-v2-atmosphere::before {
+    inset: -5%;
+  }
+  .dl-fan-upper {
+    width: 80%;
+    height: 50%;
+  }
+  .dl-fan-lower {
+    width: 60%;
+    height: 30%;
+  }
+  .dl-accent-left,
+  .dl-accent-right {
+    opacity: 0.6;
+  }
+  .hero-v2-core-glow {
+    width: 50vw;
+    height: 50vw;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Mobile: significantly simplified.
+     Keep the atmosphere and glow, remove the architectural light.
+     The composition must remain clear on small screens. */
+  .hero-v2-atmosphere {
+    inset: -5%;
+  }
+  .hero-v2-atmosphere::before,
+  .hero-v2-atmosphere::after {
+    display: none;
+  }
+  .hero-v2-light {
+    display: none;
+  }
+  .hero-v2-core-glow {
+    width: 70vw;
+    height: 70vw;
+  }
+  .hero-v2-vignette {
+    background: radial-gradient(
+      ellipse 120% 120% at 50% 48%,
+      transparent 35%,
+      rgba(5, 3, 10, 0.5) 100%
+    );
+  }
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMORA Motion Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Manrope:wght@300;400;500;600&family=SF+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab">
+    <header class="lab-header">
+      <p class="subtitle">Phase 0D.1 — Research Lab</p>
+      <h1>Motion Grammar</h1>
+    </header>
+
+    <nav class="lab-nav">
+      <a href="reveal.html">Reveal</a>
+      <a href="align.html">Align</a>
+      <a href="release.html">Release</a>
+      <a href="drift.html">Drift</a>
+      <a href="handoff.html">Handoff</a>
+      <a href="presence.html">Presence</a>
+    </nav>
+
+    <section class="demo-section">
+      <h2>Motion Vocabulary</h2>
+      <p class="semantic">6 Primary Behaviors</p>
+      <p>LUMORA uses six primary motion behaviors. Each communicates a distinct relationship. This lab demonstrates each candidate visually.</p>
+    </section>
+
+    <section class="demo-section">
+      <h2>Timing Scale</h2>
+      <p class="semantic">Duration Grammar</p>
+      <div class="demo-box">
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center; justify-content: center;">
+          <div style="text-align: center;">
+            <div style="width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin: 0 auto 0.5rem;"></div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Instant</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">100ms</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin: 0 auto 0.5rem;"></div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Micro</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">150ms</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 16px; height: 16px; border-radius: 50%; background: var(--accent); margin: 0 auto 0.5rem;"></div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Short</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">600ms</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--accent); margin: 0 auto 0.5rem;"></div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Medium</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">1000ms</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--accent); margin: 0 auto 0.5rem;"></div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Long</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">1800ms</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--accent); margin: 0 auto 0.5rem;"></div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Ambient</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">10s–80s</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Easing Curves</h2>
+      <p class="semantic">4 Named Curves</p>
+      <div class="demo-box">
+        <div style="display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center; width: 100%;">
+          <div style="text-align: center;">
+            <div style="width: 120px; height: 120px; position: relative; margin: 0 auto 1rem;">
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <rect x="0" y="0" width="120" height="120" fill="none" stroke="var(--border)" stroke-width="1"/>
+                <line x1="0" y1="120" x2="120" y2="0" stroke="var(--text-faint)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                <path d="M 0 120 C 19.2 120, 120 36, 120 0" fill="none" stroke="var(--accent)" stroke-width="2"/>
+              </svg>
+            </div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Composed Enter</span>
+            <div style="font-size: 0.6875rem; color: var(--text-muted); font-family: monospace; margin-top: 0.25rem;">ease-out</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 120px; height: 120px; position: relative; margin: 0 auto 1rem;">
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <rect x="0" y="0" width="120" height="120" fill="none" stroke="var(--border)" stroke-width="1"/>
+                <line x1="0" y1="120" x2="120" y2="0" stroke="var(--text-faint)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                <path d="M 0 120 C 66 120, 120 10.2, 120 0" fill="none" stroke="var(--accent)" stroke-width="2"/>
+              </svg>
+            </div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Composed Exit</span>
+            <div style="font-size: 0.6875rem; color: var(--text-muted); font-family: monospace; margin-top: 0.25rem;">ease-in</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 120px; height: 120px; position: relative; margin: 0 auto 1rem;">
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <rect x="0" y="0" width="120" height="120" fill="none" stroke="var(--border)" stroke-width="1"/>
+                <line x1="0" y1="120" x2="120" y2="0" stroke="var(--text-faint)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                <path d="M 0 120 C 78 120, 42 0, 120 0" fill="none" stroke="var(--accent)" stroke-width="2"/>
+              </svg>
+            </div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Structural Settle</span>
+            <div style="font-size: 0.6875rem; color: var(--text-muted); font-family: monospace; margin-top: 0.25rem;">ease-in-out</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="width: 120px; height: 120px; position: relative; margin: 0 auto 1rem;">
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <rect x="0" y="0" width="120" height="120" fill="none" stroke="var(--border)" stroke-width="1"/>
+                <line x1="0" y1="120" x2="120" y2="0" stroke="var(--text-faint)" stroke-width="0.5" stroke-dasharray="4,4"/>
+                <path d="M 0 120 C 44.4 120, 75.6 0, 120 0" fill="none" stroke="var(--accent)" stroke-width="2"/>
+              </svg>
+            </div>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em;">Environmental Drift</span>
+            <div style="font-size: 0.6875rem; color: var(--text-muted); font-family: monospace; margin-top: 0.25rem;">drift</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Motion Hierarchy</h2>
+      <p class="semantic">6 Levels</p>
+      <div class="demo-box">
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 600px;">
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <span style="font-size: 0.6875rem; color: var(--text-faint); width: 60px; text-align: right; font-family: monospace;">L0</span>
+            <div style="flex: 1; height: 2px; background: var(--border);"></div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); width: 120px;">Static</span>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); font-family: monospace;">0ms</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <span style="font-size: 0.6875rem; color: var(--text-faint); width: 60px; text-align: right; font-family: monospace;">L1</span>
+            <div style="flex: 1; height: 2px; background: var(--accent); opacity: 0.3;"></div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); width: 120px;">Micro</span>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); font-family: monospace;">80–200ms</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <span style="font-size: 0.6875rem; color: var(--text-faint); width: 60px; text-align: right; font-family: monospace;">L2</span>
+            <div style="flex: 1; height: 2px; background: var(--accent); opacity: 0.5;"></div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); width: 120px;">Local Reveal</span>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); font-family: monospace;">400–800ms</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <span style="font-size: 0.6875rem; color: var(--text-faint); width: 60px; text-align: right; font-family: monospace;">L3</span>
+            <div style="flex: 1; height: 2px; background: var(--accent); opacity: 0.7;"></div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); width: 120px;">Compositional</span>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); font-family: monospace;">600–1400ms</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <span style="font-size: 0.6875rem; color: var(--text-faint); width: 60px; text-align: right; font-family: monospace;">L4</span>
+            <div style="flex: 1; height: 2px; background: var(--accent); opacity: 0.9;"></div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); width: 120px;">Environmental</span>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); font-family: monospace;">10s–80s</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <span style="font-size: 0.6875rem; color: var(--text-faint); width: 60px; text-align: right; font-family: monospace;">L5</span>
+            <div style="flex: 1; height: 2px; background: var(--accent);"></div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); width: 120px;">Transitional</span>
+            <span style="font-size: 0.6875rem; color: var(--text-faint); font-family: monospace;">1200–2400ms</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <button class="reduce-motion-toggle" onclick="document.body.classList.toggle('reduce-motion'); this.classList.toggle('active');">
+    <span class="dot"></span>
+    Reduced Motion
+  </button>
+</body>
+</html>

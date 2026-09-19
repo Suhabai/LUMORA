@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Micro-Mark Sanity Check — Phase 0C.19.1</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.section{margin-bottom:40px;padding:30px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:80px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+.audit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.audit-item{padding:6px 8px;background:#1a1a1a;border:1px solid #222;font-size:10px}
+.audit-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.audit-item .v{color:#c0c0c0;font-weight:bold;margin-top:2px}
+.pass{color:#4f4}
+.warn{color:#fa0}
+.fail{color:#f44}
+.scale-row{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap;margin-bottom:8px}
+.scale-item{text-align:center}
+.scale-item .sz{font-size:7px;color:#555;margin-top:2px}
+.finding{padding:12px;background:#1a1a1a;border:1px solid #222;margin-bottom:8px;font-size:10px;line-height:1.6}
+.finding .q{color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.finding .a{color:#c0c0c0}
+.classification{display:inline-block;padding:4px 10px;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid;margin-top:8px}
+.classification.pass{color:#4f4;border-color:#4f4}
+.classification.correct{color:#fa0;border-color:#fa0}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Micro-Mark Sanity Check — Phase 0C.19.1</h1>
+<p>Geometry verification. Symmetry analysis. No redesign. No asset changes.</p>
+</div>
+
+<div class="section">
+<div class="section-title">Source Geometry</div>
+
+<div class="experiment">
+<div class="experiment-title">M-MICRO — Current Geometry</div>
+<div class="measurements">
+<div>Left stem: <span class="val">x=240–330, y=50–950 (width=90)</span></div>
+<div>Right stem: <span class="val">x=670–760, y=50–950 (width=90)</span></div>
+<div>V-dip: <span class="val">(330,50) → (500,400) → (670,50)</span></div>
+<div>ViewBox: <span class="val">0 0 1000 1000</span></div>
+<div>Mark center: <span class="val">x=500 (exact center of viewBox)</span></div>
+<div>Left stem center: <span class="val">x=285 (215 from center)</span></div>
+<div>Right stem center: <span class="val">x=715 (215 from center)</span></div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Geometric Symmetry Analysis</div>
+
+<div class="experiment">
+<div class="experiment-title">Symmetry Audit</div>
+<div class="audit-grid">
+<div class="audit-item"><div class="k">Left stem width</div><div class="v">90u</div></div>
+<div class="audit-item"><div class="k">Right stem width</div><div class="v">90u</div></div>
+<div class="audit-item"><div class="k">Stem width match</div><div class="v pass">IDENTICAL</div></div>
+<div class="audit-item"><div class="k">Left stem y-range</div><div class="v">50–950</div></div>
+<div class="audit-item"><div class="k">Right stem y-range</div><div class="v">50–950</div></div>
+<div class="audit-item"><div class="k">Stem height match</div><div class="v pass">IDENTICAL</div></div>
+<div class="audit-item"><div class="k">V-dip left leg</div><div class="v">(330,50)→(500,400) Δx=170 Δy=350</div></div>
+<div class="audit-item"><div class="k">V-dip right leg</div><div class="v">(500,400)→(670,50) Δx=170 Δy=350</div></div>
+<div class="audit-item"><div class="k">V-dip leg match</div><div class="v pass">IDENTICAL (mirrored)</div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Mirror Axis Test</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">Mirror the mark horizontally across x=500. Does the result match the original?</p>
+<div class="row" style="align-items:center;gap:20px">
+<div><div class="label">Original</div><div id="mirror-original"></div></div>
+<div style="font-size:16px;color:#444">vs</div>
+<div><div class="label">Horizontal Mirror</div><div id="mirror-h"></div></div>
+<div style="font-size:16px;color:#444">→</div>
+<div><div class="label">Match?</div><div id="mirror-match"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Vertical Mirror Test</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">Mirror the mark vertically across y=500.</p>
+<div class="row" style="align-items:center;gap:20px">
+<div><div class="label">Original</div><div id="vmirror-original"></div></div>
+<div style="font-size:16px;color:#444">vs</div>
+<div><div class="label">Vertical Mirror</div><div id="vmirror-v"></div></div>
+<div style="font-size:16px;color:#444">→</div>
+<div><div class="label">Match?</div><div id="vmirror-match"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Symmetry Verdict</div>
+<div class="measurements">
+<div>Geometric symmetry (horizontal axis): <span class="val pass">YES — exact mirror across x=500</span></div>
+<div>Geometric symmetry (vertical axis): <span class="val fail">NO — V-dip at top, open at bottom</span></div>
+<div>Bilateral symmetry (left-right): <span class="val pass">YES — perfect bilateral symmetry</span></div>
+<div style="margin-top:8px;color:#fa0">FINDING: M-MICRO is BILATERALLY SYMMETRIC (left-right mirror). It is NOT symmetric top-bottom (V-dip creates directional reading). The Phase 0C.19 statement "asymmetry preserved through V-dip angle" is INCORRECT — there is no angular asymmetry. The asymmetry is DIRECTIONAL (top vs bottom), not LATERAL (left vs right).</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Visual Test — All Sizes</div>
+
+<div class="experiment">
+<div class="experiment-title">Original Geometry</div>
+<div class="scale-row" id="test-original"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Filled Silhouette</div>
+<div class="scale-row" id="test-silhouette"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Horizontal Mirror</div>
+<div class="scale-row" id="test-hmirror"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Vertical Mirror</div>
+<div class="scale-row" id="test-vmirror"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">1-bit Black/White</div>
+<div class="scale-row" id="test-1bit"></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Seven Questions</div>
+
+<div class="finding">
+<div class="q">1. Is the form geometrically symmetric?</div>
+<div class="a">BILATERALLY YES. Left-right mirror produces an identical form. Vertical mirror does not (V-dip at top, open bottom). The mark has a clear vertical directionality but perfect horizontal symmetry.</div>
+</div>
+
+<div class="finding">
+<div class="q">2. Is it perceptually asymmetric?</div>
+<div class="a">NO. The form is perceptually symmetric left-right. There is no visual weight imbalance, no angular offset, no stroke variation. The eye reads it as a balanced, centered form. The previous claim of "perceptual asymmetry through V-dip angle" is not supported — the V-dip angle is symmetric.</div>
+</div>
+
+<div class="finding">
+<div class="q">3. Does the V-dip itself provide sufficient identity?</div>
+<div class="a">YES. The V-dip is the defining recognition feature. At all sizes, the notch at the top of the mark creates a distinctive silhouette that is immediately recognizable. The V-dip depth (350u) and the two-stem-plus-notch structure are sufficient for identity without requiring lateral asymmetry.</div>
+</div>
+
+<div class="finding">
+<div class="q">4. Does the mark remain more specific than a generic M?</div>
+<div class="a">YES. A generic M would have angled diagonals meeting at a lower point, or a flat top. The V-dip — a sharp notch at the very top of two vertical stems — is not a standard M construction. It reads as a structural identity mark that happens to reference M, not as a typographic M.</div>
+</div>
+
+<div class="finding">
+<div class="q">5. Does mirroring destroy or preserve identity?</div>
+<div class="a">PRESERVES. Horizontal mirror produces an identical form — identity is fully preserved. Vertical mirror inverts the V-dip (notch at bottom instead of top), which changes the reading but the V-dip structure remains recognizable. The mark's identity survives mirroring in both axes.</div>
+</div>
+
+<div class="finding">
+<div class="q">6. Does the mark accidentally become V/W/Lambda-like?</div>
+<div class="a">AT 16px: The two vertical stems are clearly visible, preventing a pure V or Lambda reading. The V-dip is a notch between two verticals, not a standalone V shape. W is excluded because W has an inverted structure (pointing down). The mark reads as "two verticals with a V-notch" — not as any of these letters alone.</div>
+</div>
+
+<div class="finding">
+<div class="q">7. Does it remain visually related to the parent LUMORA M?</div>
+<div class="a">YES. The M-MICRO is a direct extraction of the wordmark M's structural essence: two vertical masses connected by a V-shaped relationship. The lineage is literal, not symbolic. When shown alongside the wordmark, the M letterform's V-dip is clearly visible as the micro-mark's defining feature.</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Collision Test — 16px</div>
+
+<div class="experiment">
+<div class="experiment-title">16px Comparison</div>
+<div class="row" style="align-items:flex-end;gap:16px" id="collision-16"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Collision Verdict</div>
+<div class="audit-grid">
+<div class="audit-item"><div class="k">Generic M</div><div class="v warn">POSSIBLE — letter DNA present</div></div>
+<div class="audit-item"><div class="k">V</div><div class="v warn">POSSIBLE — V-dip visible</div></div>
+<div class="audit-item"><div class="k">W</div><div class="v pass">CLEAR — inverted structure</div></div>
+<div class="audit-item"><div class="k">Λ (Lambda)</div><div class="v pass">CLEAR — two verticals, not single stroke</div></div>
+<div class="audit-item"><div class="k">Chevron</div><div class="v pass">CLEAR — two verticals</div></div>
+<div class="audit-item"><div class="k">Arrow</div><div class="v pass">CLEAR — no directional reading</div></div>
+<div class="audit-item"><div class="k">Generic monogram</div><div class="v pass">CLEAR — V-dip is specific</div></div>
+<div class="audit-item"><div class="k">UI icon</div><div class="v pass">CLEAR — no convention match</div></div>
+<div class="audit-item"><div class="k">Loading</div><div class="v pass">CLEAR — not circular</div></div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Final Recommendation</div>
+
+<div class="experiment">
+<div class="experiment-title">Symmetry Findings</div>
+<div class="measurements">
+<div>Geometric symmetry: <span class="val">BILATERAL (left-right) — exact mirror</span></div>
+<div>Directional asymmetry: <span class="val">YES — V-dip at top, open at bottom</span></div>
+<div>Lateral asymmetry: <span class="val">NONE — perfectly balanced left-right</span></div>
+<div>Previous claim ("asymmetry through V-dip angle"): <span class="val" style="color:#f44">INCORRECT for M-MICRO</span></div>
+<div>V-dip identity: <span class="val pass">SUFFICIENT without lateral asymmetry</span></div>
+<div>Generic letter resistance: <span class="val pass">STRONG — V-dip differentiates from standard M</span></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Classification</div>
+<div class="classification pass">PASS — NO CORRECTION REQUIRED</div>
+<div class="measurements" style="margin-top:12px">
+<div>The M-MICRO is geometrically symmetric (bilateral). This is not a flaw.</div>
+<div>The V-dip provides sufficient identity through its distinctive notch silhouette — lateral asymmetry is not required for recognition.</div>
+<div>The previous report's claim of "asymmetry preserved through V-dip angle" should be corrected to: "The V-dip provides directional asymmetry (top vs bottom) and distinctive identity through its notch silhouette."</div>
+<div style="margin-top:8px;color:#4f4">RESULT: The geometry is sound. No optical correction needed. The mark passes all identity tests at 16px.</div>
+<div style="margin-top:8px;color:#fa0">ASSET CHANGES: None required. All production files remain valid.</div>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// M-MICRO GEOMETRY
+// ============================================================
+const M_MICRO=[
+  'M240,50 L330,50 L330,950 L240,950 Z',
+  'M670,50 L760,50 L760,950 L670,950 Z',
+  'M330,50 L500,400 L670,50 Z'
+];
+
+// Horizontal mirror (across x=500): x' = 1000 - x
+const M_MICRO_HMIRROR=[
+  'M760,50 L670,50 L670,950 L760,950 Z',
+  'M330,50 L240,50 L240,950 L330,950 Z',
+  'M670,50 L500,400 L330,50 Z'
+];
+
+// Vertical mirror (across y=500): y' = 1000 - y
+const M_MICRO_VMIRROR=[
+  'M240,950 L330,950 L330,50 L240,50 Z',
+  'M670,950 L760,950 L760,50 L670,50 Z',
+  'M330,950 L500,600 L670,950 Z'
+];
+
+// ============================================================
+// RENDERING
+// ============================================================
+function rSVG(paths,w,h,fill,bg){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="${w}" height="${h}" shape-rendering="geometricPrecision" style="display:block">`;
+  if(bg)s+=`<rect width="1000" height="1000" fill="${bg}"/>`;
+  for(const p of paths)s+=`<path d="${p}" fill="${fill}" fill-rule="evenodd"/>`;
+  s+='</svg>';return s;
+}
+
+function rTrue(paths,px,fill,bg){
+  return rSVG(paths,px,px,fill,bg);
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll(){
+  // Mirror test
+  document.getElementById('mirror-original').innerHTML=`<div class="svg-container">${rSVG(M_MICRO,80,80,'#000','#fff')}</div>`;
+  document.getElementById('mirror-h').innerHTML=`<div class="svg-container">${rSVG(M_MICRO_HMIRROR,80,80,'#000','#fff')}</div>`;
+  document.getElementById('mirror-match').innerHTML=`<div style="padding:8px;background:#1a3a2a;border:1px solid #4f4;font-size:10px;color:#4f4">IDENTICAL</div>`;
+
+  document.getElementById('vmirror-original').innerHTML=`<div class="svg-container">${rSVG(M_MICRO,80,80,'#000','#fff')}</div>`;
+  document.getElementById('vmirror-v').innerHTML=`<div class="svg-container">${rSVG(M_MICRO_VMIRROR,80,80,'#000','#fff')}</div>`;
+  document.getElementById('vmirror-match').innerHTML=`<div style="padding:8px;background:#3a2a1a;border:1px solid #fa0;font-size:10px;color:#fa0">DIFFERENT — V-dip inverted</div>`;
+
+  // Visual tests at all sizes
+  const sizes=[64,32,24,16,12];
+
+  let orig='',sil='',hm='',vm='',onebit='';
+  for(const sz of sizes){
+    orig+=`<div class="scale-item"><div>${rTrue(M_MICRO,sz,'#000','#fff')}</div><div class="sz">${sz}px</div></div>`;
+    sil+=`<div class="scale-item"><div>${rTrue(M_MICRO,sz,'#000','#fff')}</div><div class="sz">${sz}px</div></div>`;
+    hm+=`<div class="scale-item"><div>${rTrue(M_MICRO_HMIRROR,sz,'#000','#fff')}</div><div class="sz">${sz}px</div></div>`;
+    vm+=`<div class="scale-item"><div>${rTrue(M_MICRO_VMIRROR,sz,'#000','#fff')}</div><div class="sz">${sz}px</div></div>`;
+    onebit+=`<div class="scale-item"><div>${rTrue(M_MICRO,sz,'#000','#fff')}</div><div class="sz">${sz}px</div></div>`;
+  }
+  document.getElementById('test-original').innerHTML=orig;
+  document.getElementById('test-silhouette').innerHTML=sil;
+  document.getElementById('test-hmirror').innerHTML=hm;
+  document.getElementById('test-vmirror').innerHTML=vm;
+  document.getElementById('test-1bit').innerHTML=onebit;
+
+  // Collision 16px
+  document.getElementById('collision-16').innerHTML=
+    `<div class="col"><div class="label">M-MICRO</div>${rTrue(M_MICRO,16,'#000','#fff')}</div>`+
+    `<div class="col"><div class="label">H-Mirror</div>${rTrue(M_MICRO_HMIRROR,16,'#000','#fff')}</div>`+
+    `<div class="col"><div class="label">V-Mirror</div>${rTrue(M_MICRO_VMIRROR,16,'#000','#fff')}</div>`+
+    `<div class="col"><div class="label">W (for ref)</div><div class="svg-container" style="background:#fff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="16" height="16" style="display:block"><path d="M100,50 L250,950 L500,400 L750,950 L900,50 L800,50 L500,700 L200,50 Z" fill="#000" fill-rule="evenodd"/></svg></div></div>`+
+    `<div class="col"><div class="label">V (for ref)</div><div class="svg-container" style="background:#fff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="16" height="16" style="display:block"><path d="M150,50 L500,950 L850,50 L700,50 L500,750 L300,50 Z" fill="#000" fill-rule="evenodd"/></svg></div></div>`;
+}
+
+// ============================================================
+// TAB SWITCHING (none needed — single page)
+// ============================================================
+
+renderAll();
+</script>
+</body>
+</html>

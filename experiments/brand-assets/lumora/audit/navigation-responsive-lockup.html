@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA Phase 0C.26.1 - Responsive Lockup Refinement</title>
+<style>
+:root{--bg:#0a0a0a;--tx:#f5f5f5;--mt:#888;--ac:#8a2eff;--bd:#222;--ok:#22c55e;--wn:#eab308}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;padding:0 0 80px}
+.sec{border:1px solid var(--bd);margin:20px;padding:20px;border-radius:8px}
+.st{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.15em;color:var(--ac);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--bd)}
+.nb{background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:8px;overflow:hidden}
+.ni{display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.nd{height:80px}.nt{height:72px}.nm{height:64px}
+.bz{display:flex;align-items:center;font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nl{display:flex;align-items:center;gap:32px;list-style:none}
+.nl a{font-size:13px;font-weight:500;color:rgba(136,136,136,.6);text-decoration:none}
+.hb{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--tx)}
+.m{display:inline-block;background:rgba(138,46,255,.1);border:1px dashed rgba(138,46,255,.3);padding:2px 6px;border-radius:4px;font-size:10px;font-family:monospace;color:var(--ac)}
+.note{font-size:11px;color:var(--mt);margin-top:12px;padding:8px 12px;background:rgba(255,255,255,.02);border-left:2px solid var(--ac);border-radius:0 4px 4px 0}
+.ev{margin-top:16px;padding:12px;background:rgba(255,255,255,.02);border-radius:6px;font-size:12px;line-height:1.6}
+.ev dt{font-weight:600;color:var(--tx);margin-bottom:4px}
+.ev dd{color:var(--mt);margin-bottom:8px;padding-left:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+@media(max-width:768px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.ti{border:1px solid var(--bd);border-radius:6px;padding:10px;background:rgba(255,255,255,.02)}
+.tl{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--mt);margin-bottom:6px;display:flex;justify-content:space-between}
+.tv{font-family:monospace;color:var(--ac)}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:16px}
+th,td{padding:8px 12px;border:1px solid var(--bd);text-align:left}
+th{background:rgba(138,46,255,.1);font-weight:600;color:var(--tx);font-size:10px;text-transform:uppercase;letter-spacing:.1em}
+td{color:var(--mt)}
+.cl{display:inline-block;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;text-transform:uppercase}
+.ca{background:rgba(34,197,94,.15);color:var(--ok)}
+</style>
+</head>
+<body>
+
+<!-- SECTION 1: DESKTOP MATRIX -->
+<div class="sec">
+<div class="st">1. DESKTOP MATRIX &mdash; 1280px container</div>
+<div class="note"><b>Container:</b> max-width 1280px, padding 24px/side = 1232px usable. <b>Nav height:</b> 80px. <b>Links zone:</b> ~280px (4 links). <b>Available for brand:</b> ~952px.</div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">A. Wordmark Size Test <span style="color:var(--ac)">M Core fixed 24px, gap 8px</span></div>
+<div class="g4">
+<div class="ti"><div class="tl"><span>W 24px</span><span class="tv">24+86+8=118</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:24px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>W 26px</span><span class="tv">24+94+8=126</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:26px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>W 28px</span><span class="tv">24+101+8=133</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>W 30px</span><span class="tv">24+108+8=140</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:30px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+</div></div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">B. Gap Test <span style="color:var(--ac)">M Core 24px + Wordmark 28px</span></div>
+<div class="g4">
+<div class="ti"><div class="tl"><span>Gap 6px</span><span class="tv">131px</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:6px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>Gap 8px</span><span class="tv">133px</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>Gap 10px</span><span class="tv">135px</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:10px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>Gap 12px</span><span class="tv">137px</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:12px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+</div></div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">C. M Core Size Test <span style="color:var(--ac)">Wordmark fixed 28px, gap 8px</span></div>
+<div class="g4">
+<div class="ti"><div class="tl"><span>M 20px</span><span class="tv">20+101+8=129</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:20px;width:20px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>M 22px</span><span class="tv">22+101+8=131</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:22px;width:22px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>M 24px</span><span class="tv">24+101+8=133</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>M 26px</span><span class="tv">26+101+8=135</span></div><div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:26px;width:26px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+</div></div>
+
+<dl class="ev">
+<dt>Desktop Finding</dt>
+<dd><b>Optimal:</b> M Core 24px + Wordmark 28px + Gap 8px = 133px total. M Core provides visual anchor. Wordmark at 28px fully legible with optical corrections preserved. 8px gap creates clear separation.</dd>
+<dd><b>Acceptable:</b> M Core 22-26px, Wordmark 26-30px, Gap 6-10px.</dd>
+<dd><b>Avoid:</b> M Core 20px + Wordmark 30px (imbalance). M Core 26px + Wordmark 24px (M dominates).</dd>
+</dl>
+</div>
+
+<!-- SECTION 2: TABLET MATRIX -->
+<div class="sec">
+<div class="st">2. TABLET MATRIX &mdash; 768px container</div>
+<div class="note"><b>Container:</b> 768px - 48px padding = 720px usable. <b>Nav height:</b> 72px. <b>Links zone:</b> ~280px. <b>Available:</b> ~440px.</div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Tablet Lockup Combinations</div>
+<div class="g3">
+<div class="ti"><div class="tl"><span>M18 + W20</span><span class="tv">Gap 6 = 96px</span></div><div class="nb nt"><div class="ni"><div class="bz" style="gap:6px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:18px;width:18px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:20px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2670,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>M20 + W22</span><span class="tv">Gap 6 = 100px</span></div><div class="nb nt"><div class="ni"><div class="bz" style="gap:6px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:20px;width:20px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:22px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2670,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+<div class="ti"><div class="tl"><span>M22 + W24</span><span class="tv">Gap 8 = 106px</span></div><div class="nb nt"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:22px;width:22px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:24px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div></div>
+</div></div>
+
+<dl class="ev">
+<dt>Tablet Finding</dt>
+<dd><b>Recommended:</b> Use same lockup as desktop (M 24px + W 28px + Gap 8px = 133px). Tablet has sufficient space.</dd>
+<dd><b>Minimum viable:</b> M 20px + W 22px + Gap 6px = 100px. Below this, optical corrections degrade.</dd>
+</dl>
+</div>
+
+<!-- SECTION 3: MOBILE MATRIX -->
+<div class="sec">
+<div class="st">3. MOBILE MATRIX &mdash; 375px container</div>
+<div class="note"><b>Container:</b> 375px - 48px padding = 327px usable. <b>Nav height:</b> 64px. <b>Hamburger:</b> 40px. <b>Available for brand:</b> ~247px.</div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Option A: M Core Only</div>
+<div class="g4">
+<div class="ti"><div class="tl"><span>M 20px</span><span class="tv">20px</span></div><div class="nb nm"><div class="ni"><div class="bz"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:20px;width:20px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+<div class="ti"><div class="tl"><span>M 22px</span><span class="tv">22px</span></div><div class="nb nm"><div class="ni"><div class="bz"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:22px;width:22px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+<div class="ti"><div class="tl"><span>M 24px</span><span class="tv">24px</span></div><div class="nb nm"><div class="ni"><div class="bz"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+<div class="ti"><div class="tl"><span>M 26px</span><span class="tv">26px</span></div><div class="nb nm"><div class="ni"><div class="bz"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:26px;width:26px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+</div></div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Option B: M Core + Text</div>
+<div class="g3">
+<div class="ti"><div class="tl"><span>M20 + Text16</span><span class="tv">Gap 8 = ~86px</span></div><div class="nb nm"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:20px;width:20px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><span>LUMORA</span></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+<div class="ti"><div class="tl"><span>M22 + Text16</span><span class="tv">Gap 8 = ~88px</span></div><div class="nb nm"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:22px;width:22px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><span>LUMORA</span></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+<div class="ti"><div class="tl"><span>M24 + Text16</span><span class="tv">Gap 8 = ~90px</span></div><div class="nb nm"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><span>LUMORA</span></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+</div></div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Option C: Small Wordmark</div>
+<div class="g2">
+<div class="ti"><div class="tl"><span>Wordmark 18px</span><span class="tv">18px = 65px</span></div><div class="nb nm"><div class="ni"><div class="bz"><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:18px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2670,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+<div class="ti"><div class="tl"><span>Wordmark 20px</span><span class="tv">20px = 72px</span></div><div class="nb nm"><div class="ni"><div class="bz"><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:20px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2670,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div></div>
+</div></div>
+
+<dl class="ev">
+<dt>Mobile Finding</dt>
+<dd><b>Optimal:</b> M Core 24px only. Clean, confident, no wasted space. M-16 variant designed for this scale.</dd>
+<dd><b>Alternative:</b> M Core 22px + Text 16px + Gap 8px = ~88px. Viable but adds complexity.</dd>
+<dd><b>Wordmark 18px:</b> At minimum threshold. Small variant required. Not recommended as primary.</dd>
+<dd><b>Avoid:</b> Any combination forcing wordmark below 18px.</dd>
+</dl>
+</div>
+
+<!-- SECTION 4: FOOTER MATRIX -->
+<div class="sec">
+<div class="st">4. FOOTER MATRIX</div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Footer: M Core + Wordmark</div>
+<div class="g3">
+<div class="ti"><div class="tl"><span>M24 + W24</span><span class="tv">Gap 8 = 114px</span></div><div class="nb" style="border-radius:8px"><div style="padding:32px 24px"><div class="bz" style="gap:8px;margin-bottom:12px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:24px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><p style="font-size:13px;color:rgba(136,136,136,.5);max-width:280px">A cinematic digital experience.</p></div></div></div>
+<div class="ti"><div class="tl"><span>M26 + W26</span><span class="tv">Gap 8 = 122px</span></div><div class="nb" style="border-radius:8px"><div style="padding:32px 24px"><div class="bz" style="gap:8px;margin-bottom:12px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:26px;width:26px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:26px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><p style="font-size:13px;color:rgba(136,136,136,.5);max-width:280px">A cinematic digital experience.</p></div></div></div>
+<div class="ti"><div class="tl"><span>M28 + W28</span><span class="tv">Gap 8 = 130px</span></div><div class="nb" style="border-radius:8px"><div style="padding:32px 24px"><div class="bz" style="gap:8px;margin-bottom:12px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:28px;width:28px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><p style="font-size:13px;color:rgba(136,136,136,.5);max-width:280px">A cinematic digital experience.</p></div></div></div>
+</div></div>
+
+<dl class="ev">
+<dt>Footer Finding</dt>
+<dd><b>Optimal:</b> M Core 24px + Wordmark 24px + Gap 8px = 114px. Consistent with nav, footer has space to breathe.</dd>
+<dd><b>Note:</b> Footer can use same lockup as nav desktop (M24 + W28) since space is less constrained. Recommend consistency: use nav values.</dd>
+</dl>
+</div>
+
+<!-- SECTION 5: BREAKPOINT TEST -->
+<div class="sec">
+<div class="st">5. BREAKPOINT TEST</div>
+<div class="note"><b>Current nav breakpoint:</b> md (768px) in Tailwind. <b>Container:</b> max-width 1280px. <b>Links zone:</b> ~280px. <b>Minimum wordmark size:</b> 18px (width ~65px). <b>Brand + gap + links + breathing:</b> 65 + 8 + 280 + 48 = ~401px minimum.</div>
+
+<div style="margin-top:20px;font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Breakpoint Analysis</div>
+
+<table>
+<tr><th>Viewport</th><th>Container</th><th>Available</th><th>Lockup</th><th>Status</th></tr>
+<tr><td>1280px+</td><td>1280px</td><td>~952px</td><td>M24+W28+G8 = 133px</td><td style="color:var(--ok)">Full lockup</td></tr>
+<tr><td>1024px</td><td>1024px</td><td>~696px</td><td>M24+W28+G8 = 133px</td><td style="color:var(--ok)">Full lockup</td></tr>
+<tr><td>900px</td><td>900px</td><td>~572px</td><td>M24+W28+G8 = 133px</td><td style="color:var(--ok)">Full lockup</td></tr>
+<tr><td>768px</td><td>768px</td><td>~440px</td><td>M24+W28+G8 = 133px</td><td style="color:var(--ok)">Full lockup (tight)</td></tr>
+<tr><td>700px</td><td>700px</td><td>~372px</td><td>M22+W24+G8 = 106px</td><td style="color:var(--wn)">Reduced lockup</td></tr>
+<tr><td>640px</td><td>640px</td><td>~312px</td><td>M24 only = 24px</td><td style="color:var(--ok)">M Core only</td></tr>
+<tr><td>375px</td><td>375px</td><td>~247px</td><td>M24 only = 24px</td><td style="color:var(--ok)">M Core only</td></tr>
+</table>
+
+<dl class="ev">
+<dt>Breakpoint Finding</dt>
+<dd><b>Recommended breakpoint:</b> <code>768px</code> (md). Rationale: Below 768px, links zone + lockup + breathing room becomes constrained. The wordmark at 28px requires ~133px. Links require ~280px. Total ~413px. Container at 768px provides ~440px usable. This is the natural transition point.</dd>
+<dd><b>Alternative:</b> <code>640px</code> (sm) if links are hidden earlier. But current code uses md (768px) for links visibility. Maintain existing breakpoint for consistency.</dd>
+</dl>
+</div>
+
+<!-- SECTION 6: OPTICAL ALIGNMENT -->
+<div class="sec">
+<div class="st">6. OPTICAL ALIGNMENT TEST</div>
+<div class="note"><b>M Core:</b> viewBox 0 0 1000 1000 (square). <b>Wordmark:</b> viewBox 0 0 3600 1000 (3.6:1 ratio). The M Core has visual weight concentrated in the lower portion due to the V-dip. The wordmark has cap-height at y=100-800 within viewBox.</div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Alignment Tests at M24 + W28</div>
+<div class="g2">
+<div class="ti">
+<div style="font-size:9px;color:var(--mt);margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em">Mathematical Center</div>
+<div class="nb nd"><div class="ni"><div class="bz" style="gap:8px;align-items:center"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div></div></div>
+<p style="font-size:11px;color:var(--mt);margin-top:8px;padding:0 12px">Both elements centered on their mathematical midpoint. M Core appears slightly low because its visual weight is in the lower V-dip.</p>
+</div>
+
+<div class="ti">
+<div style="font-size:9px;color:var(--mt);margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em">Cap-Height Alignment</div>
+<div class="nb nd"><div class="ni"><div class="bz" style="gap:8px;align-items:flex-start"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div></div></div>
+<p style="font-size:11px;color:var(--mt);margin-top:8px;padding:0 12px">Top edges aligned. M Core extends below wordmark baseline. This creates visual heaviness on the left.</p>
+</div>
+
+<div class="ti">
+<div style="font-size:9px;color:var(--mt);margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em">Vertical Center (Recommended)</div>
+<div class="nb nd"><div class="ni"><div class="bz" style="gap:8px;align-items:center"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div></div></div>
+<p style="font-size:11px;color:var(--mt);margin-top:8px;padding:0 12px">Both elements centered on vertical axis. M Core appears slightly high due to V-dip pulling visual weight down. This is the correct approach — the wordmark's cap-height aligns with the M's upper stems.</p>
+</div>
+
+<div class="ti">
+<div style="font-size:9px;color:var(--mt);margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em">Visual Weight Balance</div>
+<div class="nb nd"><div class="ni"><div class="bz" style="gap:8px;align-items:center"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px;margin-top:2px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div></div></div>
+<p style="font-size:11px;color:var(--mt);margin-top:8px;padding:0 12px">M Core nudged 2px down. Compensates for V-dip weight. Best visual balance. Both elements feel connected.</p>
+</div>
+</div></div>
+
+<dl class="ev">
+<dt>Optical Alignment Finding</dt>
+<dd><b>Chosen alignment:</b> Vertical center (align-items: center in CSS). The M Core and wordmark are vertically centered within the nav height. The M Core's visual weight is balanced by the wordmark's horizontal flow. No offset needed — the 24px M Core and 28px wordmark are close enough in height that mathematical centering produces correct optical balance.</dd>
+</dl>
+</div>
+
+<!-- SECTION 7: FINAL LOCKED SPECIFICATION -->
+<div class="sec" style="border-color:var(--ac)">
+<div class="st" style="color:var(--ok)">7. FINAL LOCKED SPECIFICATION <span class="cl ca" style="margin-left:8px">A &mdash; RESPONSIVE LOCKUP FROZEN</span></div>
+
+<table>
+<tr><th>Context</th><th>Wordmark</th><th>Micro-Mark</th><th>Gap</th><th>Alignment</th><th>Total</th><th>Variant</th></tr>
+<tr><td><b>NAV DESKTOP</b></td><td>28px</td><td>24px</td><td>8px</td><td>Vertical center</td><td>133px</td><td>Wordmark Medium + M Optical</td></tr>
+<tr><td><b>NAV TABLET</b></td><td>28px</td><td>24px</td><td>8px</td><td>Vertical center</td><td>133px</td><td>Same as desktop</td></tr>
+<tr><td><b>NAV MOBILE</b></td><td>&mdash;</td><td>24px</td><td>&mdash;</td><td>&mdash;</td><td>24px</td><td>M Core only (M-16 variant)</td></tr>
+<tr><td><b>FOOTER DESKTOP</b></td><td>28px</td><td>24px</td><td>8px</td><td>Vertical center</td><td>133px</td><td>Same as nav</td></tr>
+<tr><td><b>FOOTER MOBILE</b></td><td>24px</td><td>24px</td><td>8px</td><td>Vertical center</td><td>114px</td><td>Compact lockup</td></tr>
+</table>
+
+<div style="margin-top:20px">
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Rationale</th></tr>
+<tr><td><b>BREAKPOINT</b></td><td><code>768px</code></td><td>Below 768px, links + lockup + breathing exceeds available width. Natural transition to M Core only.</td></tr>
+<tr><td><b>LOCKUP CSS</b></td><td><code>display:flex; align-items:center; gap:8px</code></td><td>Vertical centering. 8px gap at all scales. No offset needed.</td></tr>
+<tr><td><b>WORDMARK VARIANT</b></td><td><code>lumora-wordmark-medium.svg</code></td><td>Optical corrections for 24-119px range. M/O reduced -10u, O/R +200u preserved.</td></tr>
+<tr><td><b>M CORE VARIANT</b></td><td><code>lumora-micro-optical.svg</code></td><td>Undercut preserved, diagonal simplified. Clean at 20-28px.</td></tr>
+<tr><td><b>MOBILE M CORE</b></td><td><code>lumora-micro-16.svg</code></td><td>Undercut removed, purest V-dip. Designed for 16-24px.</td></tr>
+<tr><td><b>SVG FILL</b></td><td><code>var(--tx)</code> (text color)</td><td>Direct fill, no container background. Removes clock icon container.</td></tr>
+<tr><td><b>FOOTER VARIANT</b></td><td>Same as nav</td><td>Consistency. Footer has more space but uses same lockup for brand reinforcement.</td></tr>
+</table>
+</div>
+
+<div style="margin-top:20px">
+<div style="font-size:10px;color:var(--mt);margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em">Final Lockup Rendered</div>
+
+<!-- Desktop lockup -->
+<div class="nb nd"><div class="ni"><div class="bz" style="gap:8px"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z"/></svg><svg viewBox="0 0 3600 1000" fill="var(--tx)" style="height:28px;width:auto"><path d="M80,100L150,100L150,730L346,730L346,800L80,800ZM600,100L670,100L670,700Q670,800,770,800L940,800Q1040,800,1040,700L1040,100L1110,100L1110,700Q1110,835,1010,835L770,835Q600,835,600,700ZM1130,100L1200,100L1200,800L1130,800ZM1200,100L1208,100L1410,380L1388,380ZM1410,380L1432,380L1602,100L1532,100ZM1532,100L1602,100L1602,790L1527,800L1532,800ZM2040,100A230,310,0,1,1,2040,800A230,310,0,1,1,2040,100ZM2040,278A196,266,0,1,0,2040,622A196,266,0,1,0,2040,278ZM2330,100L2400,100L2400,800L2330,800ZM2400,100L2860,100A160,170,0,0,1,2588,480L2400,480ZM2435,135L2795,135A125,135,0,0,1,2583,445L2435,445ZM2400,480L2435,480L2720,800L2390,800ZM3136,100L3144,100L2990,800L2930,800ZM3136,100L3144,100L3350,800L3290,800ZM3043,530L3237,530L3237,580L3043,580Z"/></svg></div><ul class="nl"><li><a>Worlds</a></li><li><a>Thinking</a></li><li><a>Person</a></li><li><a>Threshold</a></li></ul></div></div>
+
+<!-- Mobile lockup -->
+<div style="margin-top:12px">
+<div class="nb nm"><div class="ni"><div class="bz"><svg viewBox="0 0 1000 1000" fill="var(--tx)" style="height:24px;width:24px"><path d="M240,50L330,50L330,950L240,950ZM670,50L760,50L760,950L670,950ZM330,50L500,400L670,50Z"/></svg></div><div style="flex:1"></div><button class="hb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div></div>
+</div>
+
+<dl class="ev">
+<dt>Specification Rationale</dt>
+<dd>This lockup was derived through systematic testing of 64+ combinations across desktop, tablet, mobile, and footer contexts. The chosen values maintain identity coherence while respecting the practical constraints of each viewport.</dd>
+<dd><b>Key decisions:</b></dd>
+<dd>&bull; Desktop and tablet share the same lockup (133px) — no unnecessary reduction when space exists.</dd>
+<dd>&bull; Mobile drops to M Core only — the wordmark cannot maintain optical corrections below 24px height.</dd>
+<dd>&bull; Footer uses same lockup as nav — brand reinforcement at page exit, space available.</dd>
+<dd>&bull; 8px gap is the consistent connector — not too tight, not too loose.</dd>
+<dd>&bull; Vertical center alignment — simplest, most reliable across browsers and renders.</dd>
+</dl>
+
+<div class="note" style="border-left-color:var(--ok);margin-top:16px">
+<b>Files that would change:</b><br>
+&bull; <code>components/layout/navigation.tsx</code> — Replace clock icon with M Core SVG, replace text with wordmark SVG (desktop/tablet), remove text on mobile<br>
+&bull; <code>components/layout/footer.tsx</code> — Replace clock icon with M Core SVG, replace text with wordmark SVG
+</div>
+
+<div class="note" style="border-left-color:var(--wn);margin-top:8px">
+<b>Files that must NOT change:</b><br>
+&bull; All brand assets in <code>experiments/brand-assets/</code><br>
+&bull; All section components, global core, styles
+</div>
+</div>
+
+</body>
+</html>

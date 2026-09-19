@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="none">
+  <!-- LUMORA Micro-Mark — M-MASTER -->
+  <!-- Large-scale expression. Full structural detail. -->
+  <!-- Derived from wordmark M (x=1130–1602, y=100–800) -->
+  <!-- Identity: V-dip at y=411, right stem undercut at y=922 -->
+  <path fill="#000" fill-rule="evenodd" d="
+    M258,50 L328,50 L328,950 L258,950 Z
+    M328,50 L336,50 L540,411 L518,411 Z
+    M540,411 L562,411 L734,50 L664,50 Z
+    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+  "/>
+</svg>

@@ -18,9 +18,15 @@ export default function SectionTransition({ kind }: SectionTransitionProps) {
   useEffect(() => {
     if (!ref.current) return;
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const dur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--core-motion-duration") || "1");
 
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set(ref.current?.querySelectorAll(".st-line, .st-dot, .st-bloom") || [], { opacity: 1, scaleX: 1, scaleY: 1, scale: 1 });
+        return;
+      }
       const lines = ref.current?.querySelectorAll(".st-line");
       const dots = ref.current?.querySelectorAll(".st-dot");
       const blooms = ref.current?.querySelectorAll(".st-bloom");

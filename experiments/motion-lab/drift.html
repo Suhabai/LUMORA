@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRIFT — LUMORA Motion Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Manrope:wght@300;400;500;600&family=SF+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab">
+    <header class="lab-header">
+      <p class="subtitle">Vocabulary</p>
+      <h1>DRIFT</h1>
+    </header>
+
+    <nav class="lab-nav">
+      <a href="index.html">Overview</a>
+      <a href="reveal.html">Reveal</a>
+      <a href="align.html">Align</a>
+      <a href="release.html">Release</a>
+      <a href="drift.html" class="active">Drift</a>
+      <a href="handoff.html">Handoff</a>
+      <a href="presence.html">Presence</a>
+    </nav>
+
+    <section class="demo-section">
+      <h2>Atmosphere Drift</h2>
+      <p class="semantic">LEVEL 4 — Environmental Movement</p>
+      <p>Very subtle environmental movement for atmosphere. Multiple layers at different rates create organic depth without rhythmic synchronization.</p>
+
+      <div class="demo-box dark" style="min-height: 300px;">
+        <div class="drift-layer drift-layer-1"></div>
+        <div class="drift-layer drift-layer-2"></div>
+        <div style="position: relative; z-index: 1; text-align: center;">
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; opacity: 0.6;">The void breathes.</div>
+        </div>
+      </div>
+
+      <div class="demo-meta">
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <span class="meta-value">22s / 28s</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Easing</span>
+          <span class="meta-value">drift</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Properties</span>
+          <span class="meta-value">translate, scale, opacity</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Layers</span>
+          <span class="meta-value">2 (max 3)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Loop</span>
+          <span class="meta-value">Infinite</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Semantic</span>
+          <span class="meta-value">"Environment alive"</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Directional Light Drift</h2>
+      <p class="semantic">LEVEL 4 — Environmental Movement</p>
+      <p>A single atmospheric layer with a slow directional sweep. Used for light direction changes in the environment.</p>
+
+      <div class="demo-box dark" style="min-height: 300px;">
+        <div style="position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(138, 46, 255, 0.06) 0%, transparent 60%); animation: light-sweep 34s var(--ease-drift) infinite;"></div>
+        <div style="position: relative; z-index: 1; text-align: center;">
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; opacity: 0.6;">Light drifts.</div>
+        </div>
+      </div>
+
+      <div class="demo-meta">
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <span class="meta-value">34s</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Easing</span>
+          <span class="meta-value">drift</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Property</span>
+          <span class="meta-value">opacity</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Loop</span>
+          <span class="meta-value">Infinite</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Restraint Rule</h2>
+      <p class="semantic">Anti-Pattern Prevention</p>
+      <p>Maximum 3 drift layers active simultaneously per viewport. Each at different rates to prevent rhythmic synchronization. Drift is atmosphere, not information.</p>
+
+      <div class="demo-box">
+        <div style="display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 400px;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent);"></div>
+            <span style="font-size: 0.8125rem; color: var(--text-muted);">Layer 1: 22s cycle</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent); opacity: 0.6;"></div>
+            <span style="font-size: 0.8125rem; color: var(--text-muted);">Layer 2: 28s cycle</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent); opacity: 0.3;"></div>
+            <span style="font-size: 0.8125rem; color: var(--text-muted);">Layer 3: 34s cycle (optional)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <button class="reduce-motion-toggle" onclick="document.body.classList.toggle('reduce-motion'); this.classList.toggle('active');">
+    <span class="dot"></span>
+    Reduced Motion
+  </button>
+
+  <style>
+    @keyframes light-sweep {
+      0%, 100% { background-position: 30% 50%; opacity: 0.6; }
+      50% { background-position: 70% 60%; opacity: 0.9; }
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,772 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Quiet C Refinement</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#07070a;color:#e8e4df;line-height:1.5;padding:40px 20px}
+.c{max-width:1400px;margin:0 auto}
+h1{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#7a7a8e;margin-bottom:8px}
+h2{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid #1a1a1a}
+h3{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#444;margin:48px 0 16px}
+.s{margin-bottom:64px}
+.nt{font-size:12px;color:#7a7a8e;line-height:1.8}
+.nt strong{color:#e8e4df}
+.tg{font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 8px;border:1px solid #333;display:inline-block;margin-bottom:8px;color:#7a7a8e}
+.tg-pass{border-color:#2a4a2a;color:#6a9a6a}
+.sr{display:flex;align-items:center;gap:32px;margin-bottom:16px;padding:16px 0;border-bottom:1px solid #111}
+.sl{font-size:9px;color:#444;width:120px;flex-shrink:0}
+.ss{flex:1;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.on{font-size:11px;color:#555;margin-top:8px}
+.on em{color:#7a7a8e;font-style:normal}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.cc{padding:20px;display:flex;align-items:center;justify-content:center;min-height:80px;border:1px solid #1a1a1a}
+.cc.lt{background:#f5f3f0}.cc.dk{background:#07070a}.cc.nb{background:#1a1a1a}
+.nav-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:#0d0d0f;border-bottom:1px solid #1a1a1a}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#555;text-decoration:none}
+.nav-links a.strong{color:#7a7a8e}
+.mobile-nav{display:flex;flex-direction:column;align-items:center;gap:12px;padding:16px;background:#0d0d0f}
+.mobile-nav a{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#555;text-decoration:none}
+.footer-mock{padding:40px 24px;background:#0d0d0f;border-top:1px solid #1a1a1a;display:flex;align-items:flex-start;justify-content:space-between}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#444;text-decoration:none}
+.hero-mock{display:flex;align-items:center;justify-content:center;min-height:400px;background:radial-gradient(ellipse at center,#111 0%,#07070a 70%)}
+.about-mock{padding:60px 24px;background:#07070a}
+.about-mock h3{color:#555;margin-bottom:24px}
+.about-mock p{font-size:13px;color:#555;max-width:600px;line-height:1.8}
+.work-mock{padding:60px 24px;background:#07070a}
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px}
+.work-item{background:#0d0d0f;border:1px solid #1a1a1a;padding:20px;min-height:120px}
+.table-wrap{overflow-x:auto;margin-bottom:24px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:12px 16px;border-bottom:1px solid #1a1a1a;color:#555;font-size:9px;letter-spacing:0.1em;text-transform:uppercase}
+td{padding:12px 16px;border-bottom:1px solid #111;color:#7a7a8e}
+.pass{color:#6a9a6a}.warn{color:#9a7a3a}.fail{color:#9a4a4a}
+.scale-row{display:flex;align-items:center;gap:16px;margin-bottom:12px;padding:8px 0;border-bottom:1px solid #111}
+.scale-label{font-size:9px;color:#444;width:60px;flex-shrink:0}
+.candidate-card{background:#0d0d0f;border:1px solid #1a1a1a;padding:32px;margin-bottom:24px}
+.candidate-card h4{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#555;margin-bottom:16px}
+.compound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.compound-cell{background:#0d0d0f;border:1px solid #1a1a1a;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px}
+.compound-cell .label{font-size:8px;color:#444;margin-top:8px;text-align:center}
+.compound-cell.top{border-color:#2a4a2a}
+.one-color-row{display:flex;gap:24px;margin-bottom:24px;flex-wrap:wrap}
+.one-color-cell{display:flex;align-items:center;justify-content:center;padding:24px;border:1px solid #1a1a1a;min-height:120px}
+.context-row{display:flex;gap:24px;margin-bottom:24px;flex-wrap:wrap}
+.context-cell{flex:1;min-width:300px;border:1px solid #1a1a1a;overflow:hidden}
+.context-cell .ctx-label{font-size:8px;color:#444;padding:8px 12px;background:#0a0a0c;border-bottom:1px solid #1a1a1a}
+</style>
+</head>
+<body>
+<div class="c">
+
+<h1>LUMORA — Phase 0E.2.2 Quiet C Refinement</h1>
+<h2>Optical restraint variants of Direction C wordmark</h2>
+
+
+<!-- SECTION 0: BASELINE -->
+<div class="s">
+<h3>Section 0 — Current Production Baseline</h3>
+<div class="tg tg-pass">TG-PASS</div>
+<div class="sr">
+<div class="sl">Baseline</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="500" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+<div class="nt"><strong>Reference point.</strong> Current Direction C geometry — all micro-variant comparisons are measured against this baseline.</div>
+</div>
+
+
+<!-- SECTION 1: M JUNCTION VARIANTS -->
+<div class="s">
+<h3>Section 1 — M Junction Restraint</h3>
+
+<!-- M-370 -->
+<div class="sr">
+<div class="sl">M-370 — Shallower</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="120" fill="#e8e4df">
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/>
+<path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+</svg>
+</div>
+</div>
+<div class="sr">
+<div class="sl">M-370 Full</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/>
+<path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<!-- M-375 -->
+<div class="sr">
+<div class="sl">M-375 — Current</div>
+<div class="ss">
+<div class="tg tg-pass">TG-PASS</div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="120" fill="#e8e4df">
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+</svg>
+</div>
+</div>
+<div class="sr">
+<div class="sl">M-375 Full</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<!-- M-380 -->
+<div class="sr">
+<div class="sl">M-380 — Deeper</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="120" fill="#e8e4df">
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,380 L1385,380 Z"/>
+<path d="M1405,380 L1428,380 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+</svg>
+</div>
+</div>
+<div class="sr">
+<div class="sl">M-380 Full</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,380 L1385,380 Z"/>
+<path d="M1405,380 L1428,380 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<div class="nt"><strong>Evaluation notes:</strong> M-370 produces a shallower V dip — the junction feels quieter, less dramatic. M-375 remains the production baseline with confident diagonal tension. M-380 deepens the V slightly, adding subtle weight to the M center. At small scale, the 5-unit range (370–380) is nearly imperceptible; the effect is primarily felt at display sizes. <em>Recommendation: M-370 or M-375 preferred for restraint.</em></div>
+</div>
+
+
+<!-- SECTION 2: O COUNTER VARIANTS -->
+<div class="s">
+<h3>Section 2 — O Counter Restraint</h3>
+
+<div class="cg">
+<!-- O-225 -->
+<div class="cc dk" style="flex-direction:column">
+<div class="tg tg-pass">TG-PASS</div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1000" width="80" fill="#e8e4df">
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+</svg>
+<div style="font-size:8px;color:#444;margin-top:8px;text-align:center">O-225 — Current</div>
+</div>
+<!-- O-227 -->
+<div class="cc dk" style="flex-direction:column">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1000" width="80" fill="#e8e4df">
+<path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/>
+<path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/>
+</svg>
+<div style="font-size:8px;color:#444;margin-top:8px;text-align:center">O-227 — Slightly tighter</div>
+</div>
+<!-- O-229 -->
+<div class="cc dk" style="flex-direction:column">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1000" width="80" fill="#e8e4df">
+<path d="M2040,100 A229,309 0 1,1 2040,800 A229,309 0 1,1 2040,100 Z"/>
+<path d="M2040,269 A195,265 0 1,0 2040,631 A195,265 0 1,0 2040,269 Z" fill="#07070a"/>
+</svg>
+<div style="font-size:8px;color:#444;margin-top:8px;text-align:center">O-229 — Tightest tested</div>
+</div>
+</div>
+
+<h3>Full Wordmark — O Variants</h3>
+
+<!-- O-225 Full -->
+<div class="sr">
+<div class="sl">O-225 Full</div>
+<div class="ss">
+<div class="tg tg-pass">TG-PASS</div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<!-- O-227 Full -->
+<div class="sr">
+<div class="sl">O-227 Full</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/>
+<path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<!-- O-229 Full -->
+<div class="sr">
+<div class="sl">O-229 Full</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A229,309 0 1,1 2040,800 A229,309 0 1,1 2040,100 Z"/>
+<path d="M2040,269 A195,265 0 1,0 2040,631 A195,265 0 1,0 2040,269 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<div class="nt"><strong>Evaluation notes:</strong> O-225 (current) has a generous counter that feels open and confident. O-227 tightens the stroke slightly — the outer ellipse gains 2 units rx, the counter gains 2 units rx. O-229 is the tightest tested, with the thinnest apparent stroke. At small sizes, O-227 and O-229 read almost identically to O-225. The difference is primarily optical at display scale. <em>Recommendation: O-227 offers a subtle refinement without losing the O's openness.</em></div>
+</div>
+
+
+<!-- SECTION 3: R VARIANTS -->
+<div class="s">
+<h3>Section 3 — R Restraint</h3>
+
+<div class="cg">
+<!-- R-A -->
+<div class="cc dk" style="flex-direction:column">
+<div class="tg tg-pass">TG-PASS</div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2800 1000" width="80" fill="#e8e4df">
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+</svg>
+<div style="font-size:8px;color:#444;margin-top:8px;text-align:center">R-A — Current</div>
+</div>
+<!-- R-B -->
+<div class="cc dk" style="flex-direction:column">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2800 1000" width="80" fill="#e8e4df">
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/>
+</svg>
+<div style="font-size:8px;color:#444;margin-top:8px;text-align:center">R-B — Reduced</div>
+</div>
+<!-- R-C -->
+<div class="cc dk" style="flex-direction:column">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2800 1000" width="80" fill="#e8e4df">
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2820,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2755,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2660,800 L2390,800 Z"/>
+</svg>
+<div style="font-size:8px;color:#444;margin-top:8px;text-align:center">R-C — Neutralized</div>
+</div>
+</div>
+
+<h3>Full Wordmark — R Variants</h3>
+
+<!-- R-A Full -->
+<div class="sr">
+<div class="sl">R-A Full</div>
+<div class="ss">
+<div class="tg tg-pass">TG-PASS</div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<!-- R-B Full -->
+<div class="sr">
+<div class="sl">R-B Full</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<!-- R-C Full -->
+<div class="sr">
+<div class="sl">R-C Full</div>
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A225,305 0 1,1 2040,800 A225,305 0 1,1 2040,100 Z"/>
+<path d="M2040,273 A191,261 0 1,0 2040,627 A191,261 0 1,0 2040,273 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2820,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2755,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2660,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+
+<div class="nt"><strong>Evaluation notes:</strong> R-A (current) has a wide, expressive bowl and a leg that kicks outward — this is the most "authored" R. R-B tightens the bowl by 15u and pulls the leg 28u inward, reducing the kick. R-C neutralizes further: bowl shrinks 35u, leg pulls 58u inward, approaching standard R proportions. The R's authored character is most visible at display scale. <em>Recommendation: R-B offers the best balance — quieter than current but still distinctive.</em></div>
+</div>
+
+<!-- SECTION 4: COMPOUND MATRIX -->
+<div class="s">
+<h3>Section 4 — Compound Matrix (3M × 3R, O-227)</h3>
+<div class="compound-grid">
+<div class="compound-cell top">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/>
+<path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-370 × R-A</div>
+</div>
+
+<div class="compound-cell">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/>
+<path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-370 × R-B</div>
+</div>
+
+<div class="compound-cell">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/>
+<path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2820,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2755,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2660,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-370 × R-C</div>
+</div>
+
+<div class="compound-cell">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-375 × R-A</div>
+</div>
+
+<div class="compound-cell top">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-375 × R-B</div>
+</div>
+
+<div class="compound-cell">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2820,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2755,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2660,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-375 × R-C</div>
+</div>
+
+<div class="compound-cell">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,380 L1385,380 Z"/>
+<path d="M1405,380 L1428,380 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2855,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2790,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2718,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-380 × R-A</div>
+</div>
+
+<div class="compound-cell">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,380 L1385,380 Z"/>
+<path d="M1405,380 L1428,380 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-380 × R-B</div>
+</div>
+
+<div class="compound-cell top">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="250" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,380 L1385,380 Z"/>
+<path d="M1405,380 L1428,380 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2820,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2755,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2660,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="label">M-380 × R-C</div>
+</div>
+
+</div>
+
+<div class="nt"><strong>Top 3 most restrained coherent combinations:</strong><br>
+1. <strong>M-370 × R-B</strong> — Shallower M junction + reduced R bowl. The quietest readable combination without losing identity.<br>
+2. <strong>M-370 × R-C</strong> — Maximum restraint across both variables. Risks approaching generic proportions.<br>
+3. <strong>M-375 × R-B</strong> — Current M (proven) + reduced R. Conservative refinement, safest production choice.</div>
+</div>
+
+
+<!-- SECTION 5: SELECTED CANDIDATES -->
+<div class="s">
+<h3>Section 5 — Selected Candidates (Top 3)</h3>
+
+<!-- Candidate Alpha -->
+<div class="candidate-card">
+<h4>Candidate Alpha — M-370 × R-B × O-227</h4>
+<div class="sr" style="border:none;padding:0">
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="500" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/>
+<path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/>
+<path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+<div class="nt"><strong>What makes it quieter:</strong> The M junction rises 5 units (shallower V), reducing dramatic diagonal tension. The R bowl contracts 15 units and the leg pulls 28 units inward, softening the kick. The O tightens 2 units on outer/counter. The cumulative effect is a wordmark that feels more composed — authorship is present but restrained. At small scale, readability is fully maintained.</div>
+</div>
+
+<!-- Candidate Beta -->
+<div class="candidate-card">
+<h4>Candidate Beta — M-375 × R-B × O-227</h4>
+<div class="sr" style="border:none;padding:0">
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="500" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,375 L1385,375 Z"/>
+<path d="M1405,375 L1428,375 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/>
+<path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+<div class="nt"><strong>What makes it quieter:</strong> Keeps the proven M junction at y=375 — the M's character is unchanged. The R bowl and leg are tightened identically to Candidate Alpha. The O is subtly refined. This is the conservative path: only one letter (R) is meaningfully adjusted. Lowest risk of identity loss.</div>
+</div>
+
+<!-- Candidate Gamma -->
+<div class="candidate-card">
+<h4>Candidate Gamma — M-370 × R-C × O-227</h4>
+<div class="sr" style="border:none;padding:0">
+<div class="ss">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="500" fill="#e8e4df">
+<path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/>
+<path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/>
+<path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/>
+<path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/>
+<path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/>
+<path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/>
+<path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/>
+<path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/>
+<path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/>
+<path d="M2400,100 L2820,100 A157,167 0 0,1 2585,478 L2400,478 Z"/>
+<path d="M2435,135 L2755,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/>
+<path d="M2400,478 L2435,478 L2660,800 L2390,800 Z"/>
+<path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/>
+<path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/>
+<path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/>
+</svg>
+</div>
+</div>
+<div class="nt"><strong>What makes it quieter:</strong> The most restrained combination tested. The M junction is shallower (y=370), the R is fully neutralized (bowl -35u, leg -58u). The R approaches standard proportions — the authored character is minimized. The O is refined. Risk: at small scale, the R may lose its distinctive identity. Best suited for contexts where the wordmark is not the primary focus.</div>
+</div>
+
+</div>
+
+
+<!-- SECTION 6: SCALE TESTS -->
+<div class="s">
+<h3>Section 6 — Scale Tests (Candidate Alpha)</h3>
+<div class="scale-row"><div class="scale-label">500px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="500" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">240px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="240" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">180px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="180" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">120px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="120" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">96px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="96" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">72px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="72" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">48px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="48" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">32px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="32" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">24px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="24" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">16px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="16" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">14px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="14" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">12px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="12" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="scale-row"><div class="scale-label">11px</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="11" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+</div>
+
+<!-- SECTION 7: ONE-COLOR TESTS -->
+<div class="s">
+<h3>Section 7 — One-Color Tests (Candidate Alpha)</h3>
+<div class="one-color-row">
+<div class="one-color-cell" style="background:#ffffff;min-width:400px"><div class="ctx-label" style="width:100%;background:#f0f0f0">Black on White</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#000"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#ffffff"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#ffffff"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="one-color-cell" style="background:#07070a;min-width:400px"><div class="ctx-label" style="width:100%">White on Black</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div class="one-color-cell" style="background:#1a1a1a;min-width:400px"><div class="ctx-label" style="width:100%;background:#111">Neutral on #1a1a1a</div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="300" fill="#7a7a8e"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#1a1a1a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#1a1a1a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+</div></div>
+<!-- SECTION 8: M CORE COMPATIBILITY -->
+<div class="s">
+<h3>Section 8 — M Core Compatibility</h3>
+<div class="cg">
+<div class="cc dk" style="flex-direction:column">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="200" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div style="font-size:8px;color:#444;margin-top:8px">Wordmark Alone</div>
+</div>
+<div class="cc dk" style="flex-direction:column">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="60" fill="#e8e4df"><path d="M258,50L328,50L328,950L258,950Z"/><path d="M664,50L734,50L734,922L656,950L664,950Z"/><path d="M328,50L540,411L664,50Z"/></svg>
+<div style="font-size:8px;color:#444;margin-top:8px">M Core Alone</div>
+</div>
+<div class="cc dk" style="flex-direction:column">
+<div style="display:flex;align-items:center;gap:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="60" fill="#e8e4df"><path d="M258,50L328,50L328,950L258,950Z"/><path d="M664,50L734,50L734,922L656,950L664,950Z"/><path d="M328,50L540,411L664,50Z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="200" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<div style="font-size:8px;color:#444;margin-top:8px">M Core + Wordmark (Nav Lockup)</div>
+</div>
+</div>
+<div class="nt"><strong>Compatibility check:</strong> The M Core mark and wordmark share the same structural DNA. At nav scale (60px core, 200px wordmark), the proportions feel balanced. The M Core diagonal junction echoes the wordmark M at y=370. No conflict detected.</div>
+</div>
+<!-- SECTION 9: CONTEXT TESTS -->
+<div class="s">
+<h3>Section 9 — Context Tests</h3>
+<div class="context-row">
+<div class="context-cell">
+<div class="ctx-label">Desktop Nav Bar</div>
+<div class="nav-bar">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="140" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#0d0d0f"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#0d0d0f"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="nav-links"><a class="strong">Work</a><a class="strong">About</a><a>Worlds</a><a>Thinking</a><a>Person</a><a>Threshold</a></div>
+</div></div>
+<div class="context-cell">
+<div class="ctx-label">Mobile Nav</div>
+<div class="mobile-nav">
+<div style="margin-bottom:16px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="140" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#0d0d0f"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#0d0d0f"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg></div>
+<a>Work</a><a>About</a><a>Worlds</a><a>Thinking</a><a>Person</a><a>Threshold</a>
+</div></div>
+</div>
+<div class="context-row">
+<div class="context-cell">
+<div class="ctx-label">Desktop Footer</div>
+<div class="footer-mock">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="140" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#0d0d0f"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#0d0d0f"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="footer-links"><a>Work</a><a>About</a><a>Worlds</a><a>Thinking</a><a>Contact</a></div>
+</div></div>
+<div class="context-cell">
+<div class="ctx-label">Hero Section</div>
+<div class="hero-mock">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="400" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#111"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#111"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+</div></div>
+</div>
+<div class="context-row">
+<div class="context-cell">
+<div class="ctx-label">About Page</div>
+<div class="about-mock">
+<h3>About</h3>
+<p>LUMORA is a premium digital experience studio. We create memorable, intelligent, and human-centered digital experiences.</p>
+</div></div>
+<div class="context-cell">
+<div class="ctx-label">Work Page</div>
+<div class="work-mock">
+<h3>Work</h3>
+<div class="work-grid">
+<div class="work-item"></div><div class="work-item"></div><div class="work-item"></div>
+</div></div></div>
+</div></div>
+<!-- SECTION 10: WORDMARK WITHOUT CONTEXT -->
+<div class="s">
+<h3>Section 10 — Wordmark Without Context</h3>
+<div class="one-color-row">
+<div class="one-color-cell" style="background:#07070a;min-width:500px;flex:1">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="400" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#07070a"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#07070a"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+</div>
+<div class="one-color-cell" style="background:#ffffff;min-width:500px;flex:1">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="400" fill="#000"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#ffffff"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#ffffff"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+</div>
+</div></div>
+<!-- SECTION 11: EVALUATION MATRIX -->
+<div class="s">
+<h3>Section 11 — Evaluation Matrix</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Candidate</th><th>Readability</th><th>Calmness</th><th>Authorship</th><th>LUMORA Specificity</th><th>Premium Quality</th><th>Second-glance</th><th>Small-scale</th></tr></thead>
+<tbody>
+<tr><td>Candidate Alpha (M-370 x R-B x O-227)</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td></tr>
+<tr><td>Candidate Beta (M-375 x R-B x O-227)</td><td class="pass">pass</td><td class="warn">warn</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td></tr>
+<tr><td>Candidate Gamma (M-370 x R-C x O-227)</td><td class="pass">pass</td><td class="pass">pass</td><td class="warn">warn</td><td class="warn">warn</td><td class="warn">warn</td><td class="pass">pass</td><td class="pass">pass</td></tr>
+<tr><td>Current Production (M-375 x R-A x O-225)</td><td class="pass">pass</td><td class="warn">warn</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td><td class="pass">pass</td></tr>
+</tbody></table>
+</div>
+<div class="nt"><strong>Analysis:</strong> Candidate Alpha scores highest overall. It maintains full readability and authorship while achieving the calmest expression. Candidate Beta is the safest production choice (only R changes). Candidate Gamma pushes restraint too far — the neutralized R risks losing LUMORA specificity.</div>
+</div>
+<!-- SECTION 12: NAVIGATION VERIFICATION -->
+<div class="s">
+<h3>Section 12 — Navigation Verification</h3>
+<div class="nt" style="margin-bottom:24px"><strong>Contrast hierarchy:</strong> Work/About links use <strong>color:#7a7a8e</strong> (stronger). Worlds/Thinking/Person/Threshold use <strong>color:#555</strong> (weaker). This maintains the visual hierarchy where primary actions are more prominent.</div>
+<div class="nav-bar" style="margin-bottom:24px">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3600 1000" width="120" fill="#e8e4df"><path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z"/><path d="M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z"/><path d="M1130,100 L1200,100 L1200,800 L1130,800 Z"/><path d="M1200,100 L1209,100 L1405,370 L1385,370 Z"/><path d="M1405,370 L1428,370 L1598,100 L1528,100 Z"/><path d="M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z"/><path d="M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z"/><path d="M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z" fill="#0d0d0f"/><path d="M2330,100 L2400,100 L2400,800 L2330,800 Z"/><path d="M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z"/><path d="M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z" fill="#0d0d0f"/><path d="M2400,478 L2435,478 L2690,800 L2390,800 Z"/><path d="M3136,100 L3144,100 L2994,800 L2934,800 Z"/><path d="M3136,100 L3144,100 L3346,800 L3286,800 Z"/><path d="M3043,530 L3232,530 L3232,580 L3043,580 Z"/></svg>
+<div class="nav-links">
+<a class="strong">Work</a><a class="strong">About</a><a>Worlds</a><a>Thinking</a><a>Person</a><a>Threshold</a>
+</div></div>
+<div class="nt">
+<strong>Verification:</strong> The wordmark at nav scale (120px) maintains clear letter recognition. The M junction at y=370 is visually balanced. The O counter is legible. The R bowl and leg maintain structural integrity. The A crossbar provides anchor. No optical issues detected at this scale.
+</div>
+</div>
+</div>
+</body>
+</html>

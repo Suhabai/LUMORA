@@ -19,10 +19,16 @@ export function Contact() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Motion duration derives from Core state — slowest in threshold
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const dur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--core-motion-duration") || "1");
 
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set([questionRef.current, invitationRef.current, closingRef.current, pointRef.current].filter(Boolean), { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" });
+        gsap.set(".threshold-settle", { opacity: 1 });
+        return;
+      }
       // ── CORE COMPLETES CYCLE → ENVIRONMENT SETTLES ──
       // This is an arrival, not a footer.
       // The Core settles into absolute stillness — a single point of presence.

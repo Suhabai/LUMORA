@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.9 — Typographic Construction Lab</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 30px;overflow-x:auto}
+.tab{padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:280px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.svg-container.knockout{background:#fff;border:3px solid #000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements span{color:#999}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+.controls{margin:12px 0;display:flex;gap:10px;align-items:center}
+.controls label{font-size:10px;color:#888;cursor:pointer;display:flex;align-items:center;gap:4px}
+.controls input[type=checkbox]{accent-color:#666}
+.btn{padding:6px 14px;font-size:10px;letter-spacing:1px;text-transform:uppercase;background:#222;color:#aaa;border:1px solid #444;cursor:pointer;font-family:inherit}
+.btn:hover{background:#333;color:#fff}
+.btn.active{background:#fff;color:#000}
+.judgment{margin-top:16px;border-top:1px solid #222;padding-top:12px}
+.judgment-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:8px}
+.judgment-item{display:flex;justify-content:space-between;font-size:10px;padding:4px 8px;background:#1a1a1a;border:1px solid #222}
+.judgment-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.judgment-item select{background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 4px}
+.overlay-wrapper{position:relative;display:inline-block;line-height:0}
+.overlay-wrapper .base{position:absolute;top:0;left:0}
+.scale-row{display:flex;gap:20px;align-items:flex-end;margin-bottom:16px;flex-wrap:wrap}
+.scale-item{text-align:center}
+.scale-item .dim{font-size:9px;color:#555;margin-top:4px}
+.comparison-box{border:1px solid #333;padding:12px;margin-bottom:12px;background:#0e0e0e}
+.comparison-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.comparison-pair{display:flex;gap:20px;align-items:center}
+.comparison-pair .vs{font-size:9px;color:#444}
+hr{border:none;border-top:1px solid #222;margin:20px 0}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.9 — Deterministic Typographic Construction Lab</h1>
+<p>Isolated experimental workspace. No production files modified. SVG path-based deterministic rendering.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="base">01 — Base</div>
+<div class="tab" data-tab="mo">02 — M/O</div>
+<div class="tab" data-tab="or">03 — O/R</div>
+<div class="tab" data-tab="combos">04 — Combinations</div>
+<div class="tab" data-tab="scale">05 — Scale Test</div>
+<div class="tab" data-tab="color">06 — One-Color</div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 01 — BASE                  -->
+<!-- ============================== -->
+<div class="tab-content active" id="tab-base">
+<div class="section">
+<div class="section-title">Base Typography — LUMORA</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Geometric sans-serif construction. All letterforms defined as SVG paths for deterministic rendering.
+Cap height: 700u. Stroke width: 70u. Baseline: 800u. Design space: 3600 x 1000.
+</p>
+
+<div class="controls">
+<label><input type="checkbox" id="guides-toggle" onchange="toggleGuides()"> Show Guides</label>
+<label><input type="checkbox" id="bbox-toggle" onchange="toggleBBoxes()"> Bounding Boxes</label>
+</div>
+
+<div id="base-scales"></div>
+
+<hr>
+<div class="section-title">Black on White</div>
+<div id="base-bw"></div>
+
+<hr>
+<div class="section-title">White on Black</div>
+<div id="base-wb"></div>
+
+<hr>
+<div class="section-title">Guide Legend</div>
+<div class="measurements">
+<div><span style="color:#f44">—</span> Baseline (y=800)</div>
+<div><span style="color:#44f">—</span> Cap Height (y=100)</div>
+<div><span style="color:#4f4">—</span> Centerline (y=450)</div>
+<div><span style="color:#fa0">—</span> Letter Bounding Boxes</div>
+<div><span style="color:#a4f">—</span> Pair Boundaries</div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 02 — M/O                   -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-mo">
+<div class="section">
+<div class="section-title">M/O Experiments</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Three experiments isolating the M→O relationship.
+Each modifies ONE variable. All else remains identical to base.
+</p>
+
+<div class="experiment" id="mo-a">
+<div class="experiment-title">M/O A — Junction</div>
+<p style="color:#555;font-size:10px;margin-bottom:12px">
+Modifies: M right terminal → O left edge structural relationship.
+Mechanism: micro-undercut at M right leg base + O left curve entry.
+</p>
+<div class="comparison-pair">
+<div class="col">
+<div class="label">Normal</div>
+<div class="svg-container" id="mo-a-normal"></div>
+</div>
+<div class="vs">→</div>
+<div class="col">
+<div class="label">Custom</div>
+<div class="svg-container" id="mo-a-custom"></div>
+</div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay (Normal=50% gray, Custom=black)</div>
+<div id="mo-a-overlay" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div id="mo-a-measurements" class="measurements"></div>
+<div class="judgment" id="mo-a-judgment"></div>
+</div>
+
+<hr>
+
+<div class="experiment" id="mo-b">
+<div class="experiment-title">M/O B — Counter</div>
+<p style="color:#555;font-size:10px;margin-bottom:12px">
+Modifies: M internal negative space ↔ O internal counter relationship.
+Mechanism: M counter narrowed + O counter adjusted to create visual tension/balance.
+</p>
+<div class="comparison-pair">
+<div class="col">
+<div class="label">Normal</div>
+<div class="svg-container" id="mo-b-normal"></div>
+</div>
+<div class="vs">→</div>
+<div class="col">
+<div class="label">Custom</div>
+<div class="svg-container" id="mo-b-custom"></div>
+</div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="mo-b-overlay" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div id="mo-b-measurements" class="measurements"></div>
+<div class="judgment" id="mo-b-judgment"></div>
+</div>
+
+<hr>
+
+<div class="experiment" id="mo-c">
+<div class="experiment-title">M/O C — Spacing</div>
+<p style="color:#555;font-size:10px;margin-bottom:12px">
+Modifies: ONLY the interval between M and O.
+No letterform modification. Pure spacing shift.
+</p>
+<div class="comparison-pair">
+<div class="col">
+<div class="label">Normal</div>
+<div class="svg-container" id="mo-c-normal"></div>
+</div>
+<div class="vs">→</div>
+<div class="col">
+<div class="label">Custom</div>
+<div class="svg-container" id="mo-c-custom"></div>
+</div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="mo-c-overlay" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div id="mo-c-measurements" class="measurements"></div>
+<div class="judgment" id="mo-c-judgment"></div>
+</div>
+
+<hr>
+<div class="section-title">Full Word Test — M/O Experiments</div>
+<p style="color:#555;font-size:10px;margin-bottom:12px">Each render shows full LUMORA with ONLY the M/O pair modified.</p>
+<div class="comparison-pair">
+<div class="col"><div class="label">Normal LUMORA</div><div class="svg-container" id="mo-full-normal"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">MO-A Custom</div><div class="svg-container" id="mo-full-a"></div></div>
+</div>
+<div class="comparison-pair" style="margin-top:12px">
+<div class="col"><div class="label">MO-B Custom</div><div class="svg-container" id="mo-full-b"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">MO-C Custom</div><div class="svg-container" id="mo-full-c"></div></div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 03 — O/R                   -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-or">
+<div class="section">
+<div class="section-title">O/R Experiments</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Three experiments isolating the O→R relationship.
+Each modifies ONE variable. All else remains identical to base.
+</p>
+
+<div class="experiment" id="or-a">
+<div class="experiment-title">O/R A — Junction</div>
+<p style="color:#555;font-size:10px;margin-bottom:12px">
+Modifies: O right edge → R vertical stem structural relationship.
+Mechanism: O micro-taper at right + R stem entry angle negotiation.
+</p>
+<div class="comparison-pair">
+<div class="col"><div class="label">Normal</div><div class="svg-container" id="or-a-normal"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">Custom</div><div class="svg-container" id="or-a-custom"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="or-a-overlay" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div id="or-a-measurements" class="measurements"></div>
+<div class="judgment" id="or-a-judgment"></div>
+</div>
+
+<hr>
+
+<div class="experiment" id="or-b">
+<div class="experiment-title">O/R B — Counter</div>
+<p style="color:#555;font-size:10px;margin-bottom:12px">
+Modifies: O counter ↔ R bowl counter relationship.
+Mechanism: O counter height/balance adjusted + R bowl matched.
+</p>
+<div class="comparison-pair">
+<div class="col"><div class="label">Normal</div><div class="svg-container" id="or-b-normal"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">Custom</div><div class="svg-container" id="or-b-custom"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="or-b-overlay" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div id="or-b-measurements" class="measurements"></div>
+<div class="judgment" id="or-b-judgment"></div>
+</div>
+
+<hr>
+
+<div class="experiment" id="or-c">
+<div class="experiment-title">O/R C — Release</div>
+<p style="color:#555;font-size:10px;margin-bottom:12px">
+Modifies: R leg emergence angle + surrounding interval.
+Leg kicks outward with modified terminal + increased white space below bowl.
+</p>
+<div class="comparison-pair">
+<div class="col"><div class="label">Normal</div><div class="svg-container" id="or-c-normal"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">Custom</div><div class="svg-container" id="or-c-custom"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="or-c-overlay" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div id="or-c-measurements" class="measurements"></div>
+<div class="judgment" id="or-c-judgment"></div>
+</div>
+
+<hr>
+<div class="section-title">Full Word Test — O/R Experiments</div>
+<div class="comparison-pair">
+<div class="col"><div class="label">Normal LUMORA</div><div class="svg-container" id="or-full-normal"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">OR-A Custom</div><div class="svg-container" id="or-full-a"></div></div>
+</div>
+<div class="comparison-pair" style="margin-top:12px">
+<div class="col"><div class="label">OR-B Custom</div><div class="svg-container" id="or-full-b"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">OR-C Custom</div><div class="svg-container" id="or-full-c"></div></div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 04 — COMBINATIONS          -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-combos">
+<div class="section">
+<div class="section-title">Combinations</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+COMBINATION 01: MO-A (Junction) + OR-A (Junction) — strongest structural modifications.
+COMBINATION 02: MO-B (Counter) + OR-C (Release) — secondary structural modifications.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">Combination 01 — MO-A + OR-A</div>
+<div class="comparison-pair">
+<div class="col"><div class="label">Normal LUMORA</div><div class="svg-container" id="combo1-normal"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">Combined Custom</div><div class="svg-container" id="combo1-custom"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="combo1-overlay" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div class="judgment" id="combo1-judgment"></div>
+</div>
+
+<hr>
+
+<div class="experiment">
+<div class="experiment-title">Combination 02 — MO-B + OR-C</div>
+<div class="comparison-pair">
+<div class="col"><div class="label">Normal LUMORA</div><div class="svg-container" id="combo2-normal"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="label">Combined Custom</div><div class="svg-container" id="combo2-custom"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="combo2-overlay" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div class="judgment" id="combo2-judgment"></div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 05 — SCALE TEST            -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-scale">
+<div class="section">
+<div class="section-title">Scale Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+All combinations rendered at 240, 120, 48, 24, 16 px cap height.
+At 16px: do not force micro-detail. Priorities: readability, counter survival, word rhythm, silhouette.
+</p>
+
+<div id="scale-tests"></div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- TAB 06 — ONE-COLOR TEST        -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-color">
+<div class="section">
+<div class="section-title">One-Color Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+No gradient. No glow. No shadow. No transparency-dependent meaning. No texture.
+Test: black on white, white on black, knockout.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">Combination 01 — One-Color</div>
+<div class="row">
+<div class="col">
+<div class="label">Black on White</div>
+<div class="svg-container" id="color-c1-bw"></div>
+</div>
+<div class="col">
+<div class="label">White on Black</div>
+<div class="svg-container dark" id="color-c1-wb"></div>
+</div>
+<div class="col">
+<div class="label">Knockout</div>
+<div class="svg-container knockout" id="color-c1-ko"></div>
+</div>
+</div>
+</div>
+
+<hr>
+
+<div class="experiment">
+<div class="experiment-title">Combination 02 — One-Color</div>
+<div class="row">
+<div class="col">
+<div class="label">Black on White</div>
+<div class="svg-container" id="color-c2-bw"></div>
+</div>
+<div class="col">
+<div class="label">White on Black</div>
+<div class="svg-container dark" id="color-c2-wb"></div>
+</div>
+<div class="col">
+<div class="label">Knockout</div>
+<div class="svg-container knockout" id="color-c2-ko"></div>
+</div>
+</div>
+</div>
+
+<hr>
+
+<div class="experiment">
+<div class="experiment-title">Base — One-Color Reference</div>
+<div class="row">
+<div class="col">
+<div class="label">Black on White</div>
+<div class="svg-container" id="color-base-bw"></div>
+</div>
+<div class="col">
+<div class="label">White on Black</div>
+<div class="svg-container dark" id="color-base-wb"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// SVG LETTER GEOMETRY ENGINE
+// Coordinate system: viewBox 0 0 3600 1000
+// Cap height: 700 (top=100, bottom=800)
+// Stroke width: 70
+// ============================================================
+
+const SW = 70;
+const CAP_TOP = 100;
+const BASELINE = 800;
+const CAP_H = 700;
+const CENTER = 450;
+const VB_W = 3600;
+const VB_H = 1000;
+
+// Base letter definitions — each letter is a set of paths
+// All coordinates in design space (3600x1000)
+
+function baseLetterL(x) {
+  // Vertical stem + horizontal foot
+  return [
+    `M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4},${BASELINE-SW} L${x+SW*4},${BASELINE} L${x},${BASELINE} Z`
+  ];
+}
+
+function baseLetterU(x) {
+  // Left stem + bottom curve + right stem
+  const lx = x;
+  const rx = x + 440;
+  const cr = 100; // curve radius
+  return [
+    `M${lx},${CAP_TOP} L${lx+SW},${CAP_TOP} L${lx+SW},${BASELINE-cr} Q${lx+SW},${BASELINE} ${lx+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${lx+SW+cr},${BASELINE+SW/2} Q${lx},${BASELINE+SW/2} ${lx},${BASELINE-cr} Z`
+  ];
+}
+
+function baseLetterM(x) {
+  // Two stems + V center
+  const w = 560;
+  const vDip = CAP_TOP + 280; // V dips to 280 from top
+  return [
+    // Left stem
+    `M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,
+    // Left diagonal
+    `M${x+SW},${CAP_TOP} L${x+SW+10},${CAP_TOP} L${x+w/2},${vDip} L${x+w/2-SW/3},${vDip} Z`,
+    // Right diagonal
+    `M${x+w/2},${vDip} L${x+w/2+SW/3},${vDip} L${x+w-SW-10},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,
+    // Right stem
+    `M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE} L${x+w-SW},${BASELINE} Z`
+  ];
+}
+
+function baseLetterO(x) {
+  // Ellipse defined as two arcs (outer + inner)
+  const cx = x + 260;
+  const rx = 230;
+  const ry = 310;
+  const sw = SW/2;
+  return [
+    // Outer ellipse
+    `M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,
+    // Inner counter (cut out)
+    `M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`
+  ];
+}
+
+function baseLetterR(x) {
+  // Stem + bowl + leg
+  const sx = x;
+  const bowlCx = x + SW + 140;
+  const bowlRx = 160;
+  const bowlRy = 170;
+  const bowlTop = CAP_TOP;
+  const bowlBot = CENTER + 30;
+  const sw = SW/2;
+  return [
+    // Stem
+    `M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,
+    // Bowl outer
+    `M${sx+SW},${CAP_TOP} L${bowlCx+bowlRx},${CAP_TOP} A${bowlRx},${bowlRy} 0 0,1 ${bowlCx+bowlRx*0.3},${bowlBot} L${sx+SW},${bowlBot} Z`,
+    // Bowl inner counter
+    `M${sx+SW+sw},${CAP_TOP+sw} L${bowlCx+bowlRx-sw},${CAP_TOP+sw} A${bowlRx-sw},${bowlRy-sw} 0 0,1 ${bowlCx+bowlRx*0.3-sw/2},${bowlBot-sw} L${sx+SW+sw},${bowlBot-sw} Z`,
+    // Leg
+    `M${sx+SW},${bowlBot} L${sx+SW+SW/2},${bowlBot} L${sx+SW*4+60},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`
+  ];
+}
+
+function baseLetterA(x) {
+  // Two diagonals + crossbar
+  const w = 480;
+  const cx = x + w/2;
+  const crossY = CENTER + 80;
+  const legW = SW * 0.85;
+  return [
+    // Left diagonal
+    `M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx-w/2+legW},${BASELINE} L${cx-w/2},${BASELINE} Z`,
+    // Right diagonal
+    `M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-legW},${BASELINE} Z`,
+    // Crossbar (cut out from diagonals is implicit — draw as filled bar)
+    `M${cx-w/3},${crossY} L${cx+w/3},${crossY} L${cx+w/3},${crossY+SW*0.7} L${cx-w/3},${crossY+SW*0.7} Z`
+  ];
+}
+
+// ============================================================
+// BASE LUMORA — letter positions (x offsets)
+// ============================================================
+const BASE_POSITIONS = {
+  L: 80,
+  U: 600,
+  M: 1130,
+  O: 1780,
+  R: 2330,
+  A: 2900
+};
+
+function getBasePaths() {
+  return {
+    L: baseLetterL(BASE_POSITIONS.L),
+    U: baseLetterU(BASE_POSITIONS.U),
+    M: baseLetterM(BASE_POSITIONS.M),
+    O: baseLetterO(BASE_POSITIONS.O),
+    R: baseLetterR(BASE_POSITIONS.R),
+    A: baseLetterA(BASE_POSITIONS.A)
+  };
+}
+
+// ============================================================
+// CUSTOM M/O EXPERIMENTS
+// ============================================================
+
+// M/O A — JUNCTION: M right terminal undercut, O left entry
+function moAPaths() {
+  const p = getBasePaths();
+  // Modify: M right leg gets slight undercut at base
+  // Shift M right stem bottom inward by 15u
+  const m = BASE_POSITIONS.M;
+  const mw = 560;
+  const vDip = CAP_TOP + 280;
+  p.M = [
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+10},${CAP_TOP} L${m+mw/2},${vDip} L${m+mw/2-SW/3},${vDip} Z`,
+    `M${m+mw/2},${vDip} L${m+mw/2+SW/3},${vDip} L${m+mw-SW-10},${CAP_TOP} L${m+mw-SW},${CAP_TOP} Z`,
+    // Right stem with undercut: bottom extends slightly left
+    `M${m+mw-SW},${CAP_TOP} L${m+mw},${CAP_TOP} L${m+mw},${BASELINE-15} L${m+mw-SW-8},${BASELINE} L${m+mw-SW},${BASELINE} Z`
+  ];
+  // O: left edge micro-lift at mid-height
+  const ox = BASE_POSITIONS.O;
+  const ocx = ox + 260;
+  const orx = 230;
+  const ory = 310;
+  const sw = SW/2;
+  p.O = [
+    `M${ocx},${CAP_TOP} A${orx},${ory} 0 1,1 ${ocx},${BASELINE} A${orx},${ory} 0 1,1 ${ocx},${CAP_TOP} Z`,
+    `M${ocx},${CAP_TOP+sw*1.8} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${BASELINE-sw*1.8} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${CAP_TOP+sw*1.8} Z`
+  ];
+  return p;
+}
+
+// M/O B — COUNTER: M counter narrowed, O counter adjusted
+function moBPaths() {
+  const p = getBasePaths();
+  const m = BASE_POSITIONS.M;
+  const mw = 560;
+  const vDip = CAP_TOP + 280;
+  // M: V dips deeper (narrower counter)
+  const deepDip = CAP_TOP + 340;
+  p.M = [
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+10},${CAP_TOP} L${m+mw/2},${deepDip} L${m+mw/2-SW/3},${deepDip} Z`,
+    `M${m+mw/2},${deepDip} L${m+mw/2+SW/3},${deepDip} L${m+mw-SW-10},${CAP_TOP} L${m+mw-SW},${CAP_TOP} Z`,
+    `M${m+mw-SW},${CAP_TOP} L${m+mw},${CAP_TOP} L${m+mw},${BASELINE} L${m+mw-SW},${BASELINE} Z`
+  ];
+  // O: counter slightly wider
+  const ox = BASE_POSITIONS.O;
+  const ocx = ox + 260;
+  const orx = 230;
+  const ory = 310;
+  const sw = SW/2;
+  p.O = [
+    `M${ocx},${CAP_TOP} A${orx},${ory} 0 1,1 ${ocx},${BASELINE} A${orx},${ory} 0 1,1 ${ocx},${CAP_TOP} Z`,
+    `M${ocx},${CAP_TOP+sw*1.6} A${orx-sw*1.2},${ory-sw*1.2} 0 1,0 ${ocx},${BASELINE-sw*1.6} A${orx-sw*1.2},${ory-sw*1.2} 0 1,0 ${ocx},${CAP_TOP+sw*1.6} Z`
+  ];
+  return p;
+}
+
+// M/O C — SPACING: O shifted closer to M
+function moCPaths() {
+  const p = getBasePaths();
+  // Shift O 30u closer to M (reduce spacing)
+  const shift = -30;
+  const ox = BASE_POSITIONS.O + shift;
+  const ocx = ox + 260;
+  const orx = 230;
+  const ory = 310;
+  const sw = SW/2;
+  p.O = [
+    `M${ocx},${CAP_TOP} A${orx},${ory} 0 1,1 ${ocx},${BASELINE} A${orx},${ory} 0 1,1 ${ocx},${CAP_TOP} Z`,
+    `M${ocx},${CAP_TOP+sw*1.8} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${BASELINE-sw*1.8} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${CAP_TOP+sw*1.8} Z`
+  ];
+  return p;
+}
+
+// ============================================================
+// CUSTOM O/R EXPERIMENTS
+// ============================================================
+
+// O/R A — JUNCTION: O right taper + R stem entry
+function orAPaths() {
+  const p = getBasePaths();
+  // O: right side slightly tapered (reduce rx on right)
+  const ox = BASE_POSITIONS.O;
+  const ocx = ox + 260;
+  const orx = 230;
+  const ory = 310;
+  const sw = SW/2;
+  p.O = [
+    // Use asymmetric ellipse by splitting into two arcs
+    `M${ocx},${CAP_TOP} A${orx},${ory} 0 1,1 ${ocx},${BASELINE} A${orx-20},${ory} 0 1,1 ${ocx},${CAP_TOP} Z`,
+    `M${ocx},${CAP_TOP+sw*1.8} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${BASELINE-sw*1.8} A${orx-20-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${CAP_TOP+sw*1.8} Z`
+  ];
+  // R: stem slightly thicker at top entry
+  const rx = BASE_POSITIONS.R;
+  p.R = [
+    `M${rx-3},${CAP_TOP} L${rx+SW+3},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,
+    `M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${CENTER+30} L${rx+SW},${CENTER+30} Z`,
+    `M${rx+SW+sw},${CAP_TOP+sw} L${rx+SW+140+160-sw},${CAP_TOP+sw} A${160-sw},${170-sw} 0 0,1 ${rx+SW+140+160*0.3-sw/2},${CENTER+30-sw} L${rx+SW+sw},${CENTER+30-sw} Z`,
+    `M${rx+SW},${CENTER+30} L${rx+SW+SW/2},${CENTER+30} L${rx+SW*4+60},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`
+  ];
+  return p;
+}
+
+// O/R B — COUNTER: O counter ↔ R bowl relationship
+function orBPaths() {
+  const p = getBasePaths();
+  // O: counter shifted upward slightly (optical center adjustment)
+  const ox = BASE_POSITIONS.O;
+  const ocx = ox + 260;
+  const orx = 230;
+  const ory = 310;
+  const sw = SW/2;
+  p.O = [
+    `M${ocx},${CAP_TOP} A${orx},${ory} 0 1,1 ${ocx},${BASELINE} A${orx},${ory} 0 1,1 ${ocx},${CAP_TOP} Z`,
+    `M${ocx},${CAP_TOP+sw*1.5} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${BASELINE-sw*2.1} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${CAP_TOP+sw*1.5} Z`
+  ];
+  // R: bowl counter adjusted to match
+  const rx = BASE_POSITIONS.R;
+  const bowlBot = CENTER + 10; // raised bowl bottom
+  p.R = [
+    `M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,
+    `M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bowlBot} L${rx+SW},${bowlBot} Z`,
+    `M${rx+SW+sw},${CAP_TOP+sw} L${rx+SW+140+160-sw},${CAP_TOP+sw} A${160-sw},${170-sw} 0 0,1 ${rx+SW+140+160*0.3-sw/2},${bowlBot-sw} L${rx+SW+sw},${bowlBot-sw} Z`,
+    `M${rx+SW},${bowlBot} L${rx+SW+SW/2},${bowlBot} L${rx+SW*4+60},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`
+  ];
+  return p;
+}
+
+// O/R C — RELEASE: R leg angle + spacing
+function orCPaths() {
+  const p = getBasePaths();
+  // R: leg kicks more outward, more space below bowl
+  const rx = BASE_POSITIONS.R;
+  const bowlBot = CENTER + 30;
+  p.R = [
+    `M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,
+    `M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bowlBot} L${rx+SW},${bowlBot} Z`,
+    `M${rx+SW+SW/2},${CAP_TOP+SW/2} L${rx+SW+140+160-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${rx+SW+140+160*0.3-SW/4},${bowlBot-SW/2} L${rx+SW+SW/2},${bowlBot-SW/2} Z`,
+    // Leg: wider angle, kicks further right
+    `M${rx+SW},${bowlBot} L${rx+SW+SW/2},${bowlBot} L${rx+SW*5+20},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`
+  ];
+  return p;
+}
+
+// ============================================================
+// COMBINATION PATHS
+// ============================================================
+
+function combo1Paths() {
+  // MO-A + OR-A
+  const moA = moAPaths();
+  const orA = orAPaths();
+  return {
+    L: moA.L, U: moA.U, M: moA.M,
+    O: orA.O,
+    R: orA.R,
+    A: moA.A
+  };
+}
+
+function combo2Paths() {
+  // MO-B + OR-C
+  const moB = moBPaths();
+  const orC = orCPaths();
+  return {
+    L: moB.L, U: moB.U, M: moB.M,
+    O: orC.O || moB.O,
+    R: orC.R,
+    A: moB.A
+  };
+}
+
+// ============================================================
+// SVG RENDERING ENGINE
+// ============================================================
+
+function renderSVG(paths, w, h, fill, showGuides, showBBox) {
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  svg += `<rect width="${VB_W}" height="${VB_H}" fill="${fill === 'white' ? '#fff' : fill === 'black' ? '#000' : '#fff'}"/>`;
+
+  const letterColor = fill === 'white' ? '#ffffff' : '#000000';
+
+  // Draw letter paths
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = paths[letter];
+    if (ps) {
+      // Use even-odd fill rule for O counter cutout
+      svg += `<path d="${ps.join(' ')}" fill="${letterColor}" fill-rule="evenodd"/>`;
+    }
+  }
+
+  // Guides
+  if (showGuides) {
+    svg += `<line x1="0" y1="${BASELINE}" x2="${VB_W}" y2="${BASELINE}" stroke="#f44" stroke-width="4" stroke-dasharray="12,8"/>`;
+    svg += `<line x1="0" y1="${CAP_TOP}" x2="${VB_W}" y2="${CAP_TOP}" stroke="#44f" stroke-width="4" stroke-dasharray="12,8"/>`;
+    svg += `<line x1="0" y1="${CENTER}" x2="${VB_W}" y2="${CENTER}" stroke="#4f4" stroke-width="3" stroke-dasharray="8,8"/>`;
+  }
+
+  // Bounding boxes
+  if (showBBox) {
+    for (const letter of ['L','U','M','O','R','A']) {
+      const x = BASE_POSITIONS[letter];
+      let maxX = x;
+      // rough bounding
+      const widths = { L:4*SW, U:440+SW, M:560, O:520, R:SW+140+160+SW*4+60-x+BASE_POSITIONS.R, A:480 };
+      const ww = widths[letter] || 400;
+      svg += `<rect x="${x-5}" y="${CAP_TOP-5}" width="${ww+10}" height="${CAP_H+10}" fill="none" stroke="#fa0" stroke-width="4" stroke-dasharray="6,6"/>`;
+    }
+  }
+
+  svg += '</svg>';
+  return svg;
+}
+
+function renderOverlay(normalPaths, customPaths, w, h) {
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  svg += `<rect width="${VB_W}" height="${VB_H}" fill="#fff"/>`;
+  // Normal at 50% gray
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = normalPaths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`;
+  }
+  // Custom in black on top
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = customPaths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`;
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+// ============================================================
+// MEASUREMENTS ENGINE
+// ============================================================
+
+function computeMeasurements(normalPaths, customPaths) {
+  const mNormal = {};
+  const mCustom = {};
+
+  for (const letter of ['M','O','R']) {
+    const x = BASE_POSITIONS[letter];
+    mNormal[letter] = { x, width: letter === 'M' ? 560 : letter === 'O' ? 520 : 500 };
+    mCustom[letter] = { x, width: mNormal[letter].width };
+  }
+
+  const normalSpacing = BASE_POSITIONS.O - (BASE_POSITIONS.M + 560);
+  const customSpacing = normalSpacing; // Will be overridden for spacing experiment
+
+  return {
+    'pair spacing': `${normalSpacing}u (normal)`,
+    'M bounding box': `560 × ${CAP_H}u`,
+    'O bounding box': `520 × ${CAP_H}u`,
+    'R bounding box': `500 × ${CAP_H}u`,
+    'stroke width': `${SW}u`,
+    'cap height': `${CAP_H}u (y=${CAP_TOP} to y=${BASELINE})`,
+    'baseline': `y=${BASELINE}`,
+    'optical center': `y=${CENTER} (design center)`
+  };
+}
+
+// ============================================================
+// JUDGMENT PANEL
+// ============================================================
+
+function createJudgmentPanel(id) {
+  const categories = ['Specificity','Authorization','Subtlety','Readability','Repeatability','Lumora Potential'];
+  let html = `<div class="judgment-grid">`;
+  for (const cat of categories) {
+    html += `<div class="judgment-item"><span class="k">${cat}</span><select><option value="">—</option><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select></div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+
+let showGuides = false;
+let showBBox = false;
+
+function toggleGuides() {
+  showGuides = document.getElementById('guides-toggle').checked;
+  renderAll();
+}
+function toggleBBoxes() {
+  showBBox = document.getElementById('bbox-toggle').checked;
+  renderAll();
+}
+
+const SCALE_SIZES = [240, 120, 48, 24, 16];
+
+function renderAll() {
+  const base = getBasePaths();
+
+  // ---- TAB 01: BASE ----
+  const scalesEl = document.getElementById('base-scales');
+  let scalesHTML = '<div class="scale-row">';
+  for (const sz of SCALE_SIZES) {
+    const w = Math.round(VB_W * sz / CAP_H);
+    scalesHTML += `<div class="scale-item">`;
+    scalesHTML += renderSVG(base, w, sz, 'black', showGuides, showBBox);
+    scalesHTML += `<div class="dim">${sz}px cap</div></div>`;
+  }
+  scalesHTML += '</div>';
+  scalesEl.innerHTML = scalesHTML;
+
+  document.getElementById('base-bw').innerHTML = renderSVG(base, 720, 140, 'black', showGuides, showBBox);
+  document.getElementById('base-wb').innerHTML = `<div class="svg-container dark" style="display:inline-block;line-height:0">` + renderSVG(base, 720, 140, 'white', showGuides, showBBox) + `</div>`;
+
+  // ---- TAB 02: M/O ----
+  const moA = moAPaths();
+  const moB = moBPaths();
+  const moC = moCPaths();
+
+  document.getElementById('mo-a-normal').innerHTML = renderSVG(base, 500, 98, 'black', false, false);
+  document.getElementById('mo-a-custom').innerHTML = renderSVG(moA, 500, 98, 'black', false, false);
+  document.getElementById('mo-a-overlay').innerHTML = renderOverlay(base, moA, 500, 98);
+  document.getElementById('mo-a-measurements').innerHTML = formatMeasurements(computeMeasurements(base, moA));
+  document.getElementById('mo-a-judgment').innerHTML = createJudgmentPanel('mo-a');
+
+  document.getElementById('mo-b-normal').innerHTML = renderSVG(base, 500, 98, 'black', false, false);
+  document.getElementById('mo-b-custom').innerHTML = renderSVG(moB, 500, 98, 'black', false, false);
+  document.getElementById('mo-b-overlay').innerHTML = renderOverlay(base, moB, 500, 98);
+  document.getElementById('mo-b-measurements').innerHTML = formatMeasurements(computeMeasurements(base, moB));
+  document.getElementById('mo-b-judgment').innerHTML = createJudgmentPanel('mo-b');
+
+  document.getElementById('mo-c-normal').innerHTML = renderSVG(base, 500, 98, 'black', false, false);
+  document.getElementById('mo-c-custom').innerHTML = renderSVG(moC, 500, 98, 'black', false, false);
+  document.getElementById('mo-c-overlay').innerHTML = renderOverlay(base, moC, 500, 98);
+  document.getElementById('mo-c-measurements').innerHTML = formatMeasurements(computeMeasurements(base, moC));
+  document.getElementById('mo-c-judgment').innerHTML = createJudgmentPanel('mo-c');
+
+  // Full word M/O
+  document.getElementById('mo-full-normal').innerHTML = renderSVG(base, 600, 116, 'black', false, false);
+  document.getElementById('mo-full-a').innerHTML = renderSVG(moA, 600, 116, 'black', false, false);
+  document.getElementById('mo-full-b').innerHTML = renderSVG(moB, 600, 116, 'black', false, false);
+  document.getElementById('mo-full-c').innerHTML = renderSVG(moC, 600, 116, 'black', false, false);
+
+  // ---- TAB 03: O/R ----
+  const orA = orAPaths();
+  const orB = orBPaths();
+  const orC = orCPaths();
+
+  document.getElementById('or-a-normal').innerHTML = renderSVG(base, 500, 98, 'black', false, false);
+  document.getElementById('or-a-custom').innerHTML = renderSVG(orA, 500, 98, 'black', false, false);
+  document.getElementById('or-a-overlay').innerHTML = renderOverlay(base, orA, 500, 98);
+  document.getElementById('or-a-measurements').innerHTML = formatMeasurements(computeMeasurements(base, orA));
+  document.getElementById('or-a-judgment').innerHTML = createJudgmentPanel('or-a');
+
+  document.getElementById('or-b-normal').innerHTML = renderSVG(base, 500, 98, 'black', false, false);
+  document.getElementById('or-b-custom').innerHTML = renderSVG(orB, 500, 98, 'black', false, false);
+  document.getElementById('or-b-overlay').innerHTML = renderOverlay(base, orB, 500, 98);
+  document.getElementById('or-b-measurements').innerHTML = formatMeasurements(computeMeasurements(base, orB));
+  document.getElementById('or-b-judgment').innerHTML = createJudgmentPanel('or-b');
+
+  document.getElementById('or-c-normal').innerHTML = renderSVG(base, 500, 98, 'black', false, false);
+  document.getElementById('or-c-custom').innerHTML = renderSVG(orC, 500, 98, 'black', false, false);
+  document.getElementById('or-c-overlay').innerHTML = renderOverlay(base, orC, 500, 98);
+  document.getElementById('or-c-measurements').innerHTML = formatMeasurements(computeMeasurements(base, orC));
+  document.getElementById('or-c-judgment').innerHTML = createJudgmentPanel('or-c');
+
+  // Full word O/R
+  document.getElementById('or-full-normal').innerHTML = renderSVG(base, 600, 116, 'black', false, false);
+  document.getElementById('or-full-a').innerHTML = renderSVG(orA, 600, 116, 'black', false, false);
+  document.getElementById('or-full-b').innerHTML = renderSVG(orB, 600, 116, 'black', false, false);
+  document.getElementById('or-full-c').innerHTML = renderSVG(orC, 600, 116, 'black', false, false);
+
+  // ---- TAB 04: COMBINATIONS ----
+  const c1 = combo1Paths();
+  const c2 = combo2Paths();
+
+  document.getElementById('combo1-normal').innerHTML = renderSVG(base, 600, 116, 'black', false, false);
+  document.getElementById('combo1-custom').innerHTML = renderSVG(c1, 600, 116, 'black', false, false);
+  document.getElementById('combo1-overlay').innerHTML = renderOverlay(base, c1, 600, 116);
+  document.getElementById('combo1-judgment').innerHTML = createJudgmentPanel('combo1');
+
+  document.getElementById('combo2-normal').innerHTML = renderSVG(base, 600, 116, 'black', false, false);
+  document.getElementById('combo2-custom').innerHTML = renderSVG(c2, 600, 116, 'black', false, false);
+  document.getElementById('combo2-overlay').innerHTML = renderOverlay(base, c2, 600, 116);
+  document.getElementById('combo2-judgment').innerHTML = createJudgmentPanel('combo2');
+
+  // ---- TAB 05: SCALE TEST ----
+  const scaleEl = document.getElementById('scale-tests');
+  let scaleHTML = '';
+  const combos = [
+    { name: 'Base', paths: base },
+    { name: 'Combo 01 (MO-A + OR-A)', paths: c1 },
+    { name: 'Combo 02 (MO-B + OR-C)', paths: c2 }
+  ];
+  for (const sz of SCALE_SIZES) {
+    scaleHTML += `<div class="experiment"><div class="experiment-title">${sz}px Cap Height</div><div class="row">`;
+    for (const combo of combos) {
+      const w = Math.round(VB_W * sz / CAP_H);
+      scaleHTML += `<div class="col"><div class="label">${combo.name}</div>`;
+      scaleHTML += renderSVG(combo.paths, w, sz, 'black', false, false);
+      scaleHTML += `</div>`;
+    }
+    scaleHTML += `</div></div>`;
+  }
+  scaleEl.innerHTML = scaleHTML;
+
+  // ---- TAB 06: ONE-COLOR ----
+  document.getElementById('color-c1-bw').innerHTML = renderSVG(c1, 600, 116, 'black', false, false);
+  document.getElementById('color-c1-wb').innerHTML = renderSVG(c1, 600, 116, 'white', false, false);
+  document.getElementById('color-c1-ko').innerHTML = renderSVG(c1, 600, 116, 'black', false, false);
+
+  document.getElementById('color-c2-bw').innerHTML = renderSVG(c2, 600, 116, 'black', false, false);
+  document.getElementById('color-c2-wb').innerHTML = renderSVG(c2, 600, 116, 'white', false, false);
+  document.getElementById('color-c2-ko').innerHTML = renderSVG(c2, 600, 116, 'black', false, false);
+
+  document.getElementById('color-base-bw').innerHTML = renderSVG(base, 600, 116, 'black', false, false);
+  document.getElementById('color-base-wb').innerHTML = renderSVG(base, 600, 116, 'white', false, false);
+}
+
+function formatMeasurements(m) {
+  let html = '';
+  for (const [k, v] of Object.entries(m)) {
+    html += `<div><span>${k}:</span> <span class="val">${v}</span></div>`;
+  }
+  return html;
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Initial render
+renderAll();
+</script>
+</body>
+</html>

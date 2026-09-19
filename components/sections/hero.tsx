@@ -26,7 +26,13 @@ export function Hero() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set([envResponseRef.current, identityRef.current, headingRef.current, scrollRef.current].filter(Boolean), { opacity: 1, y: 0, clipPath: "inset(0% 0 0 0)" });
+        return;
+      }
       const dur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--core-motion-duration") || "1");
 
       const tl = gsap.timeline({

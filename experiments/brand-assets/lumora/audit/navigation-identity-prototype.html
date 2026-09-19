@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMORA — Navigation Identity Prototype</title>
+  <style>
+    :root {
+      --color-bg: #0a0a0a;
+      --color-text: #f5f5f5;
+      --color-text-muted: #888888;
+      --color-accent: #8a2eff;
+      --color-border: #222222;
+      --spacing-container: 24px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.5;
+    }
+
+    .section {
+      border: 1px solid var(--color-border);
+      margin: 24px;
+      padding: 24px;
+      border-radius: 8px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-accent);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .section-subtitle {
+      font-size: 10px;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+
+    .nav-bar {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--spacing-container);
+    }
+
+    .nav-desktop {
+      height: 80px;
+    }
+
+    .nav-tablet {
+      height: 72px;
+    }
+
+    .nav-mobile {
+      height: 64px;
+    }
+
+    .brand-zone {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(136,136,136,0.6);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-text);
+    }
+
+    .hamburger {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--color-text);
+      cursor: pointer;
+    }
+
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transition: background 0.5s;
+    }
+
+    /* Current brand styling */
+    .brand-current .icon-container {
+      width: 32px;
+      height: 32px;
+      background: rgba(138,46,255,0.15);
+      border: 1px solid rgba(138,46,255,0.2);
+    }
+
+    /* Footer styling */
+    .footer-bar {
+      border-top: 1px solid var(--color-border);
+      padding: 64px 0;
+    }
+
+    .footer-mobile {
+      padding: 48px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    @media (min-width: 768px) {
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .footer-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand .icon-container {
+      width: 28px;
+      height: 28px;
+      background: rgba(138,46,255,0.1);
+      border: 1px solid rgba(138,46,255,0.15);
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: rgba(136,136,136,0.5);
+      max-width: 280px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(136,136,136,0.4);
+      text-decoration: none;
+    }
+
+    .footer-bottom {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(34,34,34,0.8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: rgba(136,136,136,0.3);
+    }
+
+    /* Viewport controls */
+    .viewport-controls {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      padding: 12px 24px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .viewport-btn {
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .viewport-btn:hover,
+    .viewport-btn.active {
+      background: rgba(138,46,255,0.15);
+      border-color: rgba(138,46,255,0.3);
+      color: var(--color-text);
+    }
+
+    .viewport-frame {
+      max-width: 100%;
+      margin: 0 auto;
+      transition: max-width 0.3s;
+    }
+
+    .viewport-desktop { max-width: 1280px; }
+    .viewport-tablet { max-width: 768px; }
+    .viewport-mobile { max-width: 375px; }
+
+    .measurement {
+      display: inline-block;
+      background: rgba(138,46,255,0.1);
+      border: 1px dashed rgba(138,46,255,0.3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: monospace;
+      color: var(--color-accent);
+      margin-left: 8px;
+    }
+
+    .note {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.02);
+      border-left: 2px solid var(--color-accent);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .evaluation {
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .evaluation dt {
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+
+    .evaluation dd {
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+      padding-left: 12px;
+    }
+
+    .report-section {
+      margin: 32px 24px;
+      padding: 24px;
+      border: 1px solid var(--color-accent);
+      border-radius: 8px;
+      background: rgba(138,46,255,0.03);
+    }
+
+    .report-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 16px;
+    }
+
+    .report-content {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--color-text);
+    }
+
+    .report-content h4 {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 16px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .report-content ul {
+      padding-left: 16px;
+      margin: 8px 0;
+    }
+
+    .report-content li {
+      margin-bottom: 4px;
+      color: var(--color-text-muted);
+    }
+
+    .classification {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .class-a { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .class-b { background: rgba(234,179,8,0.15); color: #eab308; }
+    .class-c { background: rgba(239,68,68,0.15); color: #ef4444; }
+  </style>
+</head>
+<body>
+
+  <!-- Viewport Controls -->
+  <div class="viewport-controls">
+    <button class="viewport-btn active" onclick="setViewport('full')">Full Width</button>
+    <button class="viewport-btn" onclick="setViewport('desktop')">Desktop (1280px)</button>
+    <button class="viewport-btn" onclick="setViewport('tablet')">Tablet (768px)</button>
+    <button class="viewport-btn" onclick="setViewport('mobile')">Mobile (375px)</button>
+  </div>
+
+  <div class="viewport-frame" id="viewportFrame">
+
+    <!-- ============================================================
+         SECTION 1: CURRENT NAVIGATION
+         ============================================================ -->
+    <div class="section">
+      <div class="section-title">
+        1. CURRENT NAVIGATION
+        <span class="section-subtitle">Production state — Clock icon + "LUMORA" text</span>
+      </div>
+
+      <!-- Desktop -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Desktop <span class="measurement">h-20 (80px)</span>
+        </div>
+        <div class="nav-bar nav-desktop">
+          <div class="nav-inner">
+            <div class="brand-zone brand-current">
+              <span class="icon-container">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </span>
+              <span>LUMORA</span>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div>
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Mobile <span class="measurement">h-16 (64px)</span>
+        </div>
+        <div class="nav-bar nav-mobile">
+          <div class="nav-inner">
+            <div class="brand-zone brand-current">
+              <span class="icon-container">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+              </span>
+              <span>LUMORA</span>
+            </div>
+            <button class="hamburger" aria-label="Open menu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Current dimensions:</strong> Icon container 32×32px, inner SVG 14×14px, gap 12px, text 16px.
+        Nav height: 80px desktop / 64px mobile.
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         SECTION 2: PROTOTYPE A — WORDMARK ONLY
+         ============================================================ -->
+    <div class="section">
+      <div class="section-title">
+        2. PROTOTYPE A — WORDMARK ONLY
+        <span class="section-subtitle">Approved LUMORA wordmark replaces clock + text</span>
+      </div>
+
+      <!-- Desktop: Medium wordmark at 28px height -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Desktop — Medium variant <span class="measurement">28px height</span>
+        </div>
+        <div class="nav-bar nav-desktop">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 0;">
+              <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 28px; width: auto;">
+                <path fill-rule="evenodd" d="
+                  M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                  M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                  M1130,100 L1200,100 L1200,800 L1130,800 Z
+                  M1200,100 L1208,100 L1410,380 L1388,380 Z
+                  M1410,380 L1432,380 L1602,100 L1532,100 Z
+                  M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                  M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                  M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                  M2330,100 L2400,100 L2400,800 L2330,800 Z
+                  M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                  M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                  M2400,480 L2435,480 L2720,800 L2390,800 Z
+                  M3136,100 L3144,100 L2990,800 L2930,800 Z
+                  M3136,100 L3144,100 L3350,800 L3290,800 Z
+                  M3043,530 L3237,530 L3237,580 L3043,580 Z
+                "/>
+              </svg>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop: Small wordmark at 20px height -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Desktop — Small variant <span class="measurement">20px height</span>
+        </div>
+        <div class="nav-bar nav-desktop">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 0;">
+              <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 20px; width: auto;">
+                <path fill-rule="evenodd" d="
+                  M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                  M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                  M1130,100 L1200,100 L1200,800 L1130,800 Z
+                  M1200,100 L1208,100 L1410,380 L1388,380 Z
+                  M1410,380 L1432,380 L1602,100 L1532,100 Z
+                  M1532,100 L1602,100 L1602,800 L1532,800 Z
+                  M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                  M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                  M2330,100 L2400,100 L2400,800 L2330,800 Z
+                  M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                  M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                  M2400,480 L2435,480 L2670,800 L2390,800 Z
+                  M3136,100 L3144,100 L2990,800 L2930,800 Z
+                  M3136,100 L3144,100 L3350,800 L3290,800 Z
+                  M3043,530 L3237,530 L3237,580 L3043,580 Z
+                "/>
+              </svg>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tablet -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Tablet — Medium variant <span class="measurement">24px height</span>
+        </div>
+        <div class="nav-bar nav-tablet">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 0;">
+              <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 24px; width: auto;">
+                <path fill-rule="evenodd" d="
+                  M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                  M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                  M1130,100 L1200,100 L1200,800 L1130,800 Z
+                  M1200,100 L1208,100 L1410,380 L1388,380 Z
+                  M1410,380 L1432,380 L1602,100 L1532,100 Z
+                  M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                  M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                  M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                  M2330,100 L2400,100 L2400,800 L2330,800 Z
+                  M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                  M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                  M2400,480 L2435,480 L2720,800 L2390,800 Z
+                  M3136,100 L3144,100 L2990,800 L2930,800 Z
+                  M3136,100 L3144,100 L3350,800 L3290,800 Z
+                  M3043,530 L3237,530 L3237,580 L3043,580 Z
+                "/>
+              </svg>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compact width -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Compact (500px) — Small variant <span class="measurement">18px height</span>
+        </div>
+        <div class="nav-bar nav-tablet" style="max-width: 500px;">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 0;">
+              <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 18px; width: auto;">
+                <path fill-rule="evenodd" d="
+                  M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                  M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                  M1130,100 L1200,100 L1200,800 L1130,800 Z
+                  M1200,100 L1208,100 L1410,380 L1388,380 Z
+                  M1410,380 L1432,380 L1602,100 L1532,100 Z
+                  M1532,100 L1602,100 L1602,800 L1532,800 Z
+                  M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                  M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                  M2330,100 L2400,100 L2400,800 L2330,800 Z
+                  M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                  M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                  M2400,480 L2435,480 L2670,800 L2390,800 Z
+                  M3136,100 L3144,100 L2990,800 L2930,800 Z
+                  M3136,100 L3144,100 L3350,800 L3290,800 Z
+                  M3043,530 L3237,530 L3237,580 L3043,580 Z
+                "/>
+              </svg>
+            </div>
+            <div style="flex: 1;"></div>
+            <button class="hamburger" aria-label="Open menu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="evaluation">
+        <dl>
+          <dt>Readability</dt>
+          <dd>At 28px height: fully legible. At 20px: acceptable but detail loss on M diagonal. At 18px: compressed, small variant required.</dd>
+          <dt>Scale Suitability</dt>
+          <dd>Medium variant works for desktop (24–28px). Small variant required below 24px. Large variant too heavy for nav.</dd>
+          <dt>Identity Fidelity</dt>
+          <dd>High. The wordmark IS the brand name — no translation layer needed. Character shapes preserved at all tested sizes.</dd>
+          <dt>Spacing</dt>
+          <dd>Wordmark alone needs no gap management. At 28px height, width ~101px. Clean left-aligned placement.</dd>
+          <dt>Hierarchy</dt>
+          <dd>Wordmark dominates left zone. Links remain subtle. Clear separation of brand vs. navigation.</dd>
+          <dt>Visual Weight</dt>
+          <dd>At 28px: appropriately weighted. At 20px: may feel thin against nav links. Consider 22–24px as sweet spot.</dd>
+          <dt>Redundancy</dt>
+          <dd>None. Wordmark replaces both icon AND text — no duplication.</dd>
+          <dt>Mobile Viability</dt>
+          <dd>At 18px height: wordmark viable but tight. At 16px: approaching minimum. Below 16px: not recommended.</dd>
+          <dt>Core Collision</dt>
+          <dd>None. No M Core present. Wordmark is self-contained identity.</dd>
+        </dl>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         SECTION 3: PROTOTYPE B — M CORE + WORDMARK
+         ============================================================ -->
+    <div class="section">
+      <div class="section-title">
+        3. PROTOTYPE B — M CORE + WORDMARK
+        <span class="section-subtitle">Full identity lockup — micro-mark + approved wordmark</span>
+      </div>
+
+      <!-- Desktop: Micro optical + Medium wordmark -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Desktop — M Optical + Medium wordmark <span class="measurement">28px / 28px</span>
+        </div>
+        <div class="nav-bar nav-desktop">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 8px;">
+              <!-- M Core - Optical variant -->
+              <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 28px; width: 28px;">
+                <path fill-rule="evenodd" d="
+                  M258,50 L328,50 L328,950 L258,950 Z
+                  M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                  M328,50 L540,411 L664,50 Z
+                "/>
+              </svg>
+              <!-- Wordmark -->
+              <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 28px; width: auto;">
+                <path fill-rule="evenodd" d="
+                  M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                  M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                  M1130,100 L1200,100 L1200,800 L1130,800 Z
+                  M1200,100 L1208,100 L1410,380 L1388,380 Z
+                  M1410,380 L1432,380 L1602,100 L1532,100 Z
+                  M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                  M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                  M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                  M2330,100 L2400,100 L2400,800 L2330,800 Z
+                  M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                  M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                  M2400,480 L2435,480 L2720,800 L2390,800 Z
+                  M3136,100 L3144,100 L2990,800 L2930,800 Z
+                  M3136,100 L3144,100 L3350,800 L3290,800 Z
+                  M3043,530 L3237,530 L3237,580 L3043,580 Z
+                "/>
+              </svg>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop: Micro optical + Small wordmark at 22px -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Desktop — M Optical + Small wordmark <span class="measurement">22px / 22px</span>
+        </div>
+        <div class="nav-bar nav-desktop">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 8px;">
+              <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 22px; width: 22px;">
+                <path fill-rule="evenodd" d="
+                  M258,50 L328,50 L328,950 L258,950 Z
+                  M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                  M328,50 L540,411 L664,50 Z
+                "/>
+              </svg>
+              <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 22px; width: auto;">
+                <path fill-rule="evenodd" d="
+                  M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                  M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                  M1130,100 L1200,100 L1200,800 L1130,800 Z
+                  M1200,100 L1208,100 L1410,380 L1388,380 Z
+                  M1410,380 L1432,380 L1602,100 L1532,100 Z
+                  M1532,100 L1602,100 L1602,800 L1532,800 Z
+                  M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                  M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                  M2330,100 L2400,100 L2400,800 L2330,800 Z
+                  M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                  M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                  M2400,480 L2435,480 L2670,800 L2390,800 Z
+                  M3136,100 L3144,100 L2990,800 L2930,800 Z
+                  M3136,100 L3144,100 L3350,800 L3290,800 Z
+                  M3043,530 L3237,530 L3237,580 L3043,580 Z
+                "/>
+              </svg>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tablet -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Tablet — M Optical + Medium wordmark <span class="measurement">24px / 24px</span>
+        </div>
+        <div class="nav-bar nav-tablet">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 6px;">
+              <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 24px; width: 24px;">
+                <path fill-rule="evenodd" d="
+                  M258,50 L328,50 L328,950 L258,950 Z
+                  M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                  M328,50 L540,411 L664,50 Z
+                "/>
+              </svg>
+              <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 24px; width: auto;">
+                <path fill-rule="evenodd" d="
+                  M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                  M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                  M1130,100 L1200,100 L1200,800 L1130,800 Z
+                  M1200,100 L1208,100 L1410,380 L1388,380 Z
+                  M1410,380 L1432,380 L1602,100 L1532,100 Z
+                  M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                  M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                  M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                  M2330,100 L2400,100 L2400,800 L2330,800 Z
+                  M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                  M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                  M2400,480 L2435,480 L2720,800 L2390,800 Z
+                  M3136,100 L3144,100 L2990,800 L2930,800 Z
+                  M3136,100 L3144,100 L3350,800 L3290,800 Z
+                  M3043,530 L3237,530 L3237,580 L3043,580 Z
+                "/>
+              </svg>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="evaluation">
+        <dl>
+          <dt>Readability</dt>
+          <dd>At 28px: both elements fully legible. Wordmark width ~101px at 28px height. Total lockup ~137px with 8px gap.</dd>
+          <dt>Scale Suitability</dt>
+          <dd>M Core optical + wordmark medium works at 24–28px. At 22px: still viable but tight. Below 20px: not recommended for lockup.</dd>
+          <dt>Identity Fidelity</dt>
+          <dd>Maximum. Both approved assets present and proportional. M Core establishes the M as brand anchor, wordmark confirms the name.</dd>
+          <dt>Spacing</dt>
+          <dd>8px gap at 28px scale. 6px at 24px. Proportional and clean. No collision between elements.</dd>
+          <dt>Hierarchy</dt>
+          <dd>M Core leads visually. Wordmark follows. Clear two-element identity lockup. Reads as one unit, not two separate marks.</dd>
+          <dt>Visual Weight</dt>
+          <dd>Well balanced. M Core provides vertical anchor. Wordmark provides horizontal flow. Combined weight appropriate for nav.</dd>
+          <dt>Redundancy</dt>
+          <dd>Low. M Core and wordmark serve different roles: icon vs. name. They complement rather than duplicate.</dd>
+          <dt>Mobile Viability</dt>
+          <dd>At 20px height lockup: total width ~112px. Viable but tight on 375px viewport. Consider M Core only below 400px width.</dd>
+          <dt>Core Collision</dt>
+          <dd>None. M Core is the parent identity element. Wordmark confirms what the M represents. They are siblings, not competitors.</dd>
+        </dl>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         SECTION 4: PROTOTYPE C — M CORE + TEXT
+         ============================================================ -->
+    <div class="section">
+      <div class="section-title">
+        4. PROTOTYPE C — M CORE + CURRENT TEXT
+        <span class="section-subtitle">Compact fallback — M Core + existing "LUMORA" text</span>
+      </div>
+
+      <!-- Desktop -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Desktop <span class="measurement">28px / 16px text</span>
+        </div>
+        <div class="nav-bar nav-desktop">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 10px;">
+              <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 28px; width: 28px;">
+                <path fill-rule="evenodd" d="
+                  M258,50 L328,50 L328,950 L258,950 Z
+                  M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                  M328,50 L540,411 L664,50 Z
+                "/>
+              </svg>
+              <span>LUMORA</span>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tablet -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Tablet <span class="measurement">24px / 16px text</span>
+        </div>
+        <div class="nav-bar nav-tablet">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 8px;">
+              <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 24px; width: 24px;">
+                <path fill-rule="evenodd" d="
+                  M258,50 L328,50 L328,950 L258,950 Z
+                  M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                  M328,50 L540,411 L664,50 Z
+                "/>
+              </svg>
+              <span>LUMORA</span>
+            </div>
+            <ul class="nav-links">
+              <li><a href="#works">Worlds</a></li>
+              <li><a href="#philosophy">Thinking</a></li>
+              <li><a href="#about">Person</a></li>
+              <li><a href="#contact">Threshold</a></li>
+            </ul>
+            <div style="width: 40px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          Mobile <span class="measurement">20px / 16px text</span>
+        </div>
+        <div class="nav-bar nav-mobile">
+          <div class="nav-inner">
+            <div class="brand-zone" style="gap: 8px;">
+              <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 20px; width: 20px;">
+                <path fill-rule="evenodd" d="
+                  M258,50 L328,50 L328,950 L258,950 Z
+                  M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                  M328,50 L540,411 L664,50 Z
+                "/>
+              </svg>
+              <span>LUMORA</span>
+            </div>
+            <button class="hamburger" aria-label="Open menu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="evaluation">
+        <dl>
+          <dt>Readability</dt>
+          <dd>Text is system font — always legible. M Core at 20px: optical variant still clear. At 20px, M structure preserved.</dd>
+          <dt>Scale Suitability</dt>
+          <dd>M Core optical + text works across all tested sizes (20–28px). Text provides reliable legibility at any scale.</dd>
+          <dt>Identity Fidelity</dt>
+          <dd>Moderate. M Core provides identity anchor. Text is generic system font — no LUMORA typographic identity.</dd>
+          <dt>Spacing</dt>
+          <dd>8–10px gap. Clean separation. M Core and text feel connected but not merged.</dd>
+          <dt>Hierarchy</dt>
+          <dd>M Core leads. Text confirms. Clear secondary role for text element.</dd>
+          <dt>Visual Weight</dt>
+          <dd>M Core provides weight. Text is lighter. Combined effect: icon-dominant brand zone.</dd>
+          <dt>Redundancy</dt>
+          <dd>None. M Core and text serve distinct roles. They are complementary.</dd>
+          <dt>Mobile Viability</dt>
+          <dd>Excellent. Total width ~86px at mobile. Leaves ample room for hamburger. Most space-efficient option.</dd>
+          <dt>Core Collision</dt>
+          <dd>None. M Core is the identity anchor. Text is the name confirmation.</dd>
+        </dl>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         SECTION 5: DESKTOP VIEWPORT
+         ============================================================ -->
+    <div class="section">
+      <div class="section-title">
+        5. DESKTOP VIEWPORT
+        <span class="section-subtitle">1280px — All three prototypes compared</span>
+      </div>
+
+      <div style="display: grid; gap: 16px;">
+        <!-- Proto A -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            A — Wordmark Only
+          </div>
+          <div class="nav-bar nav-desktop">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 0;">
+                <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 28px; width: auto;">
+                  <path fill-rule="evenodd" d="
+                    M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                    M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                    M1130,100 L1200,100 L1200,800 L1130,800 Z
+                    M1200,100 L1208,100 L1410,380 L1388,380 Z
+                    M1410,380 L1432,380 L1602,100 L1532,100 Z
+                    M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                    M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                    M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                    M2330,100 L2400,100 L2400,800 L2330,800 Z
+                    M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                    M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                    M2400,480 L2435,480 L2720,800 L2390,800 Z
+                    M3136,100 L3144,100 L2990,800 L2930,800 Z
+                    M3136,100 L3144,100 L3350,800 L3290,800 Z
+                    M3043,530 L3237,530 L3237,580 L3043,580 Z
+                  "/>
+                </svg>
+              </div>
+              <ul class="nav-links">
+                <li><a href="#works">Worlds</a></li>
+                <li><a href="#philosophy">Thinking</a></li>
+                <li><a href="#about">Person</a></li>
+                <li><a href="#contact">Threshold</a></li>
+              </ul>
+              <div style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proto B -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            B — M Core + Wordmark
+          </div>
+          <div class="nav-bar nav-desktop">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 8px;">
+                <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 28px; width: 28px;">
+                  <path fill-rule="evenodd" d="
+                    M258,50 L328,50 L328,950 L258,950 Z
+                    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                    M328,50 L540,411 L664,50 Z
+                  "/>
+                </svg>
+                <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 28px; width: auto;">
+                  <path fill-rule="evenodd" d="
+                    M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                    M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                    M1130,100 L1200,100 L1200,800 L1130,800 Z
+                    M1200,100 L1208,100 L1410,380 L1388,380 Z
+                    M1410,380 L1432,380 L1602,100 L1532,100 Z
+                    M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                    M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                    M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                    M2330,100 L2400,100 L2400,800 L2330,800 Z
+                    M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                    M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                    M2400,480 L2435,480 L2720,800 L2390,800 Z
+                    M3136,100 L3144,100 L2990,800 L2930,800 Z
+                    M3136,100 L3144,100 L3350,800 L3290,800 Z
+                    M3043,530 L3237,530 L3237,580 L3043,580 Z
+                  "/>
+                </svg>
+              </div>
+              <ul class="nav-links">
+                <li><a href="#works">Worlds</a></li>
+                <li><a href="#philosophy">Thinking</a></li>
+                <li><a href="#about">Person</a></li>
+                <li><a href="#contact">Threshold</a></li>
+              </ul>
+              <div style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proto C -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            C — M Core + Text
+          </div>
+          <div class="nav-bar nav-desktop">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 10px;">
+                <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 28px; width: 28px;">
+                  <path fill-rule="evenodd" d="
+                    M258,50 L328,50 L328,950 L258,950 Z
+                    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                    M328,50 L540,411 L664,50 Z
+                  "/>
+                </svg>
+                <span>LUMORA</span>
+              </div>
+              <ul class="nav-links">
+                <li><a href="#works">Worlds</a></li>
+                <li><a href="#philosophy">Thinking</a></li>
+                <li><a href="#about">Person</a></li>
+                <li><a href="#contact">Threshold</a></li>
+              </ul>
+              <div style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Desktop observation:</strong> All three prototypes fit comfortably within 1280px max-width.
+        Prototype B (M Core + wordmark) has the strongest identity presence.
+        Prototype A (wordmark only) is cleanest but loses the M Core anchor.
+        Prototype C (M Core + text) is most space-efficient but lacks typographic identity.
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         SECTION 6: TABLET VIEWPORT
+         ============================================================ -->
+    <div class="section">
+      <div class="section-title">
+        6. TABLET VIEWPORT
+        <span class="section-subtitle">768px — Navigation links still visible</span>
+      </div>
+
+      <div style="display: grid; gap: 16px;">
+        <!-- Proto A -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            A — Wordmark Only
+          </div>
+          <div class="nav-bar nav-tablet">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 0;">
+                <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 24px; width: auto;">
+                  <path fill-rule="evenodd" d="
+                    M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                    M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                    M1130,100 L1200,100 L1200,800 L1130,800 Z
+                    M1200,100 L1208,100 L1410,380 L1388,380 Z
+                    M1410,380 L1432,380 L1602,100 L1532,100 Z
+                    M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                    M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                    M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                    M2330,100 L2400,100 L2400,800 L2330,800 Z
+                    M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                    M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                    M2400,480 L2435,480 L2720,800 L2390,800 Z
+                    M3136,100 L3144,100 L2990,800 L2930,800 Z
+                    M3136,100 L3144,100 L3350,800 L3290,800 Z
+                    M3043,530 L3237,530 L3237,580 L3043,580 Z
+                  "/>
+                </svg>
+              </div>
+              <ul class="nav-links">
+                <li><a href="#works">Worlds</a></li>
+                <li><a href="#philosophy">Thinking</a></li>
+                <li><a href="#about">Person</a></li>
+                <li><a href="#contact">Threshold</a></li>
+              </ul>
+              <div style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proto B -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            B — M Core + Wordmark
+          </div>
+          <div class="nav-bar nav-tablet">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 6px;">
+                <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 24px; width: 24px;">
+                  <path fill-rule="evenodd" d="
+                    M258,50 L328,50 L328,950 L258,950 Z
+                    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                    M328,50 L540,411 L664,50 Z
+                  "/>
+                </svg>
+                <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 24px; width: auto;">
+                  <path fill-rule="evenodd" d="
+                    M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                    M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                    M1130,100 L1200,100 L1200,800 L1130,800 Z
+                    M1200,100 L1208,100 L1410,380 L1388,380 Z
+                    M1410,380 L1432,380 L1602,100 L1532,100 Z
+                    M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                    M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                    M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                    M2330,100 L2400,100 L2400,800 L2330,800 Z
+                    M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                    M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                    M2400,480 L2435,480 L2720,800 L2390,800 Z
+                    M3136,100 L3144,100 L2990,800 L2930,800 Z
+                    M3136,100 L3144,100 L3350,800 L3290,800 Z
+                    M3043,530 L3237,530 L3237,580 L3043,580 Z
+                  "/>
+                </svg>
+              </div>
+              <ul class="nav-links">
+                <li><a href="#works">Worlds</a></li>
+                <li><a href="#philosophy">Thinking</a></li>
+                <li><a href="#about">Person</a></li>
+                <li><a href="#contact">Threshold</a></li>
+              </ul>
+              <div style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proto C -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            C — M Core + Text
+          </div>
+          <div class="nav-bar nav-tablet">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 8px;">
+                <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 24px; width: 24px;">
+                  <path fill-rule="evenodd" d="
+                    M258,50 L328,50 L328,950 L258,950 Z
+                    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                    M328,50 L540,411 L664,50 Z
+                  "/>
+                </svg>
+                <span>LUMORA</span>
+              </div>
+              <ul class="nav-links">
+                <li><a href="#works">Worlds</a></li>
+                <li><a href="#philosophy">Thinking</a></li>
+                <li><a href="#about">Person</a></li>
+                <li><a href="#contact">Threshold</a></li>
+              </ul>
+              <div style="width: 40px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         SECTION 7: MOBILE VIEWPORT
+         ============================================================ -->
+    <div class="section">
+      <div class="section-title">
+        7. MOBILE VIEWPORT
+        <span class="section-subtitle">375px — Hamburger visible, brand must be compact</span>
+      </div>
+
+      <div style="display: grid; gap: 16px;">
+        <!-- Current -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            Current (Clock + Text)
+          </div>
+          <div class="nav-bar nav-mobile">
+            <div class="nav-inner">
+              <div class="brand-zone brand-current">
+                <span class="icon-container">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                </span>
+                <span>LUMORA</span>
+              </div>
+              <button class="hamburger" aria-label="Open menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <line x1="3" y1="12" x2="21" y2="12"/>
+                  <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proto A - Small -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            A — Wordmark Small (18px)
+          </div>
+          <div class="nav-bar nav-mobile">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 0;">
+                <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 18px; width: auto;">
+                  <path fill-rule="evenodd" d="
+                    M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                    M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                    M1130,100 L1200,100 L1200,800 L1130,800 Z
+                    M1200,100 L1208,100 L1410,380 L1388,380 Z
+                    M1410,380 L1432,380 L1602,100 L1532,100 Z
+                    M1532,100 L1602,100 L1602,800 L1532,800 Z
+                    M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                    M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                    M2330,100 L2400,100 L2400,800 L2330,800 Z
+                    M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                    M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                    M2400,480 L2435,480 L2670,800 L2390,800 Z
+                    M3136,100 L3144,100 L2990,800 L2930,800 Z
+                    M3136,100 L3144,100 L3350,800 L3290,800 Z
+                    M3043,530 L3237,530 L3237,580 L3043,580 Z
+                  "/>
+                </svg>
+              </div>
+              <div style="flex: 1;"></div>
+              <button class="hamburger" aria-label="Open menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <line x1="3" y1="12" x2="21" y2="12"/>
+                  <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proto B - Compact lockup -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            B — M Core + Wordmark (20px)
+          </div>
+          <div class="nav-bar nav-mobile">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 6px;">
+                <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 20px; width: 20px;">
+                  <path fill-rule="evenodd" d="
+                    M258,50 L328,50 L328,950 L258,950 Z
+                    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                    M328,50 L540,411 L664,50 Z
+                  "/>
+                </svg>
+                <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 20px; width: auto;">
+                  <path fill-rule="evenodd" d="
+                    M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                    M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                    M1130,100 L1200,100 L1200,800 L1130,800 Z
+                    M1200,100 L1208,100 L1410,380 L1388,380 Z
+                    M1410,380 L1432,380 L1602,100 L1532,100 Z
+                    M1532,100 L1602,100 L1602,800 L1532,800 Z
+                    M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                    M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                    M2330,100 L2400,100 L2400,800 L2330,800 Z
+                    M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                    M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                    M2400,480 L2435,480 L2670,800 L2390,800 Z
+                    M3136,100 L3144,100 L2990,800 L2930,800 Z
+                    M3136,100 L3144,100 L3350,800 L3290,800 Z
+                    M3043,530 L3237,530 L3237,580 L3043,580 Z
+                  "/>
+                </svg>
+              </div>
+              <div style="flex: 1;"></div>
+              <button class="hamburger" aria-label="Open menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <line x1="3" y1="12" x2="21" y2="12"/>
+                  <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proto C - M Core only -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            C — M Core Only (24px)
+          </div>
+          <div class="nav-bar nav-mobile">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 0;">
+                <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 24px; width: 24px;">
+                  <path fill-rule="evenodd" d="
+                    M258,50 L328,50 L328,950 L258,950 Z
+                    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                    M328,50 L540,411 L664,50 Z
+                  "/>
+                </svg>
+              </div>
+              <div style="flex: 1;"></div>
+              <button class="hamburger" aria-label="Open menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <line x1="3" y1="12" x2="21" y2="12"/>
+                  <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proto C - M Core + text -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+            C — M Core + Text (20px / 16px)
+          </div>
+          <div class="nav-bar nav-mobile">
+            <div class="nav-inner">
+              <div class="brand-zone" style="gap: 8px;">
+                <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 20px; width: 20px;">
+                  <path fill-rule="evenodd" d="
+                    M258,50 L328,50 L328,950 L258,950 Z
+                    M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                    M328,50 L540,411 L664,50 Z
+                  "/>
+                </svg>
+                <span>LUMORA</span>
+              </div>
+              <div style="flex: 1;"></div>
+              <button class="hamburger" aria-label="Open menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <line x1="3" y1="12" x2="21" y2="12"/>
+                  <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Mobile observation:</strong> M Core only (24px) is the most confident mobile identity.
+        M Core + text (20px/16px) is viable. Full wordmark at 18px is at minimum threshold.
+        Current clock + text remains functional but lacks brand identity.
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         SECTION 8: FOOTER PROTOTYPES
+         ============================================================ -->
+    <div class="section">
+      <div class="section-title">
+        8. FOOTER PROTOTYPES
+        <span class="section-subtitle">Footer has more vertical space — full identity expression possible</span>
+      </div>
+
+      <div style="display: grid; gap: 24px;">
+        <!-- Footer A - Wordmark -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em;">
+            A — Wordmark Only
+          </div>
+          <div class="nav-bar" style="border-radius: 8px;">
+            <div class="footer-bar" style="padding: 48px 24px;">
+              <div class="footer-inner">
+                <div>
+                  <div class="footer-brand" style="gap: 0; margin-bottom: 12px;">
+                    <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 24px; width: auto;">
+                      <path fill-rule="evenodd" d="
+                        M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                        M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                        M1130,100 L1200,100 L1200,800 L1130,800 Z
+                        M1200,100 L1208,100 L1410,380 L1388,380 Z
+                        M1410,380 L1432,380 L1602,100 L1532,100 Z
+                        M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                        M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                        M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                        M2330,100 L2400,100 L2400,800 L2330,800 Z
+                        M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                        M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                        M2400,480 L2435,480 L2720,800 L2390,800 Z
+                        M3136,100 L3144,100 L2990,800 L2930,800 Z
+                        M3136,100 L3144,100 L3350,800 L3290,800 Z
+                        M3043,530 L3237,530 L3237,580 L3043,580 Z
+                      "/>
+                    </svg>
+                  </div>
+                  <p class="footer-tagline">A cinematic digital experience.</p>
+                </div>
+                <div class="footer-links">
+                  <a href="#works">Worlds</a>
+                  <a href="#about">Person</a>
+                  <a href="#contact">Connect</a>
+                </div>
+              </div>
+              <div class="footer-bottom">
+                <span>&copy; 2026 LUMORA</span>
+                <span>Designed &amp; built by Sohrab</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer B - M Core + Wordmark -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em;">
+            B — M Core + Wordmark
+          </div>
+          <div class="nav-bar" style="border-radius: 8px;">
+            <div class="footer-bar" style="padding: 48px 24px;">
+              <div class="footer-inner">
+                <div>
+                  <div class="footer-brand" style="gap: 8px; margin-bottom: 12px;">
+                    <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 24px; width: 24px;">
+                      <path fill-rule="evenodd" d="
+                        M258,50 L328,50 L328,950 L258,950 Z
+                        M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                        M328,50 L540,411 L664,50 Z
+                      "/>
+                    </svg>
+                    <svg viewBox="0 0 3600 1000" fill="var(--color-text)" style="height: 24px; width: auto;">
+                      <path fill-rule="evenodd" d="
+                        M80,100 L150,100 L150,730 L346,730 L346,800 L80,800 Z
+                        M600,100 L670,100 L670,700 Q670,800 770,800 L940,800 Q1040,800 1040,700 L1040,100 L1110,100 L1110,700 Q1110,835 1010,835 L770,835 Q600,835 600,700 Z
+                        M1130,100 L1200,100 L1200,800 L1130,800 Z
+                        M1200,100 L1208,100 L1410,380 L1388,380 Z
+                        M1410,380 L1432,380 L1602,100 L1532,100 Z
+                        M1532,100 L1602,100 L1602,790 L1527,800 L1532,800 Z
+                        M2040,100 A230,310 0 1,1 2040,800 A230,310 0 1,1 2040,100 Z
+                        M2040,278 A196,266 0 1,0 2040,622 A196,266 0 1,0 2040,278 Z
+                        M2330,100 L2400,100 L2400,800 L2330,800 Z
+                        M2400,100 L2860,100 A160,170 0 0,1 2588,480 L2400,480 Z
+                        M2435,135 L2795,135 A125,135 0 0,1 2583,445 L2435,445 Z
+                        M2400,480 L2435,480 L2720,800 L2390,800 Z
+                        M3136,100 L3144,100 L2990,800 L2930,800 Z
+                        M3136,100 L3144,100 L3350,800 L3290,800 Z
+                        M3043,530 L3237,530 L3237,580 L3043,580 Z
+                      "/>
+                    </svg>
+                  </div>
+                  <p class="footer-tagline">A cinematic digital experience.</p>
+                </div>
+                <div class="footer-links">
+                  <a href="#works">Worlds</a>
+                  <a href="#about">Person</a>
+                  <a href="#contact">Connect</a>
+                </div>
+              </div>
+              <div class="footer-bottom">
+                <span>&copy; 2026 LUMORA</span>
+                <span>Designed &amp; built by Sohrab</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer C - M Core + Text -->
+        <div>
+          <div style="font-size: 10px; color: var(--color-text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em;">
+            C — M Core + Text
+          </div>
+          <div class="nav-bar" style="border-radius: 8px;">
+            <div class="footer-bar" style="padding: 48px 24px;">
+              <div class="footer-inner">
+                <div>
+                  <div class="footer-brand" style="gap: 10px; margin-bottom: 12px;">
+                    <svg viewBox="0 0 1000 1000" fill="var(--color-text)" style="height: 24px; width: 24px;">
+                      <path fill-rule="evenodd" d="
+                        M258,50 L328,50 L328,950 L258,950 Z
+                        M664,50 L734,50 L734,922 L656,950 L664,950 Z
+                        M328,50 L540,411 L664,50 Z
+                      "/>
+                    </svg>
+                    <span>LUMORA</span>
+                  </div>
+                  <p class="footer-tagline">A cinematic digital experience.</p>
+                </div>
+                <div class="footer-links">
+                  <a href="#works">Worlds</a>
+                  <a href="#about">Person</a>
+                  <a href="#contact">Connect</a>
+                </div>
+              </div>
+              <div class="footer-bottom">
+                <span>&copy; 2026 LUMORA</span>
+                <span>Designed &amp; built by Sohrab</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Footer observation:</strong> Footer has more vertical space. All three prototypes work well.
+        Prototype B (M Core + wordmark) provides the strongest brand reinforcement at page exit.
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         FINAL REPORT
+         ============================================================ -->
+    <div class="report-section">
+      <div class="report-title">FINAL REPORT — PHASE 0C.26</div>
+      <div class="report-content">
+
+        <h4>A. CURRENT NAV DIMENSIONS</h4>
+        <ul>
+          <li>Desktop nav height: 80px (h-20)</li>
+          <li>Mobile nav height: 64px (h-16)</li>
+          <li>Icon container: 32×32px (nav) / 28×28px (footer)</li>
+          <li>Inner SVG: 14×14px (nav) / 12×12px (footer)</li>
+          <li>Text: 16px system font, font-bold</li>
+          <li>Gap: 12px between icon and text</li>
+          <li>Container: max-width 1280px, padding var(--spacing-container)</li>
+        </ul>
+
+        <h4>B. PROTOTYPE A — WORDMARK ONLY</h4>
+        <ul>
+          <li><strong>Readability:</strong> 28px height fully legible. 20px acceptable with small variant. 18px at minimum threshold.</li>
+          <li><strong>Scale Suitability:</strong> Medium variant (48–119px range) works at 24–28px nav height. Small variant (24–47px range) required below 24px.</li>
+          <li><strong>Identity Fidelity:</strong> High. Wordmark IS the brand name — no translation layer.</li>
+          <li><strong>Spacing:</strong> Clean. No gap management needed. At 28px height: ~101px width.</li>
+          <li><strong>Hierarchy:</strong> Wordmark dominates left zone. Links remain subtle.</li>
+          <li><strong>Visual Weight:</strong> At 28px: appropriately weighted. At 20px: may feel thin.</li>
+          <li><strong>Redundancy:</strong> None. Replaces both icon AND text.</li>
+          <li><strong>Mobile Viability:</strong> At 18px: viable but tight. Below 16px: not recommended.</li>
+          <li><strong>Core Collision:</strong> None. No M Core present.</li>
+        </ul>
+
+        <h4>C. PROTOTYPE B — M CORE + WORDMARK</h4>
+        <ul>
+          <li><strong>Readability:</strong> 28px: both fully legible. 22px: still viable. Below 20px: not recommended for lockup.</li>
+          <li><strong>Scale Suitability:</strong> M Optical + wordmark medium works at 24–28px. At 20px: tight on mobile.</li>
+          <li><strong>Identity Fidelity:</strong> Maximum. Both approved assets present and proportional.</li>
+          <li><strong>Spacing:</strong> 8px gap at 28px. 6px at 24px. Clean, no collision.</li>
+          <li><strong>Hierarchy:</strong> M Core leads visually. Wordmark follows. Reads as one unit.</li>
+          <li><strong>Visual Weight:</strong> Well balanced. M Core provides vertical anchor. Wordmark provides horizontal flow.</li>
+          <li><strong>Redundancy:</strong> Low. M Core and wordmark serve different roles.</li>
+          <li><strong>Mobile Viability:</strong> At 20px lockup: ~112px total width. Viable but tight on 375px viewport.</li>
+          <li><strong>Core Collision:</strong> None. M Core is parent identity. Wordmark confirms what M represents.</li>
+        </ul>
+
+        <h4>D. PROTOTYPE C — M CORE + TEXT</h4>
+        <ul>
+          <li><strong>Readability:</strong> Text is system font — always legible. M Core at 20px: optical variant still clear.</li>
+          <li><strong>Scale Suitability:</strong> Works across all tested sizes (20–28px). Most flexible.</li>
+          <li><strong>Identity Fidelity:</strong> Moderate. M Core provides anchor. Text is generic — no LUMORA typographic identity.</li>
+          <li><strong>Spacing:</strong> 8–10px gap. Clean separation.</li>
+          <li><strong>Hierarchy:</strong> M Core leads. Text confirms. Clear secondary role.</li>
+          <li><strong>Visual Weight:</strong> M Core provides weight. Text is lighter. Icon-dominant brand zone.</li>
+          <li><strong>Redundancy:</strong> None. Complementary roles.</li>
+          <li><strong>Mobile Viability:</strong> Excellent. ~86px total width. Most space-efficient.</li>
+          <li><strong>Core Collision:</strong> None. M Core is identity anchor. Text is name confirmation.</li>
+        </ul>
+
+        <h4>E. DESKTOP FINDINGS</h4>
+        <ul>
+          <li>All three prototypes fit comfortably within 1280px max-width.</li>
+          <li>Prototype B (M Core + wordmark) has strongest identity presence.</li>
+          <li>Prototype A (wordmark only) is cleanest but loses M Core anchor.</li>
+          <li>Prototype C (M Core + text) is most space-efficient but lacks typographic identity.</li>
+          <li>Navigation links remain readable and properly spaced in all variants.</li>
+        </ul>
+
+        <h4>F. MOBILE FINDINGS</h4>
+        <ul>
+          <li>M Core only (24px) is the most confident mobile identity — compact, recognizable, scales perfectly.</li>
+          <li>M Core + text (20px/16px) is viable — total ~86px leaves ample room for hamburger.</li>
+          <li>Full wordmark at 18px is at minimum threshold — detail loss on M diagonal visible.</li>
+          <li>Current clock + text lacks brand identity but remains functional.</li>
+          <li>Hamburger functionality preserved in all mobile variants.</li>
+        </ul>
+
+        <h4>G. FOOTER FINDINGS</h4>
+        <ul>
+          <li>Footer has more vertical space — all three prototypes work well.</li>
+          <li>Prototype B (M Core + wordmark) provides strongest brand reinforcement at page exit.</li>
+          <li>Footer wordmark at 24px height is clean and legible.</li>
+          <li>Footer M Core + wordmark at 24px/24px reads as complete identity lockup.</li>
+          <li>Footer M Core + text is functional but weakest brand expression.</li>
+        </ul>
+
+        <h4>H. WORDMARK MINIMUM-SIZE ISSUES</h4>
+        <ul>
+          <li><strong>Below 16px height:</strong> Letterforms begin to merge. M diagonal loses definition.</li>
+          <li><strong>16–18px height:</strong> Small variant required. Acceptable for nav but not ideal.</li>
+          <li><strong>20–24px height:</strong> Sweet spot for navigation. Small variant fully legible.</li>
+          <li><strong>24–28px height:</strong> Medium variant. Full detail preserved. Ideal for desktop.</li>
+          <li><strong>Key issue:</strong> Wordmark alone at mobile sizes (16–18px) loses the distinctive M/O/R character that defines the brand. The optical simplifications in the small variant help, but the wordmark's identity advantage diminishes at this scale.</li>
+        </ul>
+
+        <h4>I. MICRO-MARK MINIMUM-SIZE ISSUES</h4>
+        <ul>
+          <li><strong>16px (M-16 variant):</strong> Undercut removed, purest V-dip. Works perfectly at 16px.</li>
+          <li><strong>20–24px (M-Optical):</strong> Undercut preserved, diagonal simplified. Clear at all sizes.</li>
+          <li><strong>28px+ (M-Master):</strong> Full structural detail. All features visible.</li>
+          <li><strong>No minimum-size issues.</strong> M Core is designed specifically for this scale range. The three-tier variant system (master → optical → 16) ensures clean rendering at any size.</li>
+        </ul>
+
+        <h4>J. EXACT IMPLEMENTATION RECOMMENDATION</h4>
+        <p style="margin-bottom: 12px;">
+          <span class="classification class-b">B — ONE SIZE / SPACING REFINEMENT</span>
+        </p>
+        <p><strong>Desktop &amp; Tablet (≥768px):</strong> Prototype B — M Core (Optical) + Wordmark (Medium)</p>
+        <ul>
+          <li>M Core height: match to wordmark height (24–28px)</li>
+          <li>Wordmark height: 24px (tablets) / 28px (desktop)</li>
+          <li>Gap: 6–8px proportional to scale</li>
+          <li>Remove clock icon container background — use direct SVG fill</li>
+          <li>Remove border-radius on brand zone — wordmark has no container</li>
+        </ul>
+        <p style="margin: 12px 0;"><strong>Mobile (&lt;768px):</strong> Prototype C — M Core (16) Only</p>
+        <ul>
+          <li>M Core height: 24px using M-16 variant</li>
+          <li>No text — M Core is sufficient identity at mobile scale</li>
+          <li>Hamburger remains unchanged</li>
+          <li>Transition point: 768px (md breakpoint)</li>
+        </ul>
+        <p style="margin: 12px 0;"><strong>Footer (all sizes):</strong> Prototype B — M Core (Optical) + Wordmark (Medium)</p>
+        <ul>
+          <li>Same lockup as desktop nav</li>
+          <li>Height: 24px (consistent across breakpoints)</li>
+          <li>More vertical space available — can increase to 28px if desired</li>
+        </ul>
+        <p style="margin: 12px 0;"><strong>Mobile Menu (open state):</strong> Keep existing "LUMORA" text at bottom</p>
+        <ul>
+          <li>The 9px uppercase tracking text serves as closing mark</li>
+          <li>Consider replacing with M Core (24px) for consistency</li>
+          <li>Or keep text — it functions as ambient brand reinforcement</li>
+        </ul>
+
+        <h4>K. EXACT FILES THAT WOULD CHANGE</h4>
+        <ul>
+          <li><code>components/layout/navigation.tsx</code> — Replace clock icon with M Core SVG, replace text with wordmark SVG (desktop/tablet), remove text on mobile</li>
+          <li><code>components/layout/footer.tsx</code> — Replace clock icon with M Core SVG, replace text with wordmark SVG</li>
+        </ul>
+
+        <h4>L. FILES THAT MUST NOT CHANGE</h4>
+        <ul>
+          <li><code>experiments/brand-assets/lumora/wordmark/*</code> — Source assets, read-only</li>
+          <li><code>experiments/brand-assets/lumora/micro-mark/*</code> — Source assets, read-only</li>
+          <li><code>components/sections/hero.tsx</code></li>
+          <li><code>components/sections/hero-v2.tsx</code></li>
+          <li><code>components/sections/hero-v3.tsx</code></li>
+          <li><code>components/sections/about-experience.tsx</code></li>
+          <li><code>components/sections/contact-experience.tsx</code></li>
+          <li><code>components/core/global-core.tsx</code></li>
+          <li><code>styles/*</code></li>
+        </ul>
+
+      </div>
+    </div>
+
+  </div><!-- end viewport-frame -->
+
+  <script>
+    function setViewport(size) {
+      const frame = document.getElementById('viewportFrame');
+      const btns = document.querySelectorAll('.viewport-btn');
+      btns.forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      switch(size) {
+        case 'full':
+          frame.style.maxWidth = '100%';
+          break;
+        case 'desktop':
+          frame.style.maxWidth = '1280px';
+          break;
+        case 'tablet':
+          frame.style.maxWidth = '768px';
+          break;
+        case 'mobile':
+          frame.style.maxWidth = '375px';
+          break;
+      }
+    }
+  </script>
+
+</body>
+</html>

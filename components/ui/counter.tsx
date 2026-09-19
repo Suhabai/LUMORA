@@ -22,7 +22,8 @@ export function Counter({ target, suffix = "" }: CounterProps) {
 
       function tick(now: number) {
         const progress = Math.min((now - start) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
+        const t = 1 - progress;
+        const eased = 1 - t * t * (0.16 * t + 0.84);
         setValue(`${Math.round(eased * target)}${suffix}`);
         if (progress < 1) requestAnimationFrame(tick);
       }

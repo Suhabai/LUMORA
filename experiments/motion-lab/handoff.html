@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HANDOFF — LUMORA Motion Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Manrope:wght@300;400;500;600&family=SF+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab">
+    <header class="lab-header">
+      <p class="subtitle">Vocabulary</p>
+      <h1>HANDOFF</h1>
+    </header>
+
+    <nav class="lab-nav">
+      <a href="index.html">Overview</a>
+      <a href="reveal.html">Reveal</a>
+      <a href="align.html">Align</a>
+      <a href="release.html">Release</a>
+      <a href="drift.html">Drift</a>
+      <a href="handoff.html" class="active">Handoff</a>
+      <a href="presence.html">Presence</a>
+    </nav>
+
+    <section class="demo-section">
+      <h2>Section Transition</h2>
+      <p class="semantic">LEVEL 5 — Transitional Continuity</p>
+      <p>A spatial relationship continues from one section into another. Lines and elements establish continuity across scroll boundaries.</p>
+
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="startHandoff()">Play</button>
+        <button class="demo-btn" onclick="resetHandoff()">Reset</button>
+      </div>
+
+      <div class="demo-box dark" style="min-height: 400px;">
+        <div class="handoff-track" id="handoff-track">
+          <div class="handoff-element" id="handoff-e1" style="left: 10%; top: 30%; transition: all 1800ms var(--ease-out);"></div>
+          <div class="handoff-element" id="handoff-e2" style="left: 40%; top: 50%; transition: all 1800ms var(--ease-out); transition-delay: 200ms;"></div>
+          <div class="handoff-element" id="handoff-e3" style="left: 70%; top: 40%; transition: all 1800ms var(--ease-out); transition-delay: 400ms;"></div>
+          <div style="position: absolute; left: 5%; top: 50%; width: 90%; height: 1px; background: var(--border); transition: all 1800ms var(--ease-out);" id="handoff-line"></div>
+          <div class="handoff-progress" id="handoff-progress">0%</div>
+        </div>
+      </div>
+
+      <div class="demo-meta">
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <span class="meta-value">1800ms</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Easing</span>
+          <span class="meta-value">ease-out</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Properties</span>
+          <span class="meta-value">x, y, opacity</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Trigger</span>
+          <span class="meta-value">Button (simulated)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Semantic</span>
+          <span class="meta-value">"World continues"</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Continuity Principle</h2>
+      <p class="semantic">Design Rule</p>
+      <p>Handoff creates the feeling that the LUMORA world extends beyond what the user sees. Elements at section boundaries maintain spatial relationships through scroll-linked movement.</p>
+
+      <div class="demo-box">
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-width: 500px;">
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div style="width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <span style="font-size: 0.6875rem; color: var(--accent);">A</span>
+            </div>
+            <div style="flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent), transparent);"></div>
+            <div style="width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <span style="font-size: 0.6875rem; color: var(--text-faint);">B</span>
+            </div>
+          </div>
+          <div style="text-align: center; font-size: 0.8125rem; color: var(--text-muted);">
+            Section A → Handoff → Section B
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <button class="reduce-motion-toggle" onclick="document.body.classList.toggle('reduce-motion'); this.classList.toggle('active');">
+    <span class="dot"></span>
+    Reduced Motion
+  </button>
+
+  <script>
+    let handoffInterval = null;
+
+    function startHandoff() {
+      resetHandoff();
+      let progress = 0;
+      const e1 = document.getElementById('handoff-e1');
+      const e2 = document.getElementById('handoff-e2');
+      const e3 = document.getElementById('handoff-e3');
+      const line = document.getElementById('handoff-line');
+      const progressEl = document.getElementById('handoff-progress');
+
+      handoffInterval = setInterval(() => {
+        progress += 1;
+        if (progress > 100) {
+          clearInterval(handoffInterval);
+          return;
+        }
+
+        const t = progress / 100;
+        const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+        e1.style.transform = `translate(${ease * 200}px, ${ease * -40}px)`;
+        e1.style.opacity = 0.15 + ease * 0.6;
+
+        e2.style.transform = `translate(${ease * 120}px, ${ease * 20}px)`;
+        e2.style.opacity = 0.15 + ease * 0.5;
+
+        e3.style.transform = `translate(${ease * -80}px, ${ease * -30}px)`;
+        e3.style.opacity = 0.15 + ease * 0.7;
+
+        line.style.opacity = 0.3 + ease * 0.5;
+
+        progressEl.textContent = `${progress}%`;
+      }, 30);
+    }
+
+    function resetHandoff() {
+      clearInterval(handoffInterval);
+      const e1 = document.getElementById('handoff-e1');
+      const e2 = document.getElementById('handoff-e2');
+      const e3 = document.getElementById('handoff-e3');
+      const line = document.getElementById('handoff-line');
+      const progressEl = document.getElementById('handoff-progress');
+
+      [e1, e2, e3].forEach(el => {
+        el.style.transform = 'translate(0, 0)';
+        el.style.opacity = '0.15';
+      });
+      line.style.opacity = '0.3';
+      progressEl.textContent = '0%';
+    }
+  </script>
+</body>
+</html>

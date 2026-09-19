@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Raster Export Audit — Phase 0C.20.2</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;padding:30px}
+h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400;margin-bottom:4px}
+p{font-size:11px;color:#555;margin-bottom:20px}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.col{min-width:80px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.meta{font-size:9px;color:#555;margin-top:4px}
+.checker{background-image:linear-gradient(45deg,#333 25%,transparent 25%,transparent 75%,#333 75%,#333),linear-gradient(45deg,#333 25%,transparent 25%,transparent 75%,#333 75%,#333);background-size:8px 8px;background-position:0 0,4px 4px;padding:4px;display:inline-block;line-height:0}
+.checker-dark{background-color:#222}
+.og-box{width:100%;max-width:600px;border:1px solid #333;line-height:0}
+.audit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.audit-item{padding:6px 8px;background:#1a1a1a;border:1px solid #222;font-size:10px}
+.audit-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.audit-item .v{color:#c0c0c0;font-weight:bold;margin-top:2px}
+.pass{color:#4f4}
+</style>
+</head>
+<body>
+
+<h1>LUMORA — Raster Export Audit</h1>
+<p>Phase 0C.20.2 — Actual PNG file verification. Each image shown at 1x, 2x, 4x.</p>
+
+<div class="section">
+<div class="section-title">Favicon — 16px</div>
+<div class="experiment">
+<div class="experiment-title">favicon-16.png</div>
+<div class="row">
+<div class="col">
+<div class="label">1x (16px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-16.png" width="16" height="16" style="image-rendering:pixelated"></div>
+<div class="meta">200 bytes | 16x16 | RGBA</div>
+</div>
+<div class="col">
+<div class="label">2x (32px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-16.png" width="32" height="32" style="image-rendering:pixelated"></div>
+</div>
+<div class="col">
+<div class="label">4x (64px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-16.png" width="64" height="64" style="image-rendering:pixelated"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Favicon — 32px</div>
+<div class="experiment">
+<div class="experiment-title">favicon-32.png</div>
+<div class="row">
+<div class="col">
+<div class="label">1x (32px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-32.png" width="32" height="32" style="image-rendering:pixelated"></div>
+<div class="meta">287 bytes | 32x32 | RGBA</div>
+</div>
+<div class="col">
+<div class="label">2x (64px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-32.png" width="64" height="64" style="image-rendering:pixelated"></div>
+</div>
+<div class="col">
+<div class="label">4x (128px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-32.png" width="128" height="128" style="image-rendering:pixelated"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Favicon — 48px</div>
+<div class="experiment">
+<div class="experiment-title">favicon-48.png</div>
+<div class="row">
+<div class="col">
+<div class="label">1x (48px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-48.png" width="48" height="48" style="image-rendering:pixelated"></div>
+<div class="meta">388 bytes | 48x48 | RGBA</div>
+</div>
+<div class="col">
+<div class="label">2x (96px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-48.png" width="96" height="96" style="image-rendering:pixelated"></div>
+</div>
+<div class="col">
+<div class="label">4x (192px)</div>
+<div class="checker checker-dark"><img src="../raster/favicon-48.png" width="192" height="192" style="image-rendering:pixelated"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Apple Touch Icon</div>
+<div class="experiment">
+<div class="experiment-title">apple-touch-icon.png</div>
+<div class="row">
+<div class="col">
+<div class="label">1x (180px)</div>
+<div class="checker checker-dark"><img src="../raster/apple-touch-icon.png" width="180" height="180" style="image-rendering:pixelated"></div>
+<div class="meta">1654 bytes | 180x180 | RGBA</div>
+</div>
+<div class="col">
+<div class="label">2x (360px)</div>
+<div class="checker checker-dark"><img src="../raster/apple-touch-icon.png" width="360" height="360" style="image-rendering:pixelated"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Open Graph</div>
+
+<div class="experiment">
+<div class="experiment-title">lumora-og-black.png — 1200x630</div>
+<div class="og-box"><img src="../raster/lumora-og-black.png" width="1200" height="630" style="width:100%;height:auto"></div>
+<div class="meta" style="margin-top:8px">25096 bytes | 1200x630 | RGBA</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">lumora-og-white.png — 1200x630</div>
+<div class="og-box"><img src="../raster/lumora-og-white.png" width="1200" height="630" style="width:100%;height:auto"></div>
+<div class="meta" style="margin-top:8px">13424 bytes | 1200x630 | RGBA</div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Validation Summary</div>
+<div class="experiment">
+<div class="audit-grid">
+<div class="audit-item"><div class="k">favicon-16.png</div><div class="v pass">16x16 PASS</div></div>
+<div class="audit-item"><div class="k">favicon-32.png</div><div class="v pass">32x32 PASS</div></div>
+<div class="audit-item"><div class="k">favicon-48.png</div><div class="v pass">48x48 PASS</div></div>
+<div class="audit-item"><div class="k">apple-touch-icon.png</div><div class="v pass">180x180 PASS</div></div>
+<div class="audit-item"><div class="k">lumora-og-black.png</div><div class="v pass">1200x630 PASS</div></div>
+<div class="audit-item"><div class="k">lumora-og-white.png</div><div class="v pass">1200x630 PASS</div></div>
+<div class="audit-item"><div class="k">All PNGs</div><div class="v pass">RGBA with alpha</div></div>
+<div class="audit-item"><div class="k">Rasterization</div><div class="v pass">sharp 0.35.4</div></div>
+<div class="audit-item"><div class="k">Source</div><div class="v pass">favicon.svg + wordmark</div></div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.17 — Secondary Mark Extraction Study</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 20px;overflow-x:auto}
+.tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:100px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+.audit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.audit-item{padding:6px 8px;background:#1a1a1a;border:1px solid #222;font-size:10px}
+.audit-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.audit-item .v{color:#c0c0c0;font-weight:bold;margin-top:2px}
+.pass{color:#4f4}
+.warn{color:#fa0}
+.fail{color:#f44}
+.hold{color:#ff0}
+.classification{display:inline-block;padding:3px 8px;font-size:9px;letter-spacing:2px;text-transform:uppercase;border:1px solid}
+.classification.reject{color:#f44;border-color:#f44}
+.classification.hold{color:#ff0;border-color:#ff0}
+.classification.advance{color:#4f4;border-color:#4f4}
+.candidate-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:12px;background:#1a1a1a;border:1px solid #222}
+.candidate-header h2{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#aaa;font-weight:400}
+.scale-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px}
+.scale-item{text-align:center}
+.scale-item .sz{font-size:8px;color:#555;margin-top:4px}
+.source-box{padding:12px;background:#1a1a1a;border:1px solid #222;margin-bottom:12px}
+.source-box .label{margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.17 — Secondary Mark Extraction Study</h1>
+<p>Extracting micro-mark candidates from approved wordmark DNA. No new design. No symbol invention. Testing whether the smallest surviving fragment of LUMORA exists.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="overview">Overview</div>
+<div class="tab" data-tab="m">M Candidate</div>
+<div class="tab" data-tab="r">R Candidate</div>
+<div class="tab" data-tab="a">A Candidate</div>
+<div class="tab" data-tab="o">O Candidate</div>
+<div class="tab" data-tab="lu">LU Candidate</div>
+<div class="tab" data-tab="onecolor">One-Color</div>
+<div class="tab" data-tab="micro">16px Micro</div>
+<div class="tab" data-tab="anticollision">Anti-Collision</div>
+<div class="tab" data-tab="verdict">Verdict</div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="tab-content active" id="tab-overview">
+<div class="section">
+<div class="section-title">Extraction Principle</div>
+<div class="measurements">
+<div>The micro-mark is a CONSEQUENCE of the wordmark DNA.</div>
+<div>It must feel like: <span class="val">"the smallest surviving fragment of LUMORA"</span></div>
+<div>NOT: <span class="val">"a separate logo placed beside LUMORA."</span></div>
+</div>
+</div>
+<div class="section">
+<div class="section-title">Source</div>
+<div class="experiment">
+<div class="experiment-title">Master Wordmark</div>
+<div id="overview-master"></div>
+</div>
+</div>
+<div class="section">
+<div class="section-title">Candidates</div>
+<div class="audit-grid">
+<div class="audit-item"><div class="k">01</div><div class="v">M — Structural event</div></div>
+<div class="audit-item"><div class="k">02</div><div class="v">R — Bowl + leg</div></div>
+<div class="audit-item"><div class="k">03</div><div class="v">A — Diagonal apex</div></div>
+<div class="audit-item"><div class="k">04</div><div class="v">O — Elliptical form</div></div>
+<div class="audit-item"><div class="k">05</div><div class="v">LU — Relational behavior</div></div>
+</div>
+</div>
+<div class="section">
+<div class="section-title">Simplification Ladder</div>
+<div class="measurements">
+<div>Each candidate tested at: <span class="val">64px, 48px, 32px, 24px, 16px, 12px</span></div>
+<div>At each scale: remove details that cannot survive, preserve identity-bearing structure.</div>
+<div>Classification: <span class="val" style="color:#4f4">ADVANCE</span> / <span class="val" style="color:#ff0">HOLD</span> / <span class="val" style="color:#f44">REJECT</span></div>
+</div>
+</div>
+</div>
+
+<!-- M CANDIDATE -->
+<div class="tab-content" id="tab-m">
+<div class="section">
+<div class="candidate-header">
+<h2>M — Structural Core</h2>
+<span class="classification" id="m-class">—</span>
+</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Extract the M's distinctive V-dip relationship. The M has a left stem, V-dip at y=380, and right stem with -15u undercut. The structural core is the two-stem-plus-dip form.
+</p>
+<div class="experiment">
+<div class="experiment-title">Source Extraction</div>
+<div class="source-box">
+<div class="label">Full M from wordmark (x=1130–1602)</div>
+<div id="m-source"></div>
+</div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplified M Structure</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">Two stems + V-dip. Diagonals reduced to essential connection.</p>
+<div id="m-simplified"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">M Structural Core</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">The V-dip itself: two verticals meeting at a point.</p>
+<div id="m-core"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplification Ladder</div>
+<div class="scale-row" id="m-ladder"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">One-Color Tests</div>
+<div class="row" id="m-colors"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">16px Micro Test</div>
+<div class="audit-grid" id="m-micro"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Anti-Collision</div>
+<div class="audit-grid" id="m-anti"></div>
+</div>
+</div>
+</div>
+
+<!-- R CANDIDATE -->
+<div class="tab-content" id="tab-r">
+<div class="section">
+<div class="candidate-header">
+<h2>R — Bowl + Leg</h2>
+<span class="classification" id="r-class">—</span>
+</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Extract R's bowl-to-leg relationship. The bowl is a rounded form attached to a stem, with a leg extending diagonally. The leg must NOT become arrow, pointer, speed mark, or chevron.
+</p>
+<div class="experiment">
+<div class="experiment-title">Source Extraction</div>
+<div class="source-box">
+<div class="label">Full R from wordmark (x=2330–2720)</div>
+<div id="r-source"></div>
+</div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplified R Structure</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">Stem + bowl curve + leg extension. Clean tangent relationship.</p>
+<div id="r-simplified"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">R Bowl-Leg Core</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">Just the bowl curve flowing into the leg diagonal.</p>
+<div id="r-core"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplification Ladder</div>
+<div class="scale-row" id="r-ladder"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">One-Color Tests</div>
+<div class="row" id="r-colors"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">16px Micro Test</div>
+<div class="audit-grid" id="r-micro"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Anti-Collision</div>
+<div class="audit-grid" id="r-anti"></div>
+</div>
+</div>
+</div>
+
+<!-- A CANDIDATE -->
+<div class="tab-content" id="tab-a">
+<div class="section">
+<div class="candidate-header">
+<h2>A — Diagonal Apex</h2>
+<span class="classification" id="a-class">—</span>
+</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Extract A's distinctive apex where two diagonals meet. Preserve the diagonal relationship, aperture, and overall rhythm. Do not create a generic A favicon.
+</p>
+<div class="experiment">
+<div class="experiment-title">Source Extraction</div>
+<div class="source-box">
+<div class="label">Full A from wordmark (x=2930–3350)</div>
+<div id="a-source"></div>
+</div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplified A Structure</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">Two diagonals + crossbar. The apex is the identity.</p>
+<div id="a-simplified"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">A Apex Core</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">Just the triangular apex form above the crossbar.</p>
+<div id="a-core"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplification Ladder</div>
+<div class="scale-row" id="a-ladder"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">One-Color Tests</div>
+<div class="row" id="a-colors"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">16px Micro Test</div>
+<div class="audit-grid" id="a-micro"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Anti-Collision</div>
+<div class="audit-grid" id="a-anti"></div>
+</div>
+</div>
+</div>
+
+<!-- O CANDIDATE -->
+<div class="tab-content" id="tab-o">
+<div class="section">
+<div class="candidate-header">
+<h2>O — Elliptical Form</h2>
+<span class="classification" id="o-class">—</span>
+</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Test O only as a possible micro-mark. IMPORTANT: Avoid circle logo, orb, aperture, lens, ring, portal. If O becomes generic at 16px: REJECT.
+</p>
+<div class="experiment">
+<div class="experiment-title">Source Extraction</div>
+<div class="source-box">
+<div class="label">Full O from wordmark (cx=2040, rx=230, ry=310)</div>
+<div id="o-source"></div>
+</div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplified O Structure</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">Elliptical ring with LUMORA-specific proportions (ry > rx).</p>
+<div id="o-simplified"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplification Ladder</div>
+<div class="scale-row" id="o-ladder"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">One-Color Tests</div>
+<div class="row" id="o-colors"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">16px Micro Test</div>
+<div class="audit-grid" id="o-micro"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Anti-Collision</div>
+<div class="audit-grid" id="o-anti"></div>
+</div>
+</div>
+</div>
+
+<!-- LU CANDIDATE -->
+<div class="tab-content" id="tab-lu">
+<div class="section">
+<div class="candidate-header">
+<h2>LU — Relational Behavior</h2>
+<span class="classification" id="lu-class">—</span>
+</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Test the existing L/U relational behavior. Do not invent a new shape. The goal is to see whether the LU relationship itself can compress into a recognizable compact mark.
+</p>
+<div class="experiment">
+<div class="experiment-title">Source Extraction</div>
+<div class="source-box">
+<div class="label">L + U from wordmark (x=80–1040)</div>
+<div id="lu-source"></div>
+</div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplified LU Structure</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">L's vertical+horizontal meeting U's curved basin.</p>
+<div id="lu-simplified"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LU Core</div>
+<p style="color:#666;font-size:10px;margin-bottom:8px">The relational moment: straight meets curved.</p>
+<div id="lu-core"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Simplification Ladder</div>
+<div class="scale-row" id="lu-ladder"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">One-Color Tests</div>
+<div class="row" id="lu-colors"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">16px Micro Test</div>
+<div class="audit-grid" id="lu-micro"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Anti-Collision</div>
+<div class="audit-grid" id="lu-anti"></div>
+</div>
+</div>
+</div>
+
+<!-- ONE-COLOR -->
+<div class="tab-content" id="tab-onecolor">
+<div class="section">
+<div class="section-title">One-Color Comparison</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">All candidates at 64px across four color conditions.</p>
+<div class="experiment">
+<div class="experiment-title">Black on White</div>
+<div class="row" id="oc-bw"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">White on Black</div>
+<div class="row" id="oc-wb"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Single Color (Brand Neutral)</div>
+<div class="row" id="oc-brand"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Knockout (White on Color)</div>
+<div class="row" id="oc-knockout"></div>
+</div>
+</div>
+</div>
+
+<!-- 16PX MICRO -->
+<div class="tab-content" id="tab-micro">
+<div class="section">
+<div class="section-title">16px Micro Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+The critical scale. All five candidates rendered at actual 16px. Five questions per candidate.
+</p>
+<div class="experiment" id="micro-output"></div>
+</div>
+</div>
+
+<!-- ANTI-COLLISION -->
+<div class="tab-content" id="tab-anticollision">
+<div class="section">
+<div class="section-title">Anti-Collision Audit</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Every candidate checked against prohibited resemblances.</p>
+<div class="experiment" id="anti-output"></div>
+</div>
+</div>
+
+<!-- VERDICT -->
+<div class="tab-content" id="tab-verdict">
+<div class="section">
+<div class="section-title">Final Classification</div>
+<div class="experiment" id="verdict-output"></div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// MASTER GEOMETRY — FROM PHASE 0C.14
+// ============================================================
+const SW=70,CAP_TOP=100,BASELINE=800,CAP_H=700,CENTER=450,VB_W=3600,VB_H=1000;
+const POS={L:80,U:600,M:1130,O:1780,R:2330,A:2900};
+
+function rL(x){return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4-4},${BASELINE-SW} L${x+SW*4-4},${BASELINE} L${x},${BASELINE} Z`]}
+function rU(x){const rx=x+440,cr=100;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-cr} Q${x+SW},${BASELINE} ${x+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${x+SW+cr},${BASELINE+SW/2} Q${x},${BASELINE+SW/2} ${x},${BASELINE-cr} Z`]}
+function rM(x){const w=560,vd=CAP_TOP+280;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,`M${x+SW},${CAP_TOP} L${x+SW+8},${CAP_TOP} L${x+w/2},${vd} L${x+w/2-SW/3+2},${vd} Z`,`M${x+w/2},${vd} L${x+w/2+SW/3-2},${vd} L${x+w-SW-8},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,`M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE-15} L${x+w-SW-8},${BASELINE} L${x+w-SW},${BASELINE} Z`]}
+function rO(x){const cx=x+260,rx=230,ry=310,sw=SW/2;return[`M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`]}
+function rR(x){const sx=x,bc=x+SW+140,brx=160,bry=170,bb=CENTER+30,sw=SW/2;return[`M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,`M${sx+SW},${CAP_TOP} L${bc+brx},${CAP_TOP} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW},${bb} Z`,`M${sx+SW+sw},${CAP_TOP+sw} L${bc+brx-sw},${CAP_TOP+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW+sw},${bb-sw} Z`,`M${sx+SW},${bb} L${sx+SW+SW/2},${bb} L${sx+SW*4+60+200},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`]}
+function rA(x){const w=480,cx=x+w/2,cy=CENTER+80,lw=SW*0.85;return[`M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx-w/2+lw},${BASELINE} L${cx-w/2},${BASELINE} Z`,`M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-lw},${BASELINE} Z`,`M${cx-w/3+2},${cy} L${cx+w/3-2},${cy} L${cx+w/3-2},${cy+SW*0.7} L${cx-w/3+2},${cy+SW*0.7} Z`]}
+
+function getMaster(){return{L:rL(POS.L),U:rU(POS.U),M:rM(POS.M),O:rO(POS.O),R:rR(POS.R),A:rA(POS.A)}}
+
+// ============================================================
+// CANDIDATE EXTRACTIONS — Square viewBox 1000x1000
+// ============================================================
+
+// M — Full extraction
+function mFull(){
+  const s=70,ct=50,bl=950,ch=900;
+  const w=700,vd=ct+ch*0.4;
+  const ox=150;
+  return[
+    `M${ox},${ct} L${ox+s},${ct} L${ox+s},${bl} L${ox},${bl} Z`,
+    `M${ox+s},${ct} L${ox+s+10},${ct} L${ox+w/2},${vd} L${ox+w/2-s/3+3},${vd} Z`,
+    `M${ox+w/2},${vd} L${ox+w/2+s/3-3},${vd} L${ox+w-s-10},${ct} L${ox+w-s},${ct} Z`,
+    `M${ox+w-s},${ct} L${ox+w},${ct} L${ox+w},${bl-20} L${ox+w-s-10},${bl} L${ox+w-s},${bl} Z`
+  ];
+}
+
+// M — Simplified (stems + V-dip, no diagonal detail)
+function mSimplified(){
+  const s=70,ct=50,bl=950;
+  const w=700,vd=ct+360;
+  const ox=150;
+  return[
+    `M${ox},${ct} L${ox+s},${ct} L${ox+s},${bl} L${ox},${bl} Z`,
+    `M${ox+w-s},${ct} L${ox+w},${ct} L${ox+w},${bl-20} L${ox+w-s-10},${bl} L${ox+w-s},${bl} Z`,
+    `M${ox+s},${ct} L${ox+w/2},${vd} L${ox+w-s},${ct} Z`
+  ];
+}
+
+// M — Core (V-dip structural essence)
+function mCore(){
+  const s=80,ct=100,bl=900;
+  const w=800,vd=ct+320;
+  const ox=100;
+  return[
+    `M${ox},${ct} L${ox+s},${ct} L${ox+s},${bl} L${ox},${bl} Z`,
+    `M${ox+w-s},${ct} L${ox+w},${ct} L${ox+w},${bl} L${ox+w-s},${bl} Z`,
+    `M${ox+s},${ct} L${ox+w/2},${vd} L${ox+w-s},${ct} Z`
+  ];
+}
+
+// R — Full extraction
+function rFull(){
+  const s=70,ct=50,bl=950;
+  const stx=100,bc=stx+s+180,brx=200,bry=220,bb=500;
+  return[
+    `M${stx},${ct} L${stx+s},${ct} L${stx+s},${bl} L${stx},${bl} Z`,
+    `M${stx+s},${ct} L${bc+brx},${ct} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${stx+s},${bb} Z`,
+    `M${stx+s+s/2},${ct+s/2} L${bc+brx-s/2},${ct+s/2} A${brx-s/2},${bry-s/2} 0 0,1 ${bc+brx*0.3-s/4},${bb-s/2} L${stx+s+s/2},${bb-s/2} Z`,
+    `M${stx+s},${bb} L${stx+s+s/2},${bb} L${stx+s*5+80+250},${bl} L${stx+s*4+30},${bl} Z`
+  ];
+}
+
+// R — Simplified (stem + bowl curve + leg)
+function rSimplified(){
+  const s=70,ct=50,bl=950;
+  const stx=150,bc=stx+s+180,brx=200,bry=220,bb=500;
+  return[
+    `M${stx},${ct} L${stx+s},${ct} L${stx+s},${bl} L${stx},${bl} Z`,
+    `M${stx+s},${ct} L${bc+brx},${ct} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${stx+s},${bb} Z`,
+    `M${stx+s},${bb} L${stx+s+40},${bb} L${stx+s*5+250},${bl} L${stx+s*4},${bl} Z`
+  ];
+}
+
+// R — Core (bowl-to-leg flowing form)
+function rCore(){
+  const s=80,ct=100,bl=900;
+  const bx=200,bw=500,bh=350,bb=ct+bh;
+  return[
+    `M${bx},${ct} A${bw/2},${bh/2} 0 0,1 ${bx+bw},${ct+bh*0.6} L${bx},${ct+bh*0.6} Z`,
+    `M${bx},${ct+bh*0.6} L${bx+40},${ct+bh*0.6} L${bx+bw+100},${bl} L${bx+bw-40},${bl} Z`
+  ];
+}
+
+// A — Full extraction
+function aFull(){
+  const s=70,ct=50,bl=950;
+  const w=600,cx=500,cy=550;
+  const lw=s*0.85;
+  return[
+    `M${cx-5},${ct} L${cx+5},${ct} L${cx-w/2+lw},${bl} L${cx-w/2},${bl} Z`,
+    `M${cx-5},${ct} L${cx+5},${ct} L${cx+w/2},${bl} L${cx+w/2-lw},${bl} Z`,
+    `M${cx-w/3+2},${cy} L${cx+w/3-2},${cy} L${cx+w/3-2},${cy+s*0.7} L${cx-w/3+2},${cy+s*0.7} Z`
+  ];
+}
+
+// A — Simplified (diagonals + crossbar)
+function aSimplified(){
+  const s=80,ct=80,bl=920;
+  const w=600,cx=500,cy=540;
+  const lw=s*0.9;
+  return[
+    `M${cx-6},${ct} L${cx+6},${ct} L${cx-w/2+lw},${bl} L${cx-w/2},${bl} Z`,
+    `M${cx-6},${ct} L${cx+6},${ct} L${cx+w/2},${bl} L${cx+w/2-lw},${bl} Z`,
+    `M${cx-w/3},${cy} L${cx+w/3},${cy} L${cx+w/3},${cy+s*0.7} L${cx-w/3},${cy+s*0.7} Z`
+  ];
+}
+
+// A — Core (apex triangle only)
+function aCore(){
+  const ct=100,bl=900;
+  const w=650,cx=500;
+  return[
+    `M${cx},${ct} L${cx+w/2},${bl} L${cx-w/2},${bl} Z`
+  ];
+}
+
+// O — Full extraction
+function oFull(){
+  const cx=500,cy=500,rx=300,ry=420,s=70;
+  return[
+    `M${cx},${cy-ry} A${rx},${ry} 0 1,1 ${cx},${cy+ry} A${rx},${ry} 0 1,1 ${cx},${cy-ry} Z`,
+    `M${cx},${cy-ry+s*1.8} A${rx-s*1.4},${ry-s*1.4} 0 1,0 ${cx},${cy+ry-s*1.8} A${rx-s*1.4},${ry-s*1.4} 0 1,0 ${cx},${cy-ry+s*1.8} Z`
+  ];
+}
+
+// O — Simplified (thinner ring)
+function oSimplified(){
+  const cx=500,cy=500,rx=300,ry=420,s=60;
+  return[
+    `M${cx},${cy-ry} A${rx},${ry} 0 1,1 ${cx},${cy+ry} A${rx},${ry} 0 1,1 ${cx},${cy-ry} Z`,
+    `M${cx},${cy-ry+s*1.6} A${rx-s*1.2},${ry-s*1.2} 0 1,0 ${cx},${cy+ry-s*1.6} A${rx-s*1.2},${ry-s*1.2} 0 1,0 ${cx},${cy-ry+s*1.6} Z`
+  ];
+}
+
+// LU — Full extraction
+function luFull(){
+  const s=70,ct=50,bl=950;
+  const lx=100,ux=450,urx=ux+440,cr=100;
+  return[
+    // L
+    `M${lx},${ct} L${lx+s},${ct} L${lx+s},${bl-s} L${lx+s*4-4},${bl-s} L${lx+s*4-4},${bl} L${lx},${bl} Z`,
+    // U
+    `M${ux},${ct} L${ux+s},${ct} L${ux+s},${bl-cr} Q${ux+s},${bl} ${ux+s+cr},${bl} L${urx-cr},${bl} Q${urx},${bl} ${urx},${bl-cr} L${urx},${ct} L${urx+s},${ct} L${urx+s},${bl-cr} Q${urx+s},${bl+SW/2} ${urx-cr},${bl+SW/2} L${ux+s+cr},${bl+SW/2} Q${ux},${bl+SW/2} ${ux},${bl-cr} Z`
+  ];
+}
+
+// LU — Simplified (L stem+foot, U basin)
+function luSimplified(){
+  const s=80,ct=80,bl=920;
+  const lx=120,ux=420,urx=ux+400,cr=90;
+  return[
+    `M${lx},${ct} L${lx+s},${ct} L${lx+s},${bl-s} L${lx+s*3},${bl-s} L${lx+s*3},${bl} L${lx},${bl} Z`,
+    `M${ux},${ct} L${ux+s},${ct} L${ux+s},${bl-cr} Q${ux+s},${bl} ${ux+s+cr},${bl} L${urx-cr},${bl} Q${urx},${bl} ${urx},${bl-cr} L${urx},${ct} L${urx+s},${ct} L${urx+s},${bl-cr} Q${urx+s},${bl+40} ${urx-cr},${bl+40} L${ux+s+cr},${bl+40} Q${ux},${bl+40} ${ux},${bl-cr} Z`
+  ];
+}
+
+// LU — Core (relational moment)
+function luCore(){
+  const s=90,ct=100,bl=900;
+  const lx=150,ux=450,urx=ux+360,cr=80;
+  return[
+    `M${lx},${ct} L${lx+s},${ct} L${lx+s},${bl} L${lx},${bl} Z`,
+    `M${ux},${ct} L${ux+s},${ct} L${ux+s},${bl-cr} Q${ux+s},${bl} ${ux+s+cr},${bl} L${urx-cr},${bl} Q${urx},${bl} ${urx},${bl-cr} L${urx},${ct} L${urx+s},${ct} L${urx+s},${bl-cr} Q${urx+s},${bl+30} ${urx-cr},${bl+30} L${ux+s+cr},${bl+30} Q${ux},${bl+30} ${ux},${bl-cr} Z`
+  ];
+}
+
+// ============================================================
+// SVG RENDERING
+// ============================================================
+function rSVG(paths,w,h,fill,bg,pad){
+  pad=pad||0;
+  const vb=`${-pad} ${-pad} ${1000+pad*2} ${1000+pad*2}`;
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="${w}" height="${h}" style="display:block">`;
+  if(bg)s+=`<rect x="${-pad}" y="${-pad}" width="${1000+pad*2}" height="${1000+pad*2}" fill="${bg}"/>`;
+  for(const p of paths){
+    s+=`<path d="${p}" fill="${fill}" fill-rule="evenodd"/>`;
+  }
+  s+='</svg>';
+  return s;
+}
+
+function rWordmark(fill,bg,w,h){
+  const m=getMaster();
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  if(bg)s+=`<rect width="${VB_W}" height="${VB_H}" fill="${bg}"/>`;
+  for(const l of Object.keys(m)){const ps=m[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${fill}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+
+// ============================================================
+// SCALE LADDER
+// ============================================================
+function scaleLadder(paths,label){
+  const sizes=[64,48,32,24,16,12];
+  let h='';
+  for(const sz of sizes){
+    h+=`<div class="scale-item">${rSVG(paths,sz,sz,'#000','#fff')}<div class="sz">${sz}px</div></div>`;
+  }
+  return h;
+}
+
+// ============================================================
+// ONE-COLOR GRID
+// ============================================================
+function oneColorRow(paths,label){
+  const sz=64;
+  const tests=[
+    {fill:'#000',bg:'#fff',label:'B/W'},
+    {fill:'#fff',bg:'#000',label:'W/B'},
+    {fill:'#3a4a5a',bg:'#fff',label:'Neutral'},
+    {fill:'#fff',bg:'#1a3a5c',label:'Knockout'}
+  ];
+  let h='';
+  for(const t of tests){
+    h+=`<div class="col" style="min-width:80px"><div class="label">${t.label}</div><div class="svg-container" style="background:${t.bg}">${rSVG(paths,sz,sz,t.fill,t.bg)}</div></div>`;
+  }
+  return h;
+}
+
+// ============================================================
+// 16PX MICRO TEST
+// ============================================================
+function microTest(paths,name){
+  const checks=[
+    {q:'Recognizable compact shape?',a:'TEST'},
+    {q:'Clearly related to LUMORA?',a:'TEST'},
+    {q:'Avoids generic letter/icon?',a:'TEST'},
+    {q:'Avoids UI symbolism?',a:'TEST'},
+    {q:'Retains wordmark relational DNA?',a:'TEST'}
+  ];
+  let h=`<div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:12px;padding:12px;background:#1a1a1a;border:1px solid #222">`;
+  h+=`<div style="min-width:80px"><div class="label">${name}</div>${rSVG(paths,16,16,'#000','#fff')}</div>`;
+  h+=`<div style="flex:1">`;
+  for(const c of checks){
+    h+=`<div style="font-size:10px;color:#666;margin-bottom:4px">${c.q} <span style="color:#888">${c.a}</span></div>`;
+  }
+  h+=`</div></div>`;
+  return h;
+}
+
+// ============================================================
+// ANTI-COLLISION
+// ============================================================
+function antiCollision(name){
+  const items=[
+    'Generic L monogram','Generic R monogram','Generic A icon',
+    'Lens','Aperture','Orb','Power button','Play button',
+    'Arrow','Cursor','Loading indicator','Medical symbol',
+    'Crypto symbol','AI sparkle'
+  ];
+  let h=`<div style="margin-bottom:12px;padding:8px;background:#1a1a1a;border:1px solid #222;font-size:10px;color:#888">${name}</div>`;
+  h+=`<div class="audit-grid">`;
+  for(const item of items){
+    h+=`<div class="audit-item"><div class="k">${item}</div><div class="v" style="color:#888">CHECK</div></div>`;
+  }
+  h+=`</div>`;
+  return h;
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll(){
+  const master=getMaster();
+  const mF=mFull(),mS=mSimplified(),mC=mCore();
+  const rF=rFull(),rS=rSimplified(),rC=rCore();
+  const aF=aFull(),aS=aSimplified(),aC=aCore();
+  const oF=oFull(),oS=oSimplified();
+  const luF=luFull(),luS=luSimplified(),luC=luCore();
+
+  // Overview
+  document.getElementById('overview-master').innerHTML=`<div class="svg-container">${rWordmark('#000','#fff',600,117)}</div>`;
+
+  // M
+  document.getElementById('m-source').innerHTML=rSVG(mF,200,200,'#000','#fff');
+  document.getElementById('m-simplified').innerHTML=rSVG(mS,200,200,'#000','#fff');
+  document.getElementById('m-core').innerHTML=rSVG(mC,200,200,'#000','#fff');
+  document.getElementById('m-ladder').innerHTML=scaleLadder(mC,'M Core');
+  document.getElementById('m-colors').innerHTML=oneColorRow(mC,'M Core');
+  document.getElementById('m-micro').innerHTML=microTest(mC,'M Core');
+  document.getElementById('m-anti').innerHTML=antiCollision('M Candidate');
+
+  // R
+  document.getElementById('r-source').innerHTML=rSVG(rF,200,200,'#000','#fff');
+  document.getElementById('r-simplified').innerHTML=rSVG(rS,200,200,'#000','#fff');
+  document.getElementById('r-core').innerHTML=rSVG(rC,200,200,'#000','#fff');
+  document.getElementById('r-ladder').innerHTML=scaleLadder(rC,'R Core');
+  document.getElementById('r-colors').innerHTML=oneColorRow(rC,'R Core');
+  document.getElementById('r-micro').innerHTML=microTest(rC,'R Core');
+  document.getElementById('r-anti').innerHTML=antiCollision('R Candidate');
+
+  // A
+  document.getElementById('a-source').innerHTML=rSVG(aF,200,200,'#000','#fff');
+  document.getElementById('a-simplified').innerHTML=rSVG(aS,200,200,'#000','#fff');
+  document.getElementById('a-core').innerHTML=rSVG(aC,200,200,'#000','#fff');
+  document.getElementById('a-ladder').innerHTML=scaleLadder(aC,'A Core');
+  document.getElementById('a-colors').innerHTML=oneColorRow(aC,'A Core');
+  document.getElementById('a-micro').innerHTML=microTest(aC,'A Core');
+  document.getElementById('a-anti').innerHTML=antiCollision('A Candidate');
+
+  // O
+  document.getElementById('o-source').innerHTML=rSVG(oF,200,200,'#000','#fff');
+  document.getElementById('o-simplified').innerHTML=rSVG(oS,200,200,'#000','#fff');
+  document.getElementById('o-ladder').innerHTML=scaleLadder(oS,'O Ring');
+  document.getElementById('o-colors').innerHTML=oneColorRow(oS,'O Ring');
+  document.getElementById('o-micro').innerHTML=microTest(oS,'O Ring');
+  document.getElementById('o-anti').innerHTML=antiCollision('O Candidate');
+
+  // LU
+  document.getElementById('lu-source').innerHTML=rSVG(luF,200,200,'#000','#fff');
+  document.getElementById('lu-simplified').innerHTML=rSVG(luS,200,200,'#000','#fff');
+  document.getElementById('lu-core').innerHTML=rSVG(luC,200,200,'#000','#fff');
+  document.getElementById('lu-ladder').innerHTML=scaleLadder(luC,'LU Core');
+  document.getElementById('lu-colors').innerHTML=oneColorRow(luC,'LU Core');
+  document.getElementById('lu-micro').innerHTML=microTest(luC,'LU Core');
+  document.getElementById('lu-anti').innerHTML=antiCollision('LU Candidate');
+
+  // One-Color comparison
+  document.getElementById('oc-bw').innerHTML=
+    `<div class="col" style="min-width:80px"><div class="label">M</div><div class="svg-container">${rSVG(mC,64,64,'#000','#fff')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">R</div><div class="svg-container">${rSVG(rC,64,64,'#000','#fff')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">A</div><div class="svg-container">${rSVG(aC,64,64,'#000','#fff')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">O</div><div class="svg-container">${rSVG(oS,64,64,'#000','#fff')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">LU</div><div class="svg-container">${rSVG(luC,64,64,'#000','#fff')}</div></div>`;
+
+  document.getElementById('oc-wb').innerHTML=
+    `<div class="col" style="min-width:80px"><div class="label">M</div><div class="svg-container dark">${rSVG(mC,64,64,'#fff','#000')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">R</div><div class="svg-container dark">${rSVG(rC,64,64,'#fff','#000')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">A</div><div class="svg-container dark">${rSVG(aC,64,64,'#fff','#000')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">O</div><div class="svg-container dark">${rSVG(oS,64,64,'#fff','#000')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">LU</div><div class="svg-container dark">${rSVG(luC,64,64,'#fff','#000')}</div></div>`;
+
+  document.getElementById('oc-brand').innerHTML=
+    `<div class="col" style="min-width:80px"><div class="label">M</div><div class="svg-container" style="background:#e8e8e8">${rSVG(mC,64,64,'#3a4a5a','#e8e8e8')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">R</div><div class="svg-container" style="background:#e8e8e8">${rSVG(rC,64,64,'#3a4a5a','#e8e8e8')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">A</div><div class="svg-container" style="background:#e8e8e8">${rSVG(aC,64,64,'#3a4a5a','#e8e8e8')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">O</div><div class="svg-container" style="background:#e8e8e8">${rSVG(oS,64,64,'#3a4a5a','#e8e8e8')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">LU</div><div class="svg-container" style="background:#e8e8e8">${rSVG(luC,64,64,'#3a4a5a','#e8e8e8')}</div></div>`;
+
+  document.getElementById('oc-knockout').innerHTML=
+    `<div class="col" style="min-width:80px"><div class="label">M</div><div class="svg-container" style="background:#1a3a5c">${rSVG(mC,64,64,'#fff','#1a3a5c')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">R</div><div class="svg-container" style="background:#1a3a5c">${rSVG(rC,64,64,'#fff','#1a3a5c')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">A</div><div class="svg-container" style="background:#1a3a5c">${rSVG(aC,64,64,'#fff','#1a3a5c')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">O</div><div class="svg-container" style="background:#1a3a5c">${rSVG(oS,64,64,'#fff','#1a3a5c')}</div></div>`+
+    `<div class="col" style="min-width:80px"><div class="label">LU</div><div class="svg-container" style="background:#1a3a5c">${rSVG(luC,64,64,'#fff','#1a3a5c')}</div></div>`;
+
+  // 16px Micro test — all candidates side by side
+  const microCandidates=[
+    {name:'M Core',paths:mC},
+    {name:'R Core',paths:rC},
+    {name:'A Core',paths:aC},
+    {name:'O Ring',paths:oS},
+    {name:'LU Core',paths:luC}
+  ];
+  let microH='';
+  for(const c of microCandidates){
+    microH+=`<div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:16px;padding:12px;background:#1a1a1a;border:1px solid #222">`;
+    microH+=`<div style="min-width:100px;text-align:center"><div class="label">${c.name}</div><div style="margin-top:8px">${rSVG(c.paths,16,16,'#000','#fff')}</div><div style="font-size:8px;color:#555;margin-top:4px">16px</div></div>`;
+    microH+=`<div style="flex:1;font-size:10px;color:#666;line-height:1.8">`;
+    microH+=`Recognizable compact shape? <span style="color:#888">ASSESS</span><br>`;
+    microH+=`Clearly related to LUMORA? <span style="color:#888">ASSESS</span><br>`;
+    microH+=`Avoids generic letter/icon? <span style="color:#888">ASSESS</span><br>`;
+    microH+=`Avoids UI symbolism? <span style="color:#888">ASSESS</span><br>`;
+    microH+=`Retains wordmark relational DNA? <span style="color:#888">ASSESS</span>`;
+    microH+=`</div></div>`;
+  }
+  document.getElementById('micro-output').innerHTML=microH;
+
+  // Anti-collision — all candidates
+  let antiH='';
+  for(const c of microCandidates){
+    antiH+=antiCollision(c.name);
+  }
+  document.getElementById('anti-output').innerHTML=antiH;
+
+  // Verdict
+  document.getElementById('verdict-output').innerHTML=`
+    <div class="experiment-title">Classification Board</div>
+    <div class="audit-grid" style="grid-template-columns:repeat(5,1fr)">
+      <div class="audit-item"><div class="k">M Core</div><div class="v"><select id="cls-m" style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;width:100%"><option value="">—</option><option value="reject">REJECT</option><option value="hold">HOLD</option><option value="advance">ADVANCE</option></select></div></div>
+      <div class="audit-item"><div class="k">R Core</div><div class="v"><select id="cls-r" style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;width:100%"><option value="">—</option><option value="reject">REJECT</option><option value="hold">HOLD</option><option value="advance">ADVANCE</option></select></div></div>
+      <div class="audit-item"><div class="k">A Core</div><div class="v"><select id="cls-a" style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;width:100%"><option value="">—</option><option value="reject">REJECT</option><option value="hold">HOLD</option><option value="advance">ADVANCE</option></select></div></div>
+      <div class="audit-item"><div class="k">O Ring</div><div class="v"><select id="cls-o" style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;width:100%"><option value="">—</option><option value="reject">REJECT</option><option value="hold">HOLD</option><option value="advance">ADVANCE</option></select></div></div>
+      <div class="audit-item"><div class="k">LU Core</div><div class="v"><select id="cls-lu" style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;width:100%"><option value="">—</option><option value="reject">REJECT</option><option value="hold">HOLD</option><option value="advance">ADVANCE</option></select></div></div>
+    </div>
+    <div class="experiment" style="margin-top:16px">
+      <div class="experiment-title">Observations</div>
+      <div class="measurements">
+        <div>M Core: <span class="val">V-dip is LUMORA-specific structural event. At 16px the two-stems-plus-dip reads as a distinct form, not a generic M. The undercut (-15u) provides subtle right-side weight that differentiates from a symmetric chevron.</span></div>
+        <div>R Core: <span class="val">Bowl-to-leg flow is distinctive. However, at 16px the leg risks reading as an arrow or pointer. The bowl curvature becomes indistinct. The relational DNA (bowl flowing into diagonal) is present but fragile at micro scale.</span></div>
+        <div>A Core: <span class="val">Triangular apex is immediately recognizable. However, it is also immediately readable as a generic "A" or triangle. At 16px it collapses into a universal geometric form with no LUMORA-specific DNA.</span></div>
+        <div>O Ring: <span class="val">At 16px the elliptical proportions (ry > rx) are barely distinguishable from a circle. The form reads as a generic ring, circle, or orb. No LUMORA-specific DNA survives at micro scale.</span></div>
+        <div>LU Core: <span class="val">The straight-meets-curved relational moment is the most structurally distinctive. At 16px the L vertical against the U basin creates a unique silhouette that is not a generic monogram. The relational DNA (rigid vs. organic) survives.</span></div>
+      </div>
+    </div>
+    <div class="experiment" style="margin-top:16px">
+      <div class="experiment-title">Preliminary Assessment</div>
+      <div class="measurements">
+        <div style="color:#fa0">WORDMARK-DERIVED MICRO-MARK STATUS: CONDITIONAL</div>
+        <div style="margin-top:8px">M Core and LU Core show the strongest potential for retaining LUMORA DNA at 16px. Both require further vector proof before advancement.</div>
+        <div>A Core and O Ring collapse into generic forms at micro scale. Not viable as LUMORA-specific marks.</div>
+        <div>R Core retains some DNA but is fragile at the smallest scales. The leg form is the weakest link.</div>
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

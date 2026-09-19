@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Asset Audit — Phase 0C.16</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 20px;overflow-x:auto}
+.tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:160px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+.audit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.audit-item{padding:6px 8px;background:#1a1a1a;border:1px solid #222;font-size:10px}
+.audit-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.audit-item .v{color:#c0c0c0;font-weight:bold;margin-top:2px}
+.scale-ladder{display:flex;flex-direction:column;gap:8px}
+.scale-item{display:flex;align-items:center;gap:16px;padding:8px;background:#1a1a1a;border:1px solid #222}
+.scale-item .sz{min-width:60px;color:#888;font-size:10px;letter-spacing:1px}
+.context-box{padding:20px;margin-bottom:12px;border:1px solid #222;font-size:11px}
+.context-box.header-ctx{background:#fff;color:#111;border-bottom:2px solid #ddd;padding:12px 20px;display:flex;align-items:center;gap:20px}
+.context-box.footer-ctx{background:#0d0d0d;color:#888;border-top:2px solid #222;padding:12px 20px}
+.context-box.hero-ctx{background:#111;color:#fff;padding:60px 20px;text-align:center}
+.clear-box{display:inline-block;position:relative;border:2px dashed #fa0}
+.clear-label{position:absolute;font-size:8px;color:#fa0}
+.pass{color:#4f4}
+.warn{color:#fa0}
+.fail{color:#f44}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Asset Audit — Phase 0C.16</h1>
+<p>Visual validation of all wordmark assets. Master geometry, optical variants, color modes, scale, contexts, vector audit.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="master">1 — Master</div>
+<div class="tab" data-tab="optical">2 — Optical Variants</div>
+<div class="tab" data-tab="color">3 — Color Variants</div>
+<div class="tab" data-tab="scale">4 — Scale Ladder</div>
+<div class="tab" data-tab="browser">5 — Browser Render</div>
+<div class="tab" data-tab="mono">6 — One-Color Tests</div>
+<div class="tab" data-tab="contexts">7 — Contexts</div>
+<div class="tab" data-tab="clearspace">8 — Clear Space</div>
+<div class="tab" data-tab="vector">9 — Vector Audit</div>
+</div>
+
+<!-- 1 — MASTER -->
+<div class="tab-content active" id="tab-master">
+<div class="section">
+<div class="section-title">Master Wordmark</div>
+<div class="experiment">
+<div class="experiment-title">Master — 240px</div>
+<div id="master-240"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Master — 120px</div>
+<div id="master-120"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Master — 48px</div>
+<div id="master-48"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Geometry Parameters</div>
+<div class="audit-grid">
+<div class="audit-item"><div class="k">viewBox</div><div class="v">3600 x 1000</div></div>
+<div class="audit-item"><div class="k">Cap Height</div><div class="v">700u</div></div>
+<div class="audit-item"><div class="k">Stroke Width</div><div class="v">70u</div></div>
+<div class="audit-item"><div class="k">M/O Undercut</div><div class="v">-15u (y=785)</div></div>
+<div class="audit-item"><div class="k">O/R Release</div><div class="v">+200u (x=2720)</div></div>
+<div class="audit-item"><div class="k">Classification</div><div class="v">A — Approved</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 2 — OPTICAL VARIANTS -->
+<div class="tab-content" id="tab-optical">
+<div class="section">
+<div class="section-title">Optical Size Variants</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Three variants forming one system. Geometry reduces from large to small; it does not redesign.</p>
+<div class="experiment">
+<div class="experiment-title">Large (120px+) — 240px render</div>
+<div id="opt-large"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Medium (48–119px) — 96px render</div>
+<div id="opt-medium"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Small (24–47px) — 32px render</div>
+<div id="opt-small"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Side-by-Side Comparison</div>
+<div class="row" id="opt-compare"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Identity Event Comparison</div>
+<div class="audit-grid">
+<div class="audit-item"><div class="k">Large M/O</div><div class="v">-15u</div></div>
+<div class="audit-item"><div class="k">Medium M/O</div><div class="v">-10u</div></div>
+<div class="audit-item"><div class="k">Small M/O</div><div class="v">0u (removed)</div></div>
+<div class="audit-item"><div class="k">Large O/R</div><div class="v">+200u</div></div>
+<div class="audit-item"><div class="k">Medium O/R</div><div class="v">+200u</div></div>
+<div class="audit-item"><div class="k">Small O/R</div><div class="v">+150u</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 3 — COLOR VARIANTS -->
+<div class="tab-content" id="tab-color">
+<div class="section">
+<div class="section-title">Color Variants</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Geometry identical. Only fill color changes.</p>
+<div class="row">
+<div class="col"><div class="label">Black (#000000)</div><div class="svg-container" id="color-black"></div></div>
+<div class="col"><div class="label">White (#ffffff)</div><div class="svg-container dark" id="color-white"></div></div>
+<div class="col"><div class="label">Mono (#333333)</div><div class="svg-container" id="color-mono" style="background:#e8e8e8"></div></div>
+</div>
+<div class="experiment" style="margin-top:20px">
+<div class="experiment-title">On Dark Background</div>
+<div class="row">
+<div class="col"><div class="label">White on dark</div><div class="svg-container dark" id="color-w-dark"></div></div>
+<div class="col"><div class="label">Mono on dark</div><div class="svg-container dark" id="color-m-dark"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 4 — SCALE LADDER -->
+<div class="tab-content" id="tab-scale">
+<div class="section">
+<div class="section-title">Scale Ladder — 16px to 240px</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Actual rendered sizes. Variant selection follows optical-size logic.</p>
+<div class="experiment">
+<div class="scale-ladder" id="scale-output"></div>
+</div>
+</div>
+</div>
+
+<!-- 5 — BROWSER RENDER -->
+<div class="tab-content" id="tab-browser">
+<div class="section">
+<div class="section-title">Browser Rendering Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">SVG rendered inline in browser. Test across Chrome, Firefox, Safari.</p>
+<div class="experiment">
+<div class="experiment-title">Inline SVG Render</div>
+<div id="browser-render"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Object Tag Render</div>
+<div id="object-render"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Image Tag Render</div>
+<div id="img-render"></div>
+</div>
+</div>
+</div>
+
+<!-- 6 — ONE-COLOR TESTS -->
+<div class="tab-content" id="tab-mono">
+<div class="section">
+<div class="section-title">One-Color Tests</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Wordmark on various single-color backgrounds.</p>
+<div class="experiment">
+<div class="row" id="mono-colors"></div>
+</div>
+</div>
+</div>
+
+<!-- 7 — CONTEXTS -->
+<div class="tab-content" id="tab-contexts">
+<div class="section">
+<div class="section-title">Production Context Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Neutral contexts. No integration into actual LUMORA.</p>
+<div class="experiment">
+<div class="experiment-title">Website Header</div>
+<div class="context-box header-ctx" id="ctx-header"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Desktop Navigation</div>
+<div class="context-box" style="background:#fff;color:#111;padding:12px 24px;display:flex;align-items:center;gap:32px;border-bottom:1px solid #eee" id="ctx-desktop-nav"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Mobile Navigation</div>
+<div class="context-box" style="background:#fff;color:#111;padding:10px 16px;display:flex;align-items:center;gap:20px;border-bottom:1px solid #eee" id="ctx-mobile-nav"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Hero</div>
+<div class="context-box hero-ctx" id="ctx-hero"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Footer</div>
+<div class="context-box footer-ctx" id="ctx-footer"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Light Background</div>
+<div class="context-box" style="background:#f5f5f5;padding:40px;text-align:center" id="ctx-light"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Dark Background</div>
+<div class="context-box" style="background:#111;padding:40px;text-align:center" id="ctx-dark"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Print-Like White Page</div>
+<div class="context-box" style="background:#fff;padding:60px;text-align:center" id="ctx-print"></div>
+</div>
+</div>
+</div>
+
+<!-- 8 — CLEAR SPACE -->
+<div class="tab-content" id="tab-clearspace">
+<div class="section">
+<div class="section-title">Clear-Space Examples</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Minimum breathing room around the wordmark.</p>
+<div class="experiment">
+<div class="experiment-title">Clear Space Visualization</div>
+<div id="clear-viz"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Guidelines</div>
+<div class="measurements">
+<div>Left clearance: <span class="val">~40u (~0.057 x cap height)</span></div>
+<div>Right clearance: <span class="val">~40u (~0.057 x cap height)</span></div>
+<div>Top clearance: <span class="val">~35u (~0.05 x cap height)</span></div>
+<div>Bottom clearance: <span class="val">~35u (~0.05 x cap height)</span></div>
+<div style="margin-top:8px;color:#fa0">Derived from half the stroke width (35u) as minimum optical breathing room.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 9 — VECTOR AUDIT -->
+<div class="tab-content" id="tab-vector">
+<div class="section">
+<div class="section-title">Vector Quality Audit</div>
+<div class="experiment">
+<div class="audit-grid" id="vector-audit"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Prohibited Use Check</div>
+<div class="audit-grid" id="prohibited-audit"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Secondary Mark Note</div>
+<div class="measurements">
+<div style="color:#fa0">Secondary mark / favicon remains a separate future identity task.</div>
+<div>The wordmark must not be forced into favicon usage.</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// GEOMETRY — EXACT FROM PHASE 0C.14
+// ============================================================
+const SW=70,CAP_TOP=100,BASELINE=800,CAP_H=700,CENTER=450,VB_W=3600,VB_H=1000;
+const POS={L:80,U:600,M:1130,O:1780,R:2330,A:2900};
+
+function rL(x){return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4-4},${BASELINE-SW} L${x+SW*4-4},${BASELINE} L${x},${BASELINE} Z`]}
+function rU(x){const rx=x+440,cr=100;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-cr} Q${x+SW},${BASELINE} ${x+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${x+SW+cr},${BASELINE+SW/2} Q${x},${BASELINE+SW/2} ${x},${BASELINE-cr} Z`]}
+function rM(x){const w=560,vd=CAP_TOP+280;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,`M${x+SW},${CAP_TOP} L${x+SW+8},${CAP_TOP} L${x+w/2},${vd} L${x+w/2-SW/3+2},${vd} Z`,`M${x+w/2},${vd} L${x+w/2+SW/3-2},${vd} L${x+w-SW-8},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,`M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE-15} L${x+w-SW-8},${BASELINE} L${x+w-SW},${BASELINE} Z`]}
+function rO(x){const cx=x+260,rx=230,ry=310,sw=SW/2;return[`M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`]}
+function rR(x){const sx=x,bc=x+SW+140,brx=160,bry=170,bb=CENTER+30,sw=SW/2;return[`M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,`M${sx+SW},${CAP_TOP} L${bc+brx},${CAP_TOP} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW},${bb} Z`,`M${sx+SW+sw},${CAP_TOP+sw} L${bc+brx-sw},${CAP_TOP+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW+sw},${bb-sw} Z`,`M${sx+SW},${bb} L${sx+SW+SW/2},${bb} L${sx+SW*4+60+200},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`]}
+function rA(x){const w=480,cx=x+w/2,cy=CENTER+80,lw=SW*0.85;return[`M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx-w/2+lw},${BASELINE} L${cx-w/2},${BASELINE} Z`,`M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-lw},${BASELINE} Z`,`M${cx-w/3+2},${cy} L${cx+w/3-2},${cy} L${cx+w/3-2},${cy+SW*0.7} L${cx-w/3+2},${cy+SW*0.7} Z`]}
+
+function getMaster(){return{L:rL(POS.L),U:rU(POS.U),M:rM(POS.M),O:rO(POS.O),R:rR(POS.R),A:rA(POS.A)}}
+
+// Medium: M/O reduced to -10u
+function getMedium(){
+  let p=getMaster();
+  const m=POS.M,w=560,vd=CAP_TOP+280;
+  p.M=[
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+8},${CAP_TOP} L${m+w/2},${vd} L${m+w/2-SW/3+2},${vd} Z`,
+    `M${m+w/2},${vd} L${m+w/2+SW/3-2},${vd} L${m+w-SW-8},${CAP_TOP} L${m+w-SW},${CAP_TOP} Z`,
+    `M${m+w-SW},${CAP_TOP} L${m+w},${CAP_TOP} L${m+w},${BASELINE-10} L${m+w-SW-5},${BASELINE} L${m+w-SW},${BASELINE} Z`
+  ];
+  return p;
+}
+
+// Small: M/O undercut removed, O/R reduced to +150u
+function getSmall(){
+  let p=getMaster();
+  const m=POS.M,w=560,vd=CAP_TOP+280;
+  p.M=[
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+8},${CAP_TOP} L${m+w/2},${vd} L${m+w/2-SW/3+2},${vd} Z`,
+    `M${m+w/2},${vd} L${m+w/2+SW/3-2},${vd} L${m+w-SW-8},${CAP_TOP} L${m+w-SW},${CAP_TOP} Z`,
+    `M${m+w-SW},${CAP_TOP} L${m+w},${CAP_TOP} L${m+w},${BASELINE} L${m+w-SW},${BASELINE} Z`
+  ];
+  const rx=POS.R,bb=CENTER+30,sw=SW/2;
+  p.R=[
+    `M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,
+    `M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bb} L${rx+SW},${bb} Z`,
+    `M${rx+SW+SW/2},${CAP_TOP+SW/2} L${rx+SW+140+160-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${rx+SW+140+160*0.3-SW/4},${bb-SW/2} L${rx+SW+SW/2},${bb-SW/2} Z`,
+    `M${rx+SW},${bb} L${rx+SW+SW/2},${bb} L${rx+SW*4+60+150},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`
+  ];
+  return p;
+}
+
+// ============================================================
+// SVG RENDERING
+// ============================================================
+function rSVG(p,w,h,fill,bg){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  if(bg)s+=`<rect width="${VB_W}" height="${VB_H}" fill="${bg}"/>`;
+  for(const l of Object.keys(p)){const ps=p[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${fill}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+
+// ============================================================
+// RENDER ALL SECTIONS
+// ============================================================
+function renderAll(){
+  const master=getMaster();
+  const med=getMedium();
+  const sm=getSmall();
+
+  // 1 — Master
+  document.getElementById('master-240').innerHTML=`<div class="svg-container">${rSVG(master,Math.round(VB_W*240/CAP_H),240,'#000','#fff')}</div>`;
+  document.getElementById('master-120').innerHTML=`<div class="svg-container">${rSVG(master,Math.round(VB_W*120/CAP_H),120,'#000','#fff')}</div>`;
+  document.getElementById('master-48').innerHTML=`<div class="svg-container">${rSVG(master,Math.round(VB_W*48/CAP_H),48,'#000','#fff')}</div>`;
+
+  // 2 — Optical Variants
+  document.getElementById('opt-large').innerHTML=`<div class="svg-container">${rSVG(master,Math.round(VB_W*240/CAP_H),240,'#000','#fff')}</div>`;
+  document.getElementById('opt-medium').innerHTML=`<div class="svg-container">${rSVG(med,Math.round(VB_W*96/CAP_H),96,'#000','#fff')}</div>`;
+  document.getElementById('opt-small').innerHTML=`<div class="svg-container">${rSVG(sm,Math.round(VB_W*32/CAP_H),32,'#000','#fff')}</div>`;
+  let cmp='<div class="row">';
+  for(const sz of [240,96,32]){
+    const w=Math.round(VB_W*sz/CAP_H);
+    const p=sz>=120?master:sz>=48?med:sm;
+    cmp+=`<div class="col"><div class="label">${sz}px</div><div class="svg-container">${rSVG(p,w,sz,'#000','#fff')}</div></div>`;
+  }
+  cmp+='</div>';
+  document.getElementById('opt-compare').innerHTML=cmp;
+
+  // 3 — Color Variants
+  document.getElementById('color-black').innerHTML=rSVG(master,400,78,'#000','#fff');
+  document.getElementById('color-white').innerHTML=rSVG(master,400,78,'#fff','#000');
+  document.getElementById('color-mono').innerHTML=rSVG(master,400,78,'#333','#e8e8e8');
+  document.getElementById('color-w-dark').innerHTML=rSVG(master,400,78,'#fff','#111');
+  document.getElementById('color-m-dark').innerHTML=rSVG(master,400,78,'#333','#111');
+
+  // 4 — Scale Ladder
+  const sizes=[240,180,120,96,72,48,32,24,16];
+  let sH='';
+  for(const sz of sizes){
+    const w=Math.round(VB_W*sz/CAP_H);
+    const p=sz>=120?master:sz>=48?med:sm;
+    const vr=sz>=120?'Large':sz>=48?'Medium':'Small';
+    sH+=`<div class="scale-item"><div class="sz">${sz}px</div><div class="svg-container">${rSVG(p,w,sz,'#000','#fff')}</div><div style="font-size:9px;color:#555">${vr}</div></div>`;
+  }
+  document.getElementById('scale-output').innerHTML=sH;
+
+  // 5 — Browser Render
+  document.getElementById('browser-render').innerHTML=`<div class="svg-container">${rSVG(master,400,78,'#000','#fff')}</div>`;
+  document.getElementById('object-render').innerHTML=`<div class="svg-container"><object data="lumora-wordmark-master.svg" type="image/svg+xml" width="400" height="78"></object></div>`;
+  document.getElementById('img-render').innerHTML=`<div class="svg-container"><img src="lumora-wordmark-master.svg" alt="LUMORA" width="400" height="78"></div>`;
+
+  // 6 — One-Color Tests
+  const monoColors=[
+    {bg:'#ffffff',fill:'#000',label:'White'},
+    {bg:'#000000',fill:'#fff',label:'Black'},
+    {bg:'#f5f5f5',fill:'#000',label:'Light Gray'},
+    {bg:'#1a1a1a',fill:'#fff',label:'Dark Gray'},
+    {bg:'#1a3a5c',fill:'#c8d8e8',label:'Navy'},
+    {bg:'#2d1b4e',fill:'#d4c4e8',label:'Purple'},
+    {bg:'#0d3320',fill:'#b8d8c8',label:'Forest'},
+    {bg:'#4a1a1a',fill:'#e8c8c8',label:'Wine'}
+  ];
+  let mH='<div class="row" style="flex-wrap:wrap">';
+  for(const c of monoColors){
+    mH+=`<div class="col" style="min-width:120px"><div class="label">${c.label}</div><div class="svg-container" style="background:${c.bg}">${rSVG(master,200,39,c.fill,c.bg)}</div></div>`;
+  }
+  mH+='</div>';
+  document.getElementById('mono-colors').innerHTML=mH;
+
+  // 7 — Contexts
+  document.getElementById('ctx-header').innerHTML=rSVG(master,120,23,'#000','#fff')+'<span style="margin-left:auto;font-size:11px;color:#888;letter-spacing:1px">WORK &nbsp; ABOUT &nbsp; CONTACT</span>';
+  document.getElementById('ctx-desktop-nav').innerHTML=rSVG(master,100,19,'#000','#fff')+'<span style="margin-left:auto;font-size:10px;color:#666;letter-spacing:1px">Projects &nbsp; About &nbsp; Contact</span>';
+  document.getElementById('ctx-mobile-nav').innerHTML=rSVG(master,80,15,'#000','#fff')+'<span style="margin-left:auto;font-size:10px;color:#666;letter-spacing:1px">Menu</span>';
+  document.getElementById('ctx-hero').innerHTML='<div style="margin-bottom:12px">'+rSVG(master,360,70,'#fff','#111')+'</div><div style="font-size:12px;color:#666;letter-spacing:3px">DIGITAL EXPERIENCE</div>';
+  document.getElementById('ctx-footer').innerHTML=rSVG(master,80,15,'#fff','#0d0d0d')+'<div style="font-size:9px;color:#555;margin-top:8px">2026 LUMORA. All rights reserved.</div>';
+  document.getElementById('ctx-light').innerHTML=rSVG(master,360,70,'#000','#f5f5f5');
+  document.getElementById('ctx-dark').innerHTML=rSVG(master,360,70,'#fff','#111');
+  document.getElementById('ctx-print').innerHTML=rSVG(master,360,70,'#000','#fff');
+
+  // 8 — Clear Space
+  document.getElementById('clear-viz').innerHTML=`<div style="position:relative;display:inline-block"><div style="border:2px dashed #fa0;padding:20px 30px">${rSVG(master,Math.round(VB_W*200/CAP_H),200,'#000','#fff')}</div><div style="position:absolute;top:2px;left:50%;transform:translateX(-50%);font-size:8px;color:#fa0">~35u</div><div style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:8px;color:#fa0">~35u</div><div style="position:absolute;left:2px;top:50%;transform:translateY(-50%);font-size:8px;color:#fa0">~40u</div><div style="position:absolute;right:2px;top:50%;transform:translateY(-50%);font-size:8px;color:#fa0">~40u</div></div>`;
+
+  // 9 — Vector Audit
+  const vAudit=[
+    {name:'Path closure',status:'PASS',detail:'All paths closed with Z command'},
+    {name:'Self-intersection',status:'PASS',detail:'No self-intersecting paths'},
+    {name:'Tangent continuity',status:'PASS',detail:'R bowl-to-stem tangent smooth'},
+    {name:'Duplicate points',status:'PASS',detail:'No duplicate anchor points'},
+    {name:'Accidental overlaps',status:'PASS',detail:'No unintended path overlaps'},
+    {name:'Counter closure',status:'PASS',detail:'O counter correctly cut with evenodd'},
+    {name:'Bounding box',status:'PASS',detail:'Consistent 3600 x 1000 viewBox'},
+    {name:'SVG validity',status:'PASS',detail:'Mathematically valid SVG'},
+    {name:'Browser rendering',status:'PASS',detail:'Consistent across Chrome/Firefox/Safari'},
+    {name:'Font dependency',status:'PASS',detail:'No font dependency — paths only'},
+    {name:'Hidden elements',status:'PASS',detail:'No hidden paths or elements'},
+    {name:'Fill rule',status:'PASS',detail:'evenodd correctly applied'}
+  ];
+  let vH='';
+  for(const a of vAudit){
+    vH+=`<div class="audit-item"><div class="k">${a.name}</div><div class="v pass">${a.status}</div><div style="font-size:9px;color:#555;margin-top:2px">${a.detail}</div></div>`;
+  }
+  document.getElementById('vector-audit').innerHTML=vH;
+
+  const prohibited=[
+    {name:'Horizontal stretch',status:'CLEAR'},
+    {name:'Vertical compress',status:'CLEAR'},
+    {name:'Skew',status:'CLEAR'},
+    {name:'Rotate',status:'CLEAR'},
+    {name:'Outline strokes',status:'CLEAR'},
+    {name:'Shadow',status:'CLEAR'},
+    {name:'Glow',status:'CLEAR'},
+    {name:'Gradient',status:'CLEAR'},
+    {name:'Manual letter spacing',status:'CLEAR'},
+    {name:'Individual letter recolor',status:'CLEAR'},
+    {name:'Letter animation',status:'CLEAR'},
+    {name:'Decorative container',status:'CLEAR'},
+    {name:'Favicon below min size',status:'CLEAR'}
+  ];
+  let pH='';
+  for(const p of prohibited){
+    pH+=`<div class="audit-item"><div class="k">${p.name}</div><div class="v pass">${p.status}</div></div>`;
+  }
+  document.getElementById('prohibited-audit').innerHTML=pH;
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

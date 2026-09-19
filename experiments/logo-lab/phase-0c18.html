@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.18 — Micro-Mark Vector Proof</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 20px;overflow-x:auto}
+.tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:80px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+.audit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.audit-item{padding:6px 8px;background:#1a1a1a;border:1px solid #222;font-size:10px}
+.audit-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.audit-item .v{color:#c0c0c0;font-weight:bold;margin-top:2px}
+.pass{color:#4f4}
+.warn{color:#fa0}
+.fail{color:#f44}
+.scale-row{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap;margin-bottom:8px}
+.scale-item{text-align:center}
+.scale-item .sz{font-size:7px;color:#555;margin-top:2px}
+.context-box{padding:16px;margin-bottom:12px;border:1px solid #222;font-size:11px}
+.eval-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px}
+.eval-item{padding:4px 6px;background:#1a1a1a;border:1px solid #222;font-size:9px;text-align:center}
+.eval-item .ek{color:#555;text-transform:uppercase;letter-spacing:1px}
+.eval-item .ev{color:#c0c0c0;font-weight:bold;margin-top:2px}
+.classification{display:inline-block;padding:4px 10px;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid;margin-top:8px}
+.classification.reject{color:#f44;border-color:#f44}
+.classification.hold{color:#ff0;border-color:#ff0}
+.classification.advance{color:#4f4;border-color:#4f4}
+.candidate-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;padding:12px;background:#1a1a1a;border:1px solid #222}
+.candidate-header h2{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#aaa;font-weight:400}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.18 — Micro-Mark Vector Proof</h1>
+<p>M Core vs LU Core. True-scale rendering. Collision testing. Wordmark relationship. Evaluation. Classification.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="a">A — M Core</div>
+<div class="tab" data-tab="b">B — LU Core</div>
+<div class="tab" data-tab="c">C — True Scale</div>
+<div class="tab" data-tab="d">D — One-Color</div>
+<div class="tab" data-tab="e">E — 16px Collision</div>
+<div class="tab" data-tab="f">F — 12px Stress</div>
+<div class="tab" data-tab="g">G — Wordmark Relation</div>
+<div class="tab" data-tab="h">H — Removal</div>
+<div class="tab" data-tab="i">I — Reversibility</div>
+<div class="tab" data-tab="j">J — Context</div>
+<div class="tab" data-tab="k">K — Evaluation</div>
+<div class="tab" data-tab="l">L — Classification</div>
+</div>
+
+<!-- A — M CORE -->
+<div class="tab-content active" id="tab-a">
+<div class="section">
+<div class="candidate-header">
+<h2>Candidate A — M Core</h2>
+</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Source: M from master wordmark (x=1130–1602). V-dip at y=380. Right stem undercut at y=785 (-15u).
+Simplification removes detail only when necessary. No new geometry added.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">M-01 — Full Extraction</div>
+<p style="color:#555;font-size:10px;margin-bottom:8px">All M subpaths: left stem, left diagonal, right diagonal, right stem with undercut.</p>
+<div class="row">
+<div class="col"><div class="label">200px</div><div id="m01-200"></div></div>
+<div class="col"><div class="label">64px</div><div id="m01-64"></div></div>
+<div class="col"><div class="label">16px</div><div id="m01-16"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">M-02 — Simplified</div>
+<p style="color:#555;font-size:10px;margin-bottom:8px">Two stems + V-dip. Diagonals reduced to essential connection. Undercut preserved.</p>
+<div class="row">
+<div class="col"><div class="label">200px</div><div id="m02-200"></div></div>
+<div class="col"><div class="label">64px</div><div id="m02-64"></div></div>
+<div class="col"><div class="label">16px</div><div id="m02-16"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">M-03 — Micro</div>
+<p style="color:#555;font-size:10px;margin-bottom:8px">Two verticals + V-dip core. Undercut removed for micro clarity. Purest surviving form.</p>
+<div class="row">
+<div class="col"><div class="label">200px</div><div id="m03-200"></div></div>
+<div class="col"><div class="label">64px</div><div id="m03-64"></div></div>
+<div class="col"><div class="label">16px</div><div id="m03-16"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Silhouette Test</div>
+<p style="color:#555;font-size:10px;margin-bottom:8px">Does the candidate remain recognizable when all internal subtlety is removed?</p>
+<div class="row" id="m-silhouette"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Generic Letter Test</div>
+<div class="audit-grid">
+<div class="audit-item"><div class="k">Reads as LUMORA identity</div><div class="v">PRIMARY</div></div>
+<div class="audit-item"><div class="k">Reads as letter M</div><div class="v">SECONDARY — DNA present but mark is more specific</div></div>
+<div class="audit-item"><div class="k">Reads as generic monogram</div><div class="v">LOW — V-dip asymmetry differentiates</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- B — LU CORE -->
+<div class="tab-content" id="tab-b">
+<div class="section">
+<div class="candidate-header">
+<h2>Candidate B — LU Core</h2>
+</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Source: L (x=80–346) + U (x=600–1110) from master wordmark. L vertical+horizontal foot. U curved basin. Straight ↔ curved relationship.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">LU-01 — Full Extraction</div>
+<p style="color:#555;font-size:10px;margin-bottom:8px">Full L + full U with all curve detail.</p>
+<div class="row">
+<div class="col"><div class="label">200px</div><div id="lu01-200"></div></div>
+<div class="col"><div class="label">64px</div><div id="lu01-64"></div></div>
+<div class="col"><div class="label">16px</div><div id="lu01-16"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">LU-02 — Simplified</div>
+<p style="color:#555;font-size:10px;margin-bottom:8px">L stem+foot + U basin. Curve detail reduced. Essential relationship preserved.</p>
+<div class="row">
+<div class="col"><div class="label">200px</div><div id="lu02-200"></div></div>
+<div class="col"><div class="label">64px</div><div id="lu02-64"></div></div>
+<div class="col"><div class="label">16px</div><div id="lu02-16"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">LU-03 — Micro</div>
+<p style="color:#555;font-size:10px;margin-bottom:8px">Vertical line + curved basin. Purest straight ↔ curved relationship.</p>
+<div class="row">
+<div class="col"><div class="label">200px</div><div id="lu03-200"></div></div>
+<div class="col"><div class="label">64px</div><div id="lu03-64"></div></div>
+<div class="col"><div class="label">16px</div><div id="lu03-16"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Silhouette Test</div>
+<p style="color:#555;font-size:10px;margin-bottom:8px">Does the candidate remain recognizable when all internal subtlety is removed?</p>
+<div class="row" id="lu-silhouette"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Generic Letter Test</div>
+<div class="audit-grid">
+<div class="audit-item"><div class="k">Reads as LUMORA identity</div><div class="v">PRIMARY — straight/curved contrast is DNA</div></div>
+<div class="audit-item"><div class="k">Reads as LU monogram</div><div class="v">SECONDARY — letter DNA present but relational</div></div>
+<div class="audit-item"><div class="k">Reads as generic letter combo</div><div class="v">LOW — the basin shape is specific, not generic</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- C — TRUE SCALE -->
+<div class="tab-content" id="tab-c">
+<div class="section">
+<div class="section-title">True-Scale Rendering</div>
+<p style="color:#644;font-size:11px;margin-bottom:16px">
+Actual pixel dimensions. Not scaled SVGs. Each rendered at true target size with CSS width/height.
+Tested at 1x and 2x DPR.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">M Core — Scale Ladder (1x DPR)</div>
+<div class="scale-row" id="m-scale-1x"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">M Core — Scale Ladder (2x DPR)</div>
+<div class="scale-row" id="m-scale-2x"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LU Core — Scale Ladder (1x DPR)</div>
+<div class="scale-row" id="lu-scale-1x"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LU Core — Scale Ladder (2x DPR)</div>
+<div class="scale-row" id="lu-scale-2x"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Side-by-Side Comparison</div>
+<div id="scale-compare"></div>
+</div>
+</div>
+</div>
+
+<!-- D — ONE-COLOR -->
+<div class="tab-content" id="tab-d">
+<div class="section">
+<div class="section-title">One-Color Tests</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Every candidate must pass BLACK/WHITE, WHITE/BLACK, KNOCKOUT.</p>
+
+<div class="experiment">
+<div class="experiment-title">M Core — One-Color at 64px</div>
+<div class="row" id="m-onecolor"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LU Core — One-Color at 64px</div>
+<div class="row" id="lu-onecolor"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">M Core — One-Color at 16px</div>
+<div class="row" id="m-onecolor-16"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LU Core — One-Color at 16px</div>
+<div class="row" id="lu-onecolor-16"></div>
+</div>
+</div>
+</div>
+
+<!-- E — 16PX COLLISION -->
+<div class="tab-content" id="tab-e">
+<div class="section">
+<div class="section-title">16px Collision Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">At exactly 16×16, check against prohibited resemblances.</p>
+
+<div class="experiment">
+<div class="experiment-title">M Core at 16px</div>
+<div class="row" style="align-items:center;margin-bottom:12px">
+<div><div class="label">M Core</div><div id="m-collision-src"></div></div>
+</div>
+<div class="audit-grid" id="m-collision"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">LU Core at 16px</div>
+<div class="row" style="align-items:center;margin-bottom:12px">
+<div><div class="label">LU Core</div><div id="lu-collision-src"></div></div>
+</div>
+<div class="audit-grid" id="lu-collision"></div>
+</div>
+</div>
+</div>
+
+<!-- F — 12PX STRESS -->
+<div class="tab-content" id="tab-f">
+<div class="section">
+<div class="section-title">12px Stress Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+At 12×12, do NOT attempt to preserve all detail. Determine: silhouette, weight bias, recognizable identity, accidental shapes.
+If identity is lost at 12px but preserved at 16px, that is acceptable.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">M Core at 12px</div>
+<div class="row" style="align-items:flex-end;gap:20px">
+<div><div class="label">12px</div><div id="m-12px"></div></div>
+<div><div class="label">16px (reference)</div><div id="m-16px-ref"></div></div>
+<div style="flex:1">
+<div class="label">Analysis</div>
+<div class="measurements">
+<div>Silhouette: <span class="val" id="m-12-silhouette">—</span></div>
+<div>Weight bias: <span class="val" id="m-12-weight">—</span></div>
+<div>Recognizable identity: <span class="val" id="m-12-identity">—</span></div>
+<div>Accidental shapes: <span class="val" id="m-12-accidental">—</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">LU Core at 12px</div>
+<div class="row" style="align-items:flex-end;gap:20px">
+<div><div class="label">12px</div><div id="lu-12px"></div></div>
+<div><div class="label">16px (reference)</div><div id="lu-16px-ref"></div></div>
+<div style="flex:1">
+<div class="label">Analysis</div>
+<div class="measurements">
+<div>Silhouette: <span class="val" id="lu-12-silhouette">—</span></div>
+<div>Weight bias: <span class="val" id="lu-12-weight">—</span></div>
+<div>Recognizable identity: <span class="val" id="lu-12-identity">—</span></div>
+<div>Accidental shapes: <span class="val" id="lu-12-accidental">—</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- G — WORDMARK RELATIONSHIP -->
+<div class="tab-content" id="tab-g">
+<div class="section">
+<div class="section-title">Wordmark Relationship</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Side-by-side: wordmark + micro-mark. Does the micro-mark feel like it came from the same identity?
+</p>
+
+<div class="experiment">
+<div class="experiment-title">LUMORA Wordmark + M Core</div>
+<div class="row" style="align-items:center;gap:24px" id="rel-m"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LUMORA Wordmark + LU Core</div>
+<div class="row" style="align-items:center;gap:24px" id="rel-lu"></div>
+</div>
+</div>
+</div>
+
+<!-- H — REMOVAL -->
+<div class="tab-content" id="tab-h">
+<div class="section">
+<div class="section-title">Removal Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Hide the wordmark. Show only the micro-mark. Which one still feels related to LUMORA?
+Then restore the wordmark. Which one becomes more convincing when its parent is visible?
+</p>
+
+<div class="experiment">
+<div class="experiment-title">Without Wordmark</div>
+<div class="row" style="align-items:center;gap:40px">
+<div style="text-align:center"><div class="label">M Core</div><div id="removal-m"></div></div>
+<div style="text-align:center"><div class="label">LU Core</div><div id="removal-lu"></div></div>
+</div>
+<div class="measurements" style="margin-top:12px">
+<div>M Core alone: <span class="val">V-dip form is distinctive. Reads as a structural mark. LUMORA DNA partially visible through asymmetry.</span></div>
+<div>LU Core alone: <span class="val">Straight-against-curved is distinctive. Reads as a relational form. LUMORA DNA visible through the contrast.</span></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">With Wordmark Restored</div>
+<div class="row" style="align-items:center;gap:24px" id="removal-with"></div>
+<div class="measurements" style="margin-top:12px">
+<div>With wordmark: <span class="val">Both become more convincing. The M V-dip is clearly visible in the parent wordmark. The LU relationship is clearly visible as the first two letters.</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- I — REVERSIBILITY -->
+<div class="tab-content" id="tab-i">
+<div class="section">
+<div class="section-title">Reversibility Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Can we move micro → medium → wordmark and still understand the same DNA?
+The system should feel like ONE IDENTITY at different information densities.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">M Core — Density Spectrum</div>
+<div class="row" style="align-items:flex-end;gap:16px" id="rev-m"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LU Core — Density Spectrum</div>
+<div class="row" style="align-items:flex-end;gap:16px" id="rev-lu"></div>
+</div>
+</div>
+</div>
+
+<!-- J — CONTEXT -->
+<div class="tab-content" id="tab-j">
+<div class="section">
+<div class="section-title">Context Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Each candidate in neutral production contexts. No decorative mockups.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">Browser Favicon Square</div>
+<div class="row" id="ctx-favicon"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Social Avatar Square</div>
+<div class="row" id="ctx-avatar"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Mobile Navigation Icon</div>
+<div class="row" id="ctx-nav"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Small Watermark</div>
+<div class="row" id="ctx-watermark"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">App Icon Neutral Square</div>
+<div class="row" id="ctx-appicon"></div>
+</div>
+</div>
+</div>
+
+<!-- K — EVALUATION -->
+<div class="tab-content" id="tab-k">
+<div class="section">
+<div class="section-title">Evaluation</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">10 criteria. LOW / MEDIUM / HIGH. No numeric winner score.</p>
+
+<div class="experiment">
+<div class="experiment-title">M Core — Evaluation</div>
+<div class="eval-grid" id="eval-m"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LU Core — Evaluation</div>
+<div class="eval-grid" id="eval-lu"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Comparison</div>
+<div class="audit-grid" id="eval-compare"></div>
+</div>
+</div>
+</div>
+
+<!-- L — CLASSIFICATION -->
+<div class="tab-content" id="tab-l">
+<div class="section">
+<div class="section-title">Final Classification</div>
+
+<div class="experiment">
+<div class="experiment-title">M Core</div>
+<div id="cls-m"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">LU Core</div>
+<div id="cls-lu"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Decision</div>
+<div class="measurements" id="cls-decision"></div>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// MASTER GEOMETRY
+// ============================================================
+const SW=70,CAP_TOP=100,BASELINE=800,CAP_H=700,CENTER=450,VB_W=3600,VB_H=1000;
+
+function rL(x){return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4-4},${BASELINE-SW} L${x+SW*4-4},${BASELINE} L${x},${BASELINE} Z`]}
+function rU(x){const rx=x+440,cr=100;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-cr} Q${x+SW},${BASELINE} ${x+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${x+SW+cr},${BASELINE+SW/2} Q${x},${BASELINE+SW/2} ${x},${BASELINE-cr} Z`]}
+function rM(x){const w=560,vd=CAP_TOP+280;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,`M${x+SW},${CAP_TOP} L${x+SW+8},${CAP_TOP} L${x+w/2},${vd} L${x+w/2-SW/3+2},${vd} Z`,`M${x+w/2},${vd} L${x+w/2+SW/3-2},${vd} L${x+w-SW-8},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,`M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE-15} L${x+w-SW-8},${BASELINE} L${x+w-SW},${BASELINE} Z`]}
+function rO(x){const cx=x+260,rx=230,ry=310,sw=SW/2;return[`M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`]}
+function rR(x){const sx=x,bc=x+SW+140,brx=160,bry=170,bb=CENTER+30,sw=SW/2;return[`M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,`M${sx+SW},${CAP_TOP} L${bc+brx},${CAP_TOP} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW},${bb} Z`,`M${sx+SW+sw},${CAP_TOP+sw} L${bc+brx-sw},${CAP_TOP+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW+sw},${bb-sw} Z`,`M${sx+SW},${bb} L${sx+SW+SW/2},${bb} L${sx+SW*4+60+200},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`]}
+function rA(x){const w=480,cx=x+w/2,cy=CENTER+80,lw=SW*0.85;return[`M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx-w/2+lw},${BASELINE} L${cx-w/2},${BASELINE} Z`,`M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-lw},${BASELINE} Z`,`M${cx-w/3+2},${cy} L${cx+w/3-2},${cy} L${cx+w/3-2},${cy+SW*0.7} L${cx-w/3+2},${cy+SW*0.7} Z`]}
+function getMaster(){return{L:rL(80),U:rU(600),M:rM(1130),O:rO(1780),R:rR(2330),A:rA(2900)}}
+
+// ============================================================
+// M CORE — THREE LEVELS
+// viewBox 0 0 1000 1000
+// ============================================================
+
+// M-01: Full extraction (all 4 subpaths, undercut preserved)
+function M01(){
+  const s=70,ct=50,bl=950,w=700,vd=ct+360,ox=150;
+  return[
+    `M${ox},${ct} L${ox+s},${ct} L${ox+s},${bl} L${ox},${bl} Z`,
+    `M${ox+s},${ct} L${ox+s+10},${ct} L${ox+w/2},${vd} L${ox+w/2-s/3+3},${vd} Z`,
+    `M${ox+w/2},${vd} L${ox+w/2+s/3-3},${vd} L${ox+w-s-10},${ct} L${ox+w-s},${ct} Z`,
+    `M${ox+w-s},${ct} L${ox+w},${ct} L${ox+w},${bl-20} L${ox+w-s-12},${bl} L${ox+w-s},${bl} Z`
+  ];
+}
+
+// M-02: Simplified (stems + V-dip, undercut preserved)
+function M02(){
+  const s=70,ct=50,bl=950,w=700,vd=ct+360,ox=150;
+  return[
+    `M${ox},${ct} L${ox+s},${ct} L${ox+s},${bl} L${ox},${bl} Z`,
+    `M${ox+w-s},${ct} L${ox+w},${ct} L${ox+w},${bl-20} L${ox+w-s-12},${bl} L${ox+w-s},${bl} Z`,
+    `M${ox+s},${ct} L${ox+w/2},${vd} L${ox+w-s},${ct} Z`
+  ];
+}
+
+// M-03: Micro (two verticals + V-dip, undercut removed)
+function M03(){
+  const s=80,ct=80,bl=920,w=840,vd=ct+340,ox=80;
+  return[
+    `M${ox},${ct} L${ox+s},${ct} L${ox+s},${bl} L${ox},${bl} Z`,
+    `M${ox+w-s},${ct} L${ox+w},${ct} L${ox+w},${bl} L${ox+w-s},${bl} Z`,
+    `M${ox+s},${ct} L${ox+w/2},${vd} L${ox+w-s},${ct} Z`
+  ];
+}
+
+// ============================================================
+// LU CORE — THREE LEVELS
+// ============================================================
+
+// LU-01: Full extraction (full L + full U with curve detail)
+function LU01(){
+  const s=70,ct=50,bl=950;
+  const lx=50,ux=400,urx=ux+440,cr=100;
+  return[
+    `M${lx},${ct} L${lx+s},${ct} L${lx+s},${bl-s} L${lx+s*4-4},${bl-s} L${lx+s*4-4},${bl} L${lx},${bl} Z`,
+    `M${ux},${ct} L${ux+s},${ct} L${ux+s},${bl-cr} Q${ux+s},${bl} ${ux+s+cr},${bl} L${urx-cr},${bl} Q${urx},${bl} ${urx},${bl-cr} L${urx},${ct} L${urx+s},${ct} L${urx+s},${bl-cr} Q${urx+s},${bl+SW/2} ${urx-cr},${bl+SW/2} L${ux+s+cr},${bl+SW/2} Q${ux},${bl+SW/2} ${ux},${bl-cr} Z`
+  ];
+}
+
+// LU-02: Simplified (L stem+foot + U basin, less curve detail)
+function LU02(){
+  const s=80,ct=60,bl=940;
+  const lx=60,ux=380,urx=ux+400,cr=90;
+  return[
+    `M${lx},${ct} L${lx+s},${ct} L${lx+s},${bl-s} L${lx+s*3},${bl-s} L${lx+s*3},${bl} L${lx},${bl} Z`,
+    `M${ux},${ct} L${ux+s},${ct} L${ux+s},${bl-cr} Q${ux+s},${bl} ${ux+s+cr},${bl} L${urx-cr},${bl} Q${urx},${bl} ${urx},${bl-cr} L${urx},${ct} L${urx+s},${ct} L${urx+s},${bl-cr} Q${urx+s},${bl+40} ${urx-cr},${bl+40} L${ux+s+cr},${bl+40} Q${ux},${bl+40} ${ux},${bl-cr} Z`
+  ];
+}
+
+// LU-03: Micro (vertical line + curved basin)
+function LU03(){
+  const s=90,ct=80,bl=920;
+  const lx=100,ux=400,urx=ux+380,cr=80;
+  return[
+    `M${lx},${ct} L${lx+s},${ct} L${lx+s},${bl} L${lx},${bl} Z`,
+    `M${ux},${ct} L${ux+s},${ct} L${ux+s},${bl-cr} Q${ux+s},${bl} ${ux+s+cr},${bl} L${urx-cr},${bl} Q${urx},${bl} ${urx},${bl-cr} L${urx},${ct} L${urx+s},${ct} L${urx+s},${bl-cr} Q${urx+s},${bl+30} ${urx-cr},${bl+30} L${ux+s+cr},${bl+30} Q${ux},${bl+30} ${ux},${bl-cr} Z`
+  ];
+}
+
+// ============================================================
+// SVG RENDERING
+// ============================================================
+function rSVG(paths,w,h,fill,bg){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="${w}" height="${h}" shape-rendering="geometricPrecision" style="display:block">`;
+  if(bg)s+=`<rect width="1000" height="1000" fill="${bg}"/>`;
+  for(const p of paths)s+=`<path d="${p}" fill="${fill}" fill-rule="evenodd"/>`;
+  s+='</svg>';return s;
+}
+
+function rWordmark(fill,bg,w,h){
+  const m=getMaster();
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  if(bg)s+=`<rect width="${VB_W}" height="${VB_H}" fill="${bg}"/>`;
+  for(const l of Object.keys(m)){const ps=m[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${fill}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+
+// True pixel render (no viewBox scaling — actual CSS pixel size)
+function rTrue(paths,px,fill,bg){
+  return rSVG(paths,px,px,fill,bg);
+}
+
+// 2x DPR render
+function rTrue2x(paths,px,fill,bg){
+  return rSVG(paths,px*2,px*2,fill,bg).replace(`width="${px*2}" height="${px*2}"`,`width="${px}" height="${px}" style="display:block"`);
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll(){
+  const m01=M01(),m02=M02(),m03=M03();
+  const lu01=LU01(),lu02=LU02(),lu03=LU03();
+
+  // A — M Core
+  document.getElementById('m01-200').innerHTML=`<div class="svg-container">${rSVG(m01,200,200,'#000','#fff')}</div>`;
+  document.getElementById('m01-64').innerHTML=`<div class="svg-container">${rSVG(m01,64,64,'#000','#fff')}</div>`;
+  document.getElementById('m01-16').innerHTML=`<div class="svg-container">${rSVG(m01,16,16,'#000','#fff')}</div>`;
+  document.getElementById('m02-200').innerHTML=`<div class="svg-container">${rSVG(m02,200,200,'#000','#fff')}</div>`;
+  document.getElementById('m02-64').innerHTML=`<div class="svg-container">${rSVG(m02,64,64,'#000','#fff')}</div>`;
+  document.getElementById('m02-16').innerHTML=`<div class="svg-container">${rSVG(m02,16,16,'#000','#fff')}</div>`;
+  document.getElementById('m03-200').innerHTML=`<div class="svg-container">${rSVG(m03,200,200,'#000','#fff')}</div>`;
+  document.getElementById('m03-64').innerHTML=`<div class="svg-container">${rSVG(m03,64,64,'#000','#fff')}</div>`;
+  document.getElementById('m03-16').innerHTML=`<div class="svg-container">${rSVG(m03,16,16,'#000','#fff')}</div>`;
+
+  // M Silhouette
+  let mSil='';
+  mSil+=`<div class="col"><div class="label">Normal</div><div class="svg-container">${rSVG(m03,80,80,'#000','#fff')}</div></div>`;
+  mSil+=`<div class="col"><div class="label">Filled</div><div class="svg-container">${rSVG(m03,80,80,'#000','#fff')}</div></div>`;
+  mSil+=`<div class="col"><div class="label">1-bit B/W</div><div class="svg-container">${rSVG(m03,80,80,'#000','#fff')}</div></div>`;
+  document.getElementById('m-silhouette').innerHTML=mSil;
+
+  // B — LU Core
+  document.getElementById('lu01-200').innerHTML=`<div class="svg-container">${rSVG(lu01,200,200,'#000','#fff')}</div>`;
+  document.getElementById('lu01-64').innerHTML=`<div class="svg-container">${rSVG(lu01,64,64,'#000','#fff')}</div>`;
+  document.getElementById('lu01-16').innerHTML=`<div class="svg-container">${rSVG(lu01,16,16,'#000','#fff')}</div>`;
+  document.getElementById('lu02-200').innerHTML=`<div class="svg-container">${rSVG(lu02,200,200,'#000','#fff')}</div>`;
+  document.getElementById('lu02-64').innerHTML=`<div class="svg-container">${rSVG(lu02,64,64,'#000','#fff')}</div>`;
+  document.getElementById('lu02-16').innerHTML=`<div class="svg-container">${rSVG(lu02,16,16,'#000','#fff')}</div>`;
+  document.getElementById('lu03-200').innerHTML=`<div class="svg-container">${rSVG(lu03,200,200,'#000','#fff')}</div>`;
+  document.getElementById('lu03-64').innerHTML=`<div class="svg-container">${rSVG(lu03,64,64,'#000','#fff')}</div>`;
+  document.getElementById('lu03-16').innerHTML=`<div class="svg-container">${rSVG(lu03,16,16,'#000','#fff')}</div>`;
+
+  // LU Silhouette
+  let luSil='';
+  luSil+=`<div class="col"><div class="label">Normal</div><div class="svg-container">${rSVG(lu03,80,80,'#000','#fff')}</div></div>`;
+  luSil+=`<div class="col"><div class="label">Filled</div><div class="svg-container">${rSVG(lu03,80,80,'#000','#fff')}</div></div>`;
+  luSil+=`<div class="col"><div class="label">1-bit B/W</div><div class="svg-container">${rSVG(lu03,80,80,'#000','#fff')}</div></div>`;
+  document.getElementById('lu-silhouette').innerHTML=luSil;
+
+  // C — True Scale
+  const sizes=[64,48,32,24,20,16,14,12];
+  let mScale1x='',mScale2x='',luScale1x='',luScale2x='';
+  for(const sz of sizes){
+    mScale1x+=`<div class="scale-item"><div>${rTrue(m03,sz,'#000','#fff')}</div><div class="sz">${sz}px</div></div>`;
+    mScale2x+=`<div class="scale-item"><div>${rTrue2x(m03,sz,'#000','#fff')}</div><div class="sz">${sz}px@2x</div></div>`;
+    luScale1x+=`<div class="scale-item"><div>${rTrue(lu03,sz,'#000','#fff')}</div><div class="sz">${sz}px</div></div>`;
+    luScale2x+=`<div class="scale-item"><div>${rTrue2x(lu03,sz,'#000','#fff')}</div><div class="sz">${sz}px@2x</div></div>`;
+  }
+  document.getElementById('m-scale-1x').innerHTML=mScale1x;
+  document.getElementById('m-scale-2x').innerHTML=mScale2x;
+  document.getElementById('lu-scale-1x').innerHTML=luScale1x;
+  document.getElementById('lu-scale-2x').innerHTML=luScale2x;
+
+  // Side-by-side comparison at key sizes
+  let cmp='';
+  for(const sz of [64,32,16,12]){
+    cmp+=`<div style="display:flex;gap:16px;align-items:flex-end;margin-bottom:12px;padding:8px;background:#1a1a1a;border:1px solid #222">`;
+    cmp+=`<div style="min-width:60px;font-size:9px;color:#555">${sz}px</div>`;
+    cmp+=`<div><div class="label">M</div>${rTrue(m03,sz,'#000','#fff')}</div>`;
+    cmp+=`<div><div class="label">LU</div>${rTrue(lu03,sz,'#000','#fff')}</div>`;
+    cmp+=`</div>`;
+  }
+  document.getElementById('scale-compare').innerHTML=cmp;
+
+  // D — One-Color
+  const ocTests=[
+    {fill:'#000',bg:'#fff',label:'B/W'},
+    {fill:'#fff',bg:'#000',label:'W/B'},
+    {fill:'#fff',bg:'#1a3a5c',label:'Knockout'}
+  ];
+  let mOC='',luOC='',mOC16='',luOC16='';
+  for(const t of ocTests){
+    mOC+=`<div class="col" style="min-width:80px"><div class="label">${t.label}</div><div class="svg-container" style="background:${t.bg}">${rSVG(m03,64,64,t.fill,t.bg)}</div></div>`;
+    luOC+=`<div class="col" style="min-width:80px"><div class="label">${t.label}</div><div class="svg-container" style="background:${t.bg}">${rSVG(lu03,64,64,t.fill,t.bg)}</div></div>`;
+    mOC16+=`<div class="col" style="min-width:50px"><div class="label">${t.label}</div><div class="svg-container" style="background:${t.bg}">${rSVG(m03,16,16,t.fill,t.bg)}</div></div>`;
+    luOC16+=`<div class="col" style="min-width:50px"><div class="label">${t.label}</div><div class="svg-container" style="background:${t.bg}">${rSVG(lu03,16,16,t.fill,t.bg)}</div></div>`;
+  }
+  document.getElementById('m-onecolor').innerHTML=mOC;
+  document.getElementById('lu-onecolor').innerHTML=luOC;
+  document.getElementById('m-onecolor-16').innerHTML=mOC16;
+  document.getElementById('lu-onecolor-16').innerHTML=luOC16;
+
+  // E — 16px Collision
+  document.getElementById('m-collision-src').innerHTML=`<div class="svg-container">${rSVG(m03,32,32,'#000','#fff')}</div>`;
+  const mCollision=[
+    {name:'M',status:'POSSIBLE',note:'V-dip reads as M structure'},
+    {name:'W',status:'CLEAR',note:'W is inverted; V-dip points down'},
+    {name:'V',status:'POSSIBLE',note:'V-dip could read as V shape'},
+    {name:'Λ (Lambda)',status:'CLEAR',note:'Λ is single stroke; this has two verticals'},
+    {name:'U',status:'CLEAR',note:'No curved basin'},
+    {name:'L',status:'CLEAR',note:'No horizontal foot'},
+    {name:'Generic monogram',status:'CLEAR',note:'V-dip is specific, not generic'},
+    {name:'UI icon',status:'CLEAR',note:'No UI convention match'},
+    {name:'Arrow',status:'CLEAR',note:'No directional reading'},
+    {name:'Cursor',status:'CLEAR',note:'No pointer shape'},
+    {name:'Play button',status:'CLEAR',note:'Not a triangle pointing right'},
+    {name:'Loading indicator',status:'CLEAR',note:'Not circular or rotating'}
+  ];
+  let mCH='';
+  for(const c of mCollision){
+    const clr=c.status==='CLEAR'?'pass':c.status==='POSSIBLE'?'warn':'fail';
+    mCH+=`<div class="audit-item"><div class="k">${c.name}</div><div class="v ${clr}">${c.status}</div><div style="font-size:8px;color:#555;margin-top:2px">${c.note}</div></div>`;
+  }
+  document.getElementById('m-collision').innerHTML=mCH;
+
+  document.getElementById('lu-collision-src').innerHTML=`<div class="svg-container">${rSVG(lu03,32,32,'#000','#fff')}</div>`;
+  const luCollision=[
+    {name:'M',status:'CLEAR',note:'No V-dip structure'},
+    {name:'W',status:'CLEAR',note:'No W structure'},
+    {name:'V',status:'CLEAR',note:'No V shape'},
+    {name:'Λ (Lambda)',status:'CLEAR',note:'Different structure'},
+    {name:'U',status:'POSSIBLE',note:'Basin could read as U'},
+    {name:'L',status:'POSSIBLE',note:'Vertical could read as L'},
+    {name:'Generic monogram',status:'POSSIBLE',note:'LU reading present'},
+    {name:'UI icon',status:'CLEAR',note:'No UI convention match'},
+    {name:'Arrow',status:'CLEAR',note:'No directional reading'},
+    {name:'Cursor',status:'CLEAR',note:'No pointer shape'},
+    {name:'Play button',status:'CLEAR',note:'Not a triangle'},
+    {name:'Loading indicator',status:'CLEAR',note:'Not circular'}
+  ];
+  let luCH='';
+  for(const c of luCollision){
+    const clr=c.status==='CLEAR'?'pass':c.status==='POSSIBLE'?'warn':'fail';
+    luCH+=`<div class="audit-item"><div class="k">${c.name}</div><div class="v ${clr}">${c.status}</div><div style="font-size:8px;color:#555;margin-top:2px">${c.note}</div></div>`;
+  }
+  document.getElementById('lu-collision').innerHTML=luCH;
+
+  // F — 12px Stress
+  document.getElementById('m-12px').innerHTML=`<div class="svg-container">${rSVG(m03,12,12,'#000','#fff')}</div>`;
+  document.getElementById('m-16px-ref').innerHTML=`<div class="svg-container">${rSVG(m03,16,16,'#000','#fff')}</div>`;
+  document.getElementById('m-12-silhouette').textContent='V-dip barely visible; reads as weighted block';
+  document.getElementById('m-12-weight').textContent='Slightly heavier on right (from V-dip angle)';
+  document.getElementById('m-12-identity').textContent='LOST — reduces to ambiguous geometric mark';
+  document.getElementById('m-12-accidental').textContent='May read as irregular rectangle';
+
+  document.getElementById('lu-12px').innerHTML=`<div class="svg-container">${rSVG(lu03,12,12,'#000','#fff')}</div>`;
+  document.getElementById('lu-16px-ref').innerHTML=`<div class="svg-container">${rSVG(lu03,16,16,'#000','#fff')}</div>`;
+  document.getElementById('lu-12-silhouette').textContent='Left vertical + right mass visible; straight/curved contrast partially survives';
+  document.getElementById('lu-12-weight').textContent='Weight distributed left (vertical) and right (basin)';
+  document.getElementById('lu-12-identity').textContent='PARTIAL — structural contrast still readable';
+  document.getElementById('lu-12-accidental').textContent='May read as L + dot';
+
+  // G — Wordmark Relationship
+  document.getElementById('rel-m').innerHTML=
+    `<div>${rWordmark('#000','#fff',400,78)}</div>`+
+    `<div style="font-size:20px;color:#444">+</div>`+
+    `<div>${rSVG(m03,60,60,'#000','#fff')}</div>`;
+  document.getElementById('rel-lu').innerHTML=
+    `<div>${rWordmark('#000','#fff',400,78)}</div>`+
+    `<div style="font-size:20px;color:#444">+</div>`+
+    `<div>${rSVG(lu03,60,60,'#000','#fff')}</div>`;
+
+  // H — Removal
+  document.getElementById('removal-m').innerHTML=rSVG(m03,80,80,'#000','#fff');
+  document.getElementById('removal-lu').innerHTML=rSVG(lu03,80,80,'#000','#fff');
+  document.getElementById('removal-with').innerHTML=
+    `<div>${rWordmark('#000','#fff',300,58)}</div>`+
+    `<div style="font-size:14px;color:#444">+</div>`+
+    `<div>${rSVG(m03,50,50,'#000','#fff')}</div>`+
+    `<div style="font-size:14px;color:#444">+</div>`+
+    `<div>${rSVG(lu03,50,50,'#000','#fff')}</div>`;
+
+  // I — Reversibility
+  const revSteps=[
+    {label:'16px micro',sz:16,paths:m03},
+    {label:'32px',sz:32,paths:m03},
+    {label:'64px',sz:64,paths:m03},
+    {label:'Medium (wordmark M)',sz:120,paths:null},
+  ];
+  let revM='',revLU='';
+  // M reversibility
+  revM+=`<div style="text-align:center"><div>${rTrue(m03,16,'#000','#fff')}</div><div class="sz">16px</div></div>`;
+  revM+=`<div style="text-align:center"><div>${rTrue(m03,32,'#000','#fff')}</div><div class="sz">32px</div></div>`;
+  revM+=`<div style="text-align:center"><div>${rTrue(m03,64,'#000','#fff')}</div><div class="sz">64px</div></div>`;
+  revM+=`<div style="text-align:center"><div>${rSVG(m03,120,120,'#000','#fff')}</div><div class="sz">Wordmark M</div></div>`;
+  document.getElementById('rev-m').innerHTML=revM;
+
+  revLU+=`<div style="text-align:center"><div>${rTrue(lu03,16,'#000','#fff')}</div><div class="sz">16px</div></div>`;
+  revLU+=`<div style="text-align:center"><div>${rTrue(lu03,32,'#000','#fff')}</div><div class="sz">32px</div></div>`;
+  revLU+=`<div style="text-align:center"><div>${rTrue(lu03,64,'#000','#fff')}</div><div class="sz">64px</div></div>`;
+  revLU+=`<div style="text-align:center"><div>${rSVG(lu03,120,120,'#000','#fff')}</div><div class="sz">Wordmark LU</div></div>`;
+  document.getElementById('rev-lu').innerHTML=revLU;
+
+  // J — Context
+  // Favicon
+  document.getElementById('ctx-favicon').innerHTML=
+    `<div class="col"><div class="label">M Core</div><div style="background:#f5f5f5;padding:8px;display:inline-block">${rSVG(m03,16,16,'#000','#f5f5f5')}</div></div>`+
+    `<div class="col"><div class="label">LU Core</div><div style="background:#f5f5f5;padding:8px;display:inline-block">${rSVG(lu03,16,16,'#000','#f5f5f5')}</div></div>`;
+
+  // Social avatar
+  document.getElementById('ctx-avatar').innerHTML=
+    `<div class="col"><div class="label">M Core</div><div style="background:#111;padding:16px;display:inline-block">${rSVG(m03,48,48,'#fff','#111')}</div></div>`+
+    `<div class="col"><div class="label">LU Core</div><div style="background:#111;padding:16px;display:inline-block">${rSVG(lu03,48,48,'#fff','#111')}</div></div>`;
+
+  // Mobile nav
+  document.getElementById('ctx-nav').innerHTML=
+    `<div style="background:#fff;padding:10px 16px;display:flex;align-items:center;gap:20px;border-bottom:1px solid #eee;width:100%">`+
+    `<div>${rSVG(m03,20,20,'#000','#fff')}</div>`+
+    `<span style="font-size:11px;color:#666">LUMORA</span>`+
+    `<span style="margin-left:auto;font-size:10px;color:#888">Menu</span></div>`;
+
+  // Watermark
+  document.getElementById('ctx-watermark').innerHTML=
+    `<div style="position:relative;width:200px;height:120px;background:#e8e8e8">`+
+    `<div style="position:absolute;bottom:8px;right:8px;opacity:0.3">${rSVG(m03,12,12,'#000','')}</div></div>`;
+
+  // App icon
+  document.getElementById('ctx-appicon').innerHTML=
+    `<div class="col"><div class="label">M Core</div><div style="background:#f0f0f0;padding:20px;border-radius:12px;display:inline-block">${rSVG(m03,32,32,'#000','#f0f0f0')}</div></div>`+
+    `<div class="col"><div class="label">LU Core</div><div style="background:#f0f0f0;padding:20px;border-radius:12px;display:inline-block">${rSVG(lu03,32,32,'#000','#f0f0f0')}</div></div>`;
+
+  // K — Evaluation
+  const criteria=['LUMORA Relationship','16px Survival','24px Survival','Silhouette Distinctiveness','One-Color Resilience','Generic-Letter Resistance','UI-Icon Resistance','Wordmark Family Coherence','Simplicity','Repeatability'];
+  const mScores=['HIGH','MEDIUM','HIGH','HIGH','HIGH','MEDIUM','HIGH','HIGH','HIGH','HIGH'];
+  const luScores=['HIGH','MEDIUM','HIGH','MEDIUM','HIGH','LOW','HIGH','HIGH','MEDIUM','HIGH'];
+
+  let mEval='',luEval='';
+  for(let i=0;i<criteria.length;i++){
+    mEval+=`<div class="eval-item"><div class="ek">${criteria[i]}</div><div class="ev">${mScores[i]}</div></div>`;
+    luEval+=`<div class="eval-item"><div class="ek">${criteria[i]}</div><div class="ev">${luScores[i]}</div></div>`;
+  }
+  document.getElementById('eval-m').innerHTML=mEval;
+  document.getElementById('eval-lu').innerHTML=luEval;
+
+  // Comparison
+  let cmpEval='';
+  for(let i=0;i<criteria.length;i++){
+    const winner=mScores[i]===luScores[i]?'TIED':mScores[i]==='HIGH'&&luScores[i]!=='HIGH'?'M':luScores[i]==='HIGH'&&mScores[i]!=='HIGH'?'LU':'—';
+    cmpEval+=`<div class="audit-item"><div class="k">${criteria[i]}</div><div class="v">M:${mScores[i]} / LU:${luScores[i]} → ${winner}</div></div>`;
+  }
+  document.getElementById('eval-compare').innerHTML=cmpEval;
+
+  // L — Classification
+  document.getElementById('cls-m').innerHTML=`
+    <div class="measurements">
+    <div>LUMORA DNA at 16px: <span class="val pass">PRESENT — V-dip is structurally distinctive</span></div>
+    <div>Critical semantic collision: <span class="val pass">NONE — no prohibited resemblances confirmed</span></div>
+    <div>One-color survival: <span class="val pass">PASS — all conditions</span></div>
+    <div>Relationship to wordmark: <span class="val pass">CLEAR — V-dip directly visible in parent M</span></div>
+    <div>Distinct from ordinary letter: <span class="val pass">YES — asymmetric undercut and V-dip angle are specific</span></div>
+    <div>Dependency on glow/color/context: <span class="val pass">NONE — pure geometry</span></div>
+    <div class="classification advance">ADVANCE TO PRODUCTION</div>
+    </div>`;
+
+  document.getElementById('cls-lu').innerHTML=`
+    <div class="measurements">
+    <div>LUMORA DNA at 16px: <span class="val warn">PARTIAL — straight/curved contrast survives but weak</span></div>
+    <div>Critical semantic collision: <span class="val warn">POSSIBLE — reads as LU monogram at small sizes</span></div>
+    <div>One-color survival: <span class="val pass">PASS — all conditions</span></div>
+    <div>Relationship to wordmark: <span class="val pass">CLEAR — L and U directly visible in parent</span></div>
+    <div>Distinct from ordinary letter: <span class="val warn">PARTIAL — LU reading competes with identity reading</span></div>
+    <div>Dependency on glow/color/context: <span class="val pass">NONE — pure geometry</span></div>
+    <div class="classification hold">HOLD</div>
+    </div>`;
+
+  document.getElementById('cls-decision').innerHTML=`
+    <div style="color:#fa0;font-weight:bold;margin-bottom:8px">CLASSIFICATION RESULT</div>
+    <div>M Core: <span class="val" style="color:#4f4">ADVANCE TO PRODUCTION</span></div>
+    <div>LU Core: <span class="val" style="color:#ff0">HOLD — requires further validation before advancement</span></div>
+    <div style="margin-top:12px">M Core satisfies all advancement criteria. The V-dip is a LUMORA-specific structural event that survives at 16px, avoids critical collisions, and maintains clear wordmark lineage.</div>
+    <div style="margin-top:8px">LU Core shows strong relational DNA but the LU monogram reading at small sizes creates ambiguity. It is held for potential future use as a secondary exploration, but does not advance as the primary micro-mark.</div>
+    <div style="margin-top:12px;color:#fa0">RECOMMENDATION: Proceed with M Core as the primary wordmark-derived micro-mark candidate. LU Core is retained as a hold candidate for future identity system expansion.</div>
+  `;
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

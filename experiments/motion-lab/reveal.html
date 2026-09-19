@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REVEAL — LUMORA Motion Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Manrope:wght@300;400;500;600&family=SF+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab">
+    <header class="lab-header">
+      <p class="subtitle">Vocabulary</p>
+      <h1>REVEAL</h1>
+    </header>
+
+    <nav class="lab-nav">
+      <a href="index.html">Overview</a>
+      <a href="reveal.html" class="active">Reveal</a>
+      <a href="align.html">Align</a>
+      <a href="release.html">Release</a>
+      <a href="drift.html">Drift</a>
+      <a href="handoff.html">Handoff</a>
+      <a href="presence.html">Presence</a>
+    </nav>
+
+    <section class="demo-section">
+      <h2>Scroll Reveal — Fade Up</h2>
+      <p class="semantic">LEVEL 2 — Local Reveal</p>
+      <p>Elements become perceptually available through opacity and subtle vertical translation. The most common reveal pattern in LUMORA.</p>
+
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="triggerReveal('fade-up')">Trigger</button>
+        <button class="demo-btn" onclick="resetReveal('fade-up')">Reset</button>
+      </div>
+
+      <div class="demo-box" id="fade-up-box">
+        <div class="reveal-element" id="fade-up-1" style="margin-bottom: 1rem;">
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300;">Three worlds,</div>
+        </div>
+        <div class="reveal-element" id="fade-up-2" style="margin-bottom: 1rem;">
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300;">each built with</div>
+        </div>
+        <div class="reveal-element" id="fade-up-3">
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300;">distinct intention.</div>
+        </div>
+      </div>
+
+      <div class="demo-meta">
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <span class="meta-value">600ms</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Easing</span>
+          <span class="meta-value">ease-out</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Properties</span>
+          <span class="meta-value">opacity, y</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Translation</span>
+          <span class="meta-value">24px</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Stagger</span>
+          <span class="meta-value">100ms</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Semantic</span>
+          <span class="meta-value">"This exists"</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Scroll Reveal — Fade In</h2>
+      <p class="semantic">LEVEL 2 — Local Reveal</p>
+      <p>Pure opacity reveal. Used when spatial movement would add unnecessary complexity.</p>
+
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="triggerReveal('fade-in')">Trigger</button>
+        <button class="demo-btn" onclick="resetReveal('fade-in')">Reset</button>
+      </div>
+
+      <div class="demo-box">
+        <div class="reveal-element" id="fade-in-1" style="transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);">
+          <div style="width: 200px; height: 120px; background: linear-gradient(135deg, rgba(138, 46, 255, 0.1), rgba(138, 46, 255, 0.02)); border: 1px solid var(--border); border-radius: 0.75rem;"></div>
+        </div>
+      </div>
+
+      <div class="demo-meta">
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <span class="meta-value">800ms</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Easing</span>
+          <span class="meta-value">ease-out</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Properties</span>
+          <span class="meta-value">opacity</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Use</span>
+          <span class="meta-value">Images, frames</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Slow Reveal</h2>
+      <p class="semantic">LEVEL 2–3 — Extended Reveal</p>
+      <p>Extended duration for important moments that need perceptual weight. At 1200ms, this sits at the boundary of LEVEL 2 and LEVEL 3 — used for hero statements and key messages where perceptual weight matters more than speed.</p>
+
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="triggerReveal('slow')">Trigger</button>
+        <button class="demo-btn" onclick="resetReveal('slow')">Reset</button>
+      </div>
+
+      <div class="demo-box">
+        <div class="reveal-element" id="slow-1" style="transition: opacity 1200ms var(--ease-out), transform 1200ms var(--ease-out);">
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 300; text-align: center; line-height: 1.2;">
+            Designing digital experiences<br>that feel alive.
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-meta">
+        <div class="meta-item">
+          <span class="meta-label">Duration</span>
+          <span class="meta-value">1200ms</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Easing</span>
+          <span class="meta-value">ease-out</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Properties</span>
+          <span class="meta-value">opacity, y</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Use</span>
+          <span class="meta-value">Hero statements</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <button class="reduce-motion-toggle" onclick="document.body.classList.toggle('reduce-motion'); this.classList.toggle('active');">
+    <span class="dot"></span>
+    Reduced Motion
+  </button>
+
+  <script>
+    function triggerReveal(type) {
+      const prefix = type === 'fade-up' ? 'fade-up' : type === 'fade-in' ? 'fade-in' : 'slow';
+      for (let i = 1; i <= 3; i++) {
+        const el = document.getElementById(`${prefix}-${i}`);
+        if (el) {
+          const delay = type === 'fade-up' ? (i - 1) * 100 : 0;
+          setTimeout(() => el.classList.add('visible'), delay);
+        }
+      }
+    }
+
+    function resetReveal(type) {
+      const prefix = type === 'fade-up' ? 'fade-up' : type === 'fade-in' ? 'fade-in' : 'slow';
+      for (let i = 1; i <= 3; i++) {
+        const el = document.getElementById(`${prefix}-${i}`);
+        if (el) el.classList.remove('visible');
+      }
+    }
+  </script>
+</body>
+</html>

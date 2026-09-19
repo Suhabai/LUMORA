@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — PNG Export Utility</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;padding:30px}
+h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400;margin-bottom:8px}
+p{font-size:11px;color:#555;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.card{background:#111;border:1px solid #222;padding:16px}
+.card h2{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:8px}
+.card .size{font-size:9px;color:#555;margin-bottom:8px}
+.preview{background:#fff;border:1px solid #333;padding:8px;margin-bottom:8px;display:flex;align-items:center;justify-content:center}
+button{background:#222;color:#ccc;border:1px solid #444;font-family:inherit;font-size:11px;padding:6px 12px;cursor:pointer;letter-spacing:1px}
+button:hover{background:#333;color:#fff}
+.note{font-size:9px;color:#555;margin-top:8px}
+</style>
+</head>
+<body>
+
+<h1>LUMORA — PNG Export Utility</h1>
+<p>Click export buttons to download PNG files. All exports use transparent backgrounds.</p>
+
+<div class="grid" id="exports"></div>
+
+<script>
+const SVG_PATHS={
+  master:'lumora-wordmark-master.svg',
+  large:'lumora-wordmark-large.svg',
+  medium:'lumora-wordmark-medium.svg',
+  small:'lumora-wordmark-small.svg'
+};
+
+const SIZES=[
+  {key:'large',label:'Large',capH:240},
+  {key:'medium',label:'Medium',capH:96},
+  {key:'small',label:'Small',capH:32}
+];
+
+const SCALES=[1,2];
+
+function createExportCard(size,scale){
+  const px=Math.round(size.capH*scale);
+  const w=Math.round(3600*px/700);
+  return{
+    label:`${size.label} @${scale}x`,
+    size:`${w} x ${px}`,
+    path:SVG_PATHS[size.key],
+    width:w,
+    height:px,
+    filename:`lumora-wordmark-${size.key}@${scale}x.png`
+  };
+}
+
+async function exportPNG(svgPath,width,height,filename){
+  const resp=await fetch(svgPath);
+  const svgText=await resp.text();
+  const blob=new Blob([svgText],{type:'image/svg+xml'});
+  const url=URL.createObjectURL(blob);
+
+  const img=new Image();
+  img.onload=()=>{
+    const canvas=document.createElement('canvas');
+    canvas.width=width;
+    canvas.height=height;
+    const ctx=canvas.getContext('2d');
+    ctx.drawImage(img,0,0,width,height);
+    URL.revokeObjectURL(url);
+
+    canvas.toBlob(pngBlob=>{
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(pngBlob);
+      a.download=filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    },'image/png');
+  };
+  img.src=url;
+}
+
+function render(){
+  const container=document.getElementById('exports');
+  let html='';
+  for(const size of SIZES){
+    for(const scale of SCALES){
+      const exp=createExportCard(size,scale);
+      html+=`<div class="card">
+        <h2>${exp.label}</h2>
+        <div class="size">${exp.size}</div>
+        <div class="preview"><img src="${exp.path}" style="height:${Math.min(exp.height,120)}px"></div>
+        <button onclick="exportPNG('${exp.path}',${exp.width},${exp.height},'${exp.filename}')">Export ${exp.filename}</button>
+        <div class="note">Transparent background PNG</div>
+      </div>`;
+    }
+  }
+  container.innerHTML=html;
+}
+
+render();
+</script>
+</body>
+</html>

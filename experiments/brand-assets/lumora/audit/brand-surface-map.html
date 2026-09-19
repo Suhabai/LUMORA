@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Brand Surface Map — Phase 0C.25</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;padding:30px}
+h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400;margin-bottom:4px}
+p{font-size:11px;color:#555;margin-bottom:20px}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.col{min-width:200px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.meta{font-size:9px;color:#555;margin-top:4px}
+.proposed{border:1px dashed #4f4;padding:12px;margin-top:8px}
+.current{border:1px solid #333;padding:12px;margin-bottom:8px}
+.badge{display:inline-block;padding:2px 6px;font-size:8px;letter-spacing:1px;text-transform:uppercase;border-radius:2px;margin-right:4px}
+.badge-clock{background:#f44;color:#fff}
+.badge-text{background:#48f;color:#fff}
+.badge-micro{background:#4f4;color:#000}
+.badge-none{background:#555;color:#fff}
+.badge-keep{background:#fa0;color:#000}
+.matrix{width:100%;border-collapse:collapse;font-size:11px}
+.matrix th,.matrix td{padding:8px 12px;border:1px solid #222;text-align:left}
+.matrix th{background:#1a1a1a;color:#888;text-transform:uppercase;letter-spacing:1px;font-size:9px}
+.matrix td{color:#ccc}
+.matrix .wm{color:#48f}
+.matrix .mm{color:#4f4}
+.matrix .none{color:#666}
+.matrix .keep{color:#fa0}
+</style>
+</head>
+<body>
+
+<h1>LUMORA — Brand Surface Map</h1>
+<p>Phase 0C.25 — Visual identity placement audit. No production files modified.</p>
+
+<!-- 1. CURRENT CLOCK ICON -->
+<div class="section">
+<div class="section-title">1. Current Clock Icon — To Be Replaced</div>
+<div class="experiment">
+<div class="experiment-title">navigation.tsx — Desktop Brand (14x14)</div>
+<div class="row">
+<div class="col">
+<div class="label">Current</div>
+<div class="current" style="background:#07070a;display:flex;align-items:center;gap:12px">
+<div style="width:32px;height:32px;border-radius:8px;background:rgba(138,46,255,0.15);border:1px solid rgba(138,46,255,0.2);display:flex;align-items:center;justify-content:center">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a2eff" stroke-width="2" stroke-linecap="round">
+<circle cx="12" cy="12" r="10"/>
+<path d="M12 6v6l4 2"/>
+</svg>
+</div>
+<span style="font-weight:bold;font-size:14px;letter-spacing:-0.01em">LUMORA</span>
+</div>
+<div class="meta"><span class="badge badge-clock">CLOCK</span> Lines 54-65 | 14x14 | Stroke-based</div>
+</div>
+<div class="col">
+<div class="label">Proposed</div>
+<div class="proposed" style="background:#07070a;display:flex;align-items:center;gap:12px">
+<div style="width:32px;height:32px;border-radius:8px;background:rgba(138,46,255,0.15);border:1px solid rgba(138,46,255,0.2);display:flex;align-items:center;justify-content:center">
+<svg width="14" height="14" viewBox="0 0 1000 1000" fill="none">
+<path fill="#8a2eff" fill-rule="evenodd" d="M240,50 L330,50 L330,950 L240,950 Z M670,50 L760,50 L760,950 L670,950 Z M330,50 L500,400 L670,50 Z"/>
+</svg>
+</div>
+<span style="font-weight:bold;font-size:14px;letter-spacing:-0.01em">LUMORA</span>
+</div>
+<div class="meta"><span class="badge badge-micro">M-MICRO</span> Fill-based, same container, same position</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 2. NAVIGATION -->
+<div class="section">
+<div class="section-title">2. Navigation</div>
+<div class="experiment">
+<div class="experiment-title">Desktop Navigation</div>
+<div style="background:#07070a;padding:0 24px;height:80px;display:flex;align-items:center;justify-content:space-between;border:1px solid #222">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:32px;height:32px;border-radius:8px;background:rgba(138,46,255,0.15);border:1px solid rgba(138,46,255,0.2);display:flex;align-items:center;justify-content:center">
+<svg width="14" height="14" viewBox="0 0 1000 1000" fill="none"><path fill="#8a2eff" fill-rule="evenodd" d="M240,50 L330,50 L330,950 L240,950 Z M670,50 L760,50 L760,950 L670,950 Z M330,50 L500,400 L670,50 Z"/></svg>
+</div>
+<span style="font-weight:bold;font-size:14px">LUMORA</span>
+</div>
+<div style="display:flex;gap:32px">
+<span style="font-size:13px;color:rgba(255,255,255,0.3)">Worlds</span>
+<span style="font-size:13px;color:rgba(255,255,255,0.3)">Thinking</span>
+<span style="font-size:13px;color:rgba(255,255,255,0.3)">Person</span>
+<span style="font-size:13px;color:rgba(255,255,255,0.3)">Threshold</span>
+</div>
+</div>
+<div class="meta"><span class="badge badge-micro">M-MICRO</span> Desktop: M-MICRO + text | Proposed identity replacement</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Mobile Navigation</div>
+<div style="background:#07070a;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:flex-end;border:1px solid #222">
+<div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2"><path d="M4 8h16M4 16h16"/></svg>
+</div>
+</div>
+<div class="meta"><span class="badge badge-keep">KEEP</span> Mobile: Hamburger only — no brand icon needed</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Mobile Menu — Closing Mark</div>
+<div style="background:#07070a;padding:40px;height:300px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;border:1px solid #222">
+<span style="font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.15)">LUMORA</span>
+</div>
+<div class="meta"><span class="badge badge-text">TEXT</span> Bottom of mobile menu — text is appropriate at 9px</div>
+</div>
+</div>
+
+<!-- 3. FOOTER -->
+<div class="section">
+<div class="section-title">3. Footer</div>
+<div class="experiment">
+<div class="experiment-title">Footer Identity Block</div>
+<div style="background:#07070a;padding:32px;border:1px solid #222">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+<div style="width:28px;height:28px;border-radius:8px;background:rgba(138,46,255,0.1);border:1px solid rgba(138,46,255,0.15);display:flex;align-items:center;justify-content:center">
+<svg width="12" height="12" viewBox="0 0 1000 1000" fill="none"><path fill="#8a2eff" fill-rule="evenodd" d="M240,50 L330,50 L330,950 L240,950 Z M670,50 L760,50 L760,950 L670,950 Z M330,50 L500,400 L670,50 Z"/></svg>
+</div>
+<span style="font-weight:bold;font-size:14px">LUMORA</span>
+</div>
+<p style="font-size:13px;color:rgba(255,255,255,0.25)">A cinematic digital experience.</p>
+</div>
+<div style="display:flex;gap:24px">
+<span style="font-size:12px;color:rgba(255,255,255,0.2)">Worlds</span>
+<span style="font-size:12px;color:rgba(255,255,255,0.2)">Person</span>
+<span style="font-size:12px;color:rgba(255,255,255,0.2)">Connect</span>
+</div>
+</div>
+<div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between">
+<span style="font-size:11px;color:rgba(255,255,255,0.15)">&copy; 2026 LUMORA</span>
+<span style="font-size:11px;color:rgba(255,255,255,0.15)">Designed &amp; built by Sohrab</span>
+</div>
+</div>
+<div class="meta"><span class="badge badge-micro">M-MICRO</span> Same pattern as navigation — M-MICRO replaces clock</div>
+</div>
+</div>
+
+<!-- 4. HERO -->
+<div class="section">
+<div class="section-title">4. Hero Identity Signal</div>
+<div class="experiment">
+<div class="experiment-title">Hero (Baseline / V2 / V3)</div>
+<div style="background:#07070a;height:300px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:60px;border:1px solid #222;position:relative">
+<div style="display:flex;align-items:center;gap:12px">
+<span style="width:32px;height:1px;background:rgba(138,46,255,0.3)"></span>
+<span style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.2em;color:rgba(255,255,255,0.5)">LUMORA</span>
+<span style="width:32px;height:1px;background:rgba(138,46,255,0.3)"></span>
+</div>
+<div style="margin-top:80px;font-size:clamp(24px,4vw,40px);font-weight:300;color:rgba(255,255,255,0.7)">Environments that feel <span style="color:#8a2eff">alive</span>.</div>
+</div>
+<div class="meta"><span class="badge badge-keep">KEEP</span> Text identity is correct — no SVG wordmark needed. Living Core is the visual focal point.</div>
+</div>
+</div>
+
+<!-- 5. ABOUT -->
+<div class="section">
+<div class="section-title">5. About — The Studio</div>
+<div class="experiment">
+<div class="experiment-title">about-experience.tsx — Section 01</div>
+<div style="background:#07070a;padding:60px 40px;border:1px solid #222">
+<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.18em;color:#8a2eff;margin-bottom:24px">The Studio</div>
+<div style="font-size:clamp(48px,8vw,72px);font-weight:bold;letter-spacing:-0.04em;margin-bottom:32px">LUMORA</div>
+<div style="font-size:17px;color:rgba(255,255,255,0.7);max-width:520px">A digital studio focused on cinematic web experiences.</div>
+</div>
+<div class="meta"><span class="badge badge-keep">KEEP</span> Structural heading — not a brand mark</div>
+</div>
+</div>
+
+<!-- 6. CONTACT -->
+<div class="section">
+<div class="section-title">6. Contact — Signature</div>
+<div class="experiment">
+<div class="experiment-title">contact-experience.tsx — Signature</div>
+<div style="background:#07070a;padding:60px 40px;border:1px solid #222;text-align:center">
+<div style="font-size:clamp(21px,5vw,36px);font-weight:300;color:rgba(255,255,255,0.8);margin-bottom:24px">The work begins with a conversation.</div>
+<div style="font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:40px">sohrab@lumora.studio</div>
+<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.22em;color:rgba(255,255,255,0.15);margin-top:60px">Sohrab — LUMORA</div>
+</div>
+<div class="meta"><span class="badge badge-keep">KEEP</span> Personal signature — not a brand mark</div>
+</div>
+</div>
+
+<!-- 7. CLOCK ICON LOCATIONS -->
+<div class="section">
+<div class="section-title">7. Clock Icon Locations</div>
+<div class="experiment">
+<div class="experiment-title">Current Clock SVG Usages</div>
+<table class="matrix">
+<tr><th>File</th><th>Location</th><th>Size</th><th>Role</th><th>Replacement</th></tr>
+<tr><td>navigation.tsx:54-65</td><td>Desktop brand</td><td>14x14</td><td>Brand icon</td><td class="mm">M-MICRO</td></tr>
+<tr><td>footer.tsx:17-28</td><td>Footer brand</td><td>12x12</td><td>Brand icon</td><td class="mm">M-MICRO</td></tr>
+</table>
+</div>
+</div>
+
+<!-- 8. RESPONSIVE MATRIX -->
+<div class="section">
+<div class="section-title">8. Responsive Identity Matrix</div>
+<div class="experiment">
+<table class="matrix">
+<tr><th>Surface</th><th>Desktop</th><th>Mobile</th><th>Notes</th></tr>
+<tr><td>Navigation</td><td class="mm">M-MICRO + TEXT</td><td class="none">HAMBURGER</td><td>Mobile has no brand icon</td></tr>
+<tr><td>Footer</td><td class="mm">M-MICRO + TEXT</td><td class="wm">TEXT ONLY</td><td>Stacked layout on mobile</td></tr>
+<tr><td>Hero</td><td class="wm">TEXT</td><td class="wm">TEXT</td><td>Same across breakpoints</td></tr>
+<tr><td>About</td><td class="wm">TEXT (h1)</td><td class="wm">TEXT (h1)</td><td>Structural heading</td></tr>
+<tr><td>Contact</td><td class="wm">TEXT</td><td class="wm">TEXT</td><td>Personal signature</td></tr>
+<tr><td>Mobile Menu</td><td class="none">N/A</td><td class="wm">TEXT (closing)</td><td>9px faint</td></tr>
+</table>
+</div>
+</div>
+
+<!-- 9. PROPOSED PLACEMENT -->
+<div class="section">
+<div class="section-title">9. Proposed Identity Placement Summary</div>
+<div class="experiment">
+<div class="experiment-title">Identity Replacement Map</div>
+<table class="matrix">
+<tr><th>Surface</th><th>Current</th><th>Proposed</th><th>Risk</th></tr>
+<tr><td>Nav desktop icon</td><td class="none">Clock SVG</td><td class="mm">M-MICRO SVG</td><td>LOW</td></tr>
+<tr><td>Nav mobile</td><td class="none">Hamburger</td><td class="keep">KEEP</td><td>NONE</td></tr>
+<tr><td>Nav mobile closing</td><td class="wm">LUMORA text</td><td class="keep">KEEP</td><td>NONE</td></tr>
+<tr><td>Footer icon</td><td class="none">Clock SVG</td><td class="mm">M-MICRO SVG</td><td>LOW</td></tr>
+<tr><td>Footer copyright</td><td class="wm">LUMORA text</td><td class="keep">KEEP</td><td>NONE</td></tr>
+<tr><td>Hero identity</td><td class="wm">LUMORA text</td><td class="keep">KEEP</td><td>NONE</td></tr>
+<tr><td>About heading</td><td class="wm">LUMORA h1</td><td class="keep">KEEP</td><td>NONE</td></tr>
+<tr><td>Contact signature</td><td class="wm">LUMORA text</td><td class="keep">KEEP</td><td>NONE</td></tr>
+</table>
+</div>
+</div>
+
+<!-- 10. CORE COLLISION CHECK -->
+<div class="section">
+<div class="section-title">10. Core Collision Check</div>
+<div class="experiment">
+<table class="matrix">
+<tr><th>Surface</th><th>Risk</th><th>Assessment</th></tr>
+<tr><td>Nav M-MICRO</td><td class="mm">LOW</td><td>Fill-based geometric mark ≠ animated glowing rings</td></tr>
+<tr><td>Footer M-MICRO</td><td class="mm">LOW</td><td>Same distinction</td></tr>
+<tr><td>Hero text</td><td class="mm">NONE</td><td>Text identity ≠ Core. No competition.</td></tr>
+<tr><td>OG image</td><td class="mm">NONE</td><td>M Core + wordmark. Living Core absent.</td></tr>
+</table>
+<div class="meta" style="margin-top:12px"><span class="badge badge-micro">NO COLLISION</span> M-MICRO (fill-based, bilateral) is visually distinct from Living Core (animated, glowing, concentric)</div>
+</div>
+</div>
+
+</body>
+</html>

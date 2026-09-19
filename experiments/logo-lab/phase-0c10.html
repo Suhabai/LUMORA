@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.10 — Controlled Compounding + Optical Threshold</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 30px;overflow-x:auto}
+.tab{padding:12px 20px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:30px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:200px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.svg-container.knockout{background:#fff;border:3px solid #000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+.measurements span{color:#999}
+.measurements .val{color:#c0c0c0;font-weight:bold}
+.controls{margin:12px 0;display:flex;gap:10px;align-items:center}
+.controls label{font-size:10px;color:#888;cursor:pointer;display:flex;align-items:center;gap:4px}
+.controls input[type=checkbox]{accent-color:#666}
+.judgment{margin-top:16px;border-top:1px solid #222;padding-top:12px}
+.judgment-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:8px}
+.judgment-item{display:flex;justify-content:space-between;font-size:10px;padding:4px 8px;background:#1a1a1a;border:1px solid #222}
+.judgment-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.judgment-item select{background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 4px}
+.scale-row{display:flex;gap:20px;align-items:flex-end;margin-bottom:16px;flex-wrap:wrap}
+.scale-item{text-align:center}
+.scale-item .dim{font-size:9px;color:#555;margin-top:4px}
+.comparison-box{border:1px solid #333;padding:12px;margin-bottom:12px;background:#0e0e0e}
+.comparison-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.comparison-pair{display:flex;gap:20px;align-items:center}
+.comparison-pair .vs{font-size:9px;color:#444}
+hr{border:none;border-top:1px solid #222;margin:20px 0}
+.callout-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#444;margin-bottom:4px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid-4 .col{min-width:0}
+.perceptual-grid{display:grid;grid-template-columns:1fr;gap:6px;margin-top:12px}
+.perceptual-row{display:flex;gap:12px;align-items:center;font-size:10px;padding:6px 8px;background:#1a1a1a;border:1px solid #222}
+.perceptual-row .q{color:#888;flex:1}
+.perceptual-row select{background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px;min-width:100px}
+.note-area{width:100%;background:#111;color:#ccc;border:1px solid #333;font-family:inherit;font-size:11px;padding:8px;min-height:60px;resize:vertical}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.10 — Controlled Compounding + Optical Threshold</h1>
+<p>Isolated experimental workspace. Reuses deterministic SVG geometry from Phase 0C.9. No production files modified.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="overview">01 — Overview</div>
+<div class="tab" data-tab="fullword">02 — Full Word</div>
+<div class="tab" data-tab="mo">03 — M/O</div>
+<div class="tab" data-tab="or">04 — O/R</div>
+<div class="tab" data-tab="scale">05 — True Scale</div>
+<div class="tab" data-tab="micro">06 — 1x/2x</div>
+<div class="tab" data-tab="color">07 — One-Color</div>
+<div class="tab" data-tab="metrics">08 — Metrics</div>
+<div class="tab" data-tab="eval">09 — Evaluation</div>
+<div class="tab" data-tab="review">10 — Human Review</div>
+</div>
+
+<!-- ============================== -->
+<!-- 01 — OVERVIEW                  -->
+<!-- ============================== -->
+<div class="tab-content active" id="tab-overview">
+<div class="section">
+<div class="section-title">Overview — Controlled Compounding</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Phase 0C.9 identified three modifications with meaningful perceptual impact:<br>
+MO-A (junction undercut), MO-B (counter relationship), OR-C (R-leg release).<br>
+This phase tests whether they compound coherently, interfere, or become decorative.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">Control Conditions</div>
+<div class="grid-4">
+<div class="col">
+<div class="label">BASE</div>
+<p style="font-size:10px;color:#666">No modifications. Neutral geometric sans-serif control.</p>
+</div>
+<div class="col">
+<div class="label">TEST 01 — STRUCTURAL</div>
+<p style="font-size:10px;color:#666">MO-A + OR-C. Junction undercut + R-leg release. No counter change.</p>
+</div>
+<div class="col">
+<div class="label">TEST 02 — COMPOUND</div>
+<p style="font-size:10px;color:#666">MO-A + MO-B + OR-C. All three modifications active.</p>
+</div>
+<div class="col">
+<div class="label">TEST 03 — COUNTER/RELEASE</div>
+<p style="font-size:10px;color:#666">MO-B + OR-C. Counter + release. No junction undercut.</p>
+</div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">What Is Modified</div>
+<div style="font-size:10px;color:#666;line-height:2">
+<div><span style="color:#fa0">MO-A (Junction)</span> — M right stem undercut: bottom extends -15u inward, -8u horizontal. Creates micro-gap at M→O boundary.</div>
+<div><span style="color:#fa0">MO-B (Counter)</span> — M V-dip deepened: 280u→340u from cap top. O counter widened: inner radius scaled 1.4→1.2.</div>
+<div><span style="color:#fa0">OR-C (Release)</span> — R leg endpoint shifted +200u right. Bowl counter adjusted. Leg angle widened.</div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">What Is NOT Modified</div>
+<div style="font-size:10px;color:#666;line-height:2">
+<div>L/U — unmodified</div>
+<div>U/M — unmodified</div>
+<div>R/A — unmodified</div>
+<div>L letterform — unmodified</div>
+<div>U letterform — unmodified</div>
+<div>A letterform — unmodified</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 02 — FULL WORD COMPARISON      -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-fullword">
+<div class="section">
+<div class="section-title">Full Word Comparison</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+LUMORA rendered for all four conditions. Side by side. Nothing else changes.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">All Four Conditions</div>
+<div class="grid-4">
+<div class="col"><div class="label">BASE</div><div class="svg-container" id="fw-base"></div></div>
+<div class="col"><div class="label">TEST 01 — Structural</div><div class="svg-container" id="fw-t1"></div></div>
+<div class="col"><div class="label">TEST 02 — Compound</div><div class="svg-container" id="fw-t2"></div></div>
+<div class="col"><div class="label">TEST 03 — Counter/Release</div><div class="svg-container" id="fw-t3"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Overlay: BASE (gray) vs TEST 01 (black)</div>
+<div id="fw-overlay-1" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Overlay: BASE (gray) vs TEST 02 (black)</div>
+<div id="fw-overlay-2" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Overlay: BASE (gray) vs TEST 03 (black)</div>
+<div id="fw-overlay-3" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 03 — M/O COMPARISON            -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-mo">
+<div class="section">
+<div class="section-title">M/O Pair Comparison</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Enlarged callouts of the M→O region for each condition.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">M/O Region — BASE vs TEST 01</div>
+<div class="comparison-pair">
+<div class="col"><div class="callout-label">BASE</div><div class="svg-container" id="mo-base"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="callout-label">TEST 01</div><div class="svg-container" id="mo-t1"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="mo-overlay-1" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">M/O Region — BASE vs TEST 02</div>
+<div class="comparison-pair">
+<div class="col"><div class="callout-label">BASE</div><div class="svg-container" id="mo-base2"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="callout-label">TEST 02</div><div class="svg-container" id="mo-t2"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="mo-overlay-2" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">M/O Region — BASE vs TEST 03</div>
+<div class="comparison-pair">
+<div class="col"><div class="callout-label">BASE</div><div class="svg-container" id="mo-base3"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="callout-label">TEST 03</div><div class="svg-container" id="mo-t3"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="mo-overlay-3" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 04 — O/R COMPARISON            -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-or">
+<div class="section">
+<div class="section-title">O/R Pair Comparison</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Enlarged callouts of the O→R region for each condition.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">O/R Region — BASE vs TEST 01</div>
+<div class="comparison-pair">
+<div class="col"><div class="callout-label">BASE</div><div class="svg-container" id="or-base"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="callout-label">TEST 01</div><div class="svg-container" id="or-t1"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="or-overlay-1" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">O/R Region — BASE vs TEST 02</div>
+<div class="comparison-pair">
+<div class="col"><div class="callout-label">BASE</div><div class="svg-container" id="or-base2"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="callout-label">TEST 02</div><div class="svg-container" id="or-t2"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="or-overlay-2" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">O/R Region — BASE vs TEST 03</div>
+<div class="comparison-pair">
+<div class="col"><div class="callout-label">BASE</div><div class="svg-container" id="or-base3"></div></div>
+<div class="vs">→</div>
+<div class="col"><div class="callout-label">TEST 03</div><div class="svg-container" id="or-t3"></div></div>
+</div>
+<div class="comparison-box" style="margin-top:12px">
+<div class="comparison-label">Overlay</div>
+<div id="or-overlay-3" style="background:#fff;display:inline-block;line-height:0"></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 05 — TRUE SCALE                -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-scale">
+<div class="section">
+<div class="section-title">True Scale Rendering</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Actual SVG rendering at 240, 120, 48, 24, 16 px cap height.
+At 16px: do not force micro-detail. Priorities: readability, counter survival, rhythm, silhouette.
+</p>
+
+<div id="scale-output"></div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 06 — 1X / 2X MICRO TEST       -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-micro">
+<div class="section">
+<div class="section-title">1x / 2x Display Simulation</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+1x: standard display (96 DPI). 2x: Retina/HiDPI (192 DPI).
+Renders at 48px cap height to simulate real-world usage.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">1x Display — 48px cap height</div>
+<div class="grid-4">
+<div class="col"><div class="label">BASE</div><div class="svg-container" id="micro-1x-base"></div></div>
+<div class="col"><div class="label">TEST 01</div><div class="svg-container" id="micro-1x-t1"></div></div>
+<div class="col"><div class="label">TEST 02</div><div class="svg-container" id="micro-1x-t2"></div></div>
+<div class="col"><div class="label">TEST 03</div><div class="svg-container" id="micro-1x-t3"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">2x Display — 48px cap height (rendered at 96px, displayed at 48px)</div>
+<div class="grid-4">
+<div class="col"><div class="label">BASE</div><div class="svg-container" id="micro-2x-base"></div></div>
+<div class="col"><div class="label">TEST 01</div><div class="svg-container" id="micro-2x-t1"></div></div>
+<div class="col"><div class="label">TEST 02</div><div class="svg-container" id="micro-2x-t2"></div></div>
+<div class="col"><div class="label">TEST 03</div><div class="svg-container" id="micro-2x-t3"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 07 — ONE-COLOR                 -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-color">
+<div class="section">
+<div class="section-title">One-Color Test</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+No gradient. No glow. No shadow. No transparency. No texture.
+Test: black on white, white on black, transparent knockout.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">BASE</div>
+<div class="row">
+<div class="col"><div class="label">Black on White</div><div class="svg-container" id="c-base-bw"></div></div>
+<div class="col"><div class="label">White on Black</div><div class="svg-container dark" id="c-base-wb"></div></div>
+<div class="col"><div class="label">Knockout</div><div class="svg-container knockout" id="c-base-ko"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">TEST 01 — Structural</div>
+<div class="row">
+<div class="col"><div class="label">Black on White</div><div class="svg-container" id="c-t1-bw"></div></div>
+<div class="col"><div class="label">White on Black</div><div class="svg-container dark" id="c-t1-wb"></div></div>
+<div class="col"><div class="label">Knockout</div><div class="svg-container knockout" id="c-t1-ko"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">TEST 02 — Compound</div>
+<div class="row">
+<div class="col"><div class="label">Black on White</div><div class="svg-container" id="c-t2-bw"></div></div>
+<div class="col"><div class="label">White on Black</div><div class="svg-container dark" id="c-t2-wb"></div></div>
+<div class="col"><div class="label">Knockout</div><div class="svg-container knockout" id="c-t2-ko"></div></div>
+</div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">TEST 03 — Counter/Release</div>
+<div class="row">
+<div class="col"><div class="label">Black on White</div><div class="svg-container" id="c-t3-bw"></div></div>
+<div class="col"><div class="label">White on Black</div><div class="svg-container dark" id="c-t3-wb"></div></div>
+<div class="col"><div class="label">Knockout</div><div class="svg-container knockout" id="c-t3-ko"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 08 — METRICS                   -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-metrics">
+<div class="section">
+<div class="section-title">Optical Metrics</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Measurements of the experiment geometry. NOT brand laws.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">Geometry Measurements</div>
+<div id="metrics-output"></div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 09 — EVALUATION                -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-eval">
+<div class="section">
+<div class="section-title">Evaluation</div>
+
+<div class="experiment">
+<div class="experiment-title">Perceptual Test</div>
+<div class="perceptual-grid" id="perceptual-grid"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">First / Second Glance Test</div>
+<div id="glance-output"></div>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Complexity Test — LUMORA character per unit of visual intervention</div>
+<div id="complexity-output"></div>
+</div>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 10 — HUMAN REVIEW              -->
+<!-- ============================== -->
+<div class="tab-content" id="tab-review">
+<div class="section">
+<div class="section-title">Human Review Notes</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">
+Editable notes for human review. Classify each test:
+ELIMINATE / HOLD / ADVANCE TO REFINEMENT.
+</p>
+
+<div class="experiment">
+<div class="experiment-title">TEST 01 — Structural (MO-A + OR-C)</div>
+<div style="margin-bottom:8px">
+<label style="font-size:10px;color:#888">Classification:</label>
+<select style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px">
+<option value="">—</option><option>ELIMINATE</option><option>HOLD</option><option>ADVANCE TO REFINEMENT</option>
+</select>
+</div>
+<textarea class="note-area" placeholder="Notes on structural condition..."></textarea>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">TEST 02 — Compound (MO-A + MO-B + OR-C)</div>
+<div style="margin-bottom:8px">
+<label style="font-size:10px;color:#888">Classification:</label>
+<select style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px">
+<option value="">—</option><option>ELIMINATE</option><option>HOLD</option><option>ADVANCE TO REFINEMENT</option>
+</select>
+</div>
+<textarea class="note-area" placeholder="Notes on compound condition..."></textarea>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">TEST 03 — Counter/Release (MO-B + OR-C)</div>
+<div style="margin-bottom:8px">
+<label style="font-size:10px;color:#888">Classification:</label>
+<select style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px">
+<option value="">—</option><option>ELIMINATE</option><option>HOLD</option><option>ADVANCE TO REFINEMENT</option>
+</select>
+</div>
+<textarea class="note-area" placeholder="Notes on counter/release condition..."></textarea>
+</div>
+
+<div class="experiment">
+<div class="experiment-title">Overall Recommendation for 0C.11</div>
+<textarea class="note-area" placeholder="What should the next phase investigate?" style="min-height:100px"></textarea>
+</div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// SVG LETTER GEOMETRY ENGINE
+// Exact reuse from Phase 0C.9
+// Coordinate system: viewBox 0 0 3600 1000
+// Cap height: 700 (top=100, bottom=800)
+// Stroke width: 70
+// ============================================================
+
+const SW = 70;
+const CAP_TOP = 100;
+const BASELINE = 800;
+const CAP_H = 700;
+const CENTER = 450;
+const VB_W = 3600;
+const VB_H = 1000;
+
+function baseLetterL(x) {
+  return [
+    `M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4},${BASELINE-SW} L${x+SW*4},${BASELINE} L${x},${BASELINE} Z`
+  ];
+}
+
+function baseLetterU(x) {
+  const lx = x;
+  const rx = x + 440;
+  const cr = 100;
+  return [
+    `M${lx},${CAP_TOP} L${lx+SW},${CAP_TOP} L${lx+SW},${BASELINE-cr} Q${lx+SW},${BASELINE} ${lx+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${lx+SW+cr},${BASELINE+SW/2} Q${lx},${BASELINE+SW/2} ${lx},${BASELINE-cr} Z`
+  ];
+}
+
+function baseLetterM(x) {
+  const w = 560;
+  const vDip = CAP_TOP + 280;
+  return [
+    `M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,
+    `M${x+SW},${CAP_TOP} L${x+SW+10},${CAP_TOP} L${x+w/2},${vDip} L${x+w/2-SW/3},${vDip} Z`,
+    `M${x+w/2},${vDip} L${x+w/2+SW/3},${vDip} L${x+w-SW-10},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,
+    `M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE} L${x+w-SW},${BASELINE} Z`
+  ];
+}
+
+function baseLetterO(x) {
+  const cx = x + 260;
+  const rx = 230;
+  const ry = 310;
+  const sw = SW/2;
+  return [
+    `M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,
+    `M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`
+  ];
+}
+
+function baseLetterR(x) {
+  const sx = x;
+  const bowlCx = x + SW + 140;
+  const bowlRx = 160;
+  const bowlRy = 170;
+  const bowlBot = CENTER + 30;
+  const sw = SW/2;
+  return [
+    `M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,
+    `M${sx+SW},${CAP_TOP} L${bowlCx+bowlRx},${CAP_TOP} A${bowlRx},${bowlRy} 0 0,1 ${bowlCx+bowlRx*0.3},${bowlBot} L${sx+SW},${bowlBot} Z`,
+    `M${sx+SW+sw},${CAP_TOP+sw} L${bowlCx+bowlRx-sw},${CAP_TOP+sw} A${bowlRx-sw},${bowlRy-sw} 0 0,1 ${bowlCx+bowlRx*0.3-sw/2},${bowlBot-sw} L${sx+SW+sw},${bowlBot-sw} Z`,
+    `M${sx+SW},${bowlBot} L${sx+SW+SW/2},${bowlBot} L${sx+SW*4+60},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`
+  ];
+}
+
+function baseLetterA(x) {
+  const w = 480;
+  const cx = x + w/2;
+  const crossY = CENTER + 80;
+  const legW = SW * 0.85;
+  return [
+    `M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx-w/2+legW},${BASELINE} L${cx-w/2},${BASELINE} Z`,
+    `M${cx-5},${CAP_TOP} L${cx+5},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-legW},${BASELINE} Z`,
+    `M${cx-w/3},${crossY} L${cx+w/3},${crossY} L${cx+w/3},${crossY+SW*0.7} L${cx-w/3},${crossY+SW*0.7} Z`
+  ];
+}
+
+const BASE_POSITIONS = { L:80, U:600, M:1130, O:1780, R:2330, A:2900 };
+
+function getBasePaths() {
+  return {
+    L: baseLetterL(BASE_POSITIONS.L),
+    U: baseLetterU(BASE_POSITIONS.U),
+    M: baseLetterM(BASE_POSITIONS.M),
+    O: baseLetterO(BASE_POSITIONS.O),
+    R: baseLetterR(BASE_POSITIONS.R),
+    A: baseLetterA(BASE_POSITIONS.A)
+  };
+}
+
+// ============================================================
+// MODIFICATION FUNCTIONS — EXACT FROM 0C.9
+// ============================================================
+
+function applyMoA(paths) {
+  const p = JSON.parse(JSON.stringify(paths));
+  const m = BASE_POSITIONS.M;
+  const mw = 560;
+  const vDip = CAP_TOP + 280;
+  p.M = [
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+10},${CAP_TOP} L${m+mw/2},${vDip} L${m+mw/2-SW/3},${vDip} Z`,
+    `M${m+mw/2},${vDip} L${m+mw/2+SW/3},${vDip} L${m+mw-SW-10},${CAP_TOP} L${m+mw-SW},${CAP_TOP} Z`,
+    `M${m+mw-SW},${CAP_TOP} L${m+mw},${CAP_TOP} L${m+mw},${BASELINE-15} L${m+mw-SW-8},${BASELINE} L${m+mw-SW},${BASELINE} Z`
+  ];
+  const ox = BASE_POSITIONS.O;
+  const ocx = ox + 260;
+  const orx = 230;
+  const ory = 310;
+  const sw = SW/2;
+  p.O = [
+    `M${ocx},${CAP_TOP} A${orx},${ory} 0 1,1 ${ocx},${BASELINE} A${orx},${ory} 0 1,1 ${ocx},${CAP_TOP} Z`,
+    `M${ocx},${CAP_TOP+sw*1.8} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${BASELINE-sw*1.8} A${orx-sw*1.4},${ory-sw*1.4} 0 1,0 ${ocx},${CAP_TOP+sw*1.8} Z`
+  ];
+  return p;
+}
+
+function applyMoB(paths) {
+  const p = JSON.parse(JSON.stringify(paths));
+  const m = BASE_POSITIONS.M;
+  const mw = 560;
+  const deepDip = CAP_TOP + 340;
+  p.M = [
+    `M${m},${CAP_TOP} L${m+SW},${CAP_TOP} L${m+SW},${BASELINE} L${m},${BASELINE} Z`,
+    `M${m+SW},${CAP_TOP} L${m+SW+10},${CAP_TOP} L${m+mw/2},${deepDip} L${m+mw/2-SW/3},${deepDip} Z`,
+    `M${m+mw/2},${deepDip} L${m+mw/2+SW/3},${deepDip} L${m+mw-SW-10},${CAP_TOP} L${m+mw-SW},${CAP_TOP} Z`,
+    `M${m+mw-SW},${CAP_TOP} L${m+mw},${CAP_TOP} L${m+mw},${BASELINE} L${m+mw-SW},${BASELINE} Z`
+  ];
+  const ox = BASE_POSITIONS.O;
+  const ocx = ox + 260;
+  const orx = 230;
+  const ory = 310;
+  const sw = SW/2;
+  p.O = [
+    `M${ocx},${CAP_TOP} A${orx},${ory} 0 1,1 ${ocx},${BASELINE} A${orx},${ory} 0 1,1 ${ocx},${CAP_TOP} Z`,
+    `M${ocx},${CAP_TOP+sw*1.6} A${orx-sw*1.2},${ory-sw*1.2} 0 1,0 ${ocx},${BASELINE-sw*1.6} A${orx-sw*1.2},${ory-sw*1.2} 0 1,0 ${ocx},${CAP_TOP+sw*1.6} Z`
+  ];
+  return p;
+}
+
+function applyOrC(paths) {
+  const p = JSON.parse(JSON.stringify(paths));
+  const rx = BASE_POSITIONS.R;
+  const bowlBot = CENTER + 30;
+  const sw = SW/2;
+  p.R = [
+    `M${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE} L${rx},${BASELINE} Z`,
+    `M${rx+SW},${CAP_TOP} L${rx+SW+140+160},${CAP_TOP} A160,170 0 0,1 ${rx+SW+140+160*0.3},${bowlBot} L${rx+SW},${bowlBot} Z`,
+    `M${rx+SW+SW/2},${CAP_TOP+SW/2} L${rx+SW+140+160-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${rx+SW+140+160*0.3-SW/4},${bowlBot-SW/2} L${rx+SW+SW/2},${bowlBot-SW/2} Z`,
+    `M${rx+SW},${bowlBot} L${rx+SW+SW/2},${bowlBot} L${rx+SW*5+20},${BASELINE} L${rx+SW*3+20},${BASELINE} Z`
+  ];
+  return p;
+}
+
+// ============================================================
+// TEST CONDITION PATHS
+// ============================================================
+
+function test01Paths() {
+  let p = getBasePaths();
+  p = applyMoA(p);
+  p = applyOrC(p);
+  return p;
+}
+
+function test02Paths() {
+  let p = getBasePaths();
+  p = applyMoA(p);
+  p = applyMoB(p);
+  p = applyOrC(p);
+  return p;
+}
+
+function test03Paths() {
+  let p = getBasePaths();
+  p = applyMoB(p);
+  p = applyOrC(p);
+  return p;
+}
+
+// ============================================================
+// SVG RENDERING ENGINE
+// ============================================================
+
+function renderSVG(paths, w, h, fill) {
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  svg += `<rect width="${VB_W}" height="${VB_H}" fill="${fill === 'white' ? '#fff' : '#000'}"/>`;
+  const c = fill === 'white' ? '#ffffff' : '#000000';
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = paths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`;
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+function renderOverlay(normalPaths, customPaths, w, h) {
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  svg += `<rect width="${VB_W}" height="${VB_H}" fill="#fff"/>`;
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = normalPaths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`;
+  }
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = customPaths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`;
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+// Crop SVG to M/O region (x: 1050 to 2100)
+function renderCropMO(paths, w, h, fill) {
+  const cx = 1050, cy = 50, cw = 1050, ch = 900;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${cx} ${cy} ${cw} ${ch}" width="${w}" height="${h}" style="display:block">`;
+  svg += `<rect x="${cx}" y="${cy}" width="${cw}" height="${ch}" fill="${fill === 'white' ? '#fff' : '#000'}"/>`;
+  const c = fill === 'white' ? '#ffffff' : '#000000';
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = paths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`;
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+function renderCropOR(paths, w, h, fill) {
+  const cx = 1650, cy = 50, cw = 1100, ch = 900;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${cx} ${cy} ${cw} ${ch}" width="${w}" height="${h}" style="display:block">`;
+  svg += `<rect x="${cx}" y="${cy}" width="${cw}" height="${h}" fill="${fill === 'white' ? '#fff' : '#000'}"/>`;
+  const c = fill === 'white' ? '#ffffff' : '#000000';
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = paths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`;
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+function renderCropOverlayMO(normalPaths, customPaths, w, h) {
+  const cx = 1050, cy = 50, cw = 1050, ch = 900;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${cx} ${cy} ${cw} ${ch}" width="${w}" height="${h}" style="display:block">`;
+  svg += `<rect x="${cx}" y="${cy}" width="${cw}" height="${ch}" fill="#fff"/>`;
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = normalPaths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`;
+  }
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = customPaths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`;
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+function renderCropOverlayOR(normalPaths, customPaths, w, h) {
+  const cx = 1650, cy = 50, cw = 1100, ch = 900;
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${cx} ${cy} ${cw} ${ch}" width="${w}" height="${h}" style="display:block">`;
+  svg += `<rect x="${cx}" y="${cy}" width="${cw}" height="${ch}" fill="#fff"/>`;
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = normalPaths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="#999" fill-rule="evenodd"/>`;
+  }
+  for (const letter of ['L','U','M','O','R','A']) {
+    const ps = customPaths[letter];
+    if (ps) svg += `<path d="${ps.join(' ')}" fill="#000" fill-rule="evenodd"/>`;
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+// ============================================================
+// METRICS COMPUTATION
+// ============================================================
+
+function computeMetrics(paths, label) {
+  const moInterval = BASE_POSITIONS.O - (BASE_POSITIONS.M + 560);
+  const orInterval = BASE_POSITIONS.R - (BASE_POSITIONS.O + 520);
+  const totalWidth = BASE_POSITIONS.A + 480 - BASE_POSITIONS.L;
+  const avgInterval = (moInterval + orInterval + (BASE_POSITIONS.U - (BASE_POSITIONS.L + 4*SW)) + (BASE_POSITIONS.M - (BASE_POSITIONS.U + 440+SW))) / 4;
+
+  // M counter area (triangle approximation)
+  const mCounterH = (paths === getBasePaths()) ? 280 : 340;
+  const mCounterArea = Math.round(280 * (560 - SW*2) / 2);
+
+  // O counter area (ellipse approximation)
+  const oCounterW = 230 - SW/2*1.4;
+  const oCounterH = 310 - SW/2*1.4;
+  const oCounterArea = Math.round(Math.PI * oCounterW * oCounterH);
+
+  // R leg endpoint
+  const rLegEnd = BASE_POSITIONS.R + SW*5 + 20;
+
+  return {
+    'condition': label,
+    'total word width': `${totalWidth}u`,
+    'avg pair interval': `${Math.round(avgInterval)}u`,
+    'M/O interval': `${moInterval}u`,
+    'O/R interval': `${orInterval}u`,
+    'M counter area': `~${mCounterArea}u²`,
+    'O counter area': `~${oCounterArea}u²`,
+    'R leg endpoint': `x=${rLegEnd}`,
+    'junction alteration': label === 'BASE' ? 'none' : 'MO-A: -15u undercut, OR-C: +200u leg'
+  };
+}
+
+// ============================================================
+// PERCEPTUAL QUESTIONS
+// ============================================================
+
+const PERCEPTUAL_QUESTIONS = [
+  'Is LUMORA immediately readable?',
+  'Is the difference from BASE noticeable?',
+  'Can the difference be attributed to the intended pair?',
+  'Does the word still feel calm?',
+  'Does it become fashion/editorial?',
+  'Does it become tech?',
+  'Does it become generic?',
+  'Does the modification survive at 48px?',
+  'What survives at 24px?',
+  'What survives at 16px?'
+];
+
+function createPerceptualGrid() {
+  let html = '';
+  const conditions = ['TEST 01', 'TEST 02', 'TEST 03'];
+  for (const q of PERCEPTUAL_QUESTIONS) {
+    html += `<div class="perceptual-row"><span class="q">${q}</span>`;
+    for (const c of conditions) {
+      html += `<select><option value="">${c}: —</option><option>YES</option><option>PARTIAL</option><option>NO</option></select>`;
+    }
+    html += `</div>`;
+  }
+  return html;
+}
+
+// ============================================================
+// GLANCE TEST
+// ============================================================
+
+function createGlanceTest() {
+  const tests = [
+    { name: 'TEST 01', mods: 'MO-A junction + OR-C release' },
+    { name: 'TEST 02', mods: 'MO-A + MO-B counter + OR-C release' },
+    { name: 'TEST 03', mods: 'MO-B counter + OR-C release' }
+  ];
+  let html = '';
+  for (const t of tests) {
+    html += `<div style="margin-bottom:12px;padding:8px;background:#1a1a1a;border:1px solid #222;font-size:10px">`;
+    html += `<div style="color:#888;margin-bottom:6px"><strong>${t.name}</strong> — ${t.mods}</div>`;
+    html += `<div style="display:flex;gap:8px;flex-wrap:wrap">`;
+    const ratings = ['FAIL: obvious before recognition', 'WEAK: invisible above 120px', 'STRONG: survives at 48px', 'VERY STRONG: helps at 24px', 'SIMPLIFY: noise at 16px'];
+    for (const r of ratings) {
+      html += `<label style="display:flex;align-items:center;gap:4px;color:#666;cursor:pointer"><input type="radio" name="glance-${t.name}" style="accent-color:#666"> ${r}</label>`;
+    }
+    html += `</div></div>`;
+  }
+  return html;
+}
+
+// ============================================================
+// COMPLEXITY TEST
+// ============================================================
+
+function createComplexityTest() {
+  let html = '<div style="font-size:10px;color:#666">';
+  html += '<div style="margin-bottom:8px">Which test creates the largest increase in LUMORA-specific character per unit of visual intervention?</div>';
+  const tests = ['BASE', 'TEST 01', 'TEST 02', 'TEST 03'];
+  html += '<div style="display:flex;gap:12px;flex-wrap:wrap">';
+  for (const t of tests) {
+    html += `<div style="padding:6px 10px;background:#1a1a1a;border:1px solid #222">`;
+    html += `<div style="color:#888;margin-bottom:4px">${t}</div>`;
+    html += `<select style="background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px"><option value="">—</option><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select>`;
+    html += `</div>`;
+  }
+  html += '</div></div>';
+  return html;
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+
+function renderAll() {
+  const base = getBasePaths();
+  const t1 = test01Paths();
+  const t2 = test02Paths();
+  const t3 = test03Paths();
+
+  // ---- 02: FULL WORD ----
+  const fwW = 520, fwH = 101;
+  document.getElementById('fw-base').innerHTML = renderSVG(base, fwW, fwH, 'black');
+  document.getElementById('fw-t1').innerHTML = renderSVG(t1, fwW, fwH, 'black');
+  document.getElementById('fw-t2').innerHTML = renderSVG(t2, fwW, fwH, 'black');
+  document.getElementById('fw-t3').innerHTML = renderSVG(t3, fwW, fwH, 'black');
+  document.getElementById('fw-overlay-1').innerHTML = renderOverlay(base, t1, fwW, fwH);
+  document.getElementById('fw-overlay-2').innerHTML = renderOverlay(base, t2, fwW, fwH);
+  document.getElementById('fw-overlay-3').innerHTML = renderOverlay(base, t3, fwW, fwH);
+
+  // ---- 03: M/O CALLOUTS ----
+  const moW = 280, moH = 260;
+  document.getElementById('mo-base').innerHTML = renderCropMO(base, moW, moH, 'black');
+  document.getElementById('mo-t1').innerHTML = renderCropMO(t1, moW, moH, 'black');
+  document.getElementById('mo-overlay-1').innerHTML = renderCropOverlayMO(base, t1, moW, moH);
+  document.getElementById('mo-base2').innerHTML = renderCropMO(base, moW, moH, 'black');
+  document.getElementById('mo-t2').innerHTML = renderCropMO(t2, moW, moH, 'black');
+  document.getElementById('mo-overlay-2').innerHTML = renderCropOverlayMO(base, t2, moW, moH);
+  document.getElementById('mo-base3').innerHTML = renderCropMO(base, moW, moH, 'black');
+  document.getElementById('mo-t3').innerHTML = renderCropMO(t3, moW, moH, 'black');
+  document.getElementById('mo-overlay-3').innerHTML = renderCropOverlayMO(base, t3, moW, moH);
+
+  // ---- 04: O/R CALLOUTS ----
+  const orW = 280, orH = 260;
+  document.getElementById('or-base').innerHTML = renderCropOR(base, orW, orH, 'black');
+  document.getElementById('or-t1').innerHTML = renderCropOR(t1, orW, orH, 'black');
+  document.getElementById('or-overlay-1').innerHTML = renderCropOverlayOR(base, t1, orW, orH);
+  document.getElementById('or-base2').innerHTML = renderCropOR(base, orW, orH, 'black');
+  document.getElementById('or-t2').innerHTML = renderCropOR(t2, orW, orH, 'black');
+  document.getElementById('or-overlay-2').innerHTML = renderCropOverlayOR(base, t2, orW, orH);
+  document.getElementById('or-base3').innerHTML = renderCropOR(base, orW, orH, 'black');
+  document.getElementById('or-t3').innerHTML = renderCropOR(t3, orW, orH, 'black');
+  document.getElementById('or-overlay-3').innerHTML = renderCropOverlayOR(base, t3, orW, orH);
+
+  // ---- 05: TRUE SCALE ----
+  const scales = [240, 120, 48, 24, 16];
+  const conditions = [
+    { name: 'BASE', paths: base },
+    { name: 'TEST 01', paths: t1 },
+    { name: 'TEST 02', paths: t2 },
+    { name: 'TEST 03', paths: t3 }
+  ];
+  let scaleHTML = '';
+  for (const sz of scales) {
+    const w = Math.round(VB_W * sz / CAP_H);
+    scaleHTML += `<div class="experiment"><div class="experiment-title">${sz}px Cap Height</div><div class="row">`;
+    for (const cond of conditions) {
+      scaleHTML += `<div class="col"><div class="label">${cond.name}</div>`;
+      scaleHTML += renderSVG(cond.paths, w, sz, 'black');
+      scaleHTML += `</div>`;
+    }
+    scaleHTML += `</div></div>`;
+  }
+  document.getElementById('scale-output').innerHTML = scaleHTML;
+
+  // ---- 06: 1x / 2x MICRO ----
+  const mw = 340, mh = 66;
+  document.getElementById('micro-1x-base').innerHTML = renderSVG(base, mw, mh, 'black');
+  document.getElementById('micro-1x-t1').innerHTML = renderSVG(t1, mw, mh, 'black');
+  document.getElementById('micro-1x-t2').innerHTML = renderSVG(t2, mw, mh, 'black');
+  document.getElementById('micro-1x-t3').innerHTML = renderSVG(t3, mw, mh, 'black');
+  // 2x: render at double size, CSS scales down
+  const mw2 = mw * 2, mh2 = mh * 2;
+  document.getElementById('micro-2x-base').innerHTML = `<div style="width:${mw}px;height:${mh}px;overflow:hidden">${renderSVG(base, mw2, mh2, 'black')}</div>`;
+  document.getElementById('micro-2x-t1').innerHTML = `<div style="width:${mw}px;height:${mh}px;overflow:hidden">${renderSVG(t1, mw2, mh2, 'black')}</div>`;
+  document.getElementById('micro-2x-t2').innerHTML = `<div style="width:${mw}px;height:${mh}px;overflow:hidden">${renderSVG(t2, mw2, mh2, 'black')}</div>`;
+  document.getElementById('micro-2x-t3').innerHTML = `<div style="width:${mw}px;height:${mh}px;overflow:hidden">${renderSVG(t3, mw2, mh2, 'black')}</div>`;
+
+  // ---- 07: ONE-COLOR ----
+  const cw = 520, ch = 101;
+  document.getElementById('c-base-bw').innerHTML = renderSVG(base, cw, ch, 'black');
+  document.getElementById('c-base-wb').innerHTML = renderSVG(base, cw, ch, 'white');
+  document.getElementById('c-base-ko').innerHTML = renderSVG(base, cw, ch, 'black');
+  document.getElementById('c-t1-bw').innerHTML = renderSVG(t1, cw, ch, 'black');
+  document.getElementById('c-t1-wb').innerHTML = renderSVG(t1, cw, ch, 'white');
+  document.getElementById('c-t1-ko').innerHTML = renderSVG(t1, cw, ch, 'black');
+  document.getElementById('c-t2-bw').innerHTML = renderSVG(t2, cw, ch, 'black');
+  document.getElementById('c-t2-wb').innerHTML = renderSVG(t2, cw, ch, 'white');
+  document.getElementById('c-t2-ko').innerHTML = renderSVG(t2, cw, ch, 'black');
+  document.getElementById('c-t3-bw').innerHTML = renderSVG(t3, cw, ch, 'black');
+  document.getElementById('c-t3-wb').innerHTML = renderSVG(t3, cw, ch, 'white');
+  document.getElementById('c-t3-ko').innerHTML = renderSVG(t3, cw, ch, 'black');
+
+  // ---- 08: METRICS ----
+  const mBase = computeMetrics(base, 'BASE');
+  const mT1 = computeMetrics(t1, 'TEST 01');
+  const mT2 = computeMetrics(t2, 'TEST 02');
+  const mT3 = computeMetrics(t3, 'TEST 03');
+  let metricsHTML = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">';
+  for (const m of [mBase, mT1, mT2, mT3]) {
+    metricsHTML += `<div style="background:#1a1a1a;border:1px solid #222;padding:10px;font-size:10px">`;
+    metricsHTML += `<div style="color:#888;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">${m.condition}</div>`;
+    for (const [k, v] of Object.entries(m)) {
+      if (k === 'condition') continue;
+      metricsHTML += `<div style="color:#666"><span>${k}:</span> <span style="color:#c0c0c0;font-weight:bold">${v}</span></div>`;
+    }
+    metricsHTML += `</div>`;
+  }
+  metricsHTML += '</div>';
+  document.getElementById('metrics-output').innerHTML = metricsHTML;
+
+  // ---- 09: EVALUATION ----
+  document.getElementById('perceptual-grid').innerHTML = createPerceptualGrid();
+  document.getElementById('glance-output').innerHTML = createGlanceTest();
+  document.getElementById('complexity-output').innerHTML = createComplexityTest();
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

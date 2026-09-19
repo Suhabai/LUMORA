@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sonic Grammar — LUMORA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="lab">
+    <header class="lab-header">
+      <p class="subtitle">Phase 0D.2 — Research Lab</p>
+      <h1>Sonic Grammar</h1>
+    </header>
+
+    <nav class="lab-nav">
+      <a href="index.html" class="active">Evaluation</a>
+      <a href="evaluation.html">Per-Behavior</a>
+    </nav>
+
+    <section class="section">
+      <h2>Architectural Decision</h2>
+      <p class="semantic">Final Position</p>
+
+      <div class="card" style="border-color: rgba(138, 46, 255, 0.2); background: rgba(138, 46, 255, 0.03);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+          <span class="verdict verdict-silent"><span class="dot"></span> No Sound</span>
+        </div>
+        <p style="color: var(--text); margin-bottom: 0.75rem;">LUMORA is silent by default.</p>
+        <p>Sound adds no information, no orientation, and no meaningful emotional depth that is not already communicated through the visual system. The experience is complete without any auditory layer.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Evaluation Framework</h2>
+      <p class="semantic">8 Questions</p>
+      <p>Every potential use of sound was evaluated against eight questions. Sound failed to meet the threshold for inclusion on every criterion.</p>
+
+      <div class="eval-grid">
+        <div class="eval-item">
+          <div class="eval-letter">A</div>
+          <div class="eval-content">
+            <h4>Does sound add information?</h4>
+            <p>All information is communicated through typography, layout, color, hierarchy, and motion.</p>
+          </div>
+          <div class="eval-answer">No</div>
+        </div>
+
+        <div class="eval-item">
+          <div class="eval-letter">B</div>
+          <div class="eval-content">
+            <h4>Does sound add orientation?</h4>
+            <p>Spatial orientation is handled by the motion grammar (HANDOFF, ALIGN, REVEAL).</p>
+          </div>
+          <div class="eval-answer">No</div>
+        </div>
+
+        <div class="eval-item">
+          <div class="eval-letter">C</div>
+          <div class="eval-content">
+            <h4>Does sound improve interaction feedback?</h4>
+            <p>Visual micro-interaction feedback already exists. Sound would be redundant.</p>
+          </div>
+          <div class="eval-answer">No</div>
+        </div>
+
+        <div class="eval-item">
+          <div class="eval-letter">D</div>
+          <div class="eval-content">
+            <h4>Does sound increase emotional depth?</h4>
+            <p>Emotional sound easily becomes cinematic decoration — the exact anti-pattern LUMORA avoids.</p>
+          </div>
+          <div class="eval-answer">No</div>
+        </div>
+
+        <div class="eval-item">
+          <div class="eval-letter">E</div>
+          <div class="eval-content">
+            <h4>Does sound improve continuity?</h4>
+            <p>Continuity is handled by HANDOFF motion. Sound would compete, not improve.</p>
+          </div>
+          <div class="eval-answer">No</div>
+        </div>
+
+        <div class="eval-item">
+          <div class="eval-letter">F</div>
+          <div class="eval-content">
+            <h4>Does sound create cognitive load?</h4>
+            <p>Any sound requires processing. Silence is cognitive rest. Sound is cognitive occupation.</p>
+          </div>
+          <div class="eval-answer">Yes — harmful</div>
+        </div>
+
+        <div class="eval-item">
+          <div class="eval-letter">G</div>
+          <div class="eval-content">
+            <h4>Does sound conflict with calm?</h4>
+            <p>LUMORA's calm is experiential. Any sound breaks silence and shifts the experience.</p>
+          </div>
+          <div class="eval-answer">Yes — harmful</div>
+        </div>
+
+        <div class="eval-item">
+          <div class="eval-letter">H</div>
+          <div class="eval-content">
+            <h4>Can the same meaning be communicated visually?</h4>
+            <p>Every potential sonic meaning is already communicated through the six motion vocabulary behaviors.</p>
+          </div>
+          <div class="eval-answer">Yes — redundant</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Reopening Conditions</h2>
+      <p class="semantic">Future Consideration</p>
+      <p>This decision may be revisited only if all five conditions are met:</p>
+
+      <div class="card">
+        <ol style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem;">
+          <li style="display: flex; gap: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">
+            <span style="color: var(--text-faint); font-family: monospace; flex-shrink: 0;">01</span>
+            A specific, documented user need emerges that sound uniquely satisfies
+          </li>
+          <li style="display: flex; gap: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">
+            <span style="color: var(--text-faint); font-family: monospace; flex-shrink: 0;">02</span>
+            The need cannot be met through visual means
+          </li>
+          <li style="display: flex; gap: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">
+            <span style="color: var(--text-faint); font-family: monospace; flex-shrink: 0;">03</span>
+            The sound does not conflict with calm, focus, or premium character
+          </li>
+          <li style="display: flex; gap: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">
+            <span style="color: var(--text-faint); font-family: monospace; flex-shrink: 0;">04</span>
+            The sound is semantically justified, not decorative
+          </li>
+          <li style="display: flex; gap: 0.75rem; font-size: 0.875rem; color: var(--text-muted);">
+            <span style="color: var(--text-faint); font-family: monospace; flex-shrink: 0;">05</span>
+            A new identity review phase is explicitly opened
+          </li>
+        </ol>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

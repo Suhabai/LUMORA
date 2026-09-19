@@ -21,10 +21,16 @@ export function About() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Motion duration derives from Core state — slower in human phase
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const dur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--core-motion-duration") || "1");
 
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion) {
+        gsap.set([contentRef.current, statementRef.current, closingRef.current, bloomRef.current, focusGlowRef.current, listenRef.current, revelationRef.current].filter(Boolean), { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" });
+        gsap.set(".principle-line, .about-beat-1, .about-beat-2, .about-beat-3", { opacity: 1, y: 0, scaleX: 1, filter: "blur(0px)" });
+        return;
+      }
       // ── CORE LISTENS → ENVIRONMENT QUIETS ──
       // Before the Human moment, Core enters a listening state.
       // Core becomes smaller, slower, quieter, warmer, softer.

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import LivingCore from "@/components/core/LivingCore";
+import { DirectionalLight } from "@/components/experiments/directional-light";
 import { useExperience } from "./experience-context";
 
 // Phase-specific Core configurations
@@ -23,7 +24,7 @@ const PHASE_CONFIG: Record<string, {
   threshold:  { x: 0,   y: 0,    scale: 0.5,  breatheRate: 22, offsetX: "0px",   offsetY: "0px",   warmth: 0.35, softness: 0.82 },
 };
 
-export function GlobalCore() {
+export function GlobalCore({ enableDirectionalLight = false }: { enableDirectionalLight?: boolean }) {
   const { phase, event } = useExperience();
   const containerRef = useRef<HTMLDivElement>(null);
   const coreRef = useRef<HTMLDivElement>(null);
@@ -44,9 +45,16 @@ export function GlobalCore() {
     if (!hasAppeared.current) {
       hasAppeared.current = true;
 
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
       // Environment is already present — it was always here
       if (envRef.current) {
         gsap.set(envRef.current, { opacity: 1 });
+      }
+
+      if (prefersReducedMotion) {
+        gsap.set(coreRef.current, { opacity: 1, scale: 1 });
+        return;
       }
 
       // Core emerges at 0.4s — becomes perceptible, not fully formed
@@ -78,9 +86,16 @@ export function GlobalCore() {
     prevEventRef.current = event;
 
     const root = document.documentElement;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // Set event CSS class for event-driven animations
     root.style.setProperty("--core-event", event);
+
+    if (prefersReducedMotion) {
+      const config = PHASE_CONFIG[phase] || PHASE_CONFIG.presence;
+      gsap.set(coreRef.current, { scale: config.scale, x: config.x || 0, y: config.y || 0 });
+      return;
+    }
 
     // Event-specific Core behavior
     switch (event) {
@@ -230,6 +245,7 @@ export function GlobalCore() {
             "translate(calc(var(--core-offset-x, 0px) * 2.2), calc(var(--core-offset-y, 0px) * 2.2)) scale(calc(var(--core-phase-scale, 1) * 1.7))",
           transition: "transform 2.0s cubic-bezier(0.16, 1, 0.3, 1)",
           willChange: "transform",
+          zIndex: 0,
         }}
       >
         <div className="env-void" />
@@ -241,6 +257,12 @@ export function GlobalCore() {
         <div className="env-traces" />
         <div className="env-vignette" />
       </div>
+
+      {/* ── EXPERIMENT B: Directional Light ──
+          Subtle atmospheric light field layered between environment and Core.
+          z-1: above environment (z-0), below core (z-2).
+          Controlled by enableDirectionalLight prop. */}
+      {enableDirectionalLight && <DirectionalLight />}
 
       {/* ── The Living Core ──
           The material itself. As the journey deepens it grows smaller,
@@ -254,6 +276,7 @@ export function GlobalCore() {
           filter: "blur(calc(var(--core-softness, 0) * 1.1px)) hue-rotate(calc(var(--core-warmth, 0) * 16deg)) saturate(calc(1 + var(--core-warmth, 0) * 0.18)) brightness(calc(1.02 - var(--core-softness, 0) * 0.12))",
           transition: "transform 2.0s cubic-bezier(0.16, 1, 0.3, 1), filter 2.6s cubic-bezier(0.16, 1, 0.3, 1)",
           willChange: "transform, filter",
+          zIndex: 2,
         }}
       >
         <LivingCore

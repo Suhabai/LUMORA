@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Phase 0C.15 — Blind Identity Review</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:#0a0a0a;color:#e0e0e0;font-size:13px;line-height:1.5}
+.lab-header{padding:20px 30px;border-bottom:1px solid #333;background:#111}
+.lab-header h1{font-size:14px;letter-spacing:4px;text-transform:uppercase;color:#888;font-weight:400}
+.lab-header p{font-size:11px;color:#555;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1px solid #333;background:#111;padding:0 20px;overflow-x:auto}
+.tab{padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;color:#666;font-size:11px;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:color .15s}
+.tab:hover{color:#aaa}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab-content{display:none;padding:30px}
+.tab-content.active{display:block}
+.section{margin-bottom:40px}
+.section-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-bottom:16px;border-bottom:1px solid #222;padding-bottom:8px}
+.experiment{margin-bottom:30px;background:#111;border:1px solid #222;padding:20px}
+.experiment-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:12px}
+.row{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.col{flex:1;min-width:160px}
+.label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#555;margin-bottom:6px}
+.svg-container{background:#fff;border:1px solid #333;display:inline-block;line-height:0}
+.svg-container.dark{background:#000}
+.measurements{margin-top:12px;font-size:10px;color:#666;line-height:1.8}
+hr{border:none;border-top:1px solid #222;margin:20px 0}
+select{background:#111;color:#ccc;border:1px solid #444;font-size:10px;font-family:inherit;padding:2px 6px}
+.note-area{width:100%;background:#111;color:#ccc;border:1px solid #333;font-family:inherit;font-size:11px;padding:8px;min-height:60px;resize:vertical}
+.context-box{padding:20px;margin-bottom:12px;border:1px solid #222;font-size:11px}
+.context-box.header-ctx{background:#fff;color:#111;border-bottom:2px solid #ddd;padding:12px 20px;display:flex;align-items:center;gap:20px}
+.context-box.footer-ctx{background:#0d0d0d;color:#888;border-top:2px solid #222;padding:12px 20px}
+.context-box.hero-ctx{background:#111;color:#fff;padding:60px 20px;text-align:center}
+.context-box.editorial-ctx{background:#fff;color:#000;padding:30px;max-width:400px;font-family:Georgia,serif;font-size:14px;line-height:1.6}
+.firewall-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.firewall-item{padding:8px;background:#1a1a1a;border:1px solid #222;font-size:10px}
+.firewall-item .k{color:#666;text-transform:uppercase;letter-spacing:1px}
+.firewall-item select{margin-top:4px}
+</style>
+</head>
+<body>
+
+<div class="lab-header">
+<h1>LUMORA — Phase 0C.15 — Blind Identity Review</h1>
+<p>Visual audit without construction explanations. Judge the wordmark on visual merit alone.</p>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab active" data-tab="isolated">A — Isolated</div>
+<div class="tab" data-tab="header">B — Header</div>
+<div class="tab" data-tab="hero">C — Hero</div>
+<div class="tab" data-tab="footer">D — Footer</div>
+<div class="tab" data-tab="editorial">E — Editorial</div>
+<div class="tab" data-tab="scale">F — Scale</div>
+<div class="tab" data-tab="mono">G — Monochrome</div>
+<div class="tab" data-tab="silent">H — Silent Test</div>
+<div class="tab" data-tab="firewall">I — Firewall</div>
+<div class="tab" data-tab="gate">J — Final Gate</div>
+</div>
+
+<!-- A — ISOLATED WORDMARK -->
+<div class="tab-content active" id="tab-isolated">
+<div class="section">
+<div class="section-title">A</div>
+<div style="text-align:center;padding:60px 0;background:#fff;display:block;line-height:0" id="iso-bw"></div>
+<div style="text-align:center;padding:60px 0;background:#000;display:block;line-height:0;margin-top:12px" id="iso-wb"></div>
+</div>
+</div>
+
+<!-- B — WEBSITE HEADER -->
+<div class="tab-content" id="tab-header">
+<div class="section">
+<div class="section-title">B</div>
+<div class="context-box header-ctx" id="ctx-desktop"></div>
+<div class="context-box" style="background:#fff;color:#111;padding:10px 16px;display:flex;align-items:center;gap:20px;border-bottom:1px solid #eee;margin-top:12px" id="ctx-compact"></div>
+</div>
+</div>
+
+<!-- C — HERO -->
+<div class="tab-content" id="tab-hero">
+<div class="section">
+<div class="section-title">C</div>
+<div class="context-box hero-ctx" id="ctx-hero"></div>
+</div>
+</div>
+
+<!-- D — FOOTER -->
+<div class="tab-content" id="tab-footer">
+<div class="section">
+<div class="section-title">D</div>
+<div class="context-box footer-ctx" id="ctx-footer"></div>
+</div>
+</div>
+
+<!-- E — EDITORIAL -->
+<div class="tab-content" id="tab-editorial">
+<div class="section">
+<div class="section-title">E</div>
+<div class="context-box editorial-ctx" id="ctx-editorial"></div>
+</div>
+</div>
+
+<!-- F — SCALE -->
+<div class="tab-content" id="tab-scale">
+<div class="section">
+<div class="section-title">F</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Actual rendered sizes. No artificial zoom.</p>
+<div id="scale-output"></div>
+</div>
+</div>
+
+<!-- G — MONOCHROME -->
+<div class="tab-content" id="tab-mono">
+<div class="section">
+<div class="section-title">G</div>
+<div class="row">
+<div class="col"><div class="label">Black</div><div class="svg-container" id="mono-black"></div></div>
+<div class="col"><div class="label">White</div><div class="svg-container dark" id="mono-white"></div></div>
+<div class="col"><div class="label">Neutral Single-Color</div><div class="svg-container" id="mono-neutral" style="background:#3a4a5a"></div></div>
+</div>
+</div>
+</div>
+
+<!-- H — SILENT ATTRIBUTION TEST -->
+<div class="tab-content" id="tab-silent">
+<div class="section">
+<div class="section-title">H</div>
+<p style="color:#666;font-size:11px;margin-bottom:16px">Three anonymous wordmarks. Visual audit only.</p>
+<div class="experiment">
+<div class="experiment-title">Wordmark A</div>
+<div style="text-align:center;padding:30px 0;background:#fff;display:block;line-height:0" id="silent-a"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Wordmark B</div>
+<div style="text-align:center;padding:30px 0;background:#fff;display:block;line-height:0" id="silent-b"></div>
+</div>
+<div class="experiment">
+<div class="experiment-title">Wordmark C</div>
+<div style="text-align:center;padding:30px 0;background:#fff;display:block;line-height:0" id="silent-c"></div>
+</div>
+</div>
+</div>
+
+<!-- I — IDENTITY FIREWALL -->
+<div class="tab-content" id="tab-firewall">
+<div class="section">
+<div class="section-title">I</div>
+<div style="text-align:center;padding:30px 0;background:#fff;display:block;line-height:0;margin-bottom:20px" id="fw-wordmark"></div>
+<div class="firewall-grid" id="fw-grid"></div>
+</div>
+</div>
+
+<!-- J — FINAL GATE -->
+<div class="tab-content" id="tab-gate">
+<div class="section">
+<div class="section-title">J</div>
+<div id="gate-output"></div>
+</div>
+</div>
+
+<script>
+// ============================================================
+// REFINED MASTER VECTOR — EXACT FROM PHASE 0C.14
+// ============================================================
+const SW=70,CAP_TOP=100,BASELINE=800,CAP_H=700,CENTER=450,VB_W=3600,VB_H=1000;
+const POS={L:80,U:600,M:1130,O:1780,R:2330,A:2900};
+
+function rL(x){return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-SW} L${x+SW*4-4},${BASELINE-SW} L${x+SW*4-4},${BASELINE} L${x},${BASELINE} Z`]}
+function rU(x){const rx=x+440,cr=100;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE-cr} Q${x+SW},${BASELINE} ${x+SW+cr},${BASELINE} L${rx-cr},${BASELINE} Q${rx},${BASELINE} ${rx},${BASELINE-cr} L${rx},${CAP_TOP} L${rx+SW},${CAP_TOP} L${rx+SW},${BASELINE-cr} Q${rx+SW},${BASELINE+SW/2} ${rx-cr},${BASELINE+SW/2} L${x+SW+cr},${BASELINE+SW/2} Q${x},${BASELINE+SW/2} ${x},${BASELINE-cr} Z`]}
+function rM(x){const w=560,vd=CAP_TOP+280;return[`M${x},${CAP_TOP} L${x+SW},${CAP_TOP} L${x+SW},${BASELINE} L${x},${BASELINE} Z`,`M${x+SW},${CAP_TOP} L${x+SW+8},${CAP_TOP} L${x+w/2},${vd} L${x+w/2-SW/3+2},${vd} Z`,`M${x+w/2},${vd} L${x+w/2+SW/3-2},${vd} L${x+w-SW-8},${CAP_TOP} L${x+w-SW},${CAP_TOP} Z`,`M${x+w-SW},${CAP_TOP} L${x+w},${CAP_TOP} L${x+w},${BASELINE-15} L${x+w-SW-8},${BASELINE} L${x+w-SW},${BASELINE} Z`]}
+function rO(x){const cx=x+260,rx=230,ry=310,sw=SW/2;return[`M${cx},${CAP_TOP} A${rx},${ry} 0 1,1 ${cx},${BASELINE} A${rx},${ry} 0 1,1 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${BASELINE-sw*1.8} A${rx-sw*1.4},${ry-sw*1.4} 0 1,0 ${cx},${CAP_TOP+sw*1.8} Z`]}
+function rR(x){const sx=x,bc=x+SW+140,brx=160,bry=170,bb=CENTER+30,sw=SW/2;return[`M${sx},${CAP_TOP} L${sx+SW},${CAP_TOP} L${sx+SW},${BASELINE} L${sx},${BASELINE} Z`,`M${sx+SW},${CAP_TOP} L${bc+brx},${CAP_TOP} A${brx},${bry} 0 0,1 ${bc+brx*0.3},${bb} L${sx+SW},${bb} Z`,`M${sx+SW+sw},${CAP_TOP+sw} L${bc+brx-sw},${CAP_TOP+sw} A${brx-sw},${bry-sw} 0 0,1 ${bc+brx*0.3-sw/2},${bb-sw} L${sx+SW+sw},${bb-sw} Z`,`M${sx+SW},${bb} L${sx+SW+SW/2},${bb} L${sx+SW*4+60+200},${BASELINE} L${sx+SW*3+20},${BASELINE} Z`]}
+function rA(x){const w=480,cx=x+w/2,cy=CENTER+80,lw=SW*0.85;return[`M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx-w/2+lw},${BASELINE} L${cx-w/2},${BASELINE} Z`,`M${cx-4},${CAP_TOP} L${cx+4},${CAP_TOP} L${cx+w/2},${BASELINE} L${cx+w/2-lw},${BASELINE} Z`,`M${cx-w/3+2},${cy} L${cx+w/3-2},${cy} L${cx+w/3-2},${cy+SW*0.7} L${cx-w/3+2},${cy+SW*0.7} Z`]}
+
+function getMaster(){return{L:rL(POS.L),U:rU(POS.U),M:rM(POS.M),O:rO(POS.O),R:rR(POS.R),A:rA(POS.A)}}
+
+// Neutral comparison words (not deliberately similar)
+function getCLARON(){
+  return{
+    C:[`M260,${CAP_TOP} A190,300 0 1,0 260,${BASELINE} A190,300 0 1,0 260,${CAP_TOP} Z`,`M260,${CAP_TOP+SW/2*1.6} A${190-SW/2*1.2},${300-SW/2*1.2} 0 1,1 260,${BASELINE-SW/2*1.6} A${190-SW/2*1.2},${300-SW/2*1.2} 0 1,1 260,${CAP_TOP+SW/2*1.6} Z`],
+    L:[`M400,${CAP_TOP} L${400+SW},${CAP_TOP} L${400+SW},${BASELINE-SW} L${400+SW*4},${BASELINE-SW} L${400+SW*4},${BASELINE} L${400},${BASELINE} Z`],
+    A:[`M${800+240-4},${CAP_TOP} L${800+240+4},${CAP_TOP} L${800},${BASELINE} L${800-SW*0.85},${BASELINE} Z`,`M${800+240-4},${CAP_TOP} L${800+240+4},${CAP_TOP} L${800+480},${BASELINE} L${800+480-SW*0.85},${BASELINE} Z`,`M${800+240-480/3+2},${CENTER+80} L${800+240+480/3-2},${CENTER+80} L${800+240+480/3-2},${CENTER+80+SW*0.7} L${800+240-480/3+2},${CENTER+80+SW*0.7} Z`],
+    R:[`M1280,${CAP_TOP} L${1280+SW},${CAP_TOP} L${1280+SW},${BASELINE} L${1280},${BASELINE} Z`,`M${1280+SW},${CAP_TOP} L${1280+SW+300},${CAP_TOP} A160,170 0 0,1 ${1280+SW+300*0.3},${CENTER+30} L${1280+SW},${CENTER+30} Z`,`M${1280+SW+SW/2},${CAP_TOP+SW/2} L${1280+SW+300-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${1280+SW+300*0.3-SW/4},${CENTER+30-SW/2} L${1280+SW+SW/2},${CENTER+30-SW/2} Z`,`M${1280+SW},${CENTER+30} L${1280+SW+SW/2},${CENTER+30} L${1280+SW*4+60},${BASELINE} L${1280+SW*3+20},${BASELINE} Z`],
+    O:[(function(){const cx=1780+260;return[`M${cx},${CAP_TOP} A230,310 0 1,1 ${cx},${BASELINE} A230,310 0 1,1 ${cx},${CAP_TOP} Z`,`M${cx},${CAP_TOP+SW/2*1.8} A${230-SW/2*1.4},${310-SW/2*1.4} 0 1,0 ${cx},${BASELINE-SW/2*1.8} A${230-SW/2*1.4},${310-SW/2*1.4} 0 1,0 ${cx},${CAP_TOP+SW/2*1.8} Z`]})()],
+    N:[`M2330,${CAP_TOP} L${2330+SW},${CAP_TOP} L${2330+SW},${BASELINE} L${2330},${BASELINE} Z`,`M${2330+380-SW},${CAP_TOP} L${2330+380},${CAP_TOP} L${2330+380},${BASELINE} L${2330+380-SW},${BASELINE} Z`,`M${2330+SW},${CAP_TOP} L${2330+SW+10},${CAP_TOP} L${2330+380},${BASELINE-SW} L${2330+380-SW},${BASELINE-SW} Z`]
+  };
+}
+
+function getMERIDIAN(){
+  const sw=SW/2;
+  return{
+    M:[`M80,${CAP_TOP} L${80+SW},${CAP_TOP} L${80+SW},${BASELINE} L${80},${BASELINE} Z`,`M${80+SW},${CAP_TOP} L${80+SW+8},${CAP_TOP} L${80+280},${CAP_TOP+280} L${80+280-SW/3+2},${CAP_TOP+280} Z`,`M${80+280},${CAP_TOP+280} L${80+280+SW/3-2},${CAP_TOP+280} L${80+560-SW-8},${CAP_TOP} L${80+560-SW},${CAP_TOP} Z`,`M${80+560-SW},${CAP_TOP} L${80+560},${CAP_TOP} L${80+560},${BASELINE} L${80+560-SW},${BASELINE} Z`],
+    E:[`M700,${CAP_TOP} L${700+SW},${CAP_TOP} L${700+SW},${BASELINE} L${700},${BASELINE} Z`,`M${700+SW},${CAP_TOP} L${700+SW*4},${CAP_TOP} L${700+SW*4},${CAP_TOP+SW} L${700+SW},${CAP_TOP+SW} Z`,`M${700+SW},${CENTER} L${700+SW*3},${CENTER} L${700+SW*3},${CENTER+SW} L${700+SW},${CENTER+SW} Z`,`M${700+SW},${BASELINE-SW} L${700+SW*4},${BASELINE-SW} L${700+SW*4},${BASELINE} L${700+SW},${BASELINE} Z`],
+    R:[`M1100,${CAP_TOP} L${1100+SW},${CAP_TOP} L${1100+SW},${BASELINE} L${1100},${BASELINE} Z`,`M${1100+SW},${CAP_TOP} L${1100+SW+300},${CAP_TOP} A160,170 0 0,1 ${1100+SW+300*0.3},${CENTER+30} L${1100+SW},${CENTER+30} Z`,`M${1100+SW+SW/2},${CAP_TOP+SW/2} L${1100+SW+300-SW/2},${CAP_TOP+SW/2} A${160-SW/2},${170-SW/2} 0 0,1 ${1100+SW+300*0.3-SW/4},${CENTER+30-SW/2} L${1100+SW+SW/2},${CENTER+30-SW/2} Z`,`M${1100+SW},${CENTER+30} L${1100+SW+SW/2},${CENTER+30} L${1100+SW*4+60},${BASELINE} L${1100+SW*3+20},${BASELINE} Z`],
+    I:[`M1520,${CAP_TOP} L${1520+SW},${CAP_TOP} L${1520+SW},${BASELINE} L${1520},${BASELINE} Z`],
+    D:[`M1680,${CAP_TOP} L${1680+SW},${CAP_TOP} L${1680+SW},${BASELINE} L${1680},${BASELINE} Z`,`M${1680+SW},${CAP_TOP} L${1680+SW+200},${CAP_TOP} A200,350 0 0,1 ${1680+SW+200},${BASELINE} L${1680+SW},${BASELINE} Z`,`M${1680+SW+sw},${CAP_TOP+sw} L${1680+SW+200-sw},${CAP_TOP+sw} A${200-sw},${350-sw} 0 0,1 ${1680+SW+200-sw},${BASELINE-sw} L${1680+SW+sw},${BASELINE-sw} Z`],
+    I2:[`M2100,${CAP_TOP} L${2100+SW},${CAP_TOP} L${2100+SW},${BASELINE} L${2100},${BASELINE} Z`],
+    A:[`M${2280+240-4},${CAP_TOP} L${2280+240+4},${CAP_TOP} L${2280},${BASELINE} L${2280-SW*0.85},${BASELINE} Z`,`M${2280+240-4},${CAP_TOP} L${2280+240+4},${CAP_TOP} L${2280+480},${BASELINE} L${2280+480-SW*0.85},${BASELINE} Z`,`M${2280+240-480/3+2},${CENTER+80} L${2280+240+480/3-2},${CENTER+80} L${2280+240+480/3-2},${CENTER+80+SW*0.7} L${2280+240-480/3+2},${CENTER+80+SW*0.7} Z`],
+    N:[`M2820,${CAP_TOP} L${2820+SW},${CAP_TOP} L${2820+SW},${BASELINE} L${2820},${BASELINE} Z`,`M${2820+380-SW},${CAP_TOP} L${2820+380},${CAP_TOP} L${2820+380},${BASELINE} L${2820+380-SW},${BASELINE} Z`,`M${2820+SW},${CAP_TOP} L${2820+SW+10},${CAP_TOP} L${2820+380},${BASELINE-SW} L${2820+380-SW},${BASELINE-SW} Z`]
+  };
+}
+
+// ============================================================
+// SVG RENDERING
+// ============================================================
+function rSVG(p,w,h,f){
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${VB_W} ${VB_H}" width="${w}" height="${h}" style="display:block">`;
+  s+=`<rect width="${VB_W}" height="${VB_H}" fill="${f==='w'?'#fff':f==='dark'?'#000':f==='neutral'?'#3a4a5a':'#000'}"/>`;
+  const c=f==='w'?'#000':f==='dark'?'#fff':f==='neutral'?'#c0c8d0':'#000';
+  for(const l of Object.keys(p)){const ps=p[l];if(ps)s+=`<path d="${ps.join(' ')}" fill="${c}" fill-rule="evenodd"/>`}
+  s+='</svg>';return s;
+}
+
+// ============================================================
+// RENDER ALL
+// ============================================================
+function renderAll(){
+  const master=getMaster();
+  const claron=getCLARON();
+  const meridian=getMERIDIAN();
+
+  // A — Isolated
+  document.getElementById('iso-bw').innerHTML=rSVG(master,480,94,'w');
+  document.getElementById('iso-wb').innerHTML=rSVG(master,480,94,'dark');
+
+  // B — Header
+  document.getElementById('ctx-desktop').innerHTML=rSVG(master,120,23,'w')+'<span style="margin-left:auto;font-size:11px;color:#888;letter-spacing:1px">WORK &nbsp; ABOUT &nbsp; CONTACT</span>';
+  document.getElementById('ctx-compact').innerHTML=rSVG(master,80,15,'w')+'<span style="margin-left:auto;font-size:10px;color:#666;letter-spacing:1px">Projects &nbsp; About</span>';
+
+  // C — Hero
+  document.getElementById('ctx-hero').innerHTML='<div style="margin-bottom:12px">'+rSVG(master,360,70,'dark')+'</div><div style="font-size:12px;color:#666;letter-spacing:3px">DIGITAL EXPERIENCE</div>';
+
+  // D — Footer
+  document.getElementById('ctx-footer').innerHTML=rSVG(master,80,15,'dark')+'<div style="font-size:9px;color:#555;margin-top:8px">2026. All rights reserved.</div>';
+
+  // E — Editorial
+  document.getElementById('ctx-editorial').innerHTML='<div style="font-size:18px;margin-bottom:16px;font-family:Georgia,serif;color:#222">A study in quiet identity.</div>'+rSVG(master,200,39,'w')+'<div style="margin-top:16px;font-size:13px;color:#555;line-height:1.7">The word carries its own weight without demanding attention. It exists in the space between readability and recognition, between the ordinary and the authored.</div>';
+
+  // F — Scale
+  const sizes=[160,120,96,72,48,32,24,16];
+  let sH='';
+  for(const sz of sizes){
+    const w=Math.round(VB_W*sz/CAP_H);
+    sH+=`<div style="margin-bottom:8px"><div class="label">${sz}px</div><div class="svg-container">${rSVG(master,w,sz,'w')}</div></div>`;
+  }
+  document.getElementById('scale-output').innerHTML=sH;
+
+  // G — Monochrome
+  document.getElementById('mono-black').innerHTML=rSVG(master,400,78,'w');
+  document.getElementById('mono-white').innerHTML=rSVG(master,400,78,'dark');
+  document.getElementById('mono-neutral').innerHTML=rSVG(master,400,78,'neutral');
+
+  // H — Silent Test
+  document.getElementById('silent-a').innerHTML=rSVG(master,300,59,'w');
+  document.getElementById('silent-b').innerHTML=rSVG(claron,300,59,'w');
+  document.getElementById('silent-c').innerHTML=rSVG(meridian,300,59,'w');
+
+  // I — Firewall
+  document.getElementById('fw-wordmark').innerHTML=rSVG(master,360,70,'w');
+  const items=['Generic luxury wordmark','Futuristic tech wordmark','AI startup','Fashion/editorial identity','SaaS identity','Crypto/Web3 identity','Sci-fi identity'];
+  let fwH='';
+  for(const item of items){
+    fwH+=`<div class="firewall-item"><div class="k">${item}</div><select><option value="">—</option><option>CLEAR</option><option>POSSIBLE</option><option>COLLISION</option></select></div>`;
+  }
+  document.getElementById('fw-grid').innerHTML=fwH;
+
+  // J — Final Gate
+  const questions=[
+    'Does the wordmark immediately read as intentional identity artwork?',
+    'Does it remain calm and restrained?',
+    'Does it remain recognizable across sizes?',
+    'Does it work without color?',
+    'Does it feel authored without appearing over-designed?',
+    'Does it retain the same identity from the previous phase?'
+  ];
+  let gH='';
+  for(const q of questions){
+    gH+=`<div style="display:flex;gap:12px;align-items:center;margin-bottom:8px;padding:8px;background:#1a1a1a;border:1px solid #222;font-size:10px">`;
+    gH+=`<span style="color:#888;flex:1">${q}</span>`;
+    gH+=`<select><option value="">—</option><option>YES</option><option>PARTIAL</option><option>NO</option></select></div>`;
+  }
+  gH+=`<div style="margin-top:16px;padding:12px;background:#1a1a1a;border:1px solid #222">`;
+  gH+=`<div style="font-size:10px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:2px">Classification</div>`;
+  gH+=`<div style="display:flex;gap:12px;flex-wrap:wrap">`;
+  gH+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="gate" style="accent-color:#666"> A — Pass to asset production</label>`;
+  gH+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="gate" style="accent-color:#666"> B — One optical correction</label>`;
+  gH+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="gate" style="accent-color:#666"> C — Return to previous phase</label>`;
+  gH+=`<label style="font-size:10px;color:#888;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="radio" name="gate" style="accent-color:#666"> D — Reopen exploration</label>`;
+  gH+=`</div></div>`;
+  gH+=`<textarea class="note-area" style="margin-top:12px" placeholder="Notes..."></textarea>`;
+  document.getElementById('gate-output').innerHTML=gH;
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderAll();
+</script>
+</body>
+</html>

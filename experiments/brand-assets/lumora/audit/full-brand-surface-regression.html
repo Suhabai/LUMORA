@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMORA — Full Brand Surface Regression Audit</title>
+<style>
+:root {
+  --bg: #07070a;
+  --surface: #101018;
+  --border: rgba(255,255,255,0.06);
+  --tx: #f5f5f7;
+  --mt: #7a7a8e;
+  --ac: #8a2eff;
+  --ok: #4ade80;
+  --wn: #fbbf24;
+  --er: #f87171;
+  --in: #60a5fa;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: "Manrope", -apple-system, sans-serif; background: var(--bg); color: var(--tx); line-height:1.6; padding:40px 24px; max-width:1280px; margin:0 auto; }
+h1 { font-size:28px; font-weight:700; margin-bottom:8px; }
+.sub { font-size:13px; color:var(--mt); margin-bottom:32px; }
+h2 { font-size:18px; font-weight:600; margin:32px 0 16px; color:var(--ac); }
+h3 { font-size:14px; font-weight:600; margin:20px 0 10px; }
+table { width:100%; border-collapse:collapse; margin:12px 0 24px; font-size:12px; }
+th { text-align:left; padding:8px 12px; border-bottom:1px solid var(--border); color:var(--mt); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; font-size:10px; }
+td { padding:8px 12px; border-bottom:1px solid var(--border); vertical-align:top; }
+.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:600; }
+.ok { background:rgba(74,222,128,0.15); color:var(--ok); }
+.wn { background:rgba(251,191,36,0.15); color:var(--wn); }
+.er { background:rgba(248,113,113,0.15); color:var(--er); }
+.in { background:rgba(96,165,250,0.15); color:var(--in); }
+.note { padding:12px 16px; border-left:3px solid var(--ac); background:rgba(138,46,255,0.05); margin:12px 0; font-size:12px; color:var(--mt); }
+.note b { color:var(--tx); }
+.finding { padding:12px 16px; border-left:3px solid var(--ok); background:rgba(74,222,128,0.05); margin:12px 0; font-size:12px; }
+.finding b { color:var(--tx); }
+.warn { padding:12px 16px; border-left:3px solid var(--wn); background:rgba(251,191,36,0.05); margin:12px 0; font-size:12px; }
+.warn b { color:var(--tx); }
+code { font-family:monospace; font-size:11px; background:rgba(255,255,255,0.06); padding:2px 6px; border-radius:3px; }
+</style>
+</head>
+<body>
+
+<h1>Full Brand Surface Regression</h1>
+<div class="sub">Phase 0C.28 — READ-ONLY audit of all LUMORA identity surfaces after Navigation + Footer integration</div>
+
+<h2>A. Identity Surface Inventory</h2>
+<table>
+<tr><th>Surface</th><th>Current Implementation</th><th>Classification</th><th>Approved?</th><th>Legacy?</th><th>Recommended Action</th><th>Priority</th></tr>
+<tr><td><b>Navigation Desktop</b></td><td>M Core 24px + Wordmark 28px, gap-2</td><td><span class="badge ok">PRIMARY</span></td><td><span class="badge ok">YES</span></td><td><span class="badge ok">NO</span></td><td>None</td><td>-</td></tr>
+<tr><td><b>Navigation Mobile</b></td><td>M Core 24px only</td><td><span class="badge ok">PRIMARY</span></td><td><span class="badge ok">YES</span></td><td><span class="badge ok">NO</span></td><td>None</td><td>-</td></tr>
+<tr><td><b>Mobile Drawer</b></td><td>"LUMORA" text, 9px, uppercase</td><td><span class="badge in">DECORATIVE</span></td><td><span class="badge wn">NO</span></td><td><span class="badge ok">NO</span></td><td>Optional: M Core</td><td>LOW</td></tr>
+<tr><td><b>Footer Desktop</b></td><td>M Core 24px + Wordmark 28px, gap-2</td><td><span class="badge ok">PRIMARY</span></td><td><span class="badge ok">YES</span></td><td><span class="badge ok">NO</span></td><td>None</td><td>-</td></tr>
+<tr><td><b>Footer Mobile</b></td><td>M Core 24px + Wordmark 24px, gap-2</td><td><span class="badge ok">PRIMARY</span></td><td><span class="badge ok">YES</span></td><td><span class="badge ok">NO</span></td><td>None</td><td>-</td></tr>
+<tr><td><b>Footer Copyright</b></td><td>"LUMORA" text via SITE_CONFIG</td><td><span class="badge in">LEGAL</span></td><td><span class="badge in">N/A</span></td><td><span class="badge ok">NO</span></td><td>None</td><td>-</td></tr>
+<tr><td><b>Hero Identity</b></td><td>"LUMORA" text, 10px, uppercase</td><td><span class="badge in">EDITORIAL</span></td><td><span class="badge wn">NO</span></td><td><span class="badge ok">NO</span></td><td>Optional: M Core + wordmark</td><td>LOW</td></tr>
+<tr><td><b>Hero V3 Identity</b></td><td>"LUMORA" text, 10px, uppercase</td><td><span class="badge in">EDITORIAL</span></td><td><span class="badge wn">NO</span></td><td><span class="badge ok">NO</span></td><td>Optional: M Core + wordmark</td><td>LOW</td></tr>
+<tr><td><b>About Heading</b></td><td>"LUMORA" as h1, font-display</td><td><span class="badge in">EDITORIAL</span></td><td><span class="badge wn">NO</span></td><td><span class="badge ok">NO</span></td><td>None - editorial</td><td>-</td></tr>
+<tr><td><b>About Closing</b></td><td>"LUMORA is a collection..." paragraph</td><td><span class="badge in">EDITORIAL</span></td><td><span class="badge in">N/A</span></td><td><span class="badge ok">NO</span></td><td>None - language</td><td>-</td></tr>
+<tr><td><b>Contact Signature</b></td><td>"Sohrab - LUMORA" text</td><td><span class="badge in">EDITORIAL</span></td><td><span class="badge in">N/A</span></td><td><span class="badge ok">NO</span></td><td>None - signature</td><td>-</td></tr>
+<tr><td><b>Browser Favicon</b></td><td>app/icon.svg - M Core SVG</td><td><span class="badge ok">PRIMARY</span></td><td><span class="badge ok">YES</span></td><td><span class="badge ok">NO</span></td><td>None</td><td>-</td></tr>
+<tr><td><b>Apple Touch Icon</b></td><td>public/apple-touch-icon.png</td><td><span class="badge ok">PRIMARY</span></td><td><span class="badge wn">UNVERIFIED</span></td><td><span class="badge ok">NO</span></td><td>Verify PNG has M Core</td><td>LOW</td></tr>
+<tr><td><b>OG Image</b></td><td>app/opengraph-image.png</td><td><span class="badge ok">PRIMARY</span></td><td><span class="badge wn">UNVERIFIED</span></td><td><span class="badge ok">NO</span></td><td>Verify PNG approved</td><td>LOW</td></tr>
+<tr><td><b>Manifest</b></td><td>public/manifest.json - refs /icon.svg</td><td><span class="badge er">LEGACY</span></td><td><span class="badge er">NO</span></td><td><span class="badge er">YES</span></td><td>Update to app/icon.svg</td><td>MEDIUM</td></tr>
+<tr><td><b>Legacy Favicon</b></td><td>public/icon.svg - old clock</td><td><span class="badge er">LEGACY</span></td><td><span class="badge er">NO</span></td><td><span class="badge er">YES</span></td><td>Keep as fallback</td><td>LOW</td></tr>
+<tr><td><b>Metadata Icons</b></td><td>layout.tsx - icons: /icon.svg</td><td><span class="badge wn">PARTIAL</span></td><td><span class="badge wn">PARTIAL</span></td><td><span class="badge wn">PARTIAL</span></td><td>Apple should use PNG</td><td>MEDIUM</td></tr>
+<tr><td><b>Schema.org</b></td><td>ld+json with SITE_CONFIG.name</td><td><span class="badge in">LEGAL</span></td><td><span class="badge in">N/A</span></td><td><span class="badge ok">NO</span></td><td>None - structured data</td><td>-</td></tr>
+</table>
+<h2>B. Primary Identity Surfaces</h2>
+<div class="finding"><b>Navigation Desktop:</b> M Core 24px + Wordmark 28px + 8px gap. Uses approved M Core optical path and Wordmark Medium path. Fill: var(--tx). CSS: flex items-center gap-2. BREAKPOINT: 768px.</div>
+<div class="finding"><b>Navigation Mobile:</b> M Core 24px only. Wordmark hidden below 768px. Fill: var(--tx). CSS: w-6 h-6.</div>
+<div class="finding"><b>Footer Desktop:</b> M Core 24px + Wordmark 28px + 8px gap. Same as navigation. Fill: var(--tx). CSS: flex items-center gap-2 mb-3.</div>
+<div class="finding"><b>Footer Mobile:</b> M Core 24px + Wordmark 24px + 8px gap. Wordmark visible (unlike navigation). Fill: var(--tx). CSS: h-6 md:h-7 w-auto.</div>
+<div class="finding"><b>Browser Favicon:</b> app/icon.svg contains M Core SVG (viewBox 0 0 1000 1000). Fill: #000. Served via Next.js file-based routing.</div>
+
+<h2>C. Secondary Identity Surfaces</h2>
+<div class="note"><b>Mobile Drawer:</b> "LUMORA" text at 9px, uppercase, tracking-[0.2em], text-text-faint/40. This is a decorative closing mark inside the mobile navigation drawer. Classification: DECORATIVE. Not a primary brand signature. Optional future enhancement: could use M Core.</div>
+<div class="note"><b>Hero Identity:</b> "LUMORA" text at 10px, uppercase, tracking-[0.2em], with decorative accent lines. Appears in both hero.tsx and hero-v3.tsx. Classification: EDITORIAL. This is a cinematic label, not a brand lockup. The text functions as scene-setting typography.</div>
+
+<h2>D. Editorial Typography Surfaces</h2>
+<div class="note"><b>About Heading:</b> "LUMORA" as h1 in about-experience.tsx, font-display, bold, clamp sizing. Classification: EDITORIAL. This is a section heading using the word as language.</div>
+<div class="note"><b>About Closing:</b> "LUMORA is a collection of these decisions..." in about.tsx. Classification: EDITORIAL. Paragraph text using the word as language.</div>
+<div class="note"><b>Contact Signature:</b> "Sohrab - LUMORA" in contact-experience.tsx, 10px, uppercase. Classification: EDITORIAL. Personal signature, not brand lockup.</div>
+<div class="note"><b>Page Metadata:</b> title/description in about/page.tsx, contact/page.tsx containing "LUMORA". Classification: LEGAL/SEO. Must remain text.</div>
+
+<h2>E. Legal / Copyright Surfaces</h2>
+<div class="note"><b>Footer Copyright:</b> "© 2026 LUMORA" via SITE_CONFIG.name. Classification: LEGAL. Must remain readable text.</div>
+<div class="note"><b>SITE_CONFIG:</b> constants/index.ts → name: "LUMORA". Used across navigation, footer, metadata, schema.org. Classification: LEGAL. Text constant.</div>
+<div class="note"><b>Schema.org:</b> ld+json structured data with name: SITE_CONFIG.name. Classification: LEGAL. Must be text for search engines.</div>
+
+<h2>F. Decorative / Contextual Surfaces</h2>
+<div class="note"><b>Mobile Drawer Closing Mark:</b> "LUMORA" at 9px inside mobile navigation drawer. Classification: DECORATIVE. Contextual closing mark, not brand identity.</div>
+<div class="note"><b>Hero Labels:</b> "LUMORA" with decorative lines in hero sections. Classification: DECORATIVE/EDITORIAL. Scene-setting typography.</div>
+<h2>G. Legacy Identity Remnants</h2>
+<table>
+<tr><th>Asset</th><th>Location</th><th>Status</th><th>Action Required</th></tr>
+<tr><td><b>public/icon.svg</b></td><td>Legacy favicon - purple circle + clock icon</td><td><span class="badge er">LEGACY - ACTIVE</span></td><td>Keep as fallback. Referenced by public/manifest.json. Do not delete until manifest updated.</td></tr>
+<tr><td><b>public/manifest.json</b></td><td>PWA manifest - references /icon.svg (old clock)</td><td><span class="badge er">LEGACY - ACTIVE</span></td><td>Update icons[0].src to point to M Core. Currently serves old clock to PWA.</td></tr>
+<tr><td><b>app/layout.tsx icons</b></td><td>metadata.icons.apple: "/icon.svg"</td><td><span class="badge wn">PARTIAL</span></td><td>app/icon.svg serves M Core via Next.js routing. But apple should use PNG for iOS compatibility.</td></tr>
+</table>
+<div class="warn"><b>Legacy Clock SVG:</b> The old clock identity (purple circle with clock hands) exists ONLY in public/icon.svg. It has been completely removed from all production components (navigation.tsx, footer.tsx). No clock SVG references remain in any .tsx file. The legacy asset is only retained as a fallback for PWA manifest.</div>
+
+<h2>H. Living Core Separation Audit</h2>
+<div class="finding"><b>Core Independence:</b> The Living Core (components/core/LivingCore.tsx, components/core/LivingCoreVisual.tsx) is rendered via GlobalCore (components/layout/global-core.tsx). It operates on its own timeline, scale, warmth, and softness. The brand identity lockup in navigation and footer is completely independent.</div>
+<div class="finding"><b>No Coupling Found:</b></div>
+<div class="finding">&bull; Logo does NOT trigger Core animation</div>
+<div class="finding">&bull; Core is NOT used as logo</div>
+<div class="finding">&bull; Logo does NOT inherit Core glow</div>
+<div class="finding">&bull; Logo does NOT inherit Core pulse</div>
+<div class="finding">&bull; Logo does NOT inherit Core orbital motion</div>
+<div class="finding">&bull; Core symbol does NOT appear where brand identity should</div>
+<div class="finding">&bull; Brand assets do NOT depend on Core state</div>
+<div class="finding"><b>Separation Status:</b> CLEAN. The Living Core and brand identity are architecturally independent systems.</div>
+
+<h2>I. Metadata Identity Audit</h2>
+<table>
+<tr><th>Context</th><th>Current Asset</th><th>Approved?</th><th>Notes</th></tr>
+<tr><td>Browser Favicon</td><td>app/icon.svg (M Core SVG)</td><td><span class="badge ok">YES</span></td><td>Next.js file-based routing. M Core viewBox 0 0 1000 1000.</td></tr>
+<tr><td>Apple Touch Icon</td><td>public/apple-touch-icon.png</td><td><span class="badge wn">UNVERIFIED</span></td><td>File exists. Content not verified - may still contain old clock.</td></tr>
+<tr><td>OG Image</td><td>app/opengraph-image.png</td><td><span class="badge wn">UNVERIFIED</span></td><td>File exists. Content not verified - may still contain old composition.</td></tr>
+<tr><td>Twitter Image</td><td>/opengraph-image (same as OG)</td><td><span class="badge wn">UNVERIFIED</span></td><td>References same file as OG image.</td></tr>
+<tr><td>Manifest Icons</td><td>/icon.svg (old clock)</td><td><span class="badge er">NO</span></td><td>LEGACY. References public/icon.svg which is old clock.</td></tr>
+<tr><td>Schema.org</td><td>text: SITE_CONFIG.name</td><td><span class="badge ok">YES</span></td><td>Structured data - must be text.</td></tr>
+</table>
+
+<h2>J. Responsive Identity Audit</h2>
+<table>
+<tr><th>Context</th><th>Breakpoint</th><th>M Core</th><th>Wordmark</th><th>Gap</th><th>Status</th></tr>
+<tr><td>Navigation</td><td>≥ 768px</td><td>24px</td><td>28px</td><td>8px</td><td><span class="badge ok">CORRECT</span></td></tr>
+<tr><td>Navigation</td><td>&lt; 768px</td><td>24px</td><td>hidden</td><td>-</td><td><span class="badge ok">CORRECT</span></td></tr>
+<tr><td>Footer</td><td>≥ 768px</td><td>24px</td><td>28px</td><td>8px</td><td><span class="badge ok">CORRECT</span></td></tr>
+<tr><td>Footer</td><td>&lt; 768px</td><td>24px</td><td>24px</td><td>8px</td><td><span class="badge ok">CORRECT</span></td></tr>
+</table>
+<div class="finding"><b>Responsive Behavior:</b> All frozen specs correctly implemented. Navigation mobile hides wordmark. Footer mobile keeps wordmark at 24px. No other responsive identity rules override these.</div>
+
+<h2>K. Recommended Future Integration Map</h2>
+<table>
+<tr><th>Surface</th><th>Current</th><th>Recommended</th><th>Priority</th><th>Depends On</th></tr>
+<tr><td>Manifest icons</td><td>public/icon.svg (clock)</td><td>app/icon.svg (M Core)</td><td>MEDIUM</td><td>None</td></tr>
+<tr><td>Apple Touch Icon</td><td>public/apple-touch-icon.png</td><td>Verify/replace with M Core PNG</td><td>LOW</td><td>None</td></tr>
+<tr><td>OG Image</td><td>app/opengraph-image.png</td><td>Verify/replace with approved composition</td><td>LOW</td><td>None</td></tr>
+<tr><td>Mobile Drawer</td><td>"LUMORA" text</td><td>Optional: M Core SVG</td><td>LOW</td><td>None</td></tr>
+<tr><td>Hero Identity</td><td>"LUMORA" text + lines</td><td>Optional: M Core + wordmark lockup</td><td>LOW</td><td>Design decision required</td></tr>
+<tr><td>Hero V3 Identity</td><td>"LUMORA" text + lines</td><td>Optional: M Core + wordmark lockup</td><td>LOW</td><td>Design decision required</td></tr>
+<tr><td>public/icon.svg</td><td>Old clock (fallback)</td><td>Keep until manifest migrated</td><td>LOW</td><td>Manifest update first</td></tr>
+</table>
+
+<h2>L. Validation Summary</h2>
+<div class="finding"><b>Production files changed:</b> NONE (this phase is read-only)</div>
+<div class="finding"><b>Old clock SVG in components:</b> REMOVED (navigation.tsx, footer.tsx clean)</div>
+<div class="finding"><b>Approved M Core in production:</b> YES (navigation, footer, app/icon.svg)</div>
+<div class="finding"><b>Approved Wordmark in production:</b> YES (navigation, footer)</div>
+<div class="finding"><b>Living Core separation:</b> CLEAN</div>
+<div class="finding"><b>Responsive behavior:</b> CORRECT</div>
+<div class="warn"><b>Unverified assets:</b> public/apple-touch-icon.png, app/opengraph-image.png (file exists but content not visually verified)</div>
+<div class="warn"><b>Legacy reference:</b> public/manifest.json still references old /icon.svg (public/icon.svg)</div>
+
+<div style="margin-top:40px;padding:20px;border:1px solid var(--ok);border-radius:8px;background:rgba(74,222,128,0.05)">
+<h3 style="color:var(--ok);margin-bottom:8px">FINAL CLASSIFICATION: A - REGRESSION CLEAN</h3>
+<p style="font-size:13px;color:var(--mt)">The brand identity integration is clean. Primary identity surfaces (navigation, footer, favicon) use approved assets. Legacy remnants are confined to public/icon.svg (fallback) and manifest.json (needs update). Editorial typography surfaces correctly use text. Living Core is architecturally independent. No production files were modified in this phase.</p>
+</div>
+
+</body>
+</html>

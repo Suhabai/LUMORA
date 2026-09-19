@@ -40,6 +40,36 @@ export function ScrollAtmosphere() {
   const directionRef = useRef(0);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      // Set static phase state without animation
+      const root = document.documentElement;
+      root.style.setProperty("--scroll-progress", "0");
+      root.style.setProperty("--hero-fade", "1");
+      root.style.setProperty("--scroll-velocity", "0");
+      root.style.setProperty("--scroll-direction", "0");
+      root.style.setProperty("--core-phase", "presence");
+      root.style.setProperty("--core-event", "core-expand");
+      const phaseState = PHASE_STATE.presence;
+      root.style.setProperty("--core-breathe-rate", `${phaseState.breatheRate}s`);
+      root.style.setProperty("--core-breathe-intensity", String(phaseState.breatheIntensity));
+      root.style.setProperty("--core-letter-spacing", `${phaseState.letterSpacing}em`);
+      root.style.setProperty("--core-line-height-mod", String(phaseState.lineHeightMod));
+      root.style.setProperty("--core-section-pad", String(phaseState.sectionPad));
+      root.style.setProperty("--core-motion-duration", "0");
+      root.style.setProperty("--core-atmosphere-intensity", String(phaseState.atmosphereIntensity));
+      root.style.setProperty("--core-transition-height", String(phaseState.transitionHeight));
+      root.style.setProperty("--env-field-x", String(phaseState.envX));
+      root.style.setProperty("--env-field-y", String(phaseState.envY));
+      root.style.setProperty("--env-field-scale", String(phaseState.envScale));
+      root.style.setProperty("--env-warmth", String(phaseState.warmth));
+      root.style.setProperty("--env-depth", String(phaseState.depth));
+      root.style.setProperty("--env-settle", String(phaseState.settle));
+      setPhase("presence");
+      setEvent("core-expand");
+      return;
+    }
+
     let ticking = false;
 
     function update() {

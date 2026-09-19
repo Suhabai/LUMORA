@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/icon.svg",
-    apple: "/icon.svg",
+    apple: "/apple-icon.png",
   },
   robots: { index: true, follow: true },
   alternates: { canonical: SITE_CONFIG.url },
@@ -80,7 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ScrollAtmosphere />
         <SmoothScroll>
           <ExperienceProvider>
-            <GlobalCore />
+            <GlobalCore enableDirectionalLight />
             <a
               href="#hero"
               className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-bg"

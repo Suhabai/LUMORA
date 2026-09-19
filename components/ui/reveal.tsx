@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { type ReactNode } from "react";
+import { type ReactNode, useMemo } from "react";
 
 const variants: Record<string, Variants> = {
   fadeUp: {
@@ -37,6 +37,15 @@ export function Reveal({
   duration,
   className,
 }: RevealProps) {
+  const prefersReducedMotion = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+
+  if (prefersReducedMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       variants={variants[variant]}

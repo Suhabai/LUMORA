@@ -1,0 +1,179 @@
+/* ═══════════════════════════════════════════════════════════
+   LIVING THRESHOLD — Experiment T
+   Cinematic transition between Hero and first content section.
+   All layers are CSS-only (gradients, transforms).
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── LAYER 1: HERO DISSOLVE ──
+   The hero's atmospheric presence fading away.
+   A deep purple radial that was "present" in the hero
+   and dissolves as we scroll into the transition. */
+.lt-hero-dissolve {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 90% 80% at 50% 40%,
+      rgba(155, 68, 248, 0.10) 0%,
+      rgba(140, 55, 240, 0.04) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 70% 60% at 50% 50%,
+      rgba(125, 42, 224, 0.05) 0%,
+      transparent 55%
+    );
+}
+
+/* ── LAYER 2: CORE SETTLE ──
+   The Living Core's ambient light shifting state.
+   A soft radial that expands and dims — presence → rest.
+   This creates the feeling that the Core is "settling"
+   as we leave the hero space. */
+.lt-core-settle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 55vw;
+  height: 55vw;
+  max-width: 700px;
+  max-height: 700px;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(
+      ellipse 65% 60% at 50% 48%,
+      rgba(155, 72, 248, 0.08) 0%,
+      rgba(140, 55, 240, 0.03) 40%,
+      transparent 65%
+    );
+}
+
+/* ── LAYER 3: THRESHOLD LINE ──
+   A single horizontal line marking the threshold.
+   Thin, elegant, grows from center outward.
+   This is the "doorway" between hero and content. */
+.lt-threshold-line {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  transform: translateY(-50%);
+  transform-origin: center;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(155, 72, 248, 0.12) 20%,
+    rgba(145, 58, 242, 0.18) 50%,
+    rgba(155, 72, 248, 0.12) 80%,
+    transparent 100%
+  );
+}
+
+/* Threshold line glow — soft bloom behind the line */
+.lt-threshold-line::after {
+  content: "";
+  position: absolute;
+  inset: -8px 0;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(155, 72, 248, 0.03) 20%,
+    rgba(145, 58, 242, 0.05) 50%,
+    rgba(155, 72, 248, 0.03) 80%,
+    transparent 100%
+  );
+  filter: blur(6px);
+}
+
+/* ── LAYER 4: NEXT ATMOSPHERE ──
+   The next section's space emerging from below.
+   A subtle atmospheric field that rises into view,
+   creating the feeling of entering a new depth. */
+.lt-next-atmosphere {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 100% 80% at 50% 65%,
+      rgba(140, 55, 240, 0.06) 0%,
+      rgba(125, 42, 224, 0.02) 45%,
+      transparent 70%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 30%,
+      rgba(12, 8, 22, 0.15) 70%,
+      rgba(10, 6, 18, 0.25) 100%
+    );
+}
+
+/* ── LAYER 5: BREATH ──
+   Atmospheric pulse at the threshold moment.
+   A soft, wide radial that expands and fades —
+   the environment "breathes" as we cross. */
+.lt-breath {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80vw;
+  height: 50vh;
+  max-width: 1000px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    rgba(155, 72, 248, 0.06) 0%,
+    rgba(140, 55, 240, 0.02) 40%,
+    transparent 70%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .lt-core-settle {
+    width: 65vw;
+    height: 65vw;
+  }
+  .lt-breath {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Mobile: simplified.
+     Keep the threshold line and breath, reduce everything else. */
+  .lt-hero-dissolve {
+    background: radial-gradient(
+      ellipse 100% 80% at 50% 40%,
+      rgba(155, 68, 248, 0.06) 0%,
+      transparent 60%
+    );
+  }
+  .lt-core-settle {
+    width: 80vw;
+    height: 80vw;
+  }
+  .lt-threshold-line {
+    left: 10%;
+    right: 10%;
+  }
+  .lt-next-atmosphere {
+    background: linear-gradient(
+      to bottom,
+      transparent 30%,
+      rgba(12, 8, 22, 0.12) 70%,
+      rgba(10, 6, 18, 0.2) 100%
+    );
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REDUCED MOTION
+   The global prefers-reduced-motion rule halts all CSS animations.
+   GSAP ScrollTrigger animations are scrub-based, so they still
+   respond to scroll but with zero smoothing (instant).
+   The visual states remain readable in static form.
+   ═══════════════════════════════════════════════════════════ */
