@@ -156,13 +156,19 @@ Do not create it.
 
 All decisions in LUMORA must follow a clear hierarchy.
 
-The system has three main sources of truth:
+The system has five main sources of truth:
 
 1. DESIGN.md
 
-2. AGENTS.md
+2. `docs/identity/LUMORA-IDENTITY-FREEZE-v3.md`
 
-3. LUMORA Skills System
+3. `docs/motion/LUMORA-MOTION-GRAMMAR.md`
+
+4. `docs/sonic/LUMORA-SONIC-GRAMMAR.md`
+
+5. AGENTS.md
+
+LUMORA Skills System provides specialized expertise within this hierarchy.
 
 
 ---
@@ -373,6 +379,106 @@ Explain:
 LUMORA is not built by random decisions.
 
 Every decision must have a source.
+
+---
+
+# 02A — Frozen Systems Contract
+
+## Canonical Frozen Sources
+
+The following documents are canonical production constraints:
+
+1. `docs/identity/LUMORA-IDENTITY-FREEZE-v3.md`
+2. `docs/motion/LUMORA-MOTION-GRAMMAR.md`
+3. `docs/sonic/LUMORA-SONIC-GRAMMAR.md`
+
+For identity, motion, sonic behavior, typography, color, Core behavior,
+navigation lockup, or cinematic direction, these frozen documents override
+general implementation preferences and common UI conventions.
+
+These systems may only be reopened through an explicit user-approved review phase.
+
+If a frozen constraint appears to conflict with accessibility, security,
+critical functionality, or a platform requirement, do not silently override
+either side. Report the conflict and request a decision before redesigning.
+
+## Frozen Identity Rules
+
+Do not alter without an explicitly opened identity review phase:
+
+- Candidate Alpha / Quiet C wordmark geometry
+- M Core geometry, proportions, and approved responsive lockups
+- Approved identity color behavior
+- Identity motion rule: the wordmark and M Core remain still
+- Separation between identity and Living Core
+
+The Living Core is an experiential heartbeat, not a logo, favicon,
+navigation ornament, or replacement for the M Core.
+
+Do not transfer Living Core pulse, glow, orbit, state, or motion behavior
+to the identity mark.
+
+## Frozen Motion Rules
+
+Motion must follow the canonical Motion Grammar.
+
+Do not introduce:
+
+- bounce
+- elastic or spring overshoot
+- generic SaaS motion
+- excessive parallax
+- fake 3D
+- particle effects
+- glow trails
+- energy waves
+- decorative perpetual animation
+
+PRESENCE behavior is exclusive to the Living Core.
+
+Any new motion must include a meaning-preserving reduced-motion treatment.
+
+## Frozen Sonic Rules
+
+LUMORA is intentionally silent.
+
+Do not add:
+
+- audio files
+- Web Audio behavior
+- background music
+- ambience
+- interaction sounds
+- transition sounds
+- Living Core heartbeat audio
+- sonic branding
+
+This is an architectural decision, not a missing feature.
+
+Reopen sound only through an explicit user-approved sonic or experience
+review phase.
+
+## Visual Preservation Rules
+
+Do not introduce without explicit approval:
+
+- new fonts
+- new brand colors
+- identity gradients
+- identity glows
+- identity shadows
+- identity color shifts
+- generic SaaS/dashboard patterns
+- generic component-library visual language
+- unnecessary glassmorphism
+- arbitrary gradients
+- redesigns disguised as fixes
+
+Existing approved brand colors, typography, navigation lockups,
+and the cinematic / calm / premium environment are preserved systems.
+
+Improve within them.
+Do not replace them.
 ---
 
 # 03 — Development Workflow System
