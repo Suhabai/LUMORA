@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc" style="color:#f5f5f7">
+  <title id="title">LUMORA flat event-horizon mark</title>
+  <desc id="desc">The no-glow monochrome silhouette of the LUMORA near-complete ring with transparent center.</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M72 118 A96 96 0 0 1 196 72" stroke-width="24"/>
+    <path d="M211 82 A96 96 0 0 1 254 201" stroke-width="22"/>
+    <path d="M242 226 A96 96 0 0 1 119 252" stroke-width="25"/>
+    <path d="M101 239 A96 96 0 0 1 72 118" stroke-width="21"/>
+  </g>
+  <g fill="currentColor"><circle cx="222" cy="72" r="5"/><circle cx="268" cy="211" r="8"/><circle cx="92" cy="268" r="4"/><circle cx="66" cy="248" r="6"/><circle cx="112" cy="67" r="3"/></g>
+</svg>

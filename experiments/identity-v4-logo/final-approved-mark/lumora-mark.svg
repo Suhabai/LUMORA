@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">LUMORA luminous event-horizon mark</title>
+  <desc id="desc">A still luminous near-complete ring with organic interruptions and asymmetric light beads around a transparent center.</desc>
+  <defs>
+    <linearGradient id="lumora-violet" x1="15%" y1="80%" x2="88%" y2="18%"><stop offset="0" stop-color="#8d46d8"/><stop offset=".42" stop-color="#b96cff"/><stop offset=".72" stop-color="#ffffff"/><stop offset=".86" stop-color="#e3a4ff"/><stop offset="1" stop-color="#9a4ee5"/></linearGradient>
+    <filter id="lumora-bloom" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <g fill="none" stroke="url(#lumora-violet)" stroke-linecap="round" filter="url(#lumora-bloom)">
+    <path d="M72 118 A96 96 0 0 1 196 72" stroke-width="24"/>
+    <path d="M211 82 A96 96 0 0 1 254 201" stroke-width="22"/>
+    <path d="M242 226 A96 96 0 0 1 119 252" stroke-width="25"/>
+    <path d="M101 239 A96 96 0 0 1 72 118" stroke-width="21"/>
+  </g>
+  <g fill="#ffffff" stroke="#dca0ff" stroke-width="2" filter="url(#lumora-bloom)">
+    <circle cx="222" cy="72" r="5"/><circle cx="268" cy="211" r="8"/><circle cx="92" cy="268" r="4"/><circle cx="66" cy="248" r="6"/><circle cx="112" cy="67" r="3"/>
+  </g>
+</svg>

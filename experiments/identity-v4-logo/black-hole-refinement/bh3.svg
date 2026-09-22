@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 60 320 320" role="img" aria-labelledby="title desc" style="color:#f5f5f7">
+  <title id="title">LUMORA BH3 Deep Eclipse</title>
+  <desc id="desc">A deeper eclipse contour with a quiet directional pull toward the lower seam.</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M251 98 A121 121 0 1 1 151 294" stroke-width="27"/>
+    <path d="M116 285 L151 294" stroke-width="10"/>
+  </g>
+</svg>

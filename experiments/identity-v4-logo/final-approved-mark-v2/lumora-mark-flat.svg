@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc" style="color:#f5f5f7">
+  <title id="title">LUMORA final flat mark v2</title>
+  <desc id="desc">Organic monochrome silhouette of the approved luminous-ring reconstruction with transparent center.</desc>
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M70 128 C78 91 112 68 151 63 C184 59 214 71 235 91" stroke-width="29"/><path d="M246 103 C267 126 273 160 266 190 C263 206 255 221 244 232" stroke-width="25"/><path d="M229 244 C204 267 169 276 136 270 C116 267 99 258 86 246" stroke-width="31"/><path d="M73 232 C58 207 54 176 60 150 C62 141 65 134 70 128" stroke-width="23"/>
+  </g>
+  <g fill="currentColor"><circle cx="250" cy="82" r="6"/><circle cx="279" cy="130" r="10"/><circle cx="274" cy="207" r="5"/><circle cx="91" cy="275" r="7"/><circle cx="59" cy="247" r="4"/><circle cx="112" cy="53" r="3.5"/></g>
+</svg>
