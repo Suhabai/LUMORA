@@ -359,3 +359,30 @@
     );
   }
 }
+
+/* Reduced motion: expose the completed HeroV2 hierarchy before client effects
+   run. The component's local effect applies these same final values without
+   creating its entrance timeline. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-v2-atmosphere,
+  .hero-v2-light {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-v2-core-glow {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+  }
+
+  .hero-v2-identity,
+  .hero-v2-heading,
+  .hero-v2-invitation {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-v2-heading {
+    clip-path: inset(0% 0 0 0) !important;
+  }
+}

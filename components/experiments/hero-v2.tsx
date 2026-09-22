@@ -24,7 +24,7 @@ import { useExperience } from "@/components/layout/experience-context";
  *
  * All layers are CSS-only (gradients, pseudo-elements, @keyframes).
  * No new JS animation libraries. No WebGL. No particles.
- * Reduced-motion: global rule halts all animations.
+ * Reduced-motion: render the completed hierarchy without an entrance timeline.
  */
 export function HeroV2() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -47,6 +47,36 @@ export function HeroV2() {
   // 2.8s  Invitation appears
   useEffect(() => {
     if (!sectionRef.current) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) {
+      if (atmosphereRef.current) {
+        gsap.set(atmosphereRef.current, { opacity: 1, scale: 1 });
+      }
+      if (lightStructureRef.current) {
+        gsap.set(lightStructureRef.current, { opacity: 1, scale: 1 });
+      }
+      if (coreGlowRef.current) {
+        gsap.set(coreGlowRef.current, { opacity: 1, scale: 1 });
+      }
+      if (identityRef.current) {
+        gsap.set(identityRef.current, { opacity: 1, y: 0 });
+      }
+      if (headingRef.current) {
+        gsap.set(headingRef.current, {
+          opacity: 1,
+          y: 0,
+          clipPath: "inset(0% 0 0 0)",
+        });
+      }
+      if (scrollRef.current) {
+        gsap.set(scrollRef.current, { opacity: 1 });
+      }
+      return;
+    }
 
     const ctx = gsap.context(() => {
       const dur = parseFloat(
@@ -201,7 +231,7 @@ export function HeroV2() {
       {/* Identity signal — LUMORA, quiet, above the Core */}
       <div
         ref={identityRef}
-        className="absolute top-[14vh] left-0 right-0 flex justify-center opacity-0"
+        className="hero-v2-identity absolute top-[14vh] left-0 right-0 flex justify-center opacity-0"
         style={{ zIndex: 10 }}
       >
         <span className="inline-flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.2em] text-text-muted">
@@ -219,7 +249,7 @@ export function HeroV2() {
         <h1
           ref={headingRef}
           id="hero-heading"
-          className="font-display text-[clamp(2rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.02em] mb-0 opacity-0 text-text/90 core-type-calm"
+          className="hero-v2-heading font-display text-[clamp(2rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.02em] mb-0 opacity-0 text-text/90 core-type-calm"
         >
           Environments that feel
           <br />
@@ -230,7 +260,7 @@ export function HeroV2() {
       {/* Scroll invitation — quiet, unhurried */}
       <div
         ref={scrollRef}
-        className="absolute bottom-[7vh] left-0 right-0 flex flex-col items-center gap-2.5 opacity-0"
+        className="hero-v2-invitation absolute bottom-[7vh] left-0 right-0 flex flex-col items-center gap-2.5 opacity-0"
         style={{ zIndex: 10 }}
       >
         <span className="text-[9px] font-medium uppercase tracking-[0.2em] text-text-faint">
