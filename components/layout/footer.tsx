@@ -37,24 +37,24 @@ export function Footer() {
 
           {/* Minimal links */}
           <div className="flex items-center gap-6">
-            <a
-              href="#works"
+            <Link
+              href="/#works"
               className="text-[12px] font-medium text-text-muted/60 hover:text-text-muted transition-colors duration-300"
             >
               Worlds
-            </a>
-            <a
-              href="#about"
+            </Link>
+            <Link
+              href="/#about"
               className="text-[12px] font-medium text-text-muted/60 hover:text-text-muted transition-colors duration-300"
             >
               Person
-            </a>
-            <a
-              href="#contact"
+            </Link>
+            <Link
+              href="/#contact"
               className="text-[12px] font-medium text-text-muted/60 hover:text-text-muted transition-colors duration-300"
             >
               Connect
-            </a>
+            </Link>
           </div>
         </div>
 

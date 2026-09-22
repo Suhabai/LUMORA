@@ -13,10 +13,10 @@ const ROUTE_LINKS = [
 ] as const;
 
 const ENV_LINKS = [
-  { href: "#works", label: "Worlds" },
-  { href: "#philosophy", label: "Thinking" },
-  { href: "#about", label: "Person" },
-  { href: "#contact", label: "Threshold" },
+  { href: "/#works", label: "Worlds" },
+  { href: "/#philosophy", label: "Thinking" },
+  { href: "/#about", label: "Person" },
+  { href: "/#contact", label: "Threshold" },
 ] as const;
 
 export function Navigation() {
@@ -39,6 +39,17 @@ export function Navigation() {
     return () => {
       document.body.style.overflow = "";
     };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
   return (
@@ -93,12 +104,12 @@ export function Navigation() {
               ))}
               {ENV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-[13px] font-medium text-text-muted/60 hover:text-text-muted transition-colors duration-300"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -108,7 +119,7 @@ export function Navigation() {
 
           <button
             className="md:hidden w-10 h-10 flex items-center justify-center text-text"
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpen((isOpen) => !isOpen)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -185,7 +196,7 @@ export function Navigation() {
                           }
                     }
                   >
-                    <a
+                    <Link
                       href={link.href}
                       className="group flex items-baseline gap-5 py-3 border-b border-border/40 transition-colors duration-300"
                       onClick={() => setOpen(false)}
@@ -196,7 +207,7 @@ export function Navigation() {
                       <span className="font-display text-[clamp(1.6rem,5vw,2.2rem)] font-light leading-[1.1] tracking-[-0.01em] text-text/70 transition-colors duration-300 group-hover:text-text/80">
                         {link.label}
                       </span>
-                    </a>
+                    </Link>
                   </motion.li>
                 ))}
               </ul>
