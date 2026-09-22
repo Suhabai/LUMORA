@@ -17,7 +17,7 @@ Checkpoint: `921c8cd`. Production code was not changed.
 | `/work/velocity` | 200 OK | VERIFIED LIVE — local HTTP response | PASS |
 | `/this-route-does-not-exist` | 404 Not Found | VERIFIED LIVE — local HTTP response | PASS |
 
-HTTP success verifies server rendering reached a response. Visual layout, client runtime console, interactive behavior, and browser navigation are NOT VERIFIED DUE TO TOOLING because Playwright and an available browser surface were absent.
+All route statuses, titles, first headings, and horizontal-overflow checks were also VERIFIED LIVE in headless Microsoft Edge 153.0.4234.48 through Playwright 1.63.0. No uncaught page errors or failed requests were observed. The only console error was the expected 404 resource response for the intentionally nonexistent route.
 
 ## Navigation and fragment-link matrix
 
@@ -32,7 +32,11 @@ HTTP success verifies server rendering reached a response. Visual layout, client
 | Footer Worlds / Person / Connect | `#works` / `#about` / `#contact` | as above | VERIFIED STATICALLY — targets exist | VERIFIED STATICALLY — target absent from internal routes | MAJOR |
 | Skip link | `#hero` | `main#hero`; homepage also has `section#hero` | VERIFIED STATICALLY — destination exists | VERIFIED STATICALLY — global main target exists | PASS |
 
-The local fragment-link problem is real. It affects both desktop and mobile navigation because both use `ENV_LINKS`, and it affects the footer. Actual click, scroll position, history back/forward behavior, and focus movement are NOT VERIFIED DUE TO TOOLING.
+The local fragment-link problem is real and VERIFIED LIVE. Homepage links resolve to existing target elements. From `/work`, `/about`, and `/contact`, all four links produce that route plus the fragment but no matching element—except `/contact#contact`, whose target exists on the contact route. The footer `#contact` link from `/work` produced `/work#contact` with no target. This affects both desktop and mobile navigation because both use `ENV_LINKS`.
+
+## Route history
+
+**MAJOR — VERIFIED LIVE.** Keyboard activation of the visible Work link correctly reached `/work`; Back returned `/`; Forward returned `/` rather than restoring `/work`. The direct route works, but browser Forward did not restore the destination in this local Edge session.
 
 ## Identity and 404
 
@@ -48,4 +52,4 @@ M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L54
 
 ### 404 experience
 
-**MAJOR — VERIFIED STATICALLY / VERIFIED LIVE.** `app/not-found.tsx` does not exist; the tested nonexistent URL returns 404. The response is therefore a framework fallback rather than a dedicated branded LUMORA 404. Visual appearance is NOT VERIFIED DUE TO TOOLING.
+**MINOR — VERIFIED LIVE.** `app/not-found.tsx` does not exist and the tested URL returns 404. The visible message is framework-default (`404` / `This page could not be found`), but the inherited LUMORA shell remains: title, navigation, footer, and two home links are present. This is a brand-completeness gap rather than a broken recovery path.

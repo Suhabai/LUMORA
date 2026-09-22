@@ -2,25 +2,26 @@
 
 ## Verdict
 
-**Not ready for Phase 0E.4 implementation sign-off until the confirmed blocker is resolved in a separately authorized fix phase.** This audit made no fixes.
+**Not ready for Phase 0E.4 implementation sign-off until the confirmed blocker and live functional majors are resolved in a separately authorized fix phase.** This audit made no fixes.
 
 ## Confirmed findings
 
 | Priority | Finding | Evidence | Severity |
 |---|---|---|---|
 | 1 | Browser favicon does not use frozen M Core geometry. | VERIFIED STATICALLY — `app/icon.svg` path differs from Identity Freeze v3 canonical path, including V apex and right-stem notch. | BLOCKER |
-| 2 | Active HeroV2 entrance does not respect reduced motion. | VERIFIED STATICALLY — GSAP timeline has no reduced-motion condition. | MAJOR |
-| 3 | Living Core SMIL path morph remains active under reduced motion. | VERIFIED STATICALLY — SMIL `<animate>` is indefinite and has no reduced-motion control; CSS rule does not halt SMIL. | MAJOR |
-| 4 | Global hash navigation does not return internal-route visitors to the homepage targets. | VERIFIED STATICALLY — `#works`, `#philosophy`, `#about`, `#contact` targets only render on `/`. | MAJOR |
-| 5 | No dedicated branded 404 exists. | VERIFIED STATICALLY / VERIFIED LIVE — no `app/not-found.tsx`; unknown route responds 404. | MAJOR |
-| 6 | `/system` and `/docs` are indexable without a documented public-launch decision. | VERIFIED STATICALLY — both are in sitemap and globally allowed. | MINOR |
-| 7 | No route-level `loading.tsx` boundary was found. | VERIFIED STATICALLY — transition/loading behavior requires browser verification before judging user impact. | MINOR |
+| 2 | Active HeroV2 entrance does not respect reduced motion. | VERIFIED LIVE — under reduced motion, the hero H1 changed from opacity `0` at 120ms to `1` at 3420ms. | MAJOR |
+| 3 | Global hash navigation does not return internal-route visitors to the homepage targets. | VERIFIED LIVE — internal fragments produce URLs with no corresponding target, except `/contact#contact`. | MAJOR |
+| 4 | Browser Forward does not restore `/work` after valid Work navigation and Back. | VERIFIED LIVE — Forward returned `/`. | MAJOR |
+| 5 | Escape does not close the mobile navigation dialog. | VERIFIED LIVE — dialog stayed mounted and `aria-expanded` remained `true`. | MAJOR |
+| 6 | No dedicated branded 404 exists. | VERIFIED LIVE — framework-default message, with preserved global navigation and home recovery. | MINOR |
+| 7 | `/system` and `/docs` are indexable without a documented public-launch decision. | VERIFIED STATICALLY — both are in sitemap and globally allowed. | MINOR |
 
 ## Pending live verification
 
 | Area | Evidence | Classification |
 |---|---|---|
-| Animation, hydration, and main-thread cost | Global and route-level client animation systems are present; no profiler was available. | NOT VERIFIED DUE TO TOOLING — pending live profiling; not a confirmed defect |
+| Animation, hydration, and main-thread cost | Global and route-level client animation systems are present; Edge showed no uncaught errors or failed requests, but no profiler was used. | NOT VERIFIED / REQUIRES DEDICATED PROFILING — not a confirmed defect |
+| Route-level loading boundary | No `loading.tsx` was found; all audited routes rendered successfully in Edge. | NOT VERIFIED — transition/loading behavior is not a confirmed defect |
 
 ## Passes
 
@@ -30,6 +31,4 @@
 
 ## Tooling limitation
 
-Playwright is **NOT INSTALLED**: it is not in `package.json`, `node_modules/.bin`, local modules, or global command lookup. No browser surface was available. Therefore viewport rendering at 320–1440px, console errors, keyboard traversal, focus order, actual hash scrolling, browser back/forward, contrast measurement, and runtime reduced-motion rendering are **NOT VERIFIED DUE TO TOOLING**.
-
-To complete those checks, a later approved phase needs Playwright plus a compatible browser binary (or an available browser automation surface). No package was installed or repaired in this phase.
+Playwright 1.63.0 used system Microsoft Edge 153.0.4234.48. Route statuses, viewport overflow, representative visuals, fragment resolution, limited keyboard behavior, 404 presentation, console/page errors, and reduced motion were checked live. Contrast ratios, full dialog focus trapping/restoration, assistive-technology output, cross-browser behavior, and dedicated performance profiling remain unverified.

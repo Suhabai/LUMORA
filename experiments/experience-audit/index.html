@@ -14,12 +14,14 @@
     <main>
       <p class="eyebrow">LUMORA / Phase 0E.3</p>
       <h1>Experience audit</h1>
-      <p class="summary">Audit record created at checkpoint <code>921c8cd</code>. It records evidence only; no production fixes were made. Live HTTP checks ran against the local Next.js server. Browser automation was unavailable.</p>
+      <p class="summary">Audit record updated with live Edge evidence at checkpoint <code>422a145</code>. It records evidence only; no production fixes were made. Headless Microsoft Edge ran through Playwright using the installed system browser.</p>
       <div class="grid">
         <article class="card"><span class="status blocker">BLOCKER</span><br />Favicon M Core geometry differs from the frozen canonical path.</article>
         <article class="card"><span class="status major">MAJOR</span><br />HeroV2 GSAP entrance has no reduced-motion branch.</article>
         <article class="card"><span class="status major">MAJOR</span><br />Living Core SMIL morph is not halted by the reduced-motion CSS rule.</article>
         <article class="card"><span class="status major">MAJOR</span><br />Navigation and footer fragment links fail from internal routes.</article>
+        <article class="card"><span class="status major">MAJOR</span><br />Browser Forward does not restore the destination route after a valid Work navigation.</article>
+        <article class="card"><span class="status major">MAJOR</span><br />Escape does not close the open mobile navigation dialog.</article>
       </div>
       <h2>Audit records</h2>
       <ul>
@@ -30,7 +32,7 @@
         <li><a href="metadata-audit.md">Metadata and launch surfaces</a></li>
         <li><a href="launch-readiness.md">Launch readiness</a></li>
       </ul>
-      <p class="summary">Tooling limitation: Playwright is absent from dependencies, <code>node_modules/.bin</code>, local modules, and global command lookup. No browser surface was available. Install Playwright and its browser binary only in a separately approved phase to complete viewport, console, interaction, keyboard, and browser-history validation.</p>
+      <p class="summary">Live scope: Microsoft Edge 153.0.4234.48 via Playwright 1.63.0. Dedicated CPU, trace, and cross-browser profiling remain outside this audit.</p>
     </main>
   </body>
 </html>
