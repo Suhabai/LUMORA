@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">LUMORA Eclipse Core A1 — Quiet Seam</title><desc id="desc">The quietest Eclipse Core refinement: a nearly complete circular contour with a compact lower-right seam.</desc>
+  <defs>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="16"/></filter>
+    <style>.bg{fill:#07070a}.panel{fill:#101018}.rule{stroke:#fff;stroke-opacity:.09}.label{fill:#7a7a8e;font:500 13px Arial,sans-serif;letter-spacing:2.8px}.word{fill:#f5f5f7;font:300 48px Arial,sans-serif;letter-spacing:16px}.mark{fill:none;stroke:currentColor;stroke-width:23;stroke-linecap:round}.violet{color:#b96cff}.white{color:#f5f5f7}.silhouette{color:#f5f5f7}.sub{fill:#7a7a8e;font:500 11px Arial,sans-serif;letter-spacing:2px}</style>
+    <g id="a1-mark"><path class="mark" d="M250 141 A118 118 0 1 1 151 351"/><path class="mark" d="M143 354 L151 351" stroke-width="7"/></g>
+  </defs>
+  <rect class="bg" width="1200" height="900" rx="24"/><text class="label" x="72" y="72">A1 / QUIET SEAM</text><text class="label" x="1128" y="72" text-anchor="end">ECLIPSE CORE REFINEMENT</text><line class="rule" x1="72" y1="100" x2="1128" y2="100"/>
+  <use href="#a1-mark" class="violet" opacity=".2" filter="url(#glow)" transform="translate(0 4) scale(1.02 1.02)"/><use href="#a1-mark" class="violet"/>
+  <text class="word" x="410" y="260">LUMORA</text><text class="label" x="412" y="300">CALM / CONTINUITY / QUIET AUTHORITY</text>
+  <line class="rule" x1="72" y1="455" x2="1128" y2="455"/>
+  <text class="label" x="72" y="500">LOCKUP / NO GLOW</text><use href="#a1-mark" class="white" transform="translate(65 520) scale(.42)"/><text class="word" x="180" y="590" style="font-size:30px;letter-spacing:10px">LUMORA</text>
+  <text class="label" x="650" y="500">MONOCHROME / SILHOUETTE</text><use href="#a1-mark" class="silhouette" transform="translate(650 520) scale(.42)"/><text class="word" x="765" y="590" style="font-size:30px;letter-spacing:10px">LUMORA</text>
+  <line class="rule" x1="72" y1="650" x2="1128" y2="650"/>
+  <text class="label" x="72" y="700">NATIVE-SIZE TESTS / NO GLOW</text>
+  <g transform="translate(320 684)"><text class="sub" x="8" y="-18">16PX</text><svg width="16" height="16" viewBox="80 80 240 340"><use href="#a1-mark" class="white"/></svg></g>
+  <g transform="translate(470 678)"><text class="sub" x="8" y="-18">24PX</text><svg width="24" height="24" viewBox="80 80 240 340"><use href="#a1-mark" class="white"/></svg></g>
+  <g transform="translate(640 674)"><text class="sub" x="8" y="-18">32PX</text><svg width="32" height="32" viewBox="80 80 240 340"><use href="#a1-mark" class="white"/></svg></g>
+  <g transform="translate(830 666)"><text class="sub" x="8" y="-18">48PX / FAVICON-SCALE</text><svg width="48" height="48" viewBox="80 80 240 340"><use href="#a1-mark" class="white"/></svg></g>
+  <text class="sub" x="72" y="830">OBSERVATION: THE SEAM IS DELIBERATELY QUIET; VERIFY ITS INTENTIONALITY AT 16PX.</text>
+</svg>

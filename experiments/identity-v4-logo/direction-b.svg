@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">LUMORA experimental direction B — Threshold Ring</title>
+  <desc id="desc">A still threshold ring with a tapered vertical opening and a directional upper-left bias.</desc>
+  <defs>
+    <filter id="b-glow" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="16"/></filter>
+    <style>.bg{fill:#07070a}.ring{fill:none;stroke:#b96cff;stroke-width:25;stroke-linecap:round}.mono{fill:none;stroke:#f5f5f7;stroke-width:25;stroke-linecap:round}.word{fill:#f5f5f7;font:300 54px Arial,sans-serif;letter-spacing:18px}.label{fill:#7a7a8e;font:500 14px Arial,sans-serif;letter-spacing:3px}.rule{stroke:#fff;stroke-opacity:.09}</style>
+  </defs>
+  <rect class="bg" width="1200" height="760" rx="24"/>
+  <text class="label" x="72" y="80">DIRECTION B / THRESHOLD RING</text><line class="rule" x1="72" y1="108" x2="1128" y2="108"/>
+  <path d="M337 204 C423 214 472 288 462 372 C454 444 402 486 339 498" stroke="#8a2eff" stroke-width="50" opacity=".18" filter="url(#b-glow)"/>
+  <path class="ring" d="M337 204 C423 214 472 288 462 372 C454 444 402 486 339 498"/>
+  <path class="ring" d="M306 498 C221 485 170 416 177 329 C184 248 235 203 306 196"/>
+  <path class="ring" d="M319 196 L338 204" stroke-width="8"/>
+  <text class="word" x="530" y="352">LUMORA</text><text class="label" x="530" y="388">THRESHOLD / ARRIVAL / DIRECTION</text>
+  <line class="rule" x1="72" y1="500" x2="1128" y2="500"/>
+  <g transform="translate(88 556)"><text class="label" y="-24">SYMBOL</text><path class="ring" d="M78 6 C118 12 142 45 137 86 C133 120 108 142 79 148 M62 148 C22 142 -2 109 1 67 C5 29 29 6 62 3" transform="scale(.7)"/><path class="ring" d="M67 3 L78 6" stroke-width="7" transform="scale(.7)"/></g>
+  <g transform="translate(322 556)"><text class="label" y="-24">MONOCHROME</text><path class="mono" d="M78 6 C118 12 142 45 137 86 C133 120 108 142 79 148 M62 148 C22 142 -2 109 1 67 C5 29 29 6 62 3" transform="scale(.7)"/><path class="mono" d="M67 3 L78 6" stroke-width="7" transform="scale(.7)"/></g>
+  <g transform="translate(586 556)"><text class="label" y="-24">24PX</text><path class="mono" d="M78 6 C118 12 142 45 137 86 C133 120 108 142 79 148 M62 148 C22 142 -2 109 1 67 C5 29 29 6 62 3" stroke-width="34" transform="scale(.22)"/></g>
+  <g transform="translate(764 556)"><text class="label" y="-24">32PX</text><path class="mono" d="M78 6 C118 12 142 45 137 86 C133 120 108 142 79 148 M62 148 C22 142 -2 109 1 67 C5 29 29 6 62 3" stroke-width="28" transform="scale(.29)"/></g>
+  <g transform="translate(920 562)"><text class="label" y="-30">NO-GLOW LOCKUP</text><path class="mono" d="M54 5 C82 9 98 32 95 59 C92 83 74 97 55 101 M43 101 C15 96 -2 74 1 45 C4 18 21 4 43 2" transform="scale(.52)"/><text class="word" x="70" y="31" style="font-size:22px;letter-spacing:7px">LUMORA</text></g>
+</svg>

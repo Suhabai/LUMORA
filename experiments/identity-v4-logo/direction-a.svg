@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">LUMORA experimental direction A — Eclipse Core</title>
+  <desc id="desc">A still, asymmetric eclipse ring with a calm void and a quiet lower-right seam.</desc>
+  <defs>
+    <filter id="a-glow" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="18"/></filter>
+    <style>
+      .bg{fill:#07070a}.line{fill:none;stroke:#b96cff;stroke-width:24;stroke-linecap:round}.quiet{fill:none;stroke:#f5f5f7;stroke-width:24;stroke-linecap:round}.word{fill:#f5f5f7;font:300 54px Arial,sans-serif;letter-spacing:18px}.label{fill:#7a7a8e;font:500 14px Arial,sans-serif;letter-spacing:3px}.rule{stroke:#ffffff;stroke-opacity:.09}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="760" rx="24"/>
+  <text class="label" x="72" y="80">DIRECTION A / ECLIPSE CORE</text>
+  <line class="rule" x1="72" y1="108" x2="1128" y2="108"/>
+  <!-- glow is presentation only; the symbol below retains the same silhouette without it -->
+  <path d="M348 206 A126 126 0 1 1 250 436" stroke="#8a2eff" stroke-width="46" stroke-linecap="round" opacity=".18" filter="url(#a-glow)"/>
+  <path class="line" d="M348 206 A126 126 0 1 1 250 436"/>
+  <path class="line" d="M228 452 L246 441" stroke-width="8"/>
+  <text class="word" x="460" y="352">LUMORA</text>
+  <text class="label" x="460" y="388">ECLIPSE / AWARENESS / HORIZON</text>
+  <line class="rule" x1="72" y1="500" x2="1128" y2="500"/>
+  <g transform="translate(88 556)"><text class="label" y="-24">SYMBOL</text><path class="line" d="M84 6 A58 58 0 1 1 38 114" transform="scale(.72)"/><path class="line" d="M19 88 L28 82" stroke-width="6" transform="scale(.72)"/></g>
+  <g transform="translate(322 556)"><text class="label" y="-24">MONOCHROME</text><path class="quiet" d="M84 6 A58 58 0 1 1 38 114" transform="scale(.72)"/><path class="quiet" d="M19 88 L28 82" stroke-width="6" transform="scale(.72)"/></g>
+  <g transform="translate(586 556)"><text class="label" y="-24">24PX</text><path class="quiet" d="M84 6 A58 58 0 1 1 38 114" stroke-width="30" transform="scale(.22)"/><path class="quiet" d="M19 88 L28 82" stroke-width="10" transform="scale(.22)"/></g>
+  <g transform="translate(764 556)"><text class="label" y="-24">32PX</text><path class="quiet" d="M84 6 A58 58 0 1 1 38 114" stroke-width="26" transform="scale(.29)"/><path class="quiet" d="M19 88 L28 82" stroke-width="8" transform="scale(.29)"/></g>
+  <g transform="translate(920 562)"><text class="label" y="-30">NO-GLOW LOCKUP</text><path class="quiet" d="M66 8 A48 48 0 1 1 28 96" transform="scale(.52)"/><path class="quiet" d="M13 74 L21 68" stroke-width="7" transform="scale(.52)"/><text class="word" x="70" y="31" style="font-size:22px;letter-spacing:7px">LUMORA</text></g>
+</svg>
