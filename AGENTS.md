@@ -160,7 +160,7 @@ The system has five main sources of truth:
 
 1. DESIGN.md
 
-2. `docs/identity/LUMORA-IDENTITY-FREEZE-v3.md`
+2. `docs/identity/LUMORA-IDENTITY-FREEZE-v4.md`
 
 3. `docs/motion/LUMORA-MOTION-GRAMMAR.md`
 
@@ -388,7 +388,7 @@ Every decision must have a source.
 
 The following documents are canonical production constraints:
 
-1. `docs/identity/LUMORA-IDENTITY-FREEZE-v3.md`
+1. `docs/identity/LUMORA-IDENTITY-FREEZE-v4.md`
 2. `docs/motion/LUMORA-MOTION-GRAMMAR.md`
 3. `docs/sonic/LUMORA-SONIC-GRAMMAR.md`
 
@@ -406,14 +406,14 @@ either side. Report the conflict and request a decision before redesigning.
 
 Do not alter without an explicitly opened identity review phase:
 
-- Candidate Alpha / Quiet C wordmark geometry
-- M Core geometry, proportions, and approved responsive lockups
+- Final LUMORA Luminous Ring identity and approved raster source of truth
+- Approved text-based LUMORA wordmark and responsive lockups
 - Approved identity color behavior
-- Identity motion rule: the wordmark and M Core remain still
+- Identity motion rule: the Luminous Ring and wordmark remain still
 - Separation between identity and Living Core
 
 The Living Core is an experiential heartbeat, not a logo, favicon,
-navigation ornament, or replacement for the M Core.
+navigation ornament, or replacement for the Luminous Ring.
 
 Do not transfer Living Core pulse, glow, orbit, state, or motion behavior
 to the identity mark.
