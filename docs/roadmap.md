@@ -81,7 +81,15 @@ This document outlines the LUMORA development timeline. It provides visibility i
 
 ### Phase 0E.6 — Signature Loading Experience
 
-**Status**: Planned — controlled future phase
+**Status**: COMPLETE / FROZEN
+
+**Freeze record**:
+
+- Visual concept approved
+- Production integration completed
+- Release hardening completed
+- Accessibility and fail-safe behavior completed
+- [Loading Experience — Freeze v1](loading/LUMORA-LOADING-FREEZE-v1.md) created
 
 **Placement**: After the Eclipse Core logo decision/refinement and before final public-launch readiness.
 
