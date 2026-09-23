@@ -41,6 +41,23 @@ export function SignatureMoment() {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      // HANDOFF becomes a stable, readable destination: no scroll-linked
+      // interpolation, depth travel, or parallax under reduced motion.
+      gsap.set(heroAtmoRef.current, { opacity: 0 });
+      gsap.set(coreLightRef.current, { opacity: 0.15, scale: 1.6, y: -50 });
+      gsap.set(coreSettleRef.current, { opacity: 0.35, scale: 1.1 });
+      gsap.set(lightSpreadRef.current, { opacity: 0.25, scaleX: 1.25, scaleY: 1.5 });
+      gsap.set(thresholdFrameRef.current, { opacity: 0 });
+      gsap.set(depthPlane1Ref.current, { opacity: 0 });
+      gsap.set(depthPlane2Ref.current, { opacity: 0 });
+      gsap.set(orientLabelRef.current, { opacity: 0 });
+      gsap.set(nextAtmoRef.current, { opacity: 0.9, y: 0 });
+      return;
+    }
+
     const dur = parseFloat(
       getComputedStyle(document.documentElement).getPropertyValue(
         "--core-motion-duration"

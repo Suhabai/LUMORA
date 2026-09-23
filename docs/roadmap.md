@@ -144,6 +144,39 @@ This document outlines the LUMORA development timeline. It provides visibility i
 - Performance and maximum-blocking behavior defined
 - Separate implementation phase authorized by the user
 
+### Phase 0F — Public Launch Readiness
+
+**Status**: IN PROGRESS
+
+**Purpose**: Close the technical and release-readiness work required before a
+public deployment without reopening frozen identity, motion, sonic, Living Core,
+or loading systems.
+
+#### 0F.1A — Technical Public-Launch Closure
+
+**Status**: COMPLETE — visual and technical approval recorded
+
+- Active SignatureMoment has a static reduced-motion handoff.
+- Branded not-found and route/global error recovery surfaces are present.
+- `/docs` and `/system` remain indexable as intentional public editorial and
+  design-system experiences.
+- Supported production runtime is defined as Node `>=20.9.0 <21`.
+- Performance lifecycle fixes and focused release validation are recorded in
+  [Launch Readiness 0F.1A](launch/LUMORA-LAUNCH-READINESS-0F1A.md).
+
+#### 0F.1B — Production Deployment Closure
+
+**Status**: PENDING
+
+- Confirm production domain and align canonical metadata, sitemap, robots, and
+  structured data.
+- Configure hosting and run final deployed smoke tests.
+- Verify public contact send/receive delivery.
+- Establish production field performance monitoring where applicable.
+
+**Roadmap boundary**: v1.1–v1.4 and v2.0 framework expansion are not public
+launch prerequisites.
+
 ### v2.0 — Framework Features
 
 - [ ] CLI for project scaffolding

@@ -187,6 +187,8 @@ export function GlobalCore({ enableDirectionalLight = false }: { enableDirection
   // The first scroll should create a noticeable but restrained response.
   // Core reacts, environmental field shifts, atmosphere stretches subtly.
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     function updateCore() {
       if (!containerRef.current) return;
 

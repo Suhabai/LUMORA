@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "LUMORA — A cinematic personal portfolio ecosystem built with intention, emotion, and identity.",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0 <21"
+  },
   "license": "MIT",
   "author": "LUMORA",
   "repository": {
