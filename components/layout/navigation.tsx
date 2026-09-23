@@ -68,24 +68,19 @@ export function Navigation() {
           {/* Brand Zone — the identity, always present */}
           <Link href="/" aria-label={`${SITE_CONFIG.name} — Home`}>
             <span className="flex items-center gap-2">
-              {/* M Core — always visible */}
-              <svg
-                viewBox="0 0 1000 1000"
-                fill="var(--color-text)"
-                className="w-6 h-6"
+              {/* Approved luminous identity mark — always visible */}
+              <img
+                src="/brand/lumora-mark-luminous.webp"
+                alt=""
+                className="w-6 h-6 object-contain"
                 aria-hidden="true"
+              />
+              {/* Quiet text wordmark — hidden below 768px */}
+              <span
+                className="hidden md:block whitespace-nowrap font-sans text-[22px] font-light leading-none tracking-[0.32em] text-text"
               >
-                <path d="M258,50L328,50L328,950L258,950ZM664,50L734,50L734,922L656,950L664,950ZM328,50L540,411L664,50Z" />
-              </svg>
-              {/* Wordmark — hidden below 768px */}
-              <svg
-                viewBox="0 0 3600 1000"
-                fill="var(--color-text)"
-                className="hidden md:block h-7 w-auto"
-                aria-hidden="true"
-              >
-                <path d="M80,100 L150,100 L150,730 L338,730 L338,800 L80,800 Z M610,100 L680,100 L680,700 Q680,795 775,795 L935,795 Q1035,795 1035,700 L1035,100 L1105,100 L1105,700 Q1105,830 1010,830 L775,830 Q610,830 610,700 Z M1130,100 L1200,100 L1200,800 L1130,800 Z M1200,100 L1209,100 L1405,370 L1385,370 Z M1405,370 L1428,370 L1598,100 L1528,100 Z M1528,100 L1598,100 L1598,790 L1524,800 L1528,800 Z M2040,100 A227,307 0 1,1 2040,800 A227,307 0 1,1 2040,100 Z M2040,271 A193,263 0 1,0 2040,629 A193,263 0 1,0 2040,271 Z M2330,100 L2400,100 L2400,800 L2330,800 Z M2400,100 L2840,100 A157,167 0 0,1 2585,478 L2400,478 Z M2435,135 L2775,135 A122,132 0 0,1 2580,442 L2435,442 Z M2400,478 L2435,478 L2690,800 L2390,800 Z M3136,100 L3144,100 L2994,800 L2934,800 Z M3136,100 L3144,100 L3346,800 L3286,800 Z M3043,530 L3232,530 L3232,580 L3043,580 Z" />
-              </svg>
+                LUMORA
+              </span>
             </span>
           </Link>
 
