@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 260" role="img" aria-labelledby="title desc">
-  <title id="title">LUMORA luminous horizontal lockup</title>
-  <desc id="desc">Luminous LUMORA event-horizon mark with the quiet tracked wordmark.</desc>
-  <defs><linearGradient id="lock-violet" x1="10%" y1="80%" x2="90%" y2="20%"><stop offset="0" stop-color="#8d46d8"/><stop offset=".68" stop-color="#ffffff"/><stop offset="1" stop-color="#b96cff"/></linearGradient><filter id="lock-bloom" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-  <g transform="translate(18 18) scale(.7)" fill="none" stroke="url(#lock-violet)" stroke-linecap="round" filter="url(#lock-bloom)"><path d="M72 118 A96 96 0 0 1 196 72" stroke-width="24"/><path d="M211 82 A96 96 0 0 1 254 201" stroke-width="22"/><path d="M242 226 A96 96 0 0 1 119 252" stroke-width="25"/><path d="M101 239 A96 96 0 0 1 72 118" stroke-width="21"/></g>
-  <g transform="translate(18 18) scale(.7)" fill="#ffffff" filter="url(#lock-bloom)"><circle cx="222" cy="72" r="5"/><circle cx="268" cy="211" r="8"/><circle cx="92" cy="268" r="4"/><circle cx="66" cy="248" r="6"/><circle cx="112" cy="67" r="3"/></g>
-  <text x="285" y="142" fill="#f5f5f7" font-family="Arial, sans-serif" font-size="30" font-weight="300" letter-spacing="14">LUMORA</text>
-</svg>

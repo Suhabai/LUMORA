@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 50 340 320" role="img" aria-labelledby="title desc" style="color:#f5f5f7">
-  <title id="title">LUMORA L3 Deep Event Horizon</title>
-  <desc id="desc">A deeper event-horizon contour with dense light gathered around a dark void.</desc>
-  <g fill="none" stroke="currentColor" stroke-linecap="round">
-    <path d="M276 114 A132 108 0 1 1 130 286" stroke-width="28"/>
-    <path d="M130 286 L105 269" stroke-width="10"/>
-    <path d="M224 258 A98 82 0 0 0 278 203" stroke-width="8" opacity=".86"/>
-  </g>
-</svg>

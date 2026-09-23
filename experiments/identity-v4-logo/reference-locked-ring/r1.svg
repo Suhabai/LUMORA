@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
-  <title id="title">LUMORA R1 Quiet Horizon</title>
-  <desc id="desc">A near-complete luminous event-horizon ring with calm optical asymmetry.</desc>
-  <defs><linearGradient id="r1-light" x1="20%" y1="80%" x2="82%" y2="18%"><stop offset="0" stop-color="#8d46d8"/><stop offset=".5" stop-color="#b96cff"/><stop offset=".82" stop-color="#f5f5f7"/><stop offset="1" stop-color="#b96cff"/></linearGradient></defs>
-  <circle cx="160" cy="160" r="108" fill="none" stroke="url(#r1-light)" stroke-width="23"/>
-</svg>

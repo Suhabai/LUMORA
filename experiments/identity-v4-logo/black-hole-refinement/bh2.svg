@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc" style="color:#f5f5f7">
-  <title id="title">LUMORA BH2 Balanced Accretion</title>
-  <desc id="desc">A calm asymmetric ring whose interrupted seam suggests light bending into a dark core.</desc>
-  <g fill="none" stroke="currentColor" stroke-linecap="round">
-    <path d="M244 84 A118 118 0 1 1 134 300" stroke-width="25"/>
-    <path d="M113 296 L134 300" stroke-width="10"/>
-  </g>
-</svg>

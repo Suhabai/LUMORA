@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 60 320 320" role="img" aria-labelledby="title desc" style="color:#f5f5f7">
-  <title id="title">LUMORA L2 Balanced Singularity</title>
-  <desc id="desc">A balanced luminous ring with a controlled seam and concentrated inner light.</desc>
-  <g fill="none" stroke="currentColor" stroke-linecap="round">
-    <path d="M254 112 A119 119 0 1 1 136 292" stroke-width="25"/>
-    <path d="M136 292 L116 283" stroke-width="9"/>
-    <path d="M213 267 A88 88 0 0 0 258 218" stroke-width="7" opacity=".84"/>
-  </g>
-</svg>
