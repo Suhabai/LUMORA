@@ -85,7 +85,11 @@ This document outlines the LUMORA development timeline. It provides visibility i
 
 **Canonical reference**: `experiments/sonic-identity-v2/cinematic-edge-light-v302/`
 
-**Next**: Production Integration Blueprint with D.2. Production integration is not complete; the current production sound behavior remains unchanged.
+**Next**: D.4 Production Integration — Gate 1, after founder approval and the sonic governance decision. Production integration is not complete; the current production sound behavior remains unchanged.
+
+### D.3 — Production Integration Blueprint
+
+**Status**: COMPLETE — [D.3 blueprint](experience/LUMORA-D3-PRODUCTION-INTEGRATION-BLUEPRINT.md). Architecture and planning only; no production behavior was changed.
 
 ### Phase 0E.6 — Signature Loading Experience
 
