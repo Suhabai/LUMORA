@@ -10,6 +10,16 @@
 
 ---
 
+## Current status — superseded production sound decision (D.3.1)
+
+This document preserves the **historical Phase 0D.2 NO SOUND decision and its reasoning**. The founder subsequently reopened Sonic Identity exploration and approved Dark Calm v2.6 — Still, Reactive Light Freeze v1, an **optional opt-in sonic experience**, and the D.3 production architecture. This is an explicit **supersession**, not a claim that Phase 0D.2 was never decided. The historical sections and closing statement below remain a record of that earlier decision; their present-tense silence and “no future phase” statements are **not active production prohibitions** for the narrowly approved optional homepage experience.
+
+The current production policy is [LUMORA Sonic Governance v1](LUMORA-SONIC-GOVERNANCE-v1.md): sound **OFF by default**, explicit user activation, homepage-only playback, no loader autoplay, no audio-only meaning, and complete silent fallback. Its canonical foundation is **Dark Calm v2.6 — Still** at `experiments/sonic-identity-v2/dark-calm-v26/dark-calm-still.wav` (SHA-256 `7DF0BF29093E21976151C7F4A0F5AA91B1DB35E6D8C14F2A2ED4B7D1DD4CAD1C`). [Reactive Light Freeze v1](LUMORA-REACTIVE-LIGHT-FREEZE-v1.md) governs the approved visual-sonic consequence; the [D.3 blueprint](../experience/LUMORA-D3-PRODUCTION-INTEGRATION-BLUEPRINT.md) plans integration. D.3.1 resolves the governance gate recorded in that blueprint; the blueprint itself remains a planning snapshot. Production implementation has **not** begun.
+
+The historical prohibitions on logo sound, Living Core heartbeat audio, forced or automatic sound, interaction noises, and sound-dependent understanding remain consistent with the current narrow approval. Any broader sound use requires a new governance review.
+
+---
+
 ## 1. Sonic Thesis
 
 LUMORA is silent by default.
@@ -499,4 +509,8 @@ experiments/sonic-lab/
 
 ---
 
+**Historical Phase 0D.2 closing statement (superseded for the approved optional homepage experience):**
+
 *This document is the canonical sonic grammar source of truth for all future LUMORA sonic implementation phases. The current and expected long-term position is: silence.*
+
+The active production decision is [Sonic Governance v1](LUMORA-SONIC-GOVERNANCE-v1.md); the statement above is retained verbatim as the Phase 0D.2 record.
