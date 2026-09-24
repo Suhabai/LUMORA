@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="data:,">
+  <title>LUMORA / Cinematic Edge Light v3.0.2</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header class="lab-header">
+      <span class="brand">LUMORA / experimental sonic review</span>
+      <div class="controls" aria-label="Reactive light controls">
+        <button id="sound-toggle" type="button" aria-pressed="false">Sound on</button>
+        <button id="response-toggle" type="button" aria-pressed="true">Reactive on</button>
+        <button id="auto-review" type="button" aria-pressed="false">Auto review</button>
+        <button id="debug-toggle" type="button" aria-pressed="false" aria-controls="debug-hud">Debug</button>
+      </div>
+    </header>
+    <div class="calibration" role="group" aria-label="Reactive intensity">
+      <span class="eyebrow">Reactive intensity</span>
+      <button type="button" data-intensity="2" aria-pressed="false">2.0X</button>
+      <button type="button" data-intensity="2.5" aria-pressed="true">2.5X</button>
+      <button type="button" data-intensity="3" aria-pressed="false">3.0X</button>
+    </div>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="environment hero-environment" aria-hidden="true">
+        <div class="light-atmosphere"></div>
+        <div class="living-light living-light-left"><i class="light-haze"></i><i class="light-bloom"></i><i class="light-sheath"></i><i class="light-core"></i><i class="light-hot"></i></div>
+        <div class="living-light living-light-right"><i class="light-haze"></i><i class="light-bloom"></i><i class="light-sheath"></i><i class="light-core"></i><i class="light-hot"></i></div>
+      </div>
+      <div class="content hero-copy">
+        <p class="eyebrow">Hero origin / bilateral living light</p>
+        <h1 id="hero-title">Light at the<br>edges. Life within.</h1>
+        <p class="hero-lede">A deeper sound passes through the light, then briefly through the scene.</p>
+      </div>
+      <p id="state-readout" class="state-readout" role="status" aria-live="polite">Sound off. The world is complete at rest.</p>
+    </section>
+
+    <section class="experience-section divide-section" aria-labelledby="divide-title">
+      <div class="environment divide-environment" aria-hidden="true"></div>
+      <div class="content">
+        <p class="eyebrow">Light Divide / environmental study</p>
+        <h2 id="divide-title">One system.<br>Different consequences.</h2>
+        <div class="divide-stages" aria-label="Light Divide semantic stages"><span>Structure</span><span>Depth</span><span>Momentum</span></div>
+      </div>
+    </section>
+
+    <section class="experience-section nexora-section" aria-labelledby="nexora-title">
+      <div class="environment nexora-environment" aria-hidden="true"></div>
+      <div class="content">
+        <p class="eyebrow">NEXORA / proof atmosphere</p>
+        <h2 id="nexora-title">Discovery becomes evidence.</h2>
+        <p class="section-lede">The surrounding violet atmosphere gains depth while the proof remains stable.</p>
+      </div>
+    </section>
+
+    <section class="experience-section threshold-section" aria-labelledby="threshold-title">
+      <div class="environment threshold-environment" aria-hidden="true"></div>
+      <div class="content">
+        <p class="eyebrow">Threshold / release</p>
+        <h2 id="threshold-title">Space for what follows.</h2>
+        <p class="section-lede">Pressure settles into a quieter field of light.</p>
+      </div>
+    </section>
+  </main>
+  <aside id="debug-hud" class="debug-hud" hidden aria-label="Sonic review values"><span>Low pressure <b id="debug-pressure">0.00</b></span><span>Shiver threshold <b id="debug-threshold">0.55</b></span><span>Shiver active <b id="debug-active">NO</b></span><span>Events <b id="debug-count">0</b></span></aside>
+  <script src="reactive-light.js"></script>
+  <script>
+    const sound = document.querySelector('#sound-toggle');
+    const response = document.querySelector('#response-toggle');
+    const auto = document.querySelector('#auto-review');
+    const debug = document.querySelector('#debug-toggle');
+    const status = document.querySelector('#state-readout');
+    let reviewTimers = [];
+    const sync = () => {
+      sound.setAttribute('aria-pressed', String(reactiveLight.enabled));
+      sound.textContent = reactiveLight.enabled ? 'Sound off' : 'Sound on';
+      response.setAttribute('aria-pressed', String(reactiveLight.reactive));
+      response.textContent = reactiveLight.reactive ? 'Reactive on' : 'Reactive off';
+      status.textContent = !reactiveLight.enabled ? 'Sound off. The world is complete at rest.' : reactiveLight.reactive ? 'Sound on. The light is responsive.' : 'Sound on. The light is held at rest.';
+    };
+    const stopReview = () => {
+      reviewTimers.forEach(clearTimeout);
+      reviewTimers = [];
+      auto.setAttribute('aria-pressed', 'false');
+      auto.textContent = 'Auto review';
+    };
+    sound.addEventListener('click', async () => {
+      stopReview();
+      try { await reactiveLight.toggle(); sync(); }
+      catch { await reactiveLight.disable(); status.textContent = 'Source unavailable. The environment remains complete at rest.'; }
+    });
+    response.addEventListener('click', () => { stopReview(); reactiveLight.toggleResponse(); sync(); });
+    debug.addEventListener('click', () => { const shown = debug.getAttribute('aria-pressed') !== 'true'; debug.setAttribute('aria-pressed', String(shown)); document.querySelector('#debug-hud').hidden = !shown; });
+    document.querySelectorAll('[data-intensity]').forEach((button) => button.addEventListener('click', () => {
+      reactiveLight.setIntensity(Number(button.dataset.intensity));
+      document.querySelectorAll('[data-intensity]').forEach((choice) => choice.setAttribute('aria-pressed', String(choice === button)));
+    }));
+    auto.addEventListener('click', async () => {
+      if (reviewTimers.length) { stopReview(); return; }
+      try {
+        await reactiveLight.enable();
+        reactiveLight.setReactive(false);
+        sync();
+        auto.setAttribute('aria-pressed', 'true');
+        auto.textContent = 'Stop review';
+        [[5000, true], [15000, false], [20000, true]].forEach(([delay, active]) => reviewTimers.push(setTimeout(() => { reactiveLight.setReactive(active); sync(); }, delay)));
+        reviewTimers.push(setTimeout(() => { reactiveLight.audio.currentTime = 39.5; status.textContent = 'Real deep-pressure passage from Dark Calm.'; }, 30000));
+        reviewTimers.push(setTimeout(() => { stopReview(); sync(); }, 39000));
+      } catch { stopReview(); await reactiveLight.disable(); status.textContent = 'Source unavailable. The environment remains complete at rest.'; }
+    });
+  </script>
+</body>
+</html>

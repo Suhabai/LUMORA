@@ -79,6 +79,14 @@ This document outlines the LUMORA development timeline. It provides visibility i
 - [ ] Authentication layouts
 - [ ] Documentation layouts
 
+### Reactive Light — Experience Layer
+
+**Status**: COMPLETE / FROZEN — [Reactive Light Freeze v1](sonic/LUMORA-REACTIVE-LIGHT-FREEZE-v1.md)
+
+**Canonical reference**: `experiments/sonic-identity-v2/cinematic-edge-light-v302/`
+
+**Next**: Production Integration Blueprint with D.2. Production integration is not complete; the current production sound behavior remains unchanged.
+
 ### Phase 0E.6 — Signature Loading Experience
 
 **Status**: COMPLETE / FROZEN
