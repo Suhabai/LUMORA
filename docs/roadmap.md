@@ -85,7 +85,7 @@ This document outlines the LUMORA development timeline. It provides visibility i
 
 **Canonical reference**: `experiments/sonic-identity-v2/cinematic-edge-light-v302/`
 
-**Next**: D.4 Production Integration — Gate 1. Production integration is not complete; the current production sound behavior remains unchanged.
+**Next**: D.4 Gate 1 has Founder PASS. The optional homepage sonic foundation is approved; section-specific integration has not begun.
 
 ### D.3 — Production Integration Blueprint
 
@@ -93,7 +93,11 @@ This document outlines the LUMORA development timeline. It provides visibility i
 
 ### D.3.1 — Sonic Governance Reconciliation
 
-**Status**: COMPLETE — [Sonic Governance v1](sonic/LUMORA-SONIC-GOVERNANCE-v1.md). The historical NO SOUND decision is preserved and explicitly superseded for optional homepage sound. D.4 remains unimplemented.
+**Status**: COMPLETE — [Sonic Governance v1](sonic/LUMORA-SONIC-GOVERNANCE-v1.md). The historical NO SOUND decision is preserved and explicitly superseded for optional homepage sound.
+
+### D.4 — Production Integration, Gate 1
+
+**Status**: FOUNDER PASS — [Gate 1 record](experience/LUMORA-D4-GATE1-SONIC-FOUNDATION.md). Approved WAV, accessible opt-in control, single shared analyser and semantic loop, localized symmetric bilateral homepage light, accepted bounded Living Core light response, lifecycle and fallback behavior, mobile and reduced-motion baselines. Gate 2 has not begun.
 
 ### Phase 0E.6 — Signature Loading Experience
 

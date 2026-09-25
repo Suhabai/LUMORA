@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/utils";
 import { SITE_CONFIG } from "@/constants";
+import { SoundControl } from "./sound-control";
 
 const ROUTE_LINKS = [
   { href: "/work", label: "Work" },
@@ -112,15 +113,18 @@ export function Navigation() {
 
           {/* No CTA button — the experience IS the invitation */}
 
-          <button
-            className="md:hidden w-10 h-10 flex items-center justify-center text-text"
-            onClick={() => setOpen((isOpen) => !isOpen)}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-          >
-            {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
-          </button>
+          <div className="flex items-center gap-1">
+            <SoundControl />
+            <button
+              className="md:hidden w-10 h-10 flex items-center justify-center text-text"
+              onClick={() => setOpen((isOpen) => !isOpen)}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+            >
+              {open ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+            </button>
+          </div>
         </nav>
       </header>
 

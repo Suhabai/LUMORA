@@ -8,6 +8,7 @@ import { ScrollAtmosphere } from "@/components/layout/scroll-atmosphere";
 import { GlobalCore } from "@/components/layout/global-core";
 import { ExperienceProvider } from "@/components/layout/experience-context";
 import { ExperienceLoader } from "@/components/layout/experience-loader";
+import { SonicFoundation } from "@/components/layout/sonic-foundation";
 import "@/styles/globals.css";
 
 const manrope = Manrope({
@@ -56,6 +57,9 @@ export const metadata: Metadata = {
   alternates: { canonical: SITE_CONFIG.url },
 };
 
+// Internal Gate 1 rollback switch. No user-facing debug control.
+const SONIC_FOUNDATION_ENABLED = true;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${manrope.variable} ${cormorant.variable}`} suppressHydrationWarning>
@@ -79,6 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ScrollAtmosphere />
           <SmoothScroll>
             <ExperienceProvider>
+              <SonicFoundation enabled={SONIC_FOUNDATION_ENABLED}>
               <GlobalCore enableDirectionalLight />
               <a
                 href="#hero"
@@ -87,8 +92,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 Skip to content
               </a>
               <Navigation />
-              <main id="hero">{children}</main>
+              <main id="hero" className="relative z-10">{children}</main>
               <Footer />
+              </SonicFoundation>
             </ExperienceProvider>
           </SmoothScroll>
         </div>

@@ -1,0 +1,181 @@
+/* D.4 Gate 1: one mirrored pair of atmospheric edge lights. */
+.sonic-environment {
+  --sonic-presence: 0;
+  --sonic-depth: 0;
+  --sonic-bloom: 0;
+  --sonic-air: 0;
+  --sonic-pressure: 0;
+  --sonic-activation: 0;
+  --sonic-edge-inset: clamp(20px, 3.2vw, 52px);
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.sonic-environment[data-sound="on"] {
+  --sonic-activation: 1;
+}
+
+.sonic-light {
+  position: absolute;
+  top: 50%;
+  height: min(48vh, 420px);
+  width: clamp(54px, 5.5vw, 82px);
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: calc(0.21 + var(--sonic-activation) * 0.37 + var(--sonic-depth) * 0.07);
+  background: linear-gradient(to right,
+    transparent 0%,
+    rgba(117, 45, 211, 0.48) 9%,
+    rgba(104, 38, 188, 0.38) 17%,
+    rgba(79, 27, 147, 0.12) 43%,
+    transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0%, rgba(0, 0, 0, 0.025) 17%, rgba(0, 0, 0, 0.2) 33%,
+    #000 48%, #000 52%, rgba(0, 0, 0, 0.2) 67%,
+    rgba(0, 0, 0, 0.025) 83%, transparent 100%);
+  mask-image: linear-gradient(to bottom,
+    transparent 0%, rgba(0, 0, 0, 0.025) 17%, rgba(0, 0, 0, 0.2) 33%,
+    #000 48%, #000 52%, rgba(0, 0, 0, 0.2) 67%,
+    rgba(0, 0, 0, 0.025) 83%, transparent 100%);
+  transition: opacity 420ms linear;
+}
+
+.sonic-light::before,
+.sonic-light::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.sonic-light--left {
+  left: var(--sonic-edge-inset);
+}
+
+.sonic-light--right {
+  right: var(--sonic-edge-inset);
+  transform: translateY(-50%) scaleX(-1);
+}
+
+.sonic-light--right::before,
+.sonic-light--right::after {
+  right: auto;
+}
+
+.sonic-light::before {
+  width: calc(25px + var(--sonic-pressure) * 5px);
+  background: linear-gradient(to right,
+    transparent 0%,
+    rgba(177, 102, 248, 0.65) 25%,
+    rgba(155, 72, 232, 0.48) 45%,
+    rgba(114, 45, 193, 0.1) 82%,
+    transparent 100%);
+  opacity: calc(0.26 + var(--sonic-activation) * 0.55 + var(--sonic-bloom) * 0.08 + var(--sonic-pressure) * 0.1);
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 15%, rgba(0, 0, 0, 0.04) 27%, rgba(0, 0, 0, 0.6) 41%,
+    #000 48%, #000 52%, rgba(0, 0, 0, 0.6) 59%, rgba(0, 0, 0, 0.04) 73%, transparent 85%);
+  mask-image: linear-gradient(to bottom,
+    transparent 15%, rgba(0, 0, 0, 0.04) 27%, rgba(0, 0, 0, 0.6) 41%,
+    #000 48%, #000 52%, rgba(0, 0, 0, 0.6) 59%, rgba(0, 0, 0, 0.04) 73%, transparent 85%);
+  transition: opacity 350ms linear;
+}
+
+.sonic-light::after {
+  width: calc(3px + var(--sonic-pressure) * 1.5px);
+  left: 7px;
+  background: linear-gradient(to right,
+    rgba(253, 247, 255, 1) 0%,
+    rgba(236, 213, 255, 0.95) 45%,
+    rgba(181, 111, 250, 0.35) 85%,
+    transparent 100%);
+  filter: blur(0.6px);
+  opacity: calc(0.3 + var(--sonic-activation) * 0.62 + var(--sonic-air) * 0.03 + var(--sonic-pressure) * 0.05);
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 28%, rgba(0, 0, 0, 0.05) 35%, rgba(0, 0, 0, 0.7) 44%,
+    #000 48%, #000 52%, rgba(0, 0, 0, 0.7) 56%, rgba(0, 0, 0, 0.05) 65%, transparent 72%);
+  mask-image: linear-gradient(to bottom,
+    transparent 28%, rgba(0, 0, 0, 0.05) 35%, rgba(0, 0, 0, 0.7) 44%,
+    #000 48%, #000 52%, rgba(0, 0, 0, 0.7) 56%, rgba(0, 0, 0, 0.05) 65%, transparent 72%);
+  transition: opacity 300ms linear;
+}
+
+/* The existing Core keeps its own motion; only its internal light gains density. */
+#app-shell:has(.sonic-environment) .core-source-circle {
+  filter: brightness(calc(1 + var(--sonic-core-light, 0) * 0.7))
+    drop-shadow(0 0 calc(var(--sonic-core-light, 0) * 14px)
+      rgba(181, 111, 250, calc(var(--sonic-core-light, 0) * 0.35)));
+}
+
+#app-shell:has(.sonic-environment) .hero-v2-core-glow {
+  filter: brightness(calc(1 + var(--sonic-core-light, 0) * 0.7));
+}
+
+#app-shell:has(.sonic-environment) .hero-v2-core-glow::after {
+  content: "";
+  position: absolute;
+  inset: 34%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle,
+    rgba(213, 173, 255, calc(var(--sonic-core-light, 0) * 0.48)) 0%,
+    rgba(151, 69, 235, calc(var(--sonic-core-light, 0) * 0.27)) 30%,
+    transparent 70%);
+  filter: blur(6px);
+}
+
+.sonic-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.6rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: 500 11px/1 var(--font-sans);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: color 200ms var(--ease-out);
+}
+.sonic-control:hover,
+.sonic-control[aria-pressed="true"] { color: var(--color-text); }
+.sonic-control[aria-disabled="true"] { cursor: wait; }
+.sonic-control__indicator {
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+}
+.sonic-control[aria-pressed="true"] .sonic-control__indicator {
+  background: var(--color-accent);
+  opacity: 1;
+}
+.sonic-control:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .sonic-environment { --sonic-edge-inset: 12px; }
+  .sonic-light { width: 52px; height: min(38vh, 310px); opacity: calc(0.2 + var(--sonic-activation) * 0.31 + var(--sonic-depth) * 0.04); }
+  .sonic-light::before { width: calc(20px + var(--sonic-pressure) * 3px); }
+  .sonic-light::after { left: 5px; width: calc(2.5px + var(--sonic-pressure) * 1px); }
+  .sonic-control { padding-inline: 0.35rem; font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sonic-light, .sonic-light::before, .sonic-light::after { transition: none; }
+  .sonic-light::after { width: 3px; }
+}
