@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { usePathname } from "next/navigation";
+import { readCurrentSonicSection, resolveSectionProfile, SONIC_SECTION_EVENT, type SectionProfile, type SonicSection } from "./sonic-section-profiles";
 
 const AUDIO_URL = "/audio/lumora-dark-calm-still.wav";
 const SIGNAL_NAMES = ["presence", "depth", "bloom", "air", "pressure"] as const;
@@ -42,14 +43,42 @@ export function SonicFoundation({ children, enabled }: { children: ReactNode; en
   const lastSampleRef = useRef(0);
   const activationRef = useRef(0);
   const activeRef = useRef(false);
+  const sectionRef = useRef<SonicSection>("hero");
+  const profileRef = useRef<SectionProfile>({ ...resolveSectionProfile("hero", false) });
+  const targetProfileRef = useRef<SectionProfile>(resolveSectionProfile("hero", false));
 
   const publish = useCallback((signals: Signals) => {
     const style = environmentRef.current?.style;
-    if (!style) return;
-    for (const key of SIGNAL_NAMES) style.setProperty(`--sonic-${key}`, signals[key].toFixed(4));
-    const coreLight = activeRef.current ? clamp(0.16 + signals.depth * 0.5 + signals.pressure * 0.34) : 0;
+    const profile = profileRef.current;
+    if (style) {
+      for (const key of SIGNAL_NAMES) {
+        const gain = key === "bloom" ? profile.bloom : key === "pressure" ? profile.pressure : profile.energy;
+        style.setProperty(`--sonic-${key}`, (signals[key] * gain).toFixed(4));
+      }
+      style.setProperty("--sonic-section-energy", profile.energy.toFixed(4));
+      style.setProperty("--sonic-section-neutral", profile.neutral.toFixed(4));
+    }
+    document.documentElement.style.setProperty("--sonic-atmosphere", profile.atmosphere.toFixed(4));
+    document.documentElement.style.setProperty("--sonic-coverage", profile.coverage.toFixed(4));
+    const coreResponse = clamp((0.16 + signals.depth * 0.5 + signals.pressure * 0.34) * profile.core);
+    // Hero keeps its normal ON response; deeper pressure settles into the environment.
+    const coreLight = activeRef.current
+      ? sectionRef.current === "hero" && coreResponse > 0.45
+        ? 0.45 + (coreResponse - 0.45) * 0.32
+        : coreResponse
+      : 0;
     document.documentElement.style.setProperty("--sonic-core-light", coreLight.toFixed(4));
   }, []);
+
+  const applySection = useCallback((section: SonicSection) => {
+    sectionRef.current = section;
+    targetProfileRef.current = resolveSectionProfile(section, window.innerWidth < 700);
+    if (environmentRef.current) environmentRef.current.dataset.section = section;
+    if (!activeRef.current) {
+      profileRef.current = { ...targetProfileRef.current };
+      publish(signalsRef.current);
+    }
+  }, [publish]);
 
   const stop = useCallback((nextStatus: SoundStatus = "off") => {
     activationRef.current += 1;
@@ -65,6 +94,7 @@ export function SonicFoundation({ children, enabled }: { children: ReactNode; en
     const context = contextRef.current;
     if (context?.state === "running") void context.suspend().catch(() => {});
     signalsRef.current = emptySignals();
+    profileRef.current = { ...targetProfileRef.current };
     publish(signalsRef.current);
     setStatus(nextStatus);
   }, [publish]);
@@ -106,6 +136,12 @@ export function SonicFoundation({ children, enabled }: { children: ReactNode; en
         const attack = key === "pressure" || key === "depth" ? 330 : 230;
         const release = key === "depth" || key === "pressure" ? 1600 : 1100;
         values[key] += (targets[key] - values[key]) * (1 - Math.exp(-sampleMs / (rising ? attack : release)));
+      }
+      const profile = profileRef.current;
+      const target = targetProfileRef.current;
+      const handoff = 1 - Math.exp(-sampleMs / 850);
+      for (const key of ["energy", "bloom", "pressure", "core", "neutral", "atmosphere", "coverage"] as const) {
+        profile[key] += (target[key] - profile[key]) * handoff;
       }
       publish(values);
     }
@@ -167,6 +203,25 @@ export function SonicFoundation({ children, enabled }: { children: ReactNode; en
   }, [start, status, stop]);
 
   useEffect(() => {
+    if (!availableHere) {
+      sectionRef.current = "hero";
+      profileRef.current = { ...resolveSectionProfile("hero", false) };
+      targetProfileRef.current = resolveSectionProfile("hero", false);
+      return;
+    }
+    const onSection = (event: Event) => applySection((event as CustomEvent<SonicSection>).detail);
+    const onResize = () => applySection(sectionRef.current);
+    window.addEventListener(SONIC_SECTION_EVENT, onSection);
+    window.addEventListener("resize", onResize, { passive: true });
+    const frame = requestAnimationFrame(() => applySection(readCurrentSonicSection()));
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener(SONIC_SECTION_EVENT, onSection);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [availableHere, applySection]);
+
+  useEffect(() => {
     return () => {
       if (pathname === "/") stop();
     };
@@ -175,10 +230,11 @@ export function SonicFoundation({ children, enabled }: { children: ReactNode; en
   useEffect(() => {
     const onVisibility = () => {
       if (document.hidden) stop();
+      else if (availableHere) applySection(readCurrentSonicSection());
     };
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
-  }, [stop]);
+  }, [applySection, availableHere, stop]);
 
   useEffect(() => () => {
     activationRef.current += 1;
@@ -194,6 +250,8 @@ export function SonicFoundation({ children, enabled }: { children: ReactNode; en
     contextRef.current = null;
     if (context && context.state !== "closed") void context.close().catch(() => {});
     document.documentElement.style.removeProperty("--sonic-core-light");
+    document.documentElement.style.removeProperty("--sonic-atmosphere");
+    document.documentElement.style.removeProperty("--sonic-coverage");
   }, []);
 
   return (
@@ -206,7 +264,7 @@ export function SonicFoundation({ children, enabled }: { children: ReactNode; en
 
 function ReactiveEnvironment({ environmentRef, active }: { environmentRef: RefObject<HTMLDivElement | null>; active: boolean }) {
   return (
-    <div ref={environmentRef} className="sonic-environment" data-sound={active ? "on" : "off"} aria-hidden="true">
+    <div ref={environmentRef} className="sonic-environment" data-sound={active ? "on" : "off"} data-section="hero" aria-hidden="true">
       <div className="sonic-light sonic-light--left" />
       <div className="sonic-light sonic-light--right" />
     </div>

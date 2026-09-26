@@ -43,7 +43,7 @@ export default function Home() {
       {/* ── Transition: Hero → Worlds ──
           The Core's presence migrates downward into the first world.
           Core state: presence → discovery. */}
-      <div className="relative overflow-hidden core-transition" aria-hidden="true">
+      <div className="relative overflow-hidden core-transition" data-sonic-section="signature" aria-hidden="true">
         {TRANSITION_VARIANT === "signature-moment" ? (
           <SignatureMoment />
         ) : TRANSITION_VARIANT === "living-threshold" ? (
@@ -58,7 +58,7 @@ export default function Home() {
       {/* ── Transition: Worlds → Thinking ──
           Energy concentrates into a single point of thought.
           Core state: discovery → thinking. */}
-      <div className="relative overflow-hidden core-transition" aria-hidden="true">
+      <div className="relative overflow-hidden core-transition" data-sonic-section="thinking" aria-hidden="true">
         <SectionTransition kind="worlds-thinking" />
       </div>
 
@@ -67,7 +67,7 @@ export default function Home() {
       {/* ── Transition: Thinking → Human ──
           Distance becomes intimacy. Warmth arrives.
           Core state: thinking → human. */}
-      <div className="relative overflow-hidden core-transition" aria-hidden="true">
+      <div className="relative overflow-hidden core-transition" data-sonic-section="person" aria-hidden="true">
         <SectionTransition kind="thinking-human" />
       </div>
 
@@ -76,7 +76,7 @@ export default function Home() {
       {/* ── Transition: Human → Threshold ──
           Arrival and rest.
           Core state: human → threshold. */}
-      <div className="relative overflow-hidden core-transition" aria-hidden="true">
+      <div className="relative overflow-hidden core-transition" data-sonic-section="contact" aria-hidden="true">
         <SectionTransition kind="human-threshold" />
       </div>
 

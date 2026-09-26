@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useExperience } from "./experience-context";
 import type { ExperiencePhase } from "@/components/core/core-types";
 import { PHASE_EVENT_MAP } from "@/components/core/core-types";
+import { readCurrentSonicSection, SONIC_SECTION_EVENT, type SonicSection } from "./sonic-section-profiles";
 
 // Phase-specific Core state values
 // Each phase defines how the Core influences the experience
@@ -40,6 +41,16 @@ export function ScrollAtmosphere() {
   const directionRef = useRef(0);
 
   useEffect(() => {
+    let lastSonicSection: SonicSection | null = null;
+    const updateSonicSection = () => {
+      if (document.hidden || window.location.pathname !== "/") return;
+      const section = readCurrentSonicSection();
+      if (section === lastSonicSection) return;
+      lastSonicSection = section;
+      document.documentElement.dataset.sonicSection = section;
+      window.dispatchEvent(new CustomEvent<SonicSection>(SONIC_SECTION_EVENT, { detail: section }));
+    };
+
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) {
       // Set static phase state without animation
@@ -67,13 +78,16 @@ export function ScrollAtmosphere() {
       root.style.setProperty("--env-settle", String(phaseState.settle));
       setPhase("presence");
       setEvent("core-expand");
-      return;
+      updateSonicSection();
+      window.addEventListener("scroll", updateSonicSection, { passive: true });
+      return () => window.removeEventListener("scroll", updateSonicSection);
     }
 
     let ticking = false;
 
     function update() {
       const scrollY = window.scrollY;
+      updateSonicSection();
       const vh = window.innerHeight;
       const docHeight = document.documentElement.scrollHeight - vh;
       const progress = docHeight > 0 ? Math.min(scrollY / docHeight, 1) : 0;

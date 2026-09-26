@@ -85,7 +85,7 @@ This document outlines the LUMORA development timeline. It provides visibility i
 
 **Canonical reference**: `experiments/sonic-identity-v2/cinematic-edge-light-v302/`
 
-**Next**: D.4 Gate 1 has Founder PASS. The optional homepage sonic foundation is approved; section-specific integration has not begun.
+**Next**: D.4 Gate 1 and Gate 2 have Founder PASS. Gate 2 closeout is recorded in the checkpoint commit; no later gate is started here.
 
 ### D.3 — Production Integration Blueprint
 
@@ -97,7 +97,11 @@ This document outlines the LUMORA development timeline. It provides visibility i
 
 ### D.4 — Production Integration, Gate 1
 
-**Status**: FOUNDER PASS — [Gate 1 record](experience/LUMORA-D4-GATE1-SONIC-FOUNDATION.md). Approved WAV, accessible opt-in control, single shared analyser and semantic loop, localized symmetric bilateral homepage light, accepted bounded Living Core light response, lifecycle and fallback behavior, mobile and reduced-motion baselines. Gate 2 has not begun.
+**Status**: FOUNDER PASS — [Gate 1 record](experience/LUMORA-D4-GATE1-SONIC-FOUNDATION.md). Approved WAV, accessible opt-in control, single shared analyser and semantic loop, localized symmetric bilateral homepage light, accepted bounded Living Core light response, lifecycle and fallback behavior, mobile and reduced-motion baselines.
+
+### D.4 — Production Integration, Gate 2
+
+**Status**: FOUNDER APPROVED / PASSED — [Gate 2 record](experience/LUMORA-D4-GATE2-SECTION-MODULATION.md). Shared section detection and temporary current-homepage profiles modulate the existing light, bounded Living Core response, and existing global atmosphere. Hero, Work, Thinking, Person, and Contact hierarchy passed final visual review. Final D.2 scene choreography and scene shiver remain excluded. Checkpoint committed; not pushed.
 
 ### Phase 0E.6 — Signature Loading Experience
 

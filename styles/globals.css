@@ -338,6 +338,15 @@
               opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Gate 2 section profile composes the existing field, including its broad baseline. */
+#app-shell:has(.sonic-environment) .env-field {
+  opacity: calc(var(--core-atmosphere-intensity, 0.7) * var(--sonic-atmosphere, 1));
+  transform: translate(
+      calc((var(--env-field-x, 50) - 50) * 1vw),
+      calc((var(--env-field-y, 42) - 50) * 1vh)
+    ) scale(calc(var(--env-field-scale, 1) * var(--sonic-coverage, 1)));
+}
+
 .env-field::before {
   content: "";
   position: absolute;
@@ -381,6 +390,10 @@
   );
 }
 
+#app-shell:has(.sonic-environment) .env-warmth {
+  opacity: calc(var(--env-warmth, 0) * var(--sonic-atmosphere, 1));
+}
+
 .env-settle {
   position: absolute;
   inset: 0;
@@ -409,6 +422,11 @@
       rgba(125, 42, 228, 0.03) 0%,
       transparent 45%
     );
+}
+
+#app-shell:has(.sonic-environment) .env-mist {
+  opacity: calc(0.45 * var(--sonic-atmosphere, 1));
+  transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .env-vignette {
